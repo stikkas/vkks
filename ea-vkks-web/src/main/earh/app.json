@@ -1,0 +1,81 @@
+{
+	"name": "Earh",
+	"indexHtmlPath": "index.html",
+	"classpath": "${app.dir}/app",
+	"overrides": "${app.dir}/overrides",
+	"framework": "ext",
+	"theme": "ext-theme-classic",
+	"requires": [
+		"ext-locale"
+	],
+	"locale": "ru",
+	"sass": {
+		"namespace": "Earh"
+	},
+	"url": null,
+	"js": [
+		{
+			"path": "${ext.dir}/build/ext-all-rtl-debug.js"
+		},
+		{
+			"path": "utils.js",
+			"includeInBundle": true
+		},
+		{
+			"path": "app.js",
+			"bundle": true
+		}
+
+	],
+	"css": [
+		{
+			"path": "resources/css/app.css",
+			"bootstrap": false
+		},
+		{
+			"path": "bootstrap.css",
+			"bootstrap": true
+		}
+	],
+	"production": {
+	},
+	"testing": {
+	},
+	"development": {
+	},
+	"bootstrap": {
+		"base": "${app.dir}",
+		"manifest": "bootstrap.json",
+		"microloader": "bootstrap.js",
+		"css": "bootstrap.css"
+	},
+	"resources": [
+		"resources/images"
+	],
+	"output": {
+		"base": "../webapp"
+	},
+	"appCache": {
+		"cache": [
+			"index.html"
+		],
+		"network": [
+			"*"
+		],
+		"fallback": []
+	},
+	"ignore": [
+		"(^|/)CVS(/?$|/.*?$)"
+	],
+	"archivePath": "archive",
+	"slicer": {
+		"js": [
+			{
+				"path": "${app.dir}/sass/example/custom.js",
+				"isWidgetManifest": true
+			}
+		]
+	},
+	"id": "c0e26968-2d78-4cc8-941c-84a01e060e3e"
+}
+
