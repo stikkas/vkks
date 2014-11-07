@@ -27,14 +27,16 @@ Ext.define('Earh.view.header.Header', {
 					{
 						xtype: 'component',
 						html: '<h1>' + Trans.vkks + '</h1>'
-					}, {
-						xtype: 'toolbar',
+					},
+					headerView._tb = Ext.create('Ext.toolbar.Toolbar', {
 						minWidth: 1100,
 						defaults: {
 							xtype: 'button'
 						},
 						items: [{
 								text: Trans.main
+							}, {
+								text: Trans.backToSearch
 							},
 							' ',
 							{
@@ -42,12 +44,28 @@ Ext.define('Earh.view.header.Header', {
 							}, {
 								text: Trans.clear
 							}, {
-								text: Trans.add
+								text: Trans.add // Графический образ
+							}, {
+								text: Trans.add // Дело
+							}, {
+								text: Trans.add // Документ
+							}, {
+								text: Trans.edit
+							}, {
+								text: Trans.save
+							}, {
+								text: Trans.del
+							}, {
+								text: Trans.graphs
+							}, {
+								text: Trans.caseDocs
+							}, {
+								text: Trans.backToCard
 							},
 							'->',
 							{
 								xtype: 'label',
-								text: 'Пользователь'
+								text: 'Заслонка'
 							},
 							'-',
 							{
@@ -55,10 +73,23 @@ Ext.define('Earh.view.header.Header', {
 								handler: 'exit'
 							}
 						]
-					}]
+					})]
 			}
 		];
 		headerView.callParent();
+	},
+	hideTB: function () {
+		this._tb.hide();
+	},
+	/**
+	 * Показывает тольк выбранные кнопки
+	 * @param {Boolean[]} buttons булевые значения для вкл/выкл кнопок
+	 */
+	showTB: function (buttons) {
+		this._tb.show();
+		this._tb.items.each(function (btn, idx) {
+			btn.setVisible(buttons[idx]);
+		});
 	}
 });
 

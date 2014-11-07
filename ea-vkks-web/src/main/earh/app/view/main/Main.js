@@ -6,8 +6,7 @@ Ext.define('Earh.view.main.Main', {
 	requires: [
 		'Earh.view.main.MainController',
 		'Earh.view.header.Header',
-		'Earh.view.search.Case',
-		'Earh.view.search.Doc',
+		'Earh.view.welcome.Welcome',
 		'Ext.layout.container.Border',
 		'Ext.container.Container',
 		'Ext.layout.container.Card',
@@ -20,8 +19,7 @@ Ext.define('Earh.view.main.Main', {
 	},
 	items: [{
 			xtype: 'eaheader',
-			region: 'north',
-			controller: 'main'
+			region: 'north'
 		}, {
 			xtype: 'container',
 			layout: 'card',
@@ -30,26 +28,24 @@ Ext.define('Earh.view.main.Main', {
 	initComponent: function () {
 		var mainView = this;
 		mainView.callParent();
+		mainView._header = mainView.items.getAt(0);
 		mainView._center = mainView.items.getAt(1);
 		mainView._clayout = mainView._center.getLayout();
-		mainView.setActiveItem(Ext.widget('casesearch'));
+		mainView._pages = {};
+		mainView.setActiveItem(Pages.welcome);
 	},
 	/**
-	 * Добавляет компонент в центральный регион
-	 * @param {Object} widget добавляемый элемент
+	 * Переключает на нужную страницу
+	 * @param {String} page название желаемой страницы (из Pages)
 	 */
-	_add: function (widget) {
-		widget.cardId = this._center.items.length;
-		this._center.add(widget);
-	},
-	/**
-	 * Переключает на карточку с заданным индексом
-	 * @param {Number/Object} it индекс желаемого элемента или сам элемент
-	 */
-	setActiveItem: function (it) {
-		if (it instanceof Object && it.cardId === undefined)
-			this._add(it);
-		this._clayout.setActiveItem(it);
+	setActiveItem: function (page) {
+		var mainView = this,
+				item = mainView._pages[page];
+		if (!item) {
+			item = mainView._pages[page] = Ext.widget(page);
+			mainView._center.add(item);
+		}
+		mainView._clayout.setActiveItem(item);
 	},
 	/**
 	 * Возвращает активный на данным момент компонент
@@ -57,5 +53,11 @@ Ext.define('Earh.view.main.Main', {
 	 */
 	getActiveItem: function () {
 		return this._clayout.getActiveItem();
+	},
+	hideTB: function () {
+		this._header.hideTB();
+	},
+	showTB: function (buttons) {
+		this._header.showTB(buttons);
 	}
 });

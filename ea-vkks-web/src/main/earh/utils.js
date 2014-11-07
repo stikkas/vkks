@@ -3,6 +3,8 @@
 // Т.к. у нас один язык, то используем упрощенную схему
 Trans = {
 	vkks: "ВЫСШАЯ КВАЛИФИКАЦИОННАЯ КОЛЛЕГИЯ СУДЕЙ РОССИЙСКОЙ ФЕДЕРАЦИИ",
+	docs: "Документы",
+	admin: "Администратор",
 	main: "Главная",
 	search: "Поиск",
 	caseSearch: "Поиск дел",
@@ -13,8 +15,8 @@ Trans = {
 	edit: "Редактировать",
 	save: "Сохранить",
 	del: "Удалить",
-	graph: "Графические образы",
-	caseDocs: "Документы дела",
+	graphs: "Графические<br>образы",
+	caseDocs: "Документы<br>дела",
 	exit: "Выход",
 	acase: "Дело",
 	caseNum: "№ дела",
@@ -29,7 +31,7 @@ Trans = {
 	pagesCount: "Количество листов",
 	remark: "Примечание",
 	topoRef: "Топографический указатель",
-	backToSearch: "Вернуться к результатам поиска",
+	backToSearch: "Вернуться к<br>результатам<br>поиска",
 	doc: "Документ",
 	docNum: "№ документа",
 	docDate: "Дата документа",
@@ -39,12 +41,30 @@ Trans = {
 	endPageNum: "№ конечного листа",
 	caseSubject: "В отношении кого рассматривался вопрос",
 	court: "Суд",
-	graphView: "Просмотр графических образов",
+	graphsView: "Просмотр графических образов",
 	backToCard: "Вернуться в карточку",
 	type: "Тип",
 	volumesCount: "Количество томов",
 	dates: "Даты",
 	whoSign: "Кто подписал",
-	textSearch: "Поиск по тексту"
+	textSearch: "Поиск по тексту",
+	enter: "Вход",
+	user: "Пользователь",
+	pass: "Пароль",
+	tenter: "Войти"
 };
 
+Pages = {
+	welcome: 'welcome',
+	login: 'login',
+	acase: 'acase',
+	doc: 'adoc',
+	scase: 'casesearch',
+	sdoc: 'docsearch',
+	vgraph: 'graphview',
+	graphs: 'graphs'
+};
+
+Urls = {
+	root: '/'
+};
