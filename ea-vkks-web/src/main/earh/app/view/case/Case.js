@@ -14,6 +14,7 @@ Ext.define('Earh.view.case.Case', {
 		'Ext.form.field.TextArea'
 	],
 	layout: 'vbox',
+	tbb: [1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
 	defaults: {
 		xtype: 'panel',
 		layout: 'vbox',
@@ -25,7 +26,6 @@ Ext.define('Earh.view.case.Case', {
 	},
 	initComponent: function () {
 		var caseView = this;
-		caseView.tbb = [1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1];
 		caseView.items = [{
 				title: Trans.acase,
 				items: [{
@@ -45,11 +45,7 @@ Ext.define('Earh.view.case.Case', {
 						fieldLabel: Trans.endDate
 					}, {
 						xtype: 'numberfield',
-						fieldLabel: Trans.storeLife,
-						minValue: 0,
-						hideTrigger: true,
-						keyNavEnabled: false,
-						mouseWheelEnabled: false
+						fieldLabel: Trans.storeLife
 					}]
 			}, {
 				title: Trans.volume,
@@ -61,11 +57,7 @@ Ext.define('Earh.view.case.Case', {
 						fieldLabel: Trans.title
 					}, {
 						xtype: 'numberfield',
-						fieldLabel: Trans.pagesCount,
-						minValue: 0,
-						hideTrigger: true,
-						keyNavEnabled: false,
-						mouseWheelEnabled: false
+						fieldLabel: Trans.pagesCount
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.remark

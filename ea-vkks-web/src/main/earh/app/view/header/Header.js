@@ -5,6 +5,9 @@ Ext.define('Earh.view.header.Header', {
 		'Ext.toolbar.Toolbar',
 		'Ext.layout.container.HBox',
 		'Ext.layout.container.VBox',
+		'Ext.toolbar.Fill',
+		'Ext.toolbar.Spacer',
+		'Ext.toolbar.Separator',
 		'Ext.container.Container',
 		'Ext.form.Label',
 		'Ext.button.Button'

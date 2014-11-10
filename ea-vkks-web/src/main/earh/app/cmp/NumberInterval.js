@@ -11,11 +11,7 @@ Ext.define('Earh.cmp.NumberInterval', {
 	labelSeparator: '',
 	allowBlank: true,
 	defaults: {
-		xtype: 'numberfield',
-		minValue: 0,
-		hideTrigger: true,
-		keyNavEnabled: false,
-		mouseWheelEnabled: false
+		xtype: 'numberfield'
 	},
 	/**
 	 * Создает контейнер с двумя цифровыми полями

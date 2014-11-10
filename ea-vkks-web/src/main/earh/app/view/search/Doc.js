@@ -69,15 +69,16 @@ Ext.define('Earh.view.search.Doc', {
 						}, {
 							text: Trans.title,
 							dataIndex: 'title'
-						}],
-					dockedItems: [{
-							xtype: 'pagingtoolbar',
-							dock: 'top',
-							displayInfo: true,
-							store: resultStoreId
 						}]
-				}
+				},
+				dockedItems: [{
+						xtype: 'pagingtoolbar',
+						dock: 'top',
+						beforePageText: '',
+						store: resultStoreId
+					}]
 			}]);
+		this.tbb = [1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1];
 	}
 });
 

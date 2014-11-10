@@ -9,6 +9,7 @@ Ext.define('Earh.view.search.Case', {
 		'Earh.store.Case',
 		'Earh.store.Department'
 	],
+	tbb: [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
 	initComponent: function () {
 		var resultStoreId = 'caseStore';
 		this.callParent([{
@@ -80,13 +81,13 @@ Ext.define('Earh.view.search.Case', {
 							text: Trans.dates,
 							dataIndex: 'dates'
 						}],
-					dockedItems: [{
-							xtype: 'pagingtoolbar',
-							dock: 'top',
-							displayInfo: true,
-							store: resultStoreId
-						}]
-				}
+				},
+				dockedItems: [{
+						xtype: 'pagingtoolbar',
+						dock: 'top',
+						beforePageText: '',
+						store: resultStoreId
+					}]
 			}]);
 	}
 });

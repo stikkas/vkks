@@ -54,9 +54,17 @@ Ext.define('Earh.view.main.Main', {
 	getActiveItem: function () {
 		return this._clayout.getActiveItem();
 	},
+	/**
+	 * Скрывает панель инструментов целиком
+	 */
 	hideTB: function () {
 		this._header.hideTB();
 	},
+	/**
+	 * Показывает панель инструментов
+	 * @param {Boolean[]} buttons список булевых значений (или эквивалентов) для
+	 * включения и отключения определенных кнопок
+	 */
 	showTB: function (buttons) {
 		this._header.showTB(buttons);
 	}
