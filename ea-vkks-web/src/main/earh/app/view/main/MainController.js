@@ -63,5 +63,11 @@ Ext.define('Earh.view.main.MainController', {
 	},
 	toMain: function () {
 		this.redirectTo(Pages.home);
+	},
+	toDocs: function () {
+		this.redirectTo(Pages.sdoc);
+	},
+	toCases: function () {
+		this.redirectTo(Pages.scase);
 	}
 });

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-exec_login</actionName>
+            <displayName>exec_login</displayName>
+            <goals>
+                <goal>exec:exec</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>login</activatedProfile>
+            </activatedProfiles>
+        </action>
+        <action>
+            <actionName>CUSTOM-build_earh</actionName>
+            <displayName>build_earh</displayName>
+            <goals>
+                <goal>exec:exec</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>earh</activatedProfile>
+            </activatedProfiles>
+        </action>
+    </actions>

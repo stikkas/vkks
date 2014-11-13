@@ -2,7 +2,6 @@
 	"name": "Login",
 	"indexHtmlPath": "login.html",
 	"classpath": "${app.dir}/app",
-	"overrides": "${app.dir}/overrides",
 	"framework": "ext",
 	"theme": "ext-theme-classic",
 	"requires": [

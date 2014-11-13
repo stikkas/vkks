@@ -2,10 +2,8 @@ Ext.define('Login.view.header.Header', {
 	extend: 'Ext.container.Container',
 	alias: 'widget.eaheader',
 	requires: [
-		'Ext.toolbar.Toolbar',
 		'Ext.layout.container.HBox',
 		'Ext.layout.container.VBox',
-		'Ext.toolbar.Fill',
 		'Ext.container.Container'
 	],
 	layout: {
@@ -22,13 +20,9 @@ Ext.define('Login.view.header.Header', {
 			{
 				xtype: 'container',
 				layout: 'vbox',
-				items: [
-					{
+				items: [{
 						xtype: 'component',
 						html: '<h1>' + Trans.vkks + '</h1>'
-					},
-					{
-						xtype: 'toolbar'
 					}]
 			}
 		];
