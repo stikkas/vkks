@@ -60,16 +60,39 @@ Trans = {
 };
 
 Pages = {
-	welcome: 'welcome',
-	login: 'login',
+	home: 'home',
 	acase: 'acase',
 	doc: 'adoc',
 	scase: 'casesearch',
 	sdoc: 'docsearch',
-	vgraph: 'graphview',
-	graphs: 'graphs'
+	vgraph: 'graphview'
 };
-
+RootContext = '/ea-vkks-web/';
 Urls = {
-	root: '/'
+	root: RootContext,
+	login: RootContext + 'login.html',
+	logout: RootContext + 'srvcs/logout'
+};
+/**
+ * Показывает ошибки в диалоговом окне
+ * @param {String} title заголовок окна
+ * @param {String} message сообщение об ошибке
+ * @method showError
+ */
+showError = function (title, message) {
+	if (message instanceof Object) {
+		if (message.statusText) {
+			message = message.statusText;
+		} else {
+			console.log(message);
+			return;
+		}
+	}
+	Ext.Msg.show({
+		title: title,
+		msg: message,
+		buttons: Ext.Msg.OK,
+		icon: Ext.Msg.ERROR,
+		maxWidth: 800
+	});
 };

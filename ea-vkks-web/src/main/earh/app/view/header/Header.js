@@ -37,7 +37,8 @@ Ext.define('Earh.view.header.Header', {
 							xtype: 'button'
 						},
 						items: [{
-								text: Trans.main
+								text: Trans.main,
+								handler: 'toMain'
 							}, {
 								text: Trans.backToSearch
 							},

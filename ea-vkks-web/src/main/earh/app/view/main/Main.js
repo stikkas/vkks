@@ -6,7 +6,7 @@ Ext.define('Earh.view.main.Main', {
 	requires: [
 		'Earh.view.main.MainController',
 		'Earh.view.header.Header',
-		'Earh.view.welcome.Welcome',
+		'Earh.view.home.Home',
 		'Ext.layout.container.Border',
 		'Ext.container.Container',
 		'Ext.layout.container.Card',
@@ -32,7 +32,7 @@ Ext.define('Earh.view.main.Main', {
 		mainView._center = mainView.items.getAt(1);
 		mainView._clayout = mainView._center.getLayout();
 		mainView._pages = {};
-		mainView.setActiveItem(Pages.welcome);
+		mainView.setActiveItem(Pages.home);
 	},
 	/**
 	 * Переключает на нужную страницу
