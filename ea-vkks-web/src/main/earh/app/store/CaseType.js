@@ -1,6 +1,12 @@
+/**
+ * Справочник "Тип архивного дела"
+ */
 Ext.define('Earh.store.CaseType', {
-	extend: 'Ext.data.Store',
+	extend: 'Earh.store.Dict',
 	storeId: 'caseTypeStore',
-	singleton: true
+	singleton: true,
+	constructor: function () {
+		this.callParent([Dicts.casetype]);
+	}
 });
 

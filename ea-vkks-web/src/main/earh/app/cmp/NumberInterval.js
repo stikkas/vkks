@@ -7,37 +7,69 @@ Ext.define('Earh.cmp.NumberInterval', {
 		'Ext.form.field.Number',
 		'Ext.layout.container.HBox'
 	],
+	alias: 'widget.numberinterval',
 	layout: 'hbox',
 	labelSeparator: '',
+	/**
+	 * имя первого поля
+	 */
+	fromName: 'fromNumber',
+	/**
+	 * имя второго поля
+	 */
+	toName: 'toNumber',
+	/**
+	 * конфиг для обоих полей
+	 */
+	fieldsConfig: {},
+	/**
+	 * конфиг для первого поля
+	 */
+	fromFieldConfig: {},
+	/**
+	 * конфиг для второго поля
+	 */
+	toFieldConfig: {},
+	/**
+	 * Метка для первого поля
+	 */
+	fromFieldLabel: 'с',
+	/**
+	 * Метка для второго поля
+	 */
+	toFieldLabel: 'по',
 	allowBlank: true,
 	defaults: {
 		xtype: 'numberfield'
 	},
 	/**
 	 * Создает контейнер с двумя цифровыми полями
-	 * @param {String} title общий заголовок для полей
-	 * @param {String} fromName имя для поля 'c'
-	 * @param {String} toName имя поля для 'по'
-	 * @param {Object} cfgMain дополнительные свойства для контейнера
-	 * @param {Object} cfgItems дополнительные свойства для элементов
 	 */
-	constructor: function (title, fromName, toName, cfgMain, cfgItems) {
+	initComponent: function () {
 		var numberInterval = this,
-				items = numberInterval.items = [{
-						fieldLabel: 'с',
-						name: fromName
-					}, {
-						fieldLabel: 'по',
-						name: toName
-					}];
-		for (var o in cfgMain)
-			numberInterval[o] = cfgMain[o];
-		for (var o in cfgItems) {
-			var cfgData = cfgItems[o];
-			items[0][o] = cfgData;
-			items[1][o] = cfgData;
+				item1, item2,
+				fromFieldConfig = numberInterval.fromFieldConfig,
+				toFieldConfig = numberInterval.toFieldConfig,
+				fieldsConfig = numberInterval.fieldsConfig;
+		numberInterval.items = [
+			item1 = {
+				fieldLabel: numberInterval.fromFieldLabel,
+				name: numberInterval.fromName
+			},
+			item2 = {
+				fieldLabel: numberInterval.toFieldLabel,
+				name: numberInterval.toName
+			}];
+		for (var o in fieldsConfig) {
+			var cfgData = fieldsConfig[o];
+			item1[o] = cfgData;
+			item2[o] = cfgData;
 		}
-		numberInterval.fieldLabel = title;
+		for (var o in fromFieldConfig)
+			item1[o] = fromFieldConfig[o];
+		for (var o in toFieldConfig)
+			item2[o] = toFieldConfig[o];
+
 		numberInterval.callParent();
 
 		numberInterval.validate = numberInterval.isValid = numberInterval._valid;

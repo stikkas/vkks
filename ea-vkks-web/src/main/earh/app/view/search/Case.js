@@ -5,9 +5,14 @@ Ext.define('Earh.view.search.Case', {
 	extend: 'Earh.view.search.Base',
 	alias: 'widget.casesearch',
 	requires: [
-		'Earh.cmp.NumberInterval',
+		'Earh.cmp.TreeComboBox',
 		'Earh.store.Case',
-		'Earh.store.Department'
+		'Earh.store.CaseType',
+		'Earh.store.StoreLife',
+		'Earh.store.TopoRef',
+		'Ext.form.field.Number',
+		'Earh.store.Department',
+		'Ext.ux.TreePicker'
 	],
 	tbb: [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
 	initComponent: function () {
@@ -19,31 +24,33 @@ Ext.define('Earh.view.search.Case', {
 				width: '100%',
 				defaults: {
 					labelWidth: 200,
-					labelAlign: 'right'
+					labelAlign: 'right',
+					labelSeparator: ''
 				},
 				items: [{
-						xtype: 'combobox',
-						fieldLabel: Trans.caseType,
-						store: 'caseTypeStore',
-						name: 'caseType'
-					}, {
-						xtype: 'combobox',
-						fieldLabel: Trans.departmnt,
-						store: 'departmentStore',
-						name: 'department'
-					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.caseNum,
 						name: 'caseNum'
 					}, {
+						xtype: 'combobox',
+						fieldLabel: Trans.caseType,
+						store: 'caseTypeStore',
+						name: 'caseType',
+						displayField: 'value',
+						valueField: 'id'
+					}, {
+						xtype: 'combobox',
+						fieldLabel: Trans.storeLife,
+						name: 'storeLife',
+						store: 'storeLifeStore',
+						displayField: 'value',
+						valueField: 'id'
+
+					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.caseTitle,
 						name: 'caseTitle'
-					},
-					Ext.create('Earh.cmp.NumberInterval', Trans.volumesCount,
-							'fromVolumeCount', 'toVolumeCount', '',
-							{labelWidth: 20, labelAlign: 'right', width: 75}),
-					{
+					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.startDate,
 						name: 'startDate'
@@ -52,9 +59,15 @@ Ext.define('Earh.view.search.Case', {
 						fieldLabel: Trans.endDate,
 						name: 'endDate'
 					}, {
-						xtype: 'combobox',
-						fieldLabel: Trans.storeLife,
-						name: 'storeLife'
+						xtype: 'treepicker',
+						fieldLabel: Trans.topoRef,
+						store: Earh.store.TopoRef,
+						name: 'topoRef',
+						displayField: 'address'
+					}, {
+						xtype: 'numberfield',
+						fieldLabel: Trans.volumeNum,
+						name: 'volumeNum'
 					}]
 			}, {
 				xtype: 'gridpanel',

@@ -5,6 +5,8 @@ Trans = {
 	vkks: "ВЫСШАЯ КВАЛИФИКАЦИОННАЯ КОЛЛЕГИЯ СУДЕЙ РОССИЙСКОЙ ФЕДЕРАЦИИ",
 	docs: "Документы",
 	cases: "Дела",
+	caseDocs: "Документы дела",
+	caseDocsSearch: "Поиск документов дела",
 	admin: "Администратор",
 	main: "Главная",
 	search: "Поиск",
@@ -18,27 +20,28 @@ Trans = {
 	del: "Удалить",
 	graphs: "Графические<br>образы",
 	graphS: "Графические образы",
-	caseDocs: "Документы<br>дела",
+	caseDocs1: "Документы<br>дела",
 	exit: "Выход",
 	acase: "Дело",
 	caseNum: "№ дела",
-	caseType: "Тип дел / документов",
+	caseType: "Тип дела",
 	departmnt: "Структурное подразделение",
-	startDate: "Дата начала",
-	endDate: "Дата окончания",
+	startDate: "Начальная дата",
+	endDate: "Конечная дата",
 	storeLife: "Срок хранения",
 	volume: "Том",
 	volumeNum: "№ тома",
 	title: "Заголовок",
 	pagesCount: "Количество листов",
 	remark: "Примечание",
+	caseRemark: "Примечание к делу",
 	topoRef: "Топографический указатель",
 	backToSearch: "Вернуться к<br>результатам<br>поиска",
 	doc: "Документ",
 	docNum: "№ документа",
 	docDate: "Дата документа",
 	docTitle: "Заголовок документа",
-	caseTitle: "Заголовок дела",
+	caseTitle: "Название дела",
 	startPageNum: "№ начального листа",
 	endPageNum: "№ конечного листа",
 	caseSubject: "В отношении кого рассматривался вопрос",
@@ -72,7 +75,18 @@ RootContext = '/ea-vkks-web/';
 Urls = {
 	root: RootContext,
 	login: RootContext + 'login.html',
-	logout: RootContext + 'srvcs/logout'
+	logout: RootContext + 'srvcs/logout',
+	dict: RootContext + 'srvcs/dict'
+};
+/**
+ * параметры для получения справочников с сервера
+ * @type {Object}
+ */
+Dicts = {
+	storelife: 'storelife',
+	casetype: 'casetype',
+	doctype: 'doctype',
+	toporef: 'toporef'
 };
 /**
  * Показывает ошибки в диалоговом окне
