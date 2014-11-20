@@ -1,5 +1,8 @@
 /**
- * Главная страница
+ * Главная страница. Каждая страница имеет свойство tbb,
+ * в котором перечесляются нулями и единицами, кнопки панели инструментов:
+ * 0 - кнопка не будет показана,
+ * 1 - кнопка будет показана.
  */
 Ext.define('Earh.view.home.Home', {
 	extend: 'Ext.container.Container',
@@ -9,19 +12,36 @@ Ext.define('Earh.view.home.Home', {
 		'Ext.button.Button'
 	],
 	layout: 'hbox',
-	defaults: {
-		xtype: 'button'
-	},
 	initComponent: function () {
 		this.items = [{
-				text: Trans.cases,
-				handler: 'toCases'
+				xtype: 'container',
+				layout: 'vbox',
+				items: [{
+						xtype: 'button',
+						text: Trans.caseSearch,
+						handler: 'toCasesSearch'
+					}, {
+						xtype: 'button',
+						text: Trans.caseAdd,
+						handler: 'toCaseAdd'
+					}]
 			}, {
-				text: Trans.docs,
-				handler: 'toDocs'
+				xtype: 'button',
+				text: Trans.docAdd,
+				handler: 'toDocAdd'
 			}];
 		this.callParent();
+		this.tbb = [0, // Главная
+			0, // Вернуться к результатам поиска
+			0, // Вернуться в дело
+			0, // пробел
+			0, // Поиск
+			0, // Сохранить
+			0, // Удалить
+			0, // Редактировать
+			1, // сдвиг вправо
+			1, // ФИО
+			1, // разделитель
+			1];// Выход
 	}
 });
-
-

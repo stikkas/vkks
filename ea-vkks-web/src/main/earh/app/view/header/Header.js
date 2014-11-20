@@ -19,11 +19,8 @@ Ext.define('Earh.view.header.Header', {
 		var headerView = this;
 		headerView.items = [{
 				xtype: 'component',
-				baseCls: 'gerb',
-				width: 100,
-				height: 100
-			},
-			{
+				baseCls: 'gerb'
+			}, {
 				xtype: 'container',
 				layout: 'vbox',
 				items: [
@@ -40,43 +37,36 @@ Ext.define('Earh.view.header.Header', {
 								text: Trans.main,
 								handler: 'toMain'
 							}, {
-								text: Trans.backToSearch
+								text: Trans.backToSearch,
+								handler: 'backToSearch'
+							}, {
+								text: Trans.backToCase,
+								handler: 'backToCase'
 							},
 							' ',
 							{
-								text: Trans.search
+								text: Trans.search,
+								handler: 'search'
 							}, {
-								text: Trans.clear
+								text: Trans.save,
+								handler: 'save'
 							}, {
-								text: Trans.add // Графический образ
+								text: Trans.remove,
+								handler: 'remove'
 							}, {
-								text: Trans.add // Дело
-							}, {
-								text: Trans.add // Документ
-							}, {
-								text: Trans.edit
-							}, {
-								text: Trans.save
-							}, {
-								text: Trans.del
-							}, {
-								text: Trans.graphs
-							}, {
-								text: Trans.caseDocs
-							}, {
-								text: Trans.backToCard
+								text: Trans.edit,
+								handler: 'edit'
 							},
 							'->',
 							{
 								xtype: 'label',
-								text: 'Заслонка'
+								text: Earh.user
 							},
 							'-',
 							{
 								text: Trans.exit,
-								handler: 'exit'
-							}
-						]
+								handler: 'onExit'
+							}]
 					})]
 			}
 		];

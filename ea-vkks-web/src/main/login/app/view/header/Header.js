@@ -13,9 +13,7 @@ Ext.define('Login.view.header.Header', {
 		var headerView = this;
 		headerView.items = [{
 				xtype: 'component',
-				baseCls: 'gerb',
-				width: 100,
-				height: 100
+				baseCls: 'gerb'
 			},
 			{
 				xtype: 'container',
@@ -24,8 +22,7 @@ Ext.define('Login.view.header.Header', {
 						xtype: 'component',
 						html: '<h1>' + Trans.vkks + '</h1>'
 					}]
-			}
-		];
+			}];
 		headerView.callParent();
 	}
 });

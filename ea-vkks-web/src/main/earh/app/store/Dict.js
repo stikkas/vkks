@@ -4,7 +4,7 @@
 Ext.define('Earh.store.Dict', {
 	extend: 'Ext.data.Store',
 	model: 'Earh.model.Dict',
-	requires: 'Ext.data.proxy.Ajax',
+	requires: ['Ext.data.proxy.Ajax'],
 	constructor: function (dict) {
 		this.callParent();
 		this.setProxy(Ext.create('Ext.data.proxy.Ajax', {

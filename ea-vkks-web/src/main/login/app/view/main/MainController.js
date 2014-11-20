@@ -9,10 +9,22 @@ Ext.define('Login.view.main.MainController', {
 		home: 'onWelcome',
 		welcome: 'onWelcome'
 	},
+	init: function () {
+		this.listen({
+			controller: {
+				'*': {
+					exitEvent: this.exit
+				}
+			}
+		});
+	},
 	onWelcome: function () {
 		this.view.setActiveItem(Pages.welcome);
 	},
 	onLogin: function () {
 		this.view.setActiveItem(Pages.login);
+	},
+	exit: function () {
+		this.redirectTo(Pages.welcome);
 	}
 });

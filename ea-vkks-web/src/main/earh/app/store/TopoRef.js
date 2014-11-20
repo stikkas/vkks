@@ -3,13 +3,46 @@
  */
 Ext.define('Earh.store.TopoRef', {
 	extend: 'Ext.data.TreeStore',
-	storeId: 'topoRefStore',
 	requires: [
 		'Earh.model.Tree',
 		'Ext.data.proxy.Ajax'
 	],
-	singleton: true,
 	model: 'Earh.model.Tree',
+	rootVisible: false,
+	storeId: 'topoRefStore',
+	singleton: true,
+	defaultRootProperty: 'kids',
+//	root: {
+//		id: 0,
+//		name: 'root',
+//		expanded: true
+//	},
+	proxy: {
+		type: 'memory'
+	},
+	root: {
+		expanded: true,
+		text: 'Root',
+		kids: [{
+				id: 1, name: 'ком. 1', kids: [{
+						id: 4, name: 'ст. 1', kids: [{
+								id: 6, name: 'п. 1', leaf: true
+							}, {
+								id: 7, name: 'п. 2', leaf: true
+							}]}, {
+						id: 5, name: 'ст. 2', kids: [{
+								id: 8, name: 'п. 1', leaf: true
+							}, {
+								id: 9, name: 'п. 2', leaf: true
+							}]
+					}]}, {
+				id: 2, name: 'ком. 2', kids: [{
+						id: 3, name: 'ст. 1', kids: [{
+								id: 10, name: 'п. 1', leaf: true
+							}]
+					}]
+			}]
+	},
 	constructor: function () {
 		/*
 		 this.setProxy(Ext.create('Ext.data.proxy.Ajax', {
@@ -19,19 +52,6 @@ Ext.define('Earh.store.TopoRef', {
 		 extraParams: {dict: Dicts.toporef}
 		 }));
 		 */
-		Ext.apply(this, {
-			root: {
-				text: 'Root',
-				children: [
-					{id: 1, address: 'Address 1', children: [{room: 'room 1',
-								children: [{rack: 'rack 1',
-										children: [{shelf: 'self 1'}]}]}]},
-					{id: 2, address: 'Address 2', children: [{room: 'room 2',
-								children: [{rack: 'rack 2',
-										children: [{shelf: 'self 2'}]}]}]}
-				]
-			}
-		});
 		this.callParent();
 	}
 });

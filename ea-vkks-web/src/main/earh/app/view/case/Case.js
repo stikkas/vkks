@@ -7,65 +7,98 @@ Ext.define('Earh.view.case.Case', {
 	requires: [
 		'Ext.layout.container.VBox',
 		'Ext.panel.Panel',
+		'Ext.form.Panel',
 		'Ext.grid.Panel',
 		'Ext.toolbar.Paging',
 		'Ext.form.field.Text',
 		'Ext.form.field.ComboBox',
 		'Ext.form.field.Date',
-		'Ext.form.field.Number',
 		'Ext.form.field.TextArea',
-		'Ext.ux.TreePicker'
+		'Ext.form.trigger.Trigger',
+		'Ext.button.Button',
+		'Ext.ux.TreePicker',
+//		'Earh.store.CaseResult',
+//		'Earh.store.DocResult'
 	],
 	layout: 'vbox',
-	// Режим отображения формы
-	viewMode: false,
 	defaults: {
 		xtype: 'panel',
 		layout: 'vbox',
-		width: '100%',
-		defaults: {
-			labelAlign: 'right',
-			labelWidth: 200
-		}
+		width: '100%'
 	},
 	initComponent: function () {
-		var caseView = this;
-
+		var caseView = this,
+				editRole = Earh.editRole
+//				caseResult = Ext.create('Earh.store.CaseResult', {
+//					pageSize: 1
+//				}),
+//				docsResult = Ext.create('Earh.store.DocResult', {
+//					pageSize: 10
+//				});
+				;
 		caseView.items = [{
+				xtype: 'form',
 				title: Trans.acase,
+				defaults: {
+					labelAlign: 'right',
+					labelWidth: 200,
+					viewMode: !editRole
+				},
 				items: [{
 						xtype: 'textfield',
-						fieldLabel: Trans.caseNum
+						fieldLabel: Trans.caseNum,
+						name: 'casenum'
 					}, {
 						xtype: 'combobox',
-						fieldLabel: Trans.caseType
+						fieldLabel: Trans.caseType,
+						name: 'casetype'
 					}, {
 						xtype: 'combobox',
-						fieldLabel: Trans.storeLife
+						fieldLabel: Trans.storeLife,
+						name: 'storelife'
 					}, {
-						xtype: 'textfield',
-						fieldLabel: Trans.caseTitle
+						xtype: 'textarea',
+						fieldLabel: Trans.caseTitle,
+						name: 'casetitle'
 					}, {
 						xtype: 'datefield',
-						fieldLabel: Trans.startDate
+						fieldLabel: Trans.startDate,
+						name: 'startdate'
 					}, {
 						xtype: 'datefield',
-						fieldLabel: Trans.endDate
+						fieldLabel: Trans.endDate,
+						name: 'enddate'
 					}, {
 						xtype: 'treepicker',
-						fieldLabel: Trans.topoRef
+						fieldLabel: Trans.topoRef,
+						name: 'toporef'
 					}, {
-						xtype: 'textfield',
-						fieldLabel: Trans.caseRemark
+						xtype: 'textarea',
+						fieldLabel: Trans.caseRemark,
+						name: 'caseremark'
+					}],
+				dockedItems: [{
+						xtype: 'pagingtoolbar',
+						dock: 'top',
+						displayInfo: false,
+						beforePageText: Trans.card,
+//						store: caseResult
 					}]
 			}, {
 				title: Trans.caseDocs,
 				items: [{
 						xtype: 'textfield',
-						fieldLabel: Trans.caseDocsSearch
+						fieldLabel: Trans.caseDocsSearch,
+						name: 'casedocssearch',
+						triggers: {
+							search: {
+//								cls: 'any-class',
+								handler: 'searchDocs'
+							}
+						}
 					}, {
 						xtype: 'gridpanel',
-						store: docsStoreId,
+						store: docsResult,
 						width: '100%',
 						columns: {
 							defaults: {
@@ -86,18 +119,30 @@ Ext.define('Earh.view.case.Case', {
 								}]
 						},
 						dockedItems: [{
-								xtype: 'pagingtoolbar',
+								xtype: 'container',
 								dock: 'top',
-								store: resultStoreId
+								layout: 'hbox',
+								items: [{
+										xtype: 'button',
+										text: Trans.add,
+										hidden: !editRole
+									}, {
+										xtype: 'pagingtoolbar',
+										store: docsResult,
+										displayInfo: false
+									}]
+
 							}]
 					}]
 			}];
 		caseView.callParent();
 
-		if (caseView.viewMode)
+		if (editRole)
 			caseView.tbb = [1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1];
-		else
+		else {
+			caseView.applyAll('setRequired');
 			caseView.tbb = [1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1];
+		}
 	}
 });
 

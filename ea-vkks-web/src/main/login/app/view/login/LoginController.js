@@ -7,7 +7,7 @@ Ext.define('Login.view.login.LoginController', {
 			params: this.view.getForm().getValues(),
 			success: function (response) {
 				if (~response.responseText.search(/<title>Login<\/title>/))
-					showError("Ошибка авторизации", "Не правильный логин / пароль");
+					showError("Ошибка авторизации", "Неправильный логин / пароль");
 				else
 					window.location.href = Urls.root;
 			},
@@ -16,11 +16,22 @@ Ext.define('Login.view.login.LoginController', {
 			}
 		});
 	},
+	exit: function () {
+		showAlert("Предупреждение", "Вы точно хотите выйти из приложения?", 'onAnswer', this);
+	},
 	onSpecialKey: function (field, event) {
 		if (event.getKey() === event.ENTER) {
 			var fields = this.view.items;
 			if (fields.getAt(0).getValue() && fields.getAt(1).getValue())
 				this.enter();
+		}
+	},
+	onAnswer: function (btn) {
+		if (btn === "yes") {
+			this.view.items.each(function (it) {
+				it.reset();
+			});
+			this.fireEvent('exitEvent', this);
 		}
 	}
 });

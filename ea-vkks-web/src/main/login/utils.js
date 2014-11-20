@@ -51,3 +51,22 @@ showError = function (title, message) {
 		maxWidth: 800
 	});
 };
+/**
+ * Показывает предупреждение в диалоговом окне
+ * @param {String} title заголовок окна
+ * @param {String} message сообщение об ошибке
+ * @param {Function} fn обработчик ответа от пользователя
+ * @param {Object} scope контекст вызова обработчика
+ * @method showError
+ */
+showAlert = function (title, message, fn, scope) {
+	Ext.Msg.show({
+		title: title,
+		msg: message,
+		buttons: Ext.Msg.YESNO,
+		icon: Ext.Msg.INFO,
+		fn: fn,
+		scope: scope,
+		maxWidth: 800
+	});
+};

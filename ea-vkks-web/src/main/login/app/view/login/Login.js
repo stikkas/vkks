@@ -7,7 +7,8 @@ Ext.define('Login.view.login.Login', {
 	requires: [
 		'Ext.layout.container.VBox',
 		'Ext.form.field.Text',
-		'Login.view.login.LoginController'
+		'Login.view.login.LoginController',
+		'Ext.button.Button'
 	],
 	controller: 'login',
 	defaults: {
@@ -32,8 +33,11 @@ Ext.define('Login.view.login.Login', {
 			}
 		];
 		loginPage.buttons = [{
-				text: Trans.tenter,
+				text: Trans.enter,
 				handler: 'enter'
+			}, {
+				text: Trans.exit,
+				handler: 'exit'
 			}];
 		loginPage.callParent();
 	}

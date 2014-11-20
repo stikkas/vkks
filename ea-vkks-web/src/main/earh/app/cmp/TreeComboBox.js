@@ -6,14 +6,14 @@ Ext.define('Earh.cmp.TreeComboBox', {
 	alias: 'widget.treecombobox',
 	requires: [
 		'Ext.tree.Panel',
-		'Earh.store.TopoRef'
+//		'Earh.store.TopoRef'
 	],
 	createPicker: function () {
 		return Ext.create('Ext.tree.Panel', {
 			floating: true,
 			rootVisible: false,
 			minHeight: 150,
-			store: 'topoRefStore'
+//			store: 'topoRefStore'
 		});
 	}
 });

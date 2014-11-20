@@ -11,13 +11,15 @@ Trans = {
 	main: "Главная",
 	search: "Поиск",
 	caseSearch: "Поиск дел",
+	caseAdd: "Добавление дела",
+	docAdd: "Добавление<br>документа",
 	docSearch: "Поиск документов",
 	searchResult: "Результаты поиска",
 	clear: "Очистить",
 	add: "Добавить",
 	edit: "Редактировать",
 	save: "Сохранить",
-	del: "Удалить",
+	remove: "Удалить",
 	graphs: "Графические<br>образы",
 	graphS: "Графические образы",
 	caseDocs1: "Документы<br>дела",
@@ -47,7 +49,7 @@ Trans = {
 	caseSubject: "В отношении кого рассматривался вопрос",
 	court: "Суд",
 	graphsView: "Просмотр графических образов",
-	backToCard: "Вернуться в<br>карточку",
+	backToCase: "Вернуться<br>в дело",
 	type: "Тип",
 	volumesCount: "Количество томов",
 	dates: "Даты",
@@ -67,8 +69,10 @@ Pages = {
 	home: 'home',
 	acase: 'acase',
 	doc: 'adoc',
-	scase: 'casesearch',
-	sdoc: 'docsearch',
+	scases: 'scases',
+	docadd: 'docadd',
+	caseadd: 'caseadd',
+	sdocs: 'sdocs',
 	vgraph: 'graphview'
 };
 RootContext = '/ea-vkks-web/';
@@ -76,7 +80,9 @@ Urls = {
 	root: RootContext,
 	login: RootContext + 'login.html',
 	logout: RootContext + 'srvcs/logout',
-	dict: RootContext + 'srvcs/dict'
+	dict: RootContext + 'srvcs/dict',
+	search: RootContext + 'srvcs/search',
+	user: RootContext + 'srvcs/user'
 };
 /**
  * параметры для получения справочников с сервера
@@ -87,6 +93,13 @@ Dicts = {
 	casetype: 'casetype',
 	doctype: 'doctype',
 	toporef: 'toporef'
+};
+/**
+ * Параметры для получения резельтатов поиска
+ */
+Searchs = {
+	doc: 'doc',
+	acase: 'case'
 };
 /**
  * Показывает ошибки в диалоговом окне
@@ -108,6 +121,25 @@ showError = function (title, message) {
 		msg: message,
 		buttons: Ext.Msg.OK,
 		icon: Ext.Msg.ERROR,
+		maxWidth: 800
+	});
+};
+/**
+ * Показывает предупреждение в диалоговом окне
+ * @param {String} title заголовок окна
+ * @param {String} message сообщение об ошибке
+ * @param {Function} fn обработчик ответа от пользователя
+ * @param {Object} scope контекст вызова обработчика
+ * @method showError
+ */
+showAlert = function (title, message, fn, scope) {
+	Ext.Msg.show({
+		title: title,
+		msg: message,
+		buttons: Ext.Msg.YESNO,
+		icon: Ext.Msg.INFO,
+		fn: fn,
+		scope: scope,
 		maxWidth: 800
 	});
 };

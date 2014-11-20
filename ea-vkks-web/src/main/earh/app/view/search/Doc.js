@@ -3,9 +3,9 @@
  */
 Ext.define('Earh.view.search.Doc', {
 	extend: 'Earh.view.search.Base',
-	alias: 'widget.docsearch',
+	alias: 'widget.sdocs',
 	requires: [
-		'Earh.store.Doc'
+//		'Earh.store.Doc'
 	],
 	initComponent: function () {
 		var resultStoreId = 'docStore';
@@ -29,7 +29,7 @@ Ext.define('Earh.view.search.Doc', {
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.caseType,
-						store: 'caseTypeStore',
+//						store: 'caseTypeStore',
 						name: 'caseType'
 					}, {
 						xtype: 'datefield',
@@ -51,7 +51,7 @@ Ext.define('Earh.view.search.Doc', {
 			}, {
 				xtype: 'gridpanel',
 				title: Trans.searchResult,
-				store: resultStoreId,
+//				store: resultStoreId,
 				width: '100%',
 				columns: {
 					defaults: {
@@ -75,7 +75,7 @@ Ext.define('Earh.view.search.Doc', {
 						xtype: 'pagingtoolbar',
 						dock: 'top',
 						beforePageText: '',
-						store: resultStoreId
+//						store: resultStoreId
 					}]
 			}]);
 		this.tbb = [1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1];

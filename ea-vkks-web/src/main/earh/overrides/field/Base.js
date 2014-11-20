@@ -5,8 +5,8 @@
  */
 
 Ext.define('Other.field.Base', {
-	overrides: 'Ext.form.field.Base',
-	labelSepartor: '',
+	override: 'Ext.form.field.Base',
+	labelSeparator: '',
 	labelAlign: 'right',
 	// режим просмотра
 	viewMode: false,
@@ -24,6 +24,14 @@ Ext.define('Other.field.Base', {
 			if (this.viewMode)
 				this.inputEl.dom.setAttribute('disabled', true);
 		}
+	},
+	/**
+	 * Устанавливает режим обязательности для поля формы
+	 */
+	setRequired: function () {
+		var me = this;
+		if (!(me.viewMode || me.allowBlank))
+			me.labelEl.setHTML("<span>*</span>" + me.fieldLabel + me.labelSeparator);
 	}
 });
 
