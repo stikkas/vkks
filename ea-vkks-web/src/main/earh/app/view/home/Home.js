@@ -27,8 +27,8 @@ Ext.define('Earh.view.home.Home', {
 					}]
 			}, {
 				xtype: 'button',
-				text: Trans.docAdd,
-				handler: 'toDocAdd'
+				text: Trans.docSearch_,
+				handler: 'toDocsSearch'
 			}];
 		this.callParent();
 		this.tbb = [0, // Главная

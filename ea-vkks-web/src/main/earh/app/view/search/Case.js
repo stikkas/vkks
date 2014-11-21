@@ -6,12 +6,10 @@ Ext.define('Earh.view.search.Case', {
 	alias: 'widget.scases',
 	requires: [
 		'Earh.cmp.TreeComboBox',
-//		'Earh.store.Case',
-//		'Earh.store.CaseType',
-//		'Earh.store.StoreLife',
+		'Earh.store.CaseResult',
+		'Earh.store.CaseType',
+		'Earh.store.StoreLife',
 		'Earh.store.TopoRef',
-		'Ext.form.field.Number',
-//		'Earh.store.Department',
 		'Ext.ux.TreePicker'
 	],
 	tbb: [1, // Главная
@@ -27,7 +25,7 @@ Ext.define('Earh.view.search.Case', {
 		1, // разделитель
 		1], // Выход
 	initComponent: function () {
-		var resultStoreId = 'caseStore';
+		var resultStoreId = 'casesStore';
 		this.callParent([{
 				xtype: 'form',
 				title: Trans.caseSearch,
@@ -43,7 +41,7 @@ Ext.define('Earh.view.search.Case', {
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.caseType,
-//						store: 'caseTypeStore',
+						store: 'caseTypeStore',
 						name: 'type',
 						displayField: 'value',
 						valueField: 'id'
@@ -51,7 +49,7 @@ Ext.define('Earh.view.search.Case', {
 						xtype: 'combobox',
 						fieldLabel: Trans.storeLife,
 						name: 'storeLife',
-//						store: 'storeLifeStore',
+						store: 'storeLifeStore',
 						displayField: 'value',
 						valueField: 'id'
 					}, {
@@ -80,7 +78,7 @@ Ext.define('Earh.view.search.Case', {
 			}, {
 				xtype: 'gridpanel',
 				title: Trans.searchResult,
-//				store: resultStoreId,
+				store: resultStoreId,
 				width: '100%',
 				columns: {
 					defaults: {
@@ -114,8 +112,31 @@ Ext.define('Earh.view.search.Case', {
 				dockedItems: [{
 						xtype: 'pagingtoolbar',
 						dock: 'top',
-//						store: resultStoreId
+						store: resultStoreId
 					}]
+			}]);
+	},
+	/**
+	 * Поиск дел
+	 */
+	search: function () {
+		var panels = this.items;
+//		panels.getAt(1).getStore().loadPage(1, {
+////			params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
+//			params: {q: Ext.encode(panels.getAt(0).getValues())}
+//		});
+		panels.getAt(1).getStore().loadData([{
+				id: 1, number: '102', type: 'Правое',
+				storeLife: 'Вечного хранения',
+				title: 'О пропавшей раковине',
+				dates: '11.01.2001-12.04.2014', toporef: 'ком. 1, ст. 1, п. 3',
+				remark: 'Надо подумать'
+			}, {
+				id: 2, number: '194', type: 'Левое',
+				storeLife: 'Вечного хранения',
+				title: 'О найденой руковичке',
+				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
+				remark: 'Все сделано за нас'
 			}]);
 	}
 });

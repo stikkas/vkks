@@ -3,8 +3,8 @@
  */
 Ext.define('Earh.model.CaseResult', {
 	extend: 'Ext.data.Model',
-	fields: ['id', 'caseNum', 'caseType', 'storeLife', 'caseTitle',
-		'startDate', 'endDate', 'topoRef', 'volumeNum']
+	fields: ['id', 'number', 'type', 'storeLife', 'title',
+		'dates', 'toporef', 'remark']
 });
 
 

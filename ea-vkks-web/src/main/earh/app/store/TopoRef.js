@@ -49,7 +49,7 @@ Ext.define('Earh.store.TopoRef', {
 		 url: Urls.dict,
 		 reader: 'json',
 		 writer: 'json',
-		 extraParams: {dict: Dicts.toporef}
+		 extraParams: {dict: 'toporef'}
 		 }));
 		 */
 		this.callParent();

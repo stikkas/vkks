@@ -5,14 +5,15 @@
 Ext.define('Earh.store.SearchResult', {
 	extend: 'Ext.data.Store',
 	requires: ['Ext.data.proxy.Ajax'],
-	constructor: function (model, what) {
+	proxy: {
+		type: 'memory'
+	},
+	constructor: function (url) {
 		this.callParent();
-		this.setModel(model);
-		this.setProxy(Ext.create('Ext.data.proxy.Ajax', {
-			url: Urls.search,
-			reader: 'json',
-			writer: 'json',
-			extraParams: {what: what}
-		}));
+//		this.setProxy(Ext.create('Ext.data.proxy.Ajax', {
+//			url: url,
+//			reader: 'json',
+//			writer: 'json'
+//		}));
 	}
 });

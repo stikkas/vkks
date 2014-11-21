@@ -1,7 +1,7 @@
 /*
  * Карточка дела
  */
-Ext.define('Earh.view.case.Case', {
+Ext.define('Earh.view.work.Case', {
 	extend: 'Ext.container.Container',
 	alias: 'widget.acase',
 	requires: [
@@ -18,7 +18,7 @@ Ext.define('Earh.view.case.Case', {
 		'Ext.button.Button',
 		'Ext.ux.TreePicker',
 //		'Earh.store.CaseResult',
-//		'Earh.store.DocResult'
+		'Earh.store.DocResult'
 	],
 	layout: 'vbox',
 	defaults: {
@@ -29,13 +29,11 @@ Ext.define('Earh.view.case.Case', {
 	initComponent: function () {
 		var caseView = this,
 				editRole = Earh.editRole
-//				caseResult = Ext.create('Earh.store.CaseResult', {
-//					pageSize: 1
-//				}),
 //				docsResult = Ext.create('Earh.store.DocResult', {
 //					pageSize: 10
 //				});
 				;
+		console.log(caseView.up('viewport'));
 		caseView.items = [{
 				xtype: 'form',
 				title: Trans.acase,

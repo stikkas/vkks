@@ -4,7 +4,7 @@ Ext.define('Earh.view.main.MainController', {
 	requires: [
 		'Earh.view.search.Case',
 		'Earh.view.search.Doc',
-		'Earh.view.case.Case',
+		'Earh.view.work.Case',
 		'Earh.view.doc.Doc',
 		'Earh.view.graph.GraphView'
 	],
@@ -95,20 +95,12 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	toCaseAdd: function () {
 //		this.redirectTo(Pages.caseadd);
-		this.view.setActiveItem(Pages.caseadd);
-	},
-	/**
-	 * Перенаправление к странице добавления документа
-	 */
-	toDocAdd: function () {
-//		this.redirectTo(Pages.docadd);
-		this.view.setActiveItem(Pages.docadd);
+		this.view.setActiveItem(Pages.acase);
 	},
 	/**
 	 * Перенаправление к странице поиска документов
 	 */
 	toDocsSearch: function () {
-//		this.redirectTo(Pages.sdocs);
 		this.view.setActiveItem(Pages.sdocs);
 	},
 	/**
@@ -125,5 +117,12 @@ Ext.define('Earh.view.main.MainController', {
 	exit: function (btn) {
 		if (btn === "yes")
 			window.location.href = Urls.logout;
+	},
+	/**
+	 * Функция поиска дел, документов
+	 * @returns {undefined}
+	 */
+	search: function () {
+		this.view.getActiveItem().search();
 	}
 });

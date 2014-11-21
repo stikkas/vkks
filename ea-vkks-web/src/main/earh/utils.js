@@ -6,13 +6,14 @@ Trans = {
 	docs: "Документы",
 	cases: "Дела",
 	caseDocs: "Документы дела",
+	caseDocs_: "Документы<br>дела",
 	caseDocsSearch: "Поиск документов дела",
 	admin: "Администратор",
 	main: "Главная",
 	search: "Поиск",
 	caseSearch: "Поиск дел",
 	caseAdd: "Добавление дела",
-	docAdd: "Добавление<br>документа",
+	docSearch_: "Поиск<br>документов",
 	docSearch: "Поиск документов",
 	searchResult: "Результаты поиска",
 	clear: "Очистить",
@@ -20,13 +21,13 @@ Trans = {
 	edit: "Редактировать",
 	save: "Сохранить",
 	remove: "Удалить",
-	graphs: "Графические<br>образы",
-	graphS: "Графические образы",
-	caseDocs1: "Документы<br>дела",
+	graph: "Граф.<br>образ",
 	exit: "Выход",
+	show: "Показать",
 	acase: "Дело",
 	caseNum: "№ дела",
 	caseType: "Тип дела",
+	docType: "Вид документа",
 	departmnt: "Структурное подразделение",
 	startDate: "Начальная дата",
 	endDate: "Конечная дата",
@@ -41,7 +42,9 @@ Trans = {
 	backToSearch: "Вернуться к<br>результатам<br>поиска",
 	doc: "Документ",
 	docNum: "№ документа",
+	docNum_: "№<br>документа",
 	docDate: "Дата документа",
+	docDate_: "Дата<br>документа",
 	docTitle: "Заголовок документа",
 	caseTitle: "Название дела",
 	startPageNum: "№ начального листа",
@@ -62,7 +65,10 @@ Trans = {
 	firstDoc: "Первый документ",
 	lastDoc: "Последний документ",
 	prevDoc: "Предыдущий документ",
-	nextDoc: "Следующий документ"
+	nextDoc: "Следующий документ",
+	fio: "ФИО",
+	ctxSearch: "Контекстный поиск",
+	pages: "Листы"
 };
 
 Pages = {
@@ -71,18 +77,22 @@ Pages = {
 	doc: 'adoc',
 	scases: 'scases',
 	docadd: 'docadd',
-	caseadd: 'caseadd',
 	sdocs: 'sdocs',
 	vgraph: 'graphview'
 };
+
 RootContext = '/ea-vkks-web/';
 Urls = {
 	root: RootContext,
 	login: RootContext + 'login.html',
 	logout: RootContext + 'srvcs/logout',
 	dict: RootContext + 'srvcs/dict',
-	search: RootContext + 'srvcs/search',
-	user: RootContext + 'srvcs/user'
+	cases: RootContext + 'srvcs/search/cases',
+	docs: RootContext + 'srvcs/search/docs',
+	casedocs: RootContext + 'srvcs/search/casedocs',
+	user: RootContext + 'srvcs/user',
+	fios: RootContext + 'srvcs/users',
+	courts: RootContext + 'srvcs/courts'
 };
 /**
  * параметры для получения справочников с сервера
