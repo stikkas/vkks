@@ -17,8 +17,11 @@ Ext.define('Earh.view.work.Case', {
 		'Ext.form.trigger.Trigger',
 		'Ext.button.Button',
 		'Ext.ux.TreePicker',
-//		'Earh.store.CaseResult',
-		'Earh.store.DocResult'
+		'Earh.store.TopoRef',
+		'Earh.store.CaseType',
+		'Earh.store.StoreLife',
+		'Earh.store.CaseDocResult',
+		'Earh.model.Case'
 	],
 	layout: 'vbox',
 	defaults: {
@@ -26,77 +29,92 @@ Ext.define('Earh.view.work.Case', {
 		layout: 'vbox',
 		width: '100%'
 	},
+	// Кнопки меню
+	buttons: [
+		// Роль только чтение
+		[1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1],
+		// Роль редактирование в режиме просмотра (возможно только из поиска)
+		[1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1],
+		// Роль редактирование в режиме редактирования
+		[1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1],
+		// Роль редактирование в режиме создания
+		[1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1]],
+	listeners: {
+		activate: 'setCaseMenu'
+	},
 	initComponent: function () {
 		var caseView = this,
-				editRole = Earh.editRole
-//				docsResult = Ext.create('Earh.store.DocResult', {
-//					pageSize: 10
-//				});
-				;
-		console.log(caseView.up('viewport'));
+				editRole = Earh.editRole;
 		caseView.items = [{
 				xtype: 'form',
 				title: Trans.acase,
 				defaults: {
-					labelAlign: 'right',
 					labelWidth: 200,
-					viewMode: !editRole
+					readOnly: !editRole
 				},
 				items: [{
 						xtype: 'textfield',
 						fieldLabel: Trans.caseNum,
-						name: 'casenum'
+						name: 'number',
+						allowBlank: false
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.caseType,
-						name: 'casetype'
+						store: 'caseTypeStore',
+						displayField: 'value',
+						valueField: 'id',
+						name: 'type',
+						allowBlank: false
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.storeLife,
-						name: 'storelife'
+						name: 'storeLife',
+						store: 'storeLifeStore',
+						displayField: 'value',
+						valueField: 'id',
+						allowBlank: false
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.caseTitle,
-						name: 'casetitle'
+						name: 'title',
+						allowBlank: false
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.startDate,
-						name: 'startdate'
+						name: 'startDate',
+						readOnly: true
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.endDate,
-						name: 'enddate'
+						name: 'endDate',
+						readOnly: true
 					}, {
 						xtype: 'treepicker',
 						fieldLabel: Trans.topoRef,
-						name: 'toporef'
+						name: 'toporef',
+						store: Earh.store.TopoRef,
+						displayField: 'address'
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.caseRemark,
-						name: 'caseremark'
-					}],
-				dockedItems: [{
-						xtype: 'pagingtoolbar',
-						dock: 'top',
-						displayInfo: false,
-						beforePageText: Trans.card,
-//						store: caseResult
+						name: 'remark'
 					}]
 			}, {
 				title: Trans.caseDocs,
 				items: [{
 						xtype: 'textfield',
 						fieldLabel: Trans.caseDocsSearch,
-						name: 'casedocssearch',
+						labelWidth: 200,
+						name: 'context',
 						triggers: {
 							search: {
-//								cls: 'any-class',
+								cls: 'search',
 								handler: 'searchDocs'
 							}
 						}
 					}, {
 						xtype: 'gridpanel',
-						store: docsResult,
+						store: 'caseDocsStore',
 						width: '100%',
 						columns: {
 							defaults: {
@@ -106,15 +124,30 @@ Ext.define('Earh.view.work.Case', {
 									text: Trans.volume,
 									dataIndex: 'volume'
 								}, {
-									text: Trans.acase,
-									dataIndex: 'acase'
-								}, {
-									text: Trans.docNum,
-									dataIndex: 'docnumber'
+									text: Trans.docNum_,
+									dataIndex: 'number'
 								}, {
 									text: Trans.docType,
-									dataIndex: 'doctype'
-								}]
+									dataIndex: 'type'
+								}, {
+									text: Trans.docTitle,
+									dataIndex: 'title'
+								}, {
+									text: Trans.pages,
+									dataIndex: 'pages'
+								}, {
+									text: Trans.docDate_,
+									dataIndex: 'date'
+								}, {
+									text: Trans.remark,
+									dataIndex: 'remark'
+								}, {
+									text: Trans.court,
+									dataIndex: 'court'
+								}, {
+									text: Trans.fio,
+									dataIndex: 'fio'
+								}, graphLinkColumn]
 						},
 						dockedItems: [{
 								xtype: 'container',
@@ -126,7 +159,7 @@ Ext.define('Earh.view.work.Case', {
 										hidden: !editRole
 									}, {
 										xtype: 'pagingtoolbar',
-										store: docsResult,
+										store: 'caseDocsStore',
 										displayInfo: false
 									}]
 
@@ -134,14 +167,12 @@ Ext.define('Earh.view.work.Case', {
 					}]
 			}];
 		caseView.callParent();
-
-		if (editRole)
-			caseView.tbb = [1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1];
-		else {
-			caseView.applyAll('setRequired');
-			caseView.tbb = [1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1];
-		}
+	},
+	save: function () {
+		showInfo("Сохранение дела", "Операция успешно выполнена");
+	},
+	remove: function () {
+		showInfo("Удаление дела", "Операция успешно выполнена");
 	}
 });
-
 

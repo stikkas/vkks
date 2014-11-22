@@ -126,26 +126,7 @@ Ext.define('Earh.view.search.Doc', {
 						}, {
 							text: Trans.fio,
 							dataIndex: 'fio'
-						}, {
-							text: Trans.graph,
-							xtype: 'actioncolumn',
-							dataIndex: 'graph',
-							items: [{
-									icon: 'resources/images/graph.png',
-									tooltip: Trans.show,
-									handler: function (grid, rowIndex) {
-										var url = grid.getStore().getAt(rowIndex).get('graph');
-										window.open(url);
-									},
-									getClass: function (v, meta) {
-										if (!v)
-											meta.style = "display: none;";
-										else
-											meta.style = "cursor: pointer;"
-										return '';
-									}
-								}]
-						}]
+						}, graphLinkColumn]
 				},
 				dockedItems: [{
 						xtype: 'pagingtoolbar',

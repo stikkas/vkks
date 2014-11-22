@@ -9,11 +9,13 @@ Ext.define('Other.container.Container', {
 	 * @param {Array} opts аргументы для метода
 	 */
 	applyAll: function (method, opts) {
-		try {
-			this[method].apply(this, opts);
-		} catch (e) {
+		this.items.each(function (it) {
+			try {
+				it[method].apply(it, opts);
+			} catch (e) {
 
-		}
+			}
+		});
 	}
 });
 

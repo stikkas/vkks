@@ -92,7 +92,8 @@ Urls = {
 	casedocs: RootContext + 'srvcs/search/casedocs',
 	user: RootContext + 'srvcs/user',
 	fios: RootContext + 'srvcs/users',
-	courts: RootContext + 'srvcs/courts'
+	courts: RootContext + 'srvcs/courts',
+	ccase: RootContext + 'srvcs/create/case'
 };
 /**
  * параметры для получения справочников с сервера
@@ -140,7 +141,7 @@ showError = function (title, message) {
  * @param {String} message сообщение об ошибке
  * @param {Function} fn обработчик ответа от пользователя
  * @param {Object} scope контекст вызова обработчика
- * @method showError
+ * @method showAlert
  */
 showAlert = function (title, message, fn, scope) {
 	Ext.Msg.show({
@@ -152,4 +153,57 @@ showAlert = function (title, message, fn, scope) {
 		scope: scope,
 		maxWidth: 800
 	});
+};
+/**
+ * Показывает сообщение об успешной операции
+ * @param {String} title заголовок окна
+ * @param {String} message сообщение
+ * @method showInfo
+ */
+showInfo = function (title, message) {
+	Ext.Msg.show({
+		title: title,
+		msg: message,
+		buttons: Ext.Msg.OK,
+		icon: Ext.Msg.INFO,
+		maxWidth: 800
+	});
+};
+/**
+ * Колонка для ссылки на графический образ
+ */
+graphLinkColumn = {
+	text: Trans.graph,
+	xtype: 'actioncolumn',
+	dataIndex: 'graph',
+	items: [{
+			icon: 'resources/images/graph.png',
+			tooltip: Trans.show,
+			handler: function (grid, rowIndex) {
+				var url = grid.getStore().getAt(rowIndex).get('graph');
+				window.open(url);
+			},
+			getClass: function (v, meta) {
+				if (!v)
+					meta.style = "display: none;";
+				else
+					meta.style = "cursor: pointer;";
+				return '';
+			}
+		}]
+};
+/**
+ * Обработчик изменения значения требуемого поля
+ * @param {form.field.Base} field поле, чье значение изменилось
+ */
+requiredFieldChanged = function (field) {
+	var form = field.up('form');
+	if (form) {
+		var valid = true;
+		form.items.each(function (it) {
+			if (!(it.allowBlank || it.isValid()))
+				return valid = false;
+		});
+		form.fireEvent('validChanged', valid);
+	}
 };

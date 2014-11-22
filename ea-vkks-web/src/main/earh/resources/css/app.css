@@ -5,3 +5,6 @@
 	width: 129px;
 	height: 145px;
 }
+.search {
+	background-image: url('../images/search-trigger.png') !important;
+}

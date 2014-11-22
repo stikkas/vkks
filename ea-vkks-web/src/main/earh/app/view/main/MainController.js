@@ -8,61 +8,26 @@ Ext.define('Earh.view.main.MainController', {
 		'Earh.view.doc.Doc',
 		'Earh.view.graph.GraphView'
 	],
-//	routes: {
-//		login: 'onLogin',
-//		home: 'onHome',
-//		scases: 'onCasesSearch',
-//		caseadd: 'onCaseAdd',
-//		docadd: 'onDocAdd',
-//		sdocs: 'onDocsSearch'
-//	},
 	init: function () {
-		var listenersFormPages = {};
-		for (var o in Pages) {
-//	 if (o === 'home')
-//	 listenersFormPages[Pages[o]] = {activate: 'hideTB'};
-//	 else
+		var controller = this,
+				subscribers = controller.subscribers = [],
+				listenersFormPages = {};
+		// Подпсчики на событие 'validChanged'
+		subscribers.push({
+			button: controller.view.items.getAt(0)._tb.items.getAt(5), // Кнопка сохранить
+			validChanged: function (valid) {
+				this.button.setDisabled(!valid);
+			}
+		});
+
+		for (var o in Pages)
 			listenersFormPages[Pages[o]] = {activate: 'showTB'};
-		}
-		this.listen({component: listenersFormPages});
-		this.callParent();
+
+		listenersFormPages.form = {validChanged: 'validChanged'};
+
+		controller.listen({component: listenersFormPages});
+		controller.callParent();
 	},
-//	onHome: function () {
-//		this.view.setActiveItem(Pages.home);
-//	},
-//	onCase: function () {
-//		this.view.setActiveItem(Pages.acase);
-//	},
-//	onDoc: function () {
-//		this.view.setActiveItem(Pages.doc);
-//	},
-//	onLogin: function () {
-//		window.location.href = Urls.login;
-//	},
-//	/**
-//	 * Обработчик роутера на страницу поиска дел
-//	 */
-//	onCasesSearch: function () {
-//		this.view.setActiveItem(Pages.scases);
-//	},
-//	/**
-//	 * Обработчик роутера на страницу добавления дела
-//	 */
-//	onCaseAdd: function () {
-//		this.view.setActiveItem(Pages.caseadd);
-//	},
-//	/**
-//	 * Обработчик роутера на страницу добавления дела
-//	 */
-//	onDocAdd: function () {
-//		this.view.setActiveItem(Pages.docadd);
-//	},
-//	/**
-//	 *
-//	 */
-//	onDocsSearch: function () {
-//		this.view.setActiveItem(Pages.sdocs);
-//	},
 	/**
 	 * Отображает панель инструментов для текущей страницы
 	 * @param {Object} page страница (центральный виджет)
@@ -87,14 +52,12 @@ Ext.define('Earh.view.main.MainController', {
 	 * Перенаправление  к странице поиска дел
 	 */
 	toCasesSearch: function () {
-//		this.redirectTo(Pages.scases);
 		this.view.setActiveItem(Pages.scases);
 	},
 	/**
 	 * Перенаправление к странице добавления дела
 	 */
 	toCaseAdd: function () {
-//		this.redirectTo(Pages.caseadd);
 		this.view.setActiveItem(Pages.acase);
 	},
 	/**
@@ -120,9 +83,56 @@ Ext.define('Earh.view.main.MainController', {
 	},
 	/**
 	 * Функция поиска дел, документов
-	 * @returns {undefined}
 	 */
 	search: function () {
 		this.view.getActiveItem().search();
+	},
+	/**
+	 * Функция сохранения дела, документа
+	 */
+	save: function () {
+		this.view.getActiveItem().save();
+	},
+	/**
+	 * Функция удаления дела, документа
+	 */
+	remove: function () {
+		this.view.getActiveItem().remove();
+	},
+	/**
+	 * Устанавливает меню для ЭФ "Дело"
+	 * @param page {Object} ЭФ "Дело"
+	 * @param prev {Object} предыдущая ЭФ
+	 */
+	setCaseMenu: function (page, prev) {
+		var idx = 0;
+		if (Earh.editRole) {
+			switch (prev.$className) {
+				case 'Earh.view.home.Home':
+					idx = 3;
+					var form = page.items.getAt(0);
+					form.applyAll('setRequired');
+					form.fireEvent('validChanged', false);
+					break;
+				case 'Earh.view.search.Case':
+					idx = 1;
+			}
+		}
+		page.tbb = page.buttons[idx];
+	},
+	/**
+	 * Вызывается когда форма запускает событие 'validChanged'
+	 * @param {Boolean} valid валидна или нет форма
+	 */
+	validChanged: function (valid) {
+		this.subscribers.forEach(function (s) {
+			s.validChanged(valid);
+		});
+	},
+	/**
+	 * Контекстный поиск документов относительно дела
+	 */
+	searchDocs: function () {
+		showInfo("Тестовый режим", "Эта функциональность в разработке");
 	}
 });
