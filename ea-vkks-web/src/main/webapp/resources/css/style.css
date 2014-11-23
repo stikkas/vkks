@@ -1,0 +1,18 @@
+body{
+    background:url('../images/project_images/bg_vkks.jpg');
+}
+.header_cls{
+    text-align:center;
+}
+h1{
+    color:#4E7AAF;
+    font-family:'DEAD_SECRETARY_Cyr';
+    font-size:34px;
+    font-stretch:expanded;
+}
+.gerb{
+    background-image:url('../images/project_images/gerb.png');
+    background-size:100% auto;
+    width:129px;
+    height:145px
+}
