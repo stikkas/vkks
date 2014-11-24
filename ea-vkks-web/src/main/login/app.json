@@ -14,7 +14,7 @@
 	"url": null,
 	"js": [
 		{
-			"path": "${ext.dir}/build/ext-all-rtl-debug.js"
+			"path": "${ext.dir}/build/ext-all-rtl.js"
 		},
 		{
 			"path": "utils.js",

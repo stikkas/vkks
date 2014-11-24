@@ -122,12 +122,10 @@ Ext.define('Earh.view.work.Doc', {
 								xtype: 'label',
 								text: Trans.addGraph
 							}]
-					},
-					{
+					}, {
 						xtype: 'component',
 						width: 300,
-						height: 400,
-						html: '<iframe src="/file.pdf" width="100%" height="100%"></iframe>'
+						height: 400
 					}]
 			}];
 		docView.callParent();
@@ -137,6 +135,19 @@ Ext.define('Earh.view.work.Doc', {
 	},
 	remove: function () {
 		showInfo("Удаление документа", "Операция успешно выполнена");
+	},
+	/**
+	 * Переключает режим либо отображения граф. образа, либо кнопки добавления гр. образа
+	 */
+	setGraph: function () {
+		var url,
+				items = this.items.getAt(1).items;
+		if (url = (this.model && this.model.get('graph'))) {
+			items.first().hide();
+			var viewer = items.last();
+			viewer.setHtml('<iframe src="' + '/file.pdf" width="100%" height="100%"></iframe>');
+			items.last().show();
+		}
 	}
 });
 
