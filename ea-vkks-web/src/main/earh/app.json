@@ -20,7 +20,15 @@
 		{
 			"path": "utils.js",
 			"includeInBundle": true
-		},
+		}, 
+        {
+            "path": "pdf.js/compatibility.js",
+			"includeInBundle": true
+        },
+        {
+            "path": "pdf.js/pdf.js",
+			"includeInBundle": true
+        },
 		{
 			"path": "app.js",
 			"bundle": true
@@ -38,6 +46,10 @@
         },
         {
             "path": "resources/css/app_clear.css",
+			"bootstrap": false
+        },
+        {
+            "path": "resources/css/TextLayerBuilder.css",
 			"bootstrap": false
         },
 		{

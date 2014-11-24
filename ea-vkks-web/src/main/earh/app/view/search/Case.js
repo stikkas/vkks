@@ -5,7 +5,6 @@ Ext.define('Earh.view.search.Case', {
 	extend: 'Earh.view.search.Base',
 	alias: 'widget.scases',
 	requires: [
-		'Earh.cmp.TreeComboBox',
 		'Earh.store.CaseResult',
 		'Earh.store.CaseType',
 		'Earh.store.StoreLife',

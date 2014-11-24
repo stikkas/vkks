@@ -2,7 +2,7 @@
 
 // Т.к. у нас один язык, то используем упрощенную схему
 Trans = {
-	vkks: "ВЫСШАЯ КВАЛИФИКАЦИОННАЯ КОЛЛЕГИЯ СУДЕЙ РОССИЙСКОЙ ФЕДЕРАЦИИ",
+	vkks: "высшая квалификационная коллегия судей российской федерации",
 	docs: "Документы",
 	cases: "Дела",
 	caseDocs: "Документы дела",
@@ -21,7 +21,9 @@ Trans = {
 	edit: "Редактировать",
 	save: "Сохранить",
 	remove: "Удалить",
-	graph: "Граф.<br>образ",
+	graph_: "Граф.<br>образ",
+	graph: "Графический образ",
+	addGraph: "Добавить графический образ",
 	exit: "Выход",
 	show: "Показать",
 	acase: "Дело",
@@ -74,7 +76,7 @@ Trans = {
 Pages = {
 	home: 'home',
 	acase: 'acase',
-	doc: 'adoc',
+	adoc: 'adoc',
 	scases: 'scases',
 	docadd: 'docadd',
 	sdocs: 'sdocs',
@@ -173,7 +175,7 @@ showInfo = function (title, message) {
  * Колонка для ссылки на графический образ
  */
 graphLinkColumn = {
-	text: Trans.graph,
+	text: Trans.graph_,
 	xtype: 'actioncolumn',
 	dataIndex: 'graph',
 	items: [{

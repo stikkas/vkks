@@ -5,8 +5,7 @@ Ext.define('Earh.view.main.MainController', {
 		'Earh.view.search.Case',
 		'Earh.view.search.Doc',
 		'Earh.view.work.Case',
-		'Earh.view.doc.Doc',
-		'Earh.view.graph.GraphView'
+		'Earh.view.work.Doc'
 	],
 	init: function () {
 		var controller = this,
@@ -100,7 +99,7 @@ Ext.define('Earh.view.main.MainController', {
 		this.view.getActiveItem().remove();
 	},
 	/**
-	 * Устанавливает меню для ЭФ "Дело"
+	 * Устанавливает меню для ЭФ "Дело" и инициализирует ЭФ "Дело"
 	 * @param page {Object} ЭФ "Дело"
 	 * @param prev {Object} предыдущая ЭФ
 	 */
@@ -118,7 +117,22 @@ Ext.define('Earh.view.main.MainController', {
 					idx = 1;
 			}
 		}
-		page.tbb = page.buttons[idx];
+		page.tbb = page.hbtns[idx];
+	},
+	/**
+	 * Устанавливает меню для ЭФ "Документ" и иницализирует ЭФ "Документ"
+	 * @param {Object} page ЭФ "Документ"
+	 * @param {Object} prev предыдущая ЭФ
+	 */
+	setDocMenu: function (page, prev) {
+		var idx = 1;
+		if (prev.$className === 'Earh.view.work.Case') {
+			var form = page.items.getAt(0);
+			form.applyAll('setRequired');
+			form.fireEvent('validChanged', false);
+		}
+		idx = 0;
+		page.tbb = page.hbtns[idx];
 	},
 	/**
 	 * Вызывается когда форма запускает событие 'validChanged'
@@ -134,5 +148,11 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	searchDocs: function () {
 		showInfo("Тестовый режим", "Эта функциональность в разработке");
+	},
+	/**
+	 * Добавляет документ к делу (Создает новый документ)
+	 */
+	addDoc: function () {
+		this.view.setActiveItem(Pages.adoc);
 	}
 });

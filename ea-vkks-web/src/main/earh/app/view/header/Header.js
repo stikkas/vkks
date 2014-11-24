@@ -29,7 +29,7 @@ Ext.define('Earh.view.header.Header', {
 						html: '<h1>' + Trans.vkks + '</h1>'
 					},
 					headerView._tb = Ext.create('Ext.toolbar.Toolbar', {
-						minWidth: 1100,
+						minWidth: 1050,
 						defaults: {
 							xtype: 'button'
 						},

@@ -30,7 +30,7 @@ Ext.define('Earh.view.work.Case', {
 		width: '100%'
 	},
 	// Кнопки меню
-	buttons: [
+	hbtns: [
 		// Роль только чтение
 		[1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1],
 		// Роль редактирование в режиме просмотра (возможно только из поиска)
@@ -156,7 +156,8 @@ Ext.define('Earh.view.work.Case', {
 								items: [{
 										xtype: 'button',
 										text: Trans.add,
-										hidden: !editRole
+										hidden: !editRole,
+										handler: 'addDoc'
 									}, {
 										xtype: 'pagingtoolbar',
 										store: 'caseDocsStore',
