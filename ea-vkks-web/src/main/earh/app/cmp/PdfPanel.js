@@ -42,43 +42,43 @@ Ext.define('Earh.cmp.PdfPanel', {
 	 * @cfg{String} loadingMessage
 	 * The text displayed when loading the PDF.
 	 */
-	loadingMessage: 'Loading PDF, please wait...',
+	loadingMessage: 'Файл загружается...',
 	/**
 	 * @cfg{String} beforePageText
 	 * The text displayed before the input item.
 	 */
-	beforePageText: 'Page',
+	beforePageText: 'Страница',
 	/**
 	 * @cfg{String} afterPageText
 	 * Customizable piece of the default paging text. Note that this string is formatted using
 	 *{0} as a token that is replaced by the number of total pages. This token should be preserved when overriding this
 	 * string if showing the total page count is desired.
 	 */
-	afterPageText: 'of {0}',
+	afterPageText: 'из {0}',
 	/**
 	 * @cfg{String} firstText
 	 * The quicktip text displayed for the first page button.
 	 * **Note**: quick tips must be initialized for the quicktip to show.
 	 */
-	firstText: 'First Page',
+	firstText: 'Первая страница',
 	/**
 	 * @cfg{String} prevText
 	 * The quicktip text displayed for the previous page button.
 	 * **Note**: quick tips must be initialized for the quicktip to show.
 	 */
-	prevText: 'Previous Page',
+	prevText: 'Предыдущая страница',
 	/**
 	 * @cfg{String} nextText
 	 * The quicktip text displayed for the next page button.
 	 * **Note**: quick tips must be initialized for the quicktip to show.
 	 */
-	nextText: 'Next Page',
+	nextText: 'Следующая страница',
 	/**
 	 * @cfg{String} lastText
 	 * The quicktip text displayed for the last page button.
 	 * **Note**: quick tips must be initialized for the quicktip to show.
 	 */
-	lastText: 'Last Page',
+	lastText: 'Последняя страница',
 	/**
 	 * @cfg{Number} inputItemWidth
 	 * The width in pixels of the input field used to display and change the current page number.
@@ -179,10 +179,10 @@ Ext.define('Earh.cmp.PdfPanel', {
 					data: [
 						[0.5, '50%'],
 						[0.75, '75%'],
-						[1, '100%'],
-						[1.25, '125%'],
-						[1.5, '150%'],
-						[2, '200%']
+						[1, '100%']/*,
+						 [1.25, '125%'],
+						 [1.5, '150%'],
+						 [2, '200%']*/
 					]
 				}),
 				valueField: 'scale',
@@ -212,7 +212,7 @@ Ext.define('Earh.cmp.PdfPanel', {
 		userDockedItems.push({
 			itemId: 'pagingToolbar',
 			xtype: 'toolbar',
-			dock: 'bottom',
+			dock: 'top',
 			items: pagingItems
 		});
 		me.dockedItems = userDockedItems;

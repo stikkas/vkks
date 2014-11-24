@@ -50,7 +50,7 @@ PDFJS.build = '35f5a1e';
 
   var globalScope = (typeof window === 'undefined') ? this : window;
 
-  var isWorker = (typeof window == 'undefined');
+  var isWorker = (typeof window === 'undefined');
 
   var FONT_IDENTITY_MATRIX = [0.001, 0, 0, 0.001, 0, 0];
 

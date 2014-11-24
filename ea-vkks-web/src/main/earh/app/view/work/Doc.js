@@ -15,7 +15,7 @@ Ext.define('Earh.view.work.Doc', {
 		'Ext.form.field.Date',
 		'Ext.form.field.TextArea',
 		'Ext.form.field.File',
-		'Earh.cmp.PdfPanel',
+//		'Earh.cmp.PdfPanel',
 		'Earh.store.FioResult',
 		'Earh.store.CourtResult',
 		'Earh.store.DocType'
@@ -121,11 +121,13 @@ Ext.define('Earh.view.work.Doc', {
 							}, {
 								xtype: 'label',
 								text: Trans.addGraph
-							}] /*,{
-							 xtype: 'pdfpanel',
-							 pageScale: 0.75,
-							 src: "http://localhost:8080/ea-vkks-web/file.pdf"
-							 }*/
+							}]
+					},
+					{
+						xtype: 'component',
+						width: 300,
+						height: 400,
+						html: '<iframe src="/file.pdf" width="100%" height="100%"></iframe>'
 					}]
 			}];
 		docView.callParent();
