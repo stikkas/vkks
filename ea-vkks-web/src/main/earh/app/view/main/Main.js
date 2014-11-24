@@ -7,7 +7,7 @@ Ext.define('Earh.view.main.Main', {
 		'Earh.view.main.MainController',
 		'Earh.view.header.Header',
 		'Earh.view.home.Home',
-		'Ext.layout.container.Border',
+		'Ext.layout.container.VBox',
 		'Ext.container.Container',
 		'Ext.layout.container.Card',
 		'Ext.form.Panel'
@@ -15,15 +15,16 @@ Ext.define('Earh.view.main.Main', {
 	alias: 'widget.eamain',
 	controller: 'main',
 	layout: {
-		type: 'border'
+		type: 'vbox'
 	},
 	items: [{
-			xtype: 'eaheader',
-			region: 'north'
+			xtype: 'eaheader'/*,
+			 region: 'north'*/
 		}, {
 			xtype: 'container',
-			layout: 'card',
-			region: 'center'
+			width: "100%",
+			layout: 'card'/*,
+			 region: 'center'*/
 		}],
 	initComponent: function () {
 		var mainView = this;
