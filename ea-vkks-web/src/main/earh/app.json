@@ -29,9 +29,17 @@
 	],
 	"css": [
 		{
-			"path": "resources/css/app.css",
+            "path": "resources/css/app_style.css",
 			"bootstrap": false
 		},
+        {
+            "path": "resources/css/app_fonts.css",
+			"bootstrap": false
+        },
+        {
+            "path": "resources/css/app_clear.css",
+			"bootstrap": false
+        },
 		{
 			"path": "bootstrap.css",
 			"bootstrap": true
@@ -50,7 +58,8 @@
 		"css": "bootstrap.css"
 	},
 	"resources": [
-		"resources/images"
+		"resources/images",
+		"resources/fonts"
 	],
 	"output": {
 		"base": "../webapp"

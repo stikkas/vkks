@@ -64,7 +64,7 @@ showAlert = function (title, message, fn, scope) {
 		title: title,
 		msg: message,
 		buttons: Ext.Msg.YESNO,
-		icon: Ext.Msg.INFO,
+		icon: Ext.Msg.QUESTION,
 		fn: fn,
 		scope: scope,
 		maxWidth: 800

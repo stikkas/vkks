@@ -27,10 +27,18 @@
 
 	],
 	"css": [
-		{
-			"path": "resources/css/login.css",
+        {
+            "path": "resources/css/login_style.css",
 			"bootstrap": false
-		},
+        },
+        {
+            "path": "resources/css/login_fonts.css",
+			"bootstrap": false
+        },
+        {
+            "path": "resources/css/login_clear.css",
+			"bootstrap": false
+        },
 		{
 			"path": "bootstrap.css",
 			"bootstrap": true
@@ -49,7 +57,8 @@
 		"css": "bootstrap.css"
 	},
 	"resources": [
-		"resources/images"
+		"resources/images",
+		"resources/fonts"
 	],
 	"output": {
 		"base": "../webapp",

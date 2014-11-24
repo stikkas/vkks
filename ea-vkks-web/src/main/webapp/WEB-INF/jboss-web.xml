@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-web>
-	<security-domain>vkks</security-domain>
-	<valve>
-		<class-name>org.apache.catalina.authenticator.SingleSignOn</class-name>
-	</valve>
-	<context-root>/ea-vkks-web</context-root>
+  <security-domain>vkks</security-domain>
+  <valve>
+    <class-name>org.apache.catalina.authenticator.SingleSignOn</class-name>
+  </valve>
+  <context-root>/ea-vkks-web</context-root>
 </jboss-web>
