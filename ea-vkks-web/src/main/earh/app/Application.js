@@ -8,6 +8,7 @@ Ext.define('Earh.Application', {
 		'Other.field.Date',
 		'Other.field.ComboBox',
 		'Other.container.Container',
+		'Other.ux.TreePicker',
 		'Ext.Msg'
 	],
 	name: 'Earh',

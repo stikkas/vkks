@@ -5,7 +5,9 @@ Ext.define('Earh.view.main.MainController', {
 		'Earh.view.search.Case',
 		'Earh.view.search.Doc',
 		'Earh.view.work.Case',
-		'Earh.view.work.Doc'
+		'Earh.view.work.Doc',
+		'Earh.model.Graph',
+		'Earh.model.Doc'
 	],
 	init: function () {
 		var controller = this,
@@ -130,9 +132,22 @@ Ext.define('Earh.view.main.MainController', {
 			var form = page.items.getAt(0);
 			form.applyAll('setRequired');
 			form.fireEvent('validChanged', false);
+			//--------------Для тестов только-------------------
+			var model = Ext.create('Earh.model.Doc');
+			model.setGraph(Ext.create('Earh.model.Graph', {id: 10, url: '/file.pdf'}))
+			page.model = model;
+			//---------------------------------------------------
+			page.setGraph();
 		}
 		idx = 0;
 		page.tbb = page.hbtns[idx];
+	},
+	/**
+	 * Удаляет графический образ документа
+	 */
+	removeGraph: function () {
+		this.view.getActiveItem().model.setGraph(null);
+		this.view.getActiveItem().setGraph();
 	},
 	/**
 	 * Вызывается когда форма запускает событие 'validChanged'
