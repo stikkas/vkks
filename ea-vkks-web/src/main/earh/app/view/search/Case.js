@@ -67,8 +67,7 @@ Ext.define('Earh.view.search.Case', {
 						xtype: 'treepicker',
 						fieldLabel: Trans.topoRef,
 						store: Earh.store.TopoRef,
-						name: 'toporef',
-						displayField: 'address'
+						name: 'toporef'
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.remark,

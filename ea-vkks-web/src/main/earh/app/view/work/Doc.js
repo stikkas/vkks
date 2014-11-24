@@ -15,7 +15,7 @@ Ext.define('Earh.view.work.Doc', {
 		'Ext.form.field.Date',
 		'Ext.form.field.TextArea',
 		'Ext.form.field.File',
-//		'Earh.cmp.PdfPanel',
+		'Ext.panel.Tool',
 		'Earh.store.FioResult',
 		'Earh.store.CourtResult',
 		'Earh.store.DocType'
@@ -109,6 +109,11 @@ Ext.define('Earh.view.work.Doc', {
 					}]
 			}, {
 				title: Trans.graph,
+				tools: [{
+						type: 'close',
+						tooltip: Trans.delGraph,
+						handler: 'removeGraph'
+					}],
 				items: [{
 						xtype: 'container',
 						layout: 'hbox',
@@ -124,8 +129,8 @@ Ext.define('Earh.view.work.Doc', {
 							}]
 					}, {
 						xtype: 'component',
-						width: 300,
-						height: 400
+						width: 400,
+						height: 500
 					}]
 			}];
 		docView.callParent();
@@ -139,14 +144,22 @@ Ext.define('Earh.view.work.Doc', {
 	/**
 	 * Переключает режим либо отображения граф. образа, либо кнопки добавления гр. образа
 	 */
-	setGraph: function () {
-		var url,
-				items = this.items.getAt(1).items;
-		if (url = (this.model && this.model.get('graph'))) {
-			items.first().hide();
-			var viewer = items.last();
-			viewer.setHtml('<iframe src="' + '/file.pdf" width="100%" height="100%"></iframe>');
-			items.last().show();
+	setGraph: function sg() {
+		var url, graph,
+				items = sg.items || (sg.items = this.items.getAt(1).items),
+				tool = sg.tool || (sg.tool = this.items.getAt(1).getHeader().items.getAt(1)),
+				addGraph = sg.agrh || (sg.argh = items.first()),
+				viewGraph = sg.vgrh || (sg.vgrh = items.last());
+
+		if (url = (this.model && (graph = this.model.getGraph()) && graph.get('url'))) {
+			addGraph.hide();
+			viewGraph.setHtml('<iframe src="' + url + '" width="100%" height="100%"></iframe>');
+			viewGraph.show();
+			tool.show();
+		} else {
+			addGraph.show();
+			viewGraph.hide();
+			tool.hide();
 		}
 	}
 });

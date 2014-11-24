@@ -8,7 +8,6 @@ Ext.define('Earh.store.TopoRef', {
 		'Ext.data.proxy.Ajax'
 	],
 	model: 'Earh.model.Tree',
-	rootVisible: false,
 	storeId: 'topoRefStore',
 	singleton: true,
 	defaultRootProperty: 'kids',
