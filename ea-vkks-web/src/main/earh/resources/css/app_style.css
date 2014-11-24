@@ -5,14 +5,41 @@
     background-position:center center;
     background-attachment:fixed;
 }
+/*сложная процедура выстраивания ширины (хедер)*/
+.x-body > .x-box-inner,
+.x-body .x-box-inner > .x-box-target{
+    width:100% !important;
+}
 .x-viewport > body.x-body{
     padding:10px 30px;
 }
+.header_cls{
+    width:100%;
+}
+.header_cls > .x-box-inner{
+    width:100% !important;
+}
+.title_head{
+    width: calc(100% - 150px);
+}
+.title_head .title_head{
+    border-bottom-image:url('../images/project_images/blue_underline.png');
+    -moz-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    -webkit-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    -ms-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    -o-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    border-bottom:2px solid;
+    
+}
+.title_head div{
+    width:100% !important;
+}
+/*----*/
 h1{
     color:#4E7AAF;
     font-family:'DEAD_SECRETARY_Cyr';
     font-size:34px;
-    font-stretch:expanded;
+    font-stretch:extra-expanded;
     text-align:center;
 }
 .gerb{
@@ -21,6 +48,16 @@ h1{
     width:129px;
     height:145px
 }
-.search{
-    background-image:url('../images/project_images/search-trigger.png') !important;
+/*стиль для страниц навигации*/
+.header_cls ~ .x-container{
+    width:640px;
+    margin:auto !important;
+    position:relative !important;
+}
+.main_page a .x-btn-inner-default-small{
+    font-family:'Philosopher Bold';
+    font-size:30px;
+    height:80px;
+    padding-top:25px;
+    padding-botom:25px;
 }

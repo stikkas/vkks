@@ -1,1 +1,66 @@
-@font-face{font-family:'DEAD_SECRETARY_Cyr';src:url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.eot');src:url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.eot?#iefix') format('embedded-opentype'),url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.woof2') format('woof2'),url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.woof') format('woof'),url('../fonts/DEAD_SECRETARY_Cyr/DEAD SECRETARY Cyr.ttf') format('truetype'),url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.svg') format('svg')}@font-face{font-family:'Philosopher';src:url('../fonts/Philosopher/eot/Philosopher-Regular.eot');src:url('../fonts/Philosopher/eot/Philosopher-Regular.eot?#iefix') format('embedded-opentype'),url('../fonts/Philosopher/woof2/Philosopher-Regular.woof2') format('woof2'),url('../fonts/Philosopher/woof/Philosopher-Regular.woof') format('woof'),url('../fonts/Philosopher/ttf/Philosopher-Regular.ttf') format('truetype'),url('../fonts/Philosopher/svg/Philosopher-Regular.svg') format('svg')}@font-face{font-family:'Philosopher Bold';src:url('../fonts/Philosopher/eot/Philosopher-Bold.eot');src:url('../fonts/Philosopher/eot/Philosopher-Bold.eot?#iefix') format('embedded-opentype'),url('../fonts/Philosopher/woof2/Philosopher-Bold.woof2') format('woof2'),url('../fonts/Philosopher/woof/Philosopher-Bold.woof') format('woof'),url('../fonts/Philosopher/ttf/Philosopher-Bold.ttf') format('truetype'),url('../fonts/Philosopher/svg/Philosopher-Bold.svg') format('svg')}@font-face{font-family:'Roboto';src:url('../fonts/Roboto/eot/roboto-regular-webfont.eot');src:url('../fonts/Roboto/eot/roboto-regular-webfont.eot?#iefix') format('embedded-opentype'),url('../fonts/Roboto/woof2/roboto-regular-webfont.woof2') format('woof2'),url('../fonts/Roboto/woof/roboto-regular-webfont.woof') format('woof'),url('../fonts/Roboto/ttf/Roboto-Regular.ttf') format('truetype'),url('../fonts/Roboto/svg/roboto-regular-webfont.svg') format('svg')}@font-face{font-family:'Roboto Bold';src:url('../fonts/Roboto/eot/roboto-bold-webfont.eot');src:url('../fonts/Roboto/eot/roboto-bold-webfont.eot?#iefix') format('embedded-opentype'),url('../fonts/Roboto/woof2/roboto-bold-webfont.woof2') format('woof2'),url('../fonts/Roboto/woof/roboto-bold-webfont.woof') format('woof'),url('../fonts/Roboto/ttf/roboto-bold-webfont.ttf') format('truetype'),url('../fonts/Roboto/svg/roboto-bold-webfont.svg') format('svg')}@font-face{font-family:'Souvenir';src:url('../fonts/Souvenir/eot/Souvenir Normal.eot');src:url('../fonts/Souvenir/eot/Souvenir Normal.eot?#iefix') format('embedded-opentype'),url('../fonts/Souvenir/woof2/Souvenir Normal.woof2') format('woof2'),url('../fonts/Souvenir/woof/Souvenir Normal.woof') format('woof'),url('../fonts/Souvenir/ttf/Souvenir Normal.ttf') format('truetype'),url('../fonts/Souvenir/svg/Souvenir Normal.svg') format('svg')}@font-face{font-family:'Souvenir Bold';src:url('../fonts/Souvenir/eot/Souvenir Bold.eot');src:url('../fonts/Souvenir/eot/Souvenir Bold.eot?#iefix') format('embedded-opentype'),url('../fonts/Souvenir/woof2/Souvenir Bold.woof2') format('woof2'),url('../fonts/Souvenir/woof/Souvenir Bold.woof') format('woof'),url('../fonts/Souvenir/ttf/Souvenir Bold.ttf') format('truetype'),url('../fonts/Souvenir/svg/Souvenir Bold.svg') format('svg')}
+@font-face{
+    font-family:'DEAD_SECRETARY_Cyr';
+    src:url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.eot');
+    src:url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.woof2') format('woof2'),
+        url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.woof') format('woof'),
+        url('../fonts/DEAD_SECRETARY_Cyr/DEAD_SECRETARY_Cyr.ttf') format('truetype'),
+        url('../fonts/DEAD_SECRETARY_Cyr/dead_secretary_cyr-webfont.svg') format('svg');
+}
+
+@font-face{
+    font-family:'Philosopher';
+    src:url('../fonts/Philosopher/eot/Philosopher-Regular.eot');
+    src:url('../fonts/Philosopher/eot/Philosopher-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Philosopher/woof2/Philosopher-Regular.woof2') format('woof2'),
+        url('../fonts/Philosopher/woof/Philosopher-Regular.woof') format('woof'),
+        url('../fonts/Philosopher/ttf/Philosopher-Regular.ttf') format('truetype'),
+        url('../fonts/Philosopher/svg/Philosopher-Regular.svg') format('svg');
+}
+@font-face{
+    font-family:'Philosopher Bold';
+    src:url('../fonts/Philosopher/eot/Philosopher-Bold.eot');
+    src:url('../fonts/Philosopher/eot/Philosopher-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Philosopher/woof2/Philosopher-Bold.woof2') format('woof2'),
+        url('../fonts/Philosopher/woof/Philosopher-Bold.woof') format('woof'),
+        url('../fonts/Philosopher/ttf/Philosopher-Bold.ttf') format('truetype'),
+        url('../fonts/Philosopher/svg/Philosopher-Bold.svg') format('svg');
+}
+
+@font-face{
+    font-family:'Roboto';
+    src:url('../fonts/Roboto/eot/roboto-regular-webfont.eot');
+    src:url('../fonts/Roboto/eot/roboto-regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Roboto/woof2/roboto-regular-webfont.woof2') format('woof2'),
+        url('../fonts/Roboto/woof/roboto-regular-webfont.woof') format('woof'),
+        url('../fonts/Roboto/ttf/Roboto-Regular.ttf') format('truetype'),
+        url('../fonts/Roboto/svg/roboto-regular-webfont.svg') format('svg');
+}
+@font-face{
+    font-family:'Roboto Bold';
+    src:url('../fonts/Roboto/eot/roboto-bold-webfont.eot');
+    src:url('../fonts/Roboto/eot/roboto-bold-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Roboto/woof2/roboto-bold-webfont.woof2') format('woof2'),
+        url('../fonts/Roboto/woof/roboto-bold-webfont.woof') format('woof'),
+        url('../fonts/Roboto/ttf/roboto-bold-webfont.ttf') format('truetype'),
+        url('../fonts/Roboto/svg/roboto-bold-webfont.svg') format('svg');
+}
+
+@font-face{
+    font-family:'Souvenir';
+    src:url('../fonts/Souvenir/eot/Souvenir Normal.eot');
+    src:url('../fonts/Souvenir/eot/Souvenir Normal.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Souvenir/woof2/Souvenir Normal.woof2') format('woof2'),
+        url('../fonts/Souvenir/woof/Souvenir Normal.woof') format('woof'),
+        url('../fonts/Souvenir/ttf/Souvenir Normal.ttf') format('truetype'),
+        url('../fonts/Souvenir/svg/Souvenir Normal.svg') format('svg');
+}
+@font-face{
+    font-family:'Souvenir Bold';
+    src:url('../fonts/Souvenir/eot/Souvenir Bold.eot');
+    src:url('../fonts/Souvenir/eot/Souvenir Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Souvenir/woof2/Souvenir Bold.woof2') format('woof2'),
+        url('../fonts/Souvenir/woof/Souvenir Bold.woof') format('woof'),
+        url('../fonts/Souvenir/ttf/Souvenir Bold.ttf') format('truetype'),
+        url('../fonts/Souvenir/svg/Souvenir Bold.svg') format('svg');
+}

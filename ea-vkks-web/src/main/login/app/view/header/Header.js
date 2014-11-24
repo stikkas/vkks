@@ -1,6 +1,7 @@
 Ext.define('Login.view.header.Header', {
 	extend: 'Ext.container.Container',
 	alias: 'widget.eaheader',
+        cls:'header_cls',
 	requires: [
 		'Ext.layout.container.HBox',
 		'Ext.layout.container.VBox',
@@ -18,6 +19,7 @@ Ext.define('Login.view.header.Header', {
 			{
 				xtype: 'container',
 				layout: 'vbox',
+                                cls:'title_head',
 				items: [{
 						xtype: 'component',
 						html: '<h1>' + Trans.vkks + '</h1>'

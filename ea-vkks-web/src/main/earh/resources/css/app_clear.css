@@ -1,7 +1,9 @@
 .x-btn.x-btn-default-small,
-.x-btn-over.x-btn-default-small{
+a.x-btn-over.x-btn-default-small,
+a.x-btn.x-btn-pressed.x-btn-default-small{
     border:none;
     background-image:none;
+    background-color:transparent;
 }
 .x-form-text,
 .x-form-text-default{

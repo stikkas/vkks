@@ -41,6 +41,10 @@
 			"bootstrap": false
         },
         {
+            "path": "resources/css/icons.css",
+			"bootstrap": false
+        },
+        {
             "path": "resources/css/TextLayerBuilder.css",
 			"bootstrap": false
         },

@@ -1,6 +1,7 @@
 Ext.define('Earh.view.header.Header', {
 	extend: 'Ext.container.Container',
 	alias: 'widget.eaheader',
+        cls:'header_cls',
 	requires: [
 		'Ext.toolbar.Toolbar',
 		'Ext.layout.container.HBox',
@@ -22,10 +23,12 @@ Ext.define('Earh.view.header.Header', {
 				baseCls: 'gerb'
 			}, {
 				xtype: 'container',
+                                cls:'title_head',
 				layout: 'vbox',
 				items: [
 					{
 						xtype: 'component',
+                                                cls:'title_head',
 						html: '<h1>' + Trans.vkks + '</h1>'
 					},
 					headerView._tb = Ext.create('Ext.toolbar.Toolbar', {
