@@ -9,8 +9,10 @@ $include-earh-model-casedocresult: true;
 $include-earh-model-caseresult: true;
 $include-earh-model-courtresult: true;
 $include-earh-model-dict: true;
+$include-earh-model-doc: true;
 $include-earh-model-docresult: true;
 $include-earh-model-fioresult: true;
+$include-earh-model-graph: true;
 $include-earh-model-tree: true;
 $include-earh-store-case: false;
 $include-earh-store-casedocresult: true;
@@ -765,6 +767,7 @@ $include-other-field-base: true;
 $include-other-field-combobox: true;
 $include-other-field-date: true;
 $include-other-field-number: true;
+$include-other-ux-treepicker: true;
 /* including package ext-theme-base */
 @import '../../../../../ext/packages/ext-theme-base/sass/etc/all';
 /* including package ext-theme-neutral */

@@ -88,7 +88,7 @@ Pages = {
 RootContext = '/ea-vkks-web/';
 Urls = {
 	root: RootContext,
-	login: RootContext + 'login.html',
+	login: RootContext + 'login.html#login',
 	logout: RootContext + 'srvcs/logout',
 	dict: RootContext + 'srvcs/dict',
 	cases: RootContext + 'srvcs/search/cases',
@@ -145,9 +145,10 @@ showError = function (title, message) {
  * @param {String} message сообщение об ошибке
  * @param {Function} fn обработчик ответа от пользователя
  * @param {Object} scope контекст вызова обработчика
+ * @param {Object} args дополнительные аргументы для функции
  * @method showAlert
  */
-showAlert = function (title, message, fn, scope) {
+showAlert = function (title, message, fn, scope, args) {
 	Ext.Msg.show({
 		title: title,
 		msg: message,
@@ -155,7 +156,8 @@ showAlert = function (title, message, fn, scope) {
 		icon: Ext.Msg.QUESTION,
 		fn: fn,
 		scope: scope,
-		maxWidth: 800
+		maxWidth: 800,
+		args: args
 	});
 };
 /**
