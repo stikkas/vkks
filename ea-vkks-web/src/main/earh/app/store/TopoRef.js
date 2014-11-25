@@ -21,7 +21,8 @@ Ext.define('Earh.store.TopoRef', {
 	},
 	root: {
 		expanded: true,
-		text: 'Root',
+		name: 'Root',
+		id: 0,
 		kids: [{
 				id: 1, name: 'ком. 1', kids: [{
 						id: 4, name: 'ст. 1', kids: [{

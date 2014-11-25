@@ -1,1 +1,1 @@
-.doc_cls,.adm_cls{padding-left:95px}.doc_cls{background:url('../images/project_images/doc.png')}.adm_cls{background:url('../images/project_images/adm.png')}
+.x-btn.doc_cls,.x-btn.adm_cls{padding-left:95px;background-repeat:no-repeat}.x-btn.doc_cls,.x-btn.doc_cls.x-btn-over{background-image:url('../images/project_images/doc.png');padding-left:105px}.x-btn.adm_cls,.x-btn.adm_cls.x-btn-over{background-image:url('../images/project_images/adm.png')}

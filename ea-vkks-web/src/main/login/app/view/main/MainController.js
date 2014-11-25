@@ -25,6 +25,9 @@ Ext.define('Login.view.main.MainController', {
 		this.view.setActiveItem(Pages.login);
 	},
 	exit: function () {
+//		top.close();
+//		open(location, '_self').close();
+//		window.close();
 		this.redirectTo(Pages.welcome);
 	}
 });

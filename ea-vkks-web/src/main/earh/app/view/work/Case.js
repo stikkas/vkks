@@ -167,12 +167,40 @@ Ext.define('Earh.view.work.Case', {
 					}]
 			}];
 		caseView.callParent();
+		caseView._frm = caseView.items.getAt(0);
+		caseView._grd = caseView.items.getAt(1).items.getAt(1);
 	},
 	save: function () {
+		this._frm.updateRecord(this.model);
+		// TODO реальное сохранение
+		this.model.dirty = false;
 		showInfo("Сохранение дела", "Операция успешно выполнена");
 	},
 	remove: function () {
 		showInfo("Удаление дела", "Операция успешно выполнена");
+	},
+	clear: function () {
+		// Очищаем все поля
+		this._frm.applyAll('reset');
+		// очищаем таблицу с результатами поиска
+		this._grd.store.removeAll();
+	},
+	/**
+	 * Загружаем данные в форму
+	 */
+	loadRecord: function () {
+		this._frm.loadRecord(this.model);
+		return this.model;
+	},
+	/**
+	 * Выгружаем данные в модель
+	 */
+	updateRecord: function () {
+		this._frm.updateRecord(this.model);
+		return this.model;
+	},
+	isValid: function () {
+		return this._frm.isValid();
 	}
 });
 

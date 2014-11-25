@@ -7,6 +7,7 @@ Ext.define('Earh.view.main.MainController', {
 		'Earh.view.work.Case',
 		'Earh.view.work.Doc',
 		'Earh.model.Graph',
+		'Earh.model.Case',
 		'Earh.model.Doc'
 	],
 	init: function () {
@@ -20,12 +21,10 @@ Ext.define('Earh.view.main.MainController', {
 				this.button.setDisabled(!valid);
 			}
 		});
-
 		for (var o in Pages)
 			listenersFormPages[Pages[o]] = {activate: 'showTB'};
-
 		listenersFormPages.form = {validChanged: 'validChanged'};
-
+		listenersFormPages['scases gridpanel'] = {cellclick: 'toCase'};
 		controller.listen({component: listenersFormPages});
 		controller.callParent();
 	},
@@ -47,7 +46,17 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	toMain: function () {
 //		this.redirectTo(Pages.home);
-		this.view.setActiveItem(Pages.home);
+		var currentPage = this.view.getActiveItem(),
+				home = Pages.home;
+		if (currentPage.$className === 'Earh.view.work.Case') {
+			if (currentPage.updateRecord().dirty) {
+				showAlert("Несохраненные данные", "Желаете сохранить данные?", "saveOnChange", this,
+						{cur: currentPage, next: home});
+			} else {
+				this.view.setActiveItem(home);
+			}
+		} else
+			this.view.setActiveItem(home);
 	},
 	/**
 	 * Перенаправление  к странице поиска дел
@@ -56,9 +65,9 @@ Ext.define('Earh.view.main.MainController', {
 		this.view.setActiveItem(Pages.scases);
 	},
 	/**
-	 * Перенаправление к странице добавления дела
+	 * Перенаправление к странице дела
 	 */
-	toCaseAdd: function () {
+	toCase: function () {
 		this.view.setActiveItem(Pages.acase);
 	},
 	/**
@@ -80,7 +89,34 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	exit: function (btn) {
 		if (btn === "yes")
-			window.location.href = Urls.logout;
+			Ext.Ajax.request({
+				url: Urls.logout,
+				success: function () {
+					window.location.href = Urls.login;
+				},
+				failure: function () {
+					console.log(arguments);
+				}
+			});
+	},
+	/**
+	 * Вызывается когда нажали да или нет окна с вопросом о сохранении
+	 * измененных данных
+	 * @param {String} btn кнопка, которую нажал пользователь
+	 * @param {Object} opt объект, переданный для Ext.Msg.show
+	 */
+	saveOnChange: function (btn, _, opt) {
+		if (btn === "yes") {
+			var currentPage = opt.args.cur;
+			if (currentPage.isValid()) {
+				currentPage.save();
+				this.view.setActiveItem(opt.args.next);
+			}
+			else
+				showError("Ошибка", "Заполните, пожалуйста, все поля, помеченные звездочкой");
+		} else if (btn === "no") {
+			this.view.setActiveItem(opt.args.next);
+		}
 	},
 	/**
 	 * Функция поиска дел, документов
@@ -109,11 +145,13 @@ Ext.define('Earh.view.main.MainController', {
 		var idx = 0;
 		if (Earh.editRole) {
 			switch (prev.$className) {
-				case 'Earh.view.home.Home':
+				case 'Earh.view.home.Home': // подготавливаем ЭФ для создания нового дела
 					idx = 3;
 					var form = page.items.getAt(0);
 					form.applyAll('setRequired');
 					form.fireEvent('validChanged', false);
+					page.clear();
+					page.model = Ext.create('Earh.model.Case');
 					break;
 				case 'Earh.view.search.Case':
 					idx = 1;

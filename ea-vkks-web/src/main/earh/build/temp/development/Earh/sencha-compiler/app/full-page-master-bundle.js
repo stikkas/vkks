@@ -1,3 +1,3 @@
 // @tag full-page
-// @require D:\ws\ea-vkks\ea-vkks-web\src\main\earh\utils.js
-// @require D:\ws\ea-vkks\ea-vkks-web\src\main\earh\app.js
+// @require /home/basa/Projects/ea-vkks/ea-vkks-web/src/main/earh/utils.js
+// @require /home/basa/Projects/ea-vkks/ea-vkks-web/src/main/earh/app.js
