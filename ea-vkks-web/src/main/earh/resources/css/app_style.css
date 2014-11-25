@@ -6,8 +6,12 @@
     background-attachment:fixed;
 }
 /*настройка всяческих полей*/
-label{
+label.x-form-item-label-default{
     //vertical-align:middle;
+    color:#1D4B82;
+    font-family:'Roboto Bold';
+    font-size:15px;
+    padding-right:15px !important;
 }
 .x-form-text-field-body.x-form-item-body-default{
     min-height:25px;
@@ -32,6 +36,7 @@ textarea.x-form-text.x-form-text-default{
         width:20px;
         border-left:1px solid #809EDA;
     }
+/**/
 /*сложная процедура выстраивания ширины (хедер)  временно убраны до разбирательства с внутренними страницами*/
 /*.x-body > .x-box-inner,
 .x-body .x-box-inner > .x-box-target{

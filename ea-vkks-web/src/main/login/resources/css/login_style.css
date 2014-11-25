@@ -6,8 +6,12 @@
     background-attachment:fixed;
 }
 /*настройка всяческих полей*/
-label{
+label.x-form-item-label-default{
     //vertical-align:middle;
+    color:#1D4B82;
+    font-family:'Roboto Bold';
+    font-size:15px;
+    padding-right:15px !important;
 }
 .x-form-text-field-body.x-form-item-body-default{
     min-height:25px;
@@ -104,3 +108,39 @@ h1{
     margin-top:5%;
 }
 /**/
+/*login page*/
+.login_page{
+    margin: 5% auto !important;
+    width:60% !important;
+}
+.login_page .x-panel-header,
+.login_page .x-panel-header div{
+    width:100% !important;
+}
+.login_page .x-panel-header .x-title-text{
+    color:#1D4B82;
+    font-family:'Philosopher';
+    font-size:22px;
+    text-align:center;
+    padding:15px;
+    border-bottom-image:url('../images/project_images/blue_underline.png');
+    -moz-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    -webkit-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    -ms-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    -o-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    border-bottom:1px solid;
+}
+.login_page .x-panel-body{
+    margin:auto;
+    padding:40px 0;
+}
+.login_page .x-field{
+    padding:7px 0;
+}
+.login_page .x-toolbar-footer{
+    margin:auto;
+    right:0 !important;
+}
+.login_page .x-btn{
+    margin-left:0;
+}

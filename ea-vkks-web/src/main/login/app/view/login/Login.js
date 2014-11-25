@@ -11,6 +11,7 @@ Ext.define('Login.view.login.Login', {
 		'Ext.button.Button'
 	],
 	controller: 'login',
+        cls:'login_page',
 	defaults: {
 		xtype: 'textfield',
 		labelSeparator: '',
