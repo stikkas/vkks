@@ -50,12 +50,12 @@ h1{
 }
 /*стиль для страниц навигации*/
 .header_cls ~ .x-container{
-    width:640px;
+    width:800px;
     margin:auto !important;
     position:relative !important;
 }
-.main_page{
-    width:640px;    
+.main_page .x-autocontainer-outerCt{
+    width:800px;    
 }
 .main_page a .x-btn-inner-default-small{
     font-family:'Philosopher Bold';
@@ -63,4 +63,15 @@ h1{
     height:80px;
     padding-top:25px;
     padding-botom:25px;
+}
+.main_page{
+    background-image:url('../images/project_images/two_lines.png'),
+        url('../images/project_images/two_lines180.png');
+    background-repeat:no-repeat;
+    background-position:top center,
+        bottom center;
+    text-align:center;
+    padding-top:100px;
+    padding-bottom:100px;
+    margin-top:5%;
 }
