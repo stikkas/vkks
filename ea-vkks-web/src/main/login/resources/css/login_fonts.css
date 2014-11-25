@@ -64,3 +64,13 @@
         url('../fonts/Souvenir/ttf/Souvenir Bold.ttf') format('truetype'),
         url('../fonts/Souvenir/svg/Souvenir Bold.svg') format('svg');
 }
+
+@font-face{
+    font-family:'Marmelad';
+    src:url('../fonts/Marmelad/marmelad-regular-webfont.eot');
+    src:url('../fonts/Marmelad/marmelad-regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Marmelad/marmelad-regular-webfont.woof2') format('woof2'),
+        url('../fonts/Marmelad/marmelad-regular-webfont.woof') format('woof'),
+        url('../fonts/Marmelad/Marmelad-Regular.ttf') format('truetype'),
+        url('../fonts/Marmelad/marmelad-regular-webfont.svg') format('svg');
+}

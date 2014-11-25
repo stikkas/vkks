@@ -37,6 +37,18 @@ textarea.x-form-text.x-form-text-default{
         border-left:1px solid #809EDA;
     }
 /**/
+/*кнопки*/
+a.x-btn.buttons_style{
+    background-color:#5781B4;
+    border-radius:6px;
+    padding:10px 15px;
+}
+.buttons_style span{
+    color:#fff;
+    font-family:'Marmelad';
+    font-size:18px;
+}
+/**/
 /*сложная процедура выстраивания ширины (хедер)*/
 .x-body > .x-box-inner,
 .x-body .x-box-inner > .x-box-target{
@@ -140,7 +152,4 @@ h1{
 .login_page .x-toolbar-footer{
     margin:auto;
     right:0 !important;
-}
-.login_page .x-btn{
-    margin-left:0;
 }

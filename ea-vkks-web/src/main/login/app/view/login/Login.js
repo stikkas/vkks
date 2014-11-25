@@ -35,10 +35,12 @@ Ext.define('Login.view.login.Login', {
 		];
 		loginPage.buttons = [{
 				text: Trans.enter,
-				handler: 'enter'
+				handler: 'enter',
+                                cls:'buttons_style'
 			}, {
 				text: Trans.exit,
-				handler: 'exit'
+				handler: 'exit',
+                                cls:'buttons_style'
 			}];
 		loginPage.callParent();
 	}
