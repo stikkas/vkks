@@ -1,3 +1,4 @@
+/*кнопки*/
 .x-btn.x-btn-default-small,
 a.x-btn-over.x-btn-default-small,
 a.x-btn.x-btn-pressed.x-btn-default-small{
@@ -5,14 +6,32 @@ a.x-btn.x-btn-pressed.x-btn-default-small{
     background-image:none;
     background-color:transparent;
 }
+a span.x-btn-button-default-small{
+    height:auto;        /*?*/
+}
+/*поля*/
 .x-form-text,
 .x-form-text-default{
     background-image:none;
 }
-a span.x-btn-button-default-small{
-    height:auto;        /*?*/
+div.x-form-text-wrap-default{
+    border:none;
 }
+input.x-form-text-default{
+    background-image:none;
+}
+    /*images triggers*/
+    div.x-form-trigger-default{
+        background-color:transparent;
+        background-image:none;    
+    }
+/**/
+/*панели*/
 div.x-panel-header-default{
     background-color:transparent;
     background-image:none;
+}
+div.x-panel-header-default,
+div.x-panel-body-default{
+    border:none;
 }

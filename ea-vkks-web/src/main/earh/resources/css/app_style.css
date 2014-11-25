@@ -5,6 +5,33 @@
     background-position:center center;
     background-attachment:fixed;
 }
+/*настройка всяческих полей*/
+label{
+    //vertical-align:middle;
+}
+.x-form-text-field-body.x-form-item-body-default{
+    min-height:25px;
+}
+input.x-form-text.x-form-text-default,
+textarea.x-form-text.x-form-text-default{
+    box-shadow:inset -3px 6px 5px rgba(134,134,134,.2);
+    border:1px solid #809EDA;
+    border-radius:6px;
+    min-height:25px;
+}
+    /*combpbox*/
+    .x-form-text-wrap.x-form-text-wrap-default input[id*="combo"]{
+        //padding-right:24px;
+    }
+    div[id*="combo"].x-form-trigger-default,
+    div[id*="treepicker"].x-form-trigger-default{
+        background-image:url('../images/project_images/triangle.png');
+        background-repeat:no-repeat;
+        background-position:center;
+        margin-left:-20px;
+        width:20px;
+        border-left:1px solid #809EDA;
+    }
 /*сложная процедура выстраивания ширины (хедер)  временно убраны до разбирательства с внутренними страницами*/
 /*.x-body > .x-box-inner,
 .x-body .x-box-inner > .x-box-target{
