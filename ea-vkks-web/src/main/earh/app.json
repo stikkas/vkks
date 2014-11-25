@@ -20,7 +20,7 @@
 		{
 			"path": "utils.js",
 			"includeInBundle": true
-		}, 
+		},
 		{
 			"path": "app.js",
 			"bundle": true
@@ -29,25 +29,21 @@
 	],
 	"css": [
 		{
-            "path": "resources/css/app_style.css",
+			"path": "resources/css/app_style.css",
 			"bootstrap": false
 		},
-        {
-            "path": "resources/css/app_fonts.css",
+		{
+			"path": "resources/css/app_fonts.css",
 			"bootstrap": false
-        },
-        {
-            "path": "resources/css/app_clear.css",
+		},
+		{
+			"path": "resources/css/app_clear.css",
 			"bootstrap": false
-        },
-        {
-            "path": "resources/css/icons.css",
+		},
+		{
+			"path": "resources/css/icons.css",
 			"bootstrap": false
-        },
-        {
-            "path": "resources/css/TextLayerBuilder.css",
-			"bootstrap": false
-        },
+		},
 		{
 			"path": "bootstrap.css",
 			"bootstrap": true
