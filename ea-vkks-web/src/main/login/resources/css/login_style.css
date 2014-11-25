@@ -54,6 +54,9 @@ h1{
     margin:auto !important;
     position:relative !important;
 }
+.main_page{
+    width:640px;    
+}
 .main_page a .x-btn-inner-default-small{
     font-family:'Philosopher Bold';
     font-size:30px;

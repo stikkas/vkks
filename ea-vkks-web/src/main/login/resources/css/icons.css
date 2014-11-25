@@ -7,13 +7,17 @@ and open the template in the editor.
     Created on : 24.11.2014, 17:16:35
     Author     : shapovalova
 */
-.doc_cls,
-.adm_cls{
+.x-btn.doc_cls,
+.x-btn.adm_cls{
     padding-left:95px;
+    background-repeat:no-repeat;
 }
-.doc_cls{
-    background:url('../images/project_images/doc.png');
+.x-btn.doc_cls,
+.x-btn.doc_cls.x-btn-over{
+    background-image:url('../images/project_images/doc.png');
+    padding-left:105px;
 }
-.adm_cls{
-    background:url('../images/project_images/adm.png');
+.x-btn.adm_cls,
+.x-btn.adm_cls.x-btn-over{
+    background-image:url('../images/project_images/adm.png');
 }

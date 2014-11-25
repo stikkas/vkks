@@ -12,7 +12,8 @@ Ext.define('Login.view.welcome.Welcome', {
         region:'center',
 	controller: 'welcome',
 	defaults: {
-		xtype: 'button'
+		xtype: 'button',
+                cls:'main_menu'
 	},
 	initComponent: function () {
 		this.items = [{
