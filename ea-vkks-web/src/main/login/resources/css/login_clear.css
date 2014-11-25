@@ -12,3 +12,7 @@ a.x-btn.x-btn-pressed.x-btn-default-small{
 a span.x-btn-button-default-small{
     height:auto;        /*?*/
 }
+div.x-panel-header-default{
+    background-color:transparent;
+    background-image:none;
+}

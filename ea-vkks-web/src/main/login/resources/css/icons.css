@@ -14,6 +14,7 @@ a.x-btn.x-btn-over span{
 .x-btn.adm_cls{
     padding-left:95px;
     background-repeat:no-repeat;
+    text-shadow:0 5px 5px rgba(150,150,150,.9);
 }
 .x-btn.doc_cls,
 .x-btn.doc_cls.x-btn-over,
