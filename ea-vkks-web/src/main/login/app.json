@@ -40,7 +40,7 @@
 			"bootstrap": false
         },
         {
-            "path": "resources/css/icons.css",
+            "path": "resources/css/login_icons.css",
 			"bootstrap": false
         },
 		{
