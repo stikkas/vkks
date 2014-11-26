@@ -7,7 +7,7 @@
 }
 /*настройка всяческих полей*/
 label.x-form-item-label-default{
-    //vertical-align:middle;
+    /*vertical-align:middle;*/
     color:#1D4B82;
     font-family:'Roboto Bold';
     font-size:15px;
@@ -25,7 +25,7 @@ textarea.x-form-text.x-form-text-default{
 }
     /*combpbox*/
     .x-form-text-wrap.x-form-text-wrap-default input[id*="combo"]{
-        //padding-right:24px;
+        /*padding-right:24px;*/
     }
     div[id*="combo"].x-form-trigger-default,
     div[id*="treepicker"].x-form-trigger-default{
