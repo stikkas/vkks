@@ -15,7 +15,7 @@
 	"url": null,
 	"js": [
 		{
-			"path": "${ext.dir}/build/ext-all-rtl.js"
+			"path": "${ext.dir}/build/ext-all-rtl-debug.js"
 		},
 		{
 			"path": "utils.js",
@@ -25,7 +25,6 @@
 			"path": "app.js",
 			"bundle": true
 		}
-
 	],
 	"css": [
 		{

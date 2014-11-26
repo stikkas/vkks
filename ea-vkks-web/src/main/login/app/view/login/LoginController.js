@@ -3,16 +3,16 @@ Ext.define('Login.view.login.LoginController', {
 	alias: 'controller.login',
 	enter: function () {
 		Ext.Ajax.request({
-			url: 'j_security_check',
+			url: Urls.root + 'j_security_check',
 			params: this.view.getForm().getValues(),
 			success: function (response) {
 				if (~response.responseText.search(/<title>Login<\/title>/))
-					showError("Ошибка авторизации", "Неправильный логин / пароль");
+					showError("Ошибка ввода регистрационных сведений", "Введены неправильные<br>идентификационные данные");
 				else
 					window.location.href = Urls.root;
 			},
 			failure: function (response) {
-				showError("Ошибка авторизации", response.responseText);
+				showError("Ошибка ввода регистрационных сведений", response.responseText);
 			}
 		});
 	},
