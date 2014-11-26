@@ -38,10 +38,15 @@ textarea.x-form-text.x-form-text-default{
     }
 /**/
 /*кнопки*/
-a.x-btn.buttons_style{
+a.x-btn.buttons_style,
+a.x-btn.x-btn-focus.x-btn-default-small{
     background-color:#5781B4;
     border-radius:6px;
     padding:10px 15px;
+}
+a.x-btn.x-btn-over.buttons_style,
+a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
+    background-color:#F0A342;
 }
 .buttons_style span{
     color:#fff;
@@ -50,14 +55,14 @@ a.x-btn.buttons_style{
 }
 /**/
 /*сложная процедура выстраивания ширины (хедер)  временно убраны до разбирательства с внутренними страницами*/
-/*.x-body > .x-box-inner,
+.x-body > .x-box-inner,
 .x-body .x-box-inner > .x-box-target{
     width:100% !important;
-}*/
+}
 .x-viewport > body.x-body{
     padding:10px 30px;
 }
-/*.header_cls{
+.header_cls{
     width:100%;
 }
 .header_cls > .x-box-inner{
@@ -65,7 +70,7 @@ a.x-btn.buttons_style{
 }
 .title_head{
     width: calc(100% - 150px);
-}*/
+}
 .title_head .title_head{
     border-bottom-image:url('../images/project_images/blue_underline.png');
     -moz-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
@@ -75,9 +80,9 @@ a.x-btn.buttons_style{
     border-bottom:2px solid;
     
 }
-/*.title_head div{
+.title_head > div{
     width:100% !important;
-}*/
+}
 /*----*/
 h1{
     color:#4E7AAF;
@@ -92,16 +97,43 @@ h1{
     width:129px;
     height:145px
 }
+
 /*стиль для страниц навигации*/
-/*.header_cls ~ .x-container{       
-    width:640px;
+/*.header_cls ~ .x-container{
+    width:800px;
     margin:auto !important;
     position:relative !important;
+}*/
+.main_page .x-autocontainer-outerCt{
+    width:800px;    
 }
 .main_page a .x-btn-inner-default-small{
+    color:#1D4B82;
     font-family:'Philosopher Bold';
     font-size:30px;
+    line-height:1em;
     height:80px;
     padding-top:25px;
     padding-botom:25px;
-}*/
+}
+.main_page{
+    background-image:url('../images/project_images/two_lines.png'),
+        url('../images/project_images/two_lines180.png');
+    background-repeat:no-repeat;
+    background-position:top center,
+        bottom center;
+    text-align:center;
+    padding-top:100px;
+    padding-bottom:100px;
+    margin-top:5%;
+}
+    /*только для домашней*/
+    .main_page > .x-box-inner {
+        margin:auto;
+        width:70% !important;
+    }
+    .main_page a.x-btn{
+        width:250px;
+        margin:auto !important;
+    }
+/**/

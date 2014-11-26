@@ -6,6 +6,10 @@ a.x-btn.x-btn-pressed.x-btn-default-small{
     background-image:none;
     background-color:transparent;
 }
+a.x-btn.x-btn-focus.x-btn-default-small{
+    border:none;
+    background-image:none;
+}
 a span.x-btn-button-default-small{
     height:auto;        /*?*/
 }
@@ -35,4 +39,11 @@ div.x-panel-header-default{
 div.x-panel-header-default,
 div.x-panel-body-default{
     border:none;
+}
+/*toolbar*/
+div.x-toolbar-default{
+    background-color:transparent;
+    background-image:none;
+    border:none;
+    
 }

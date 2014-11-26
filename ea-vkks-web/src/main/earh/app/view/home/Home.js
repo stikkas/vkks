@@ -7,6 +7,7 @@
 Ext.define('Earh.view.home.Home', {
 	extend: 'Ext.container.Container',
 	alias: 'widget.home',
+        cls:'main_page',
 	requires: [
 		'Ext.layout.container.HBox',
 		'Ext.button.Button'
@@ -16,6 +17,7 @@ Ext.define('Earh.view.home.Home', {
 		this.items = [{
 				xtype: 'container',
 				layout: 'vbox',
+                                cls:'deal_cls',
 				items: [{
 						xtype: 'button',
 						text: Trans.caseSearch,
@@ -28,7 +30,8 @@ Ext.define('Earh.view.home.Home', {
 			}, {
 				xtype: 'button',
 				text: Trans.docSearch_,
-				handler: 'toDocsSearch'
+				handler: 'toDocsSearch',
+                                cls:'doc_cls'
 			}];
 		this.callParent();
 		this.tbb = [0, // Главная

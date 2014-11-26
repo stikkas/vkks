@@ -38,10 +38,15 @@ textarea.x-form-text.x-form-text-default{
     }
 /**/
 /*кнопки*/
-a.x-btn.buttons_style{
+a.x-btn.buttons_style,
+a.x-btn.x-btn-focus.x-btn-default-small{
     background-color:#5781B4;
     border-radius:6px;
     padding:10px 15px;
+}
+a.x-btn.x-btn-over.buttons_style,
+a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
+    background-color:#F0A342;
 }
 .buttons_style span{
     color:#fff;
@@ -102,8 +107,10 @@ h1{
     width:800px;    
 }
 .main_page a .x-btn-inner-default-small{
+    color:#1D4B82;
     font-family:'Philosopher Bold';
     font-size:30px;
+    line-height:1em;
     height:80px;
     padding-top:25px;
     padding-botom:25px;
