@@ -112,7 +112,7 @@ h1{
     font-family:'Philosopher Bold';
     font-size:30px;
     line-height:1em;
-    height:80px;
+    height:90px;
     padding-top:25px;
     padding-botom:25px;
 }
@@ -124,13 +124,13 @@ h1{
         bottom center;
     text-align:center;
     padding-top:100px;
-    padding-bottom:100px;
+    padding-bottom:80px;
     margin-top:5%;
 }
     /*только для домашней*/
     .main_page > .x-box-inner {
         margin:auto;
-        width:70% !important;
+        width:65% !important;
     }
     .main_page a.x-btn{
         width:250px;

@@ -28,7 +28,7 @@ a.x-btn.doc_cls.x-btn-pressed,
 .x-btn.doc_cls.x-btn-over,
 a.x-btn.doc_cls.x-btn-pressed{
     background-image:url('../images/project_images/doc.png');
-    margin-left:20% !important;
+    margin-left:18% !important;
 }
 .deal_cls{
     background-image:url('../images/project_images/deal.png');
