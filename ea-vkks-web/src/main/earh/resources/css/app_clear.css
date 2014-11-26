@@ -6,6 +6,9 @@ a.x-btn.x-btn-pressed.x-btn-default-small{
     background-image:none;
     background-color:transparent;
 }
+a.x-btn.x-btn-focus.x-btn-default-small{
+   background-image:none; 
+}
 a span.x-btn-button-default-small{
     height:auto;        /*?*/
 }
