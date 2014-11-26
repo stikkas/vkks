@@ -7,13 +7,29 @@ and open the template in the editor.
     Created on : 24.11.2014, 17:16:35
     Author     : shapovalova
 */
-.doc_cls,
-.adm_cls{
-    padding-left:95px;
+a.x-btn.x-btn-over span{
+    text-decoration:underline;
 }
-.doc_cls{
-    background:url('../images/project_images/doc.png');
+.x-btn.doc_cls,
+.x-btn.x-btn-default-small.doc_cls,
+.x-btn.doc_cls.x-btn-over,
+a.x-btn.doc_cls.x-btn-pressed,
+.deal_cls{
+    background-repeat:no-repeat;
+    background-position: center top;
+    text-shadow:0 5px 5px rgba(150,150,150,.9);
+    padding-top:90px;
 }
-.adm_cls{
-    background:url('../images/project_images/adm.png');
+.deal_cls a.x-btn.x-btn-focus.x-btn-default-small{
+    background-color:transparent;
+    padding:0;
+}
+.x-btn.x-btn-default-small.doc_cls,
+.x-btn.doc_cls.x-btn-over,
+a.x-btn.doc_cls.x-btn-pressed{
+    background-image:url('../images/project_images/doc.png');
+    margin-left:20% !important;
+}
+.deal_cls{
+    background-image:url('../images/project_images/deal.png');
 }

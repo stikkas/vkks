@@ -107,8 +107,10 @@ h1{
     width:800px;    
 }
 .main_page a .x-btn-inner-default-small{
+    color:#1D4B82;
     font-family:'Philosopher Bold';
     font-size:30px;
+    line-height:1em;
     height:80px;
     padding-top:25px;
     padding-botom:25px;
