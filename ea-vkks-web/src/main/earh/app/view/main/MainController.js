@@ -48,15 +48,13 @@ Ext.define('Earh.view.main.MainController', {
 //		this.redirectTo(Pages.home);
 		var currentPage = this.view.getActiveItem(),
 				home = Pages.home;
-		if (currentPage.$className === 'Earh.view.work.Case') {
-			if (currentPage.updateRecord().dirty) {
-				showAlert("Несохраненные данные", "Желаете сохранить данные?", "saveOnChange", this,
-						{cur: currentPage, next: home});
-			} else {
-				this.view.setActiveItem(home);
-			}
-		} else
-			this.view.setActiveItem(home);
+		if (currentPage.$className === 'Earh.view.work.Case' &&
+				currentPage.updateRecord().dirty) {
+			showAlert("Контроль", "Выйти без сохранения?", "exitWithoutSave", this,
+					{next: home});
+			return;
+		}
+		this.view.setActiveItem(home);
 	},
 	/**
 	 * Перенаправление  к странице поиска дел
@@ -100,23 +98,14 @@ Ext.define('Earh.view.main.MainController', {
 			});
 	},
 	/**
-	 * Вызывается когда нажали да или нет окна с вопросом о сохранении
-	 * измененных данных
-	 * @param {String} btn кнопка, которую нажал пользователь
-	 * @param {Object} opt объект, переданный для Ext.Msg.show
+	 * Вызывается когда нажали `да` или `нет` диалога "Выйти без сохранения?"
+	 * @param btn {String} кнопка, которую нажал пользователь
+	 * @param _ {String} в данном методе не используется
+	 * @param opt {Object} объект, переданный для Ext.Msg.show
 	 */
-	saveOnChange: function (btn, _, opt) {
-		if (btn === "yes") {
-			var currentPage = opt.args.cur;
-			if (currentPage.isValid()) {
-				currentPage.save();
-				this.view.setActiveItem(opt.args.next);
-			}
-			else
-				showError("Ошибка", "Заполните, пожалуйста, все поля, помеченные звездочкой");
-		} else if (btn === "no") {
+	exitWithoutSave: function (btn, _, opt) {
+		if (btn === "yes")
 			this.view.setActiveItem(opt.args.next);
-		}
 	},
 	/**
 	 * Функция поиска дел, документов
@@ -179,13 +168,6 @@ Ext.define('Earh.view.main.MainController', {
 		}
 		idx = 0;
 		page.tbb = page.hbtns[idx];
-	},
-	/**
-	 * Удаляет графический образ документа
-	 */
-	removeGraph: function () {
-		this.view.getActiveItem().model.setGraph(null);
-		this.view.getActiveItem().setGraph();
 	},
 	/**
 	 * Вызывается когда форма запускает событие 'validChanged'
