@@ -7,6 +7,13 @@ and open the template in the editor.
     Created on : 24.11.2014, 17:16:35
     Author     : shapovalova
 */
+/*очистка фокуса*/
+/*a.doc_cls.x-btn.x-btn-focus.x-btn-default-small,
+a.adm_cls.x-btn.x-btn-focus.x-btn-default-small{
+    border:none;
+    background-image:none;
+}
+*/
 a.x-btn.x-btn-over span{
     text-decoration:underline;
 }
