@@ -146,6 +146,7 @@ label.user_cls.x-toolbar-item{
     color:#1D4B82;
     font-family:'Souvenir Bold';
     font-size:14px;
+    font-weight:bold;       /*по-хорошему, это надо убрать, но почему-то жирный текст иначе не подтягивается*/
     margin:0px 10px 7px 0 !important;
 }
 .exit_cls span{

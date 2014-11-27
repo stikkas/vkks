@@ -98,13 +98,22 @@ h1{
     height:145px
 }
 /*стиль для страниц навигации*/
+@media all and (-webkit-min-device-pixel-ratio:0) {
+    .header_cls ~ .x-container{
+            left:15% !important;
+            right:15% !important;
+    }
+}
 .header_cls ~ .x-container{
-    width:800px;
+    width:800px !important; 
     margin:auto !important;
     position:relative !important;
 }
+.header_cls ~ .x-container{
+    left:0 !important;
+}
 .main_page .x-autocontainer-outerCt{
-    width:800px;    
+    width:800px !important;    
 }
 .main_page a .x-btn-inner-default-small{
     color:#1D4B82;
