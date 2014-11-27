@@ -7,6 +7,13 @@ and open the template in the editor.
     Created on : 24.11.2014, 17:16:35
     Author     : shapovalova
 */
+/*очистка фокуса*/
+/*a.doc_cls.x-btn.x-btn-focus.x-btn-default-small,
+.deal_cls a.x-btn.x-btn-focus.x-btn-default-small{
+    border:none;
+    background-image:none;
+}*/
+/**/
 a.x-btn.x-btn-over span{
     text-decoration:underline;
 }
@@ -26,10 +33,29 @@ a.x-btn.doc_cls.x-btn-pressed,
 }
 .x-btn.x-btn-default-small.doc_cls,
 .x-btn.doc_cls.x-btn-over,
-a.x-btn.doc_cls.x-btn-pressed{
+a.x-btn.doc_cls.x-btn-pressed,
+a.x-btn.doc_cls.x-btn-focus.x-btn-default-small{
     background-image:url('../images/project_images/doc.png');
     margin-left:18% !important;
 }
 .deal_cls{
     background-image:url('../images/project_images/deal.png');
+}
+/*buttons menu*/
+.exit_cls{
+    background-repeat:no-repeat;
+}
+.x-btn.exit_cls,
+a.exit_cls.x-btn-over.x-btn-default-toolbar-small,
+a.exit_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.exit_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/exit.png');
+    background-position:top center;
+    padding-top:27px;
+    border-left:2px solid;
+    border-left-image:url('../images/project_images/vert_border.png');
+    -moz-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
+    -webkit-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
+    -ms-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
+    -o-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
 }

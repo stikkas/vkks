@@ -23,7 +23,7 @@ textarea.x-form-text.x-form-text-default{
     border-radius:6px;
     min-height:25px;
 }
-    /*combpbox*/
+    /*combobox*/
     .x-form-text-wrap.x-form-text-wrap-default input[id*="combo"]{
         /*padding-right:24px;*/
     }
@@ -39,7 +39,7 @@ textarea.x-form-text.x-form-text-default{
 /**/
 /*кнопки*/
 a.x-btn.buttons_style,
-a.x-btn.x-btn-focus.x-btn-default-small{
+a.x-btn.buttons_style.x-btn-focus.x-btn-default-small{
     background-color:#5781B4;
     border-radius:6px;
     padding:10px 15px;
@@ -78,7 +78,7 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
     -ms-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
     -o-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
     border-bottom:2px solid;
-    
+    width:100%;
 }
 .title_head > div{
     width:100% !important;
@@ -124,16 +124,39 @@ h1{
         bottom center;
     text-align:center;
     padding-top:100px;
-    padding-bottom:80px;
+    padding-bottom:60px;
     margin-top:5%;
 }
     /*только для домашней*/
     .main_page > .x-box-inner {
         margin:auto;
-        width:65% !important;
+        width:60% !important;
     }
     .main_page a.x-btn{
         width:250px;
         margin:auto !important;
     }
 /**/
+/*кнопочное меню*/
+.buttons_menu,
+.buttons_menu > .x-box-inner{
+    width:100% !important;
+}
+label.user_cls.x-toolbar-item{
+    color:#1D4B82;
+    font-family:'Souvenir Bold';
+    font-size:14px;
+    margin:0px 10px 7px 0 !important;
+}
+.exit_cls span{
+    color:#1D4B82;
+    font-family:'Souvenir';
+    font-size:12px;
+}
+.exit_cls{
+    left:calc(100% - 50px) !important;
+}
+.user_cls{
+    right:50px !important;
+    text-align:right;
+}

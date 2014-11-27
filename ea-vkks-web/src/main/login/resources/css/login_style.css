@@ -39,7 +39,7 @@ textarea.x-form-text.x-form-text-default{
 /**/
 /*кнопки*/
 a.x-btn.buttons_style,
-a.x-btn.x-btn-focus.x-btn-default-small{
+a.x-btn.buttons_style.x-btn-focus.x-btn-default-small{
     background-color:#5781B4;
     border-radius:6px;
     padding:10px 15px;

@@ -32,7 +32,8 @@ Ext.define('Earh.view.header.Header', {
 						html: '<h1>' + Trans.vkks + '</h1>'
 					},
 					headerView._tb = Ext.create('Ext.toolbar.Toolbar', {
-						minWidth: 1050,
+						//minWidth: 1050,
+                                                cls:'buttons_menu',
 						defaults: {
 							xtype: 'button'
 						},
@@ -63,12 +64,13 @@ Ext.define('Earh.view.header.Header', {
 							'->',
 							{
 								xtype: 'label',
-								text: Earh.user
+								text: Earh.user,
+                                                                cls:'user_cls'
 							},
-							'-',
 							{
 								text: Trans.exit,
-								handler: 'onExit'
+								handler: 'onExit',
+                                                                cls:'exit_cls'
 							}]
 					})]
 			}
