@@ -39,10 +39,12 @@ Ext.define('Earh.view.header.Header', {
 						},
 						items: [{
 								text: Trans.main,
-								handler: 'toMain'
+								handler: 'toMain',
+                                                                cls:'home_cls icons_cls'
 							}, {
 								text: Trans.backToSearch,
-								handler: 'backToSearch'
+								handler: 'backToSearch',
+                                                                cls:'back_to_search_cls icons_cls'
 							}, {
 								text: Trans.backToCase,
 								handler: 'backToCase'
@@ -50,27 +52,31 @@ Ext.define('Earh.view.header.Header', {
 							' ',
 							{
 								text: Trans.search,
-								handler: 'search'
+								handler: 'search',
+                                                                cls:'search_cls icons_cls'
 							}, {
 								text: Trans.save,
-								handler: 'save'
+								handler: 'save',
+                                                                cls:'save_cls icons_cls'
 							}, {
 								text: Trans.remove,
-								handler: 'remove'
+								handler: 'remove',
+                                                                cls:'remove_cls icons_cls'
 							}, {
 								text: Trans.edit,
-								handler: 'edit'
+								handler: 'edit',
+                                                                cls:'edit_cls icons_cls'
 							},
 							'->',
 							{
 								xtype: 'label',
 								text: Earh.user,
-                                                                cls:'user_cls'
+                                                                cls:'user_cls icons_cls'
 							},
 							{
 								text: Trans.exit,
 								handler: 'onExit',
-                                                                cls:'exit_cls'
+                                                                cls:'exit_cls icons_cls'
 							}]
 					})]
 			}

@@ -138,26 +138,36 @@ h1{
     }
 /**/
 /*кнопочное меню*/
+.x-toolbar-spacer{
+    width:20px !important;
+}
 .buttons_menu,
 .buttons_menu > .x-box-inner{
     width:100% !important;
 }
+.buttons_menu{
+    padding:5px !important;
+    //height:50px;
+}
 label.user_cls.x-toolbar-item{
     color:#1D4B82;
-    font-family:'Souvenir Bold';
+    font-family:'Souvenir Bold', serif;
     font-size:14px;
     font-weight:bold;       /*по-хорошему, это надо убрать, но почему-то жирный текст иначе не подтягивается*/
     margin:0px 10px 7px 0 !important;
 }
-.exit_cls span{
-    color:#1D4B82;
-    font-family:'Souvenir';
-    font-size:12px;
+.user_cls{
+    right:50px !important;
+    text-align:right;
 }
 .exit_cls{
     left:calc(100% - 50px) !important;
 }
-.user_cls{
-    right:50px !important;
-    text-align:right;
+.icons_cls span{
+    color:#1D4B82;
+    font-family:Arial, sans-serif;
+    font-size:12px;
+}
+.exit_cls.icons_cls span{
+    font-family:'Souvenir', serif;
 }
