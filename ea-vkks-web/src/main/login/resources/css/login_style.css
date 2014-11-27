@@ -7,7 +7,7 @@
 }
 /*настройка всяческих полей*/
 label.x-form-item-label-default{
-    //vertical-align:middle;
+    /*vertical-align:middle;*/
     color:#1D4B82;
     font-family:'Roboto Bold';
     font-size:15px;
@@ -25,7 +25,7 @@ textarea.x-form-text.x-form-text-default{
 }
     /*combpbox*/
     .x-form-text-wrap.x-form-text-wrap-default input[id*="combo"]{
-        //padding-right:24px;
+        /*padding-right:24px;*/
     }
     div[id*="combo"].x-form-trigger-default,
     div[id*="treepicker"].x-form-trigger-default{
@@ -39,7 +39,7 @@ textarea.x-form-text.x-form-text-default{
 /**/
 /*кнопки*/
 a.x-btn.buttons_style,
-a.x-btn.x-btn-focus.x-btn-default-small{
+a.x-btn.buttons_style.x-btn-focus.x-btn-default-small{
     background-color:#5781B4;
     border-radius:6px;
     padding:10px 15px;
@@ -98,13 +98,20 @@ h1{
     height:145px
 }
 /*стиль для страниц навигации*/
+@media all and (-webkit-min-device-pixel-ratio:0) {
+    .header_cls ~ .x-container{
+            left:15% !important;
+            right:15% !important;
+    }
+}
 .header_cls ~ .x-container{
-    width:800px;
+    width:800px !important; 
     margin:auto !important;
     position:relative !important;
+    left:0 !important;
 }
 .main_page .x-autocontainer-outerCt{
-    width:800px;    
+    width:800px !important;    
 }
 .main_page a .x-btn-inner-default-small{
     color:#1D4B82;
@@ -131,6 +138,7 @@ h1{
 .login_page{
     margin: 5% auto !important;
     width:60% !important;
+    left:0 !important;
 }
 .login_page .x-panel-header,
 .login_page .x-panel-header div{

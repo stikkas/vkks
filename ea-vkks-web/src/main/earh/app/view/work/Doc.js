@@ -16,6 +16,7 @@ Ext.define('Earh.view.work.Doc', {
 		'Ext.form.field.TextArea',
 		'Ext.form.field.File',
 		'Ext.panel.Tool',
+		'Earh.view.work.DocController',
 		'Earh.store.FioResult',
 		'Earh.store.CourtResult',
 		'Earh.store.DocType'
@@ -109,6 +110,7 @@ Ext.define('Earh.view.work.Doc', {
 					}]
 			}, {
 				title: Trans.graph,
+				controller: 'docwork',
 				tools: [{
 						type: 'close',
 						tooltip: Trans.delGraph,
@@ -122,7 +124,10 @@ Ext.define('Earh.view.work.Doc', {
 								labelWidth: 200,
 								buttonOnly: true,
 								hideLabel: true,
-								buttonText: 'Файл'
+								buttonText: Trans.file,
+								listeners: {
+									change: 'graphAdded'
+								}
 							}, {
 								xtype: 'label',
 								text: Trans.addGraph

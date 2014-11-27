@@ -32,16 +32,19 @@ Ext.define('Earh.view.header.Header', {
 						html: '<h1>' + Trans.vkks + '</h1>'
 					},
 					headerView._tb = Ext.create('Ext.toolbar.Toolbar', {
-						minWidth: 1050,
+						//minWidth: 1050,
+                                                cls:'buttons_menu',
 						defaults: {
 							xtype: 'button'
 						},
 						items: [{
 								text: Trans.main,
-								handler: 'toMain'
+								handler: 'toMain',
+                                                                cls:'home_cls icons_cls'
 							}, {
 								text: Trans.backToSearch,
-								handler: 'backToSearch'
+								handler: 'backToSearch',
+                                                                cls:'back_to_search_cls icons_cls'
 							}, {
 								text: Trans.backToCase,
 								handler: 'backToCase'
@@ -49,26 +52,31 @@ Ext.define('Earh.view.header.Header', {
 							' ',
 							{
 								text: Trans.search,
-								handler: 'search'
+								handler: 'search',
+                                                                cls:'search_cls icons_cls'
 							}, {
 								text: Trans.save,
-								handler: 'save'
+								handler: 'save',
+                                                                cls:'save_cls icons_cls'
 							}, {
 								text: Trans.remove,
-								handler: 'remove'
+								handler: 'remove',
+                                                                cls:'remove_cls icons_cls'
 							}, {
 								text: Trans.edit,
-								handler: 'edit'
+								handler: 'edit',
+                                                                cls:'edit_cls icons_cls'
 							},
 							'->',
 							{
 								xtype: 'label',
-								text: Earh.user
+								text: Earh.user,
+                                                                cls:'user_cls icons_cls'
 							},
-							'-',
 							{
 								text: Trans.exit,
-								handler: 'onExit'
+								handler: 'onExit',
+                                                                cls:'exit_cls icons_cls'
 							}]
 					})]
 			}

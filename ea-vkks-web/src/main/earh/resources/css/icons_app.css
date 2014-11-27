@@ -7,6 +7,13 @@ and open the template in the editor.
     Created on : 24.11.2014, 17:16:35
     Author     : shapovalova
 */
+/*очистка фокуса*/
+/*a.doc_cls.x-btn.x-btn-focus.x-btn-default-small,
+.deal_cls a.x-btn.x-btn-focus.x-btn-default-small{
+    border:none;
+    background-image:none;
+}*/
+/**/
 a.x-btn.x-btn-over span{
     text-decoration:underline;
 }
@@ -26,10 +33,75 @@ a.x-btn.doc_cls.x-btn-pressed,
 }
 .x-btn.x-btn-default-small.doc_cls,
 .x-btn.doc_cls.x-btn-over,
-a.x-btn.doc_cls.x-btn-pressed{
+a.x-btn.doc_cls.x-btn-pressed,
+a.x-btn.doc_cls.x-btn-focus.x-btn-default-small{
     background-image:url('../images/project_images/doc.png');
-    margin-left:20% !important;
+    margin-left:18% !important;
 }
 .deal_cls{
     background-image:url('../images/project_images/deal.png');
 }
+/*buttons menu*/
+.icons_cls.x-btn{
+    background-repeat:no-repeat;
+    background-position:top center;
+    padding-top:27px;
+    top:0 !important;
+}
+.x-btn.exit_cls,
+a.exit_cls.x-btn-over.x-btn-default-toolbar-small,
+a.exit_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.exit_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/exit.png');
+    border-left:2px solid;
+    border-left-image:url('../images/project_images/vert_border.png');
+    -moz-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
+    -webkit-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
+    -ms-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
+    -o-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
+}
+.x-btn.home_cls,
+a.home_cls.x-btn-over.x-btn-default-toolbar-small,
+a.home_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.home_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/home.png');
+}
+.x-btn.search_cls,
+a.search_cls.x-btn-over.x-btn-default-toolbar-small,
+a.search_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.search_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/search.png');
+}
+.x-btn.back_to_search_cls,
+a.back_to_search_cls.x-btn-over.x-btn-default-toolbar-small,
+a.back_to_search_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.back_to_search_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/back_to_search.png');
+}
+.x-btn.edit_cls,
+a.edit_cls.x-btn-over.x-btn-default-toolbar-small,
+a.edit_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.edit_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/edit.png');
+}
+.x-btn.save_cls,
+a.save_cls.x-btn-over.x-btn-default-toolbar-small,
+a.save_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.save_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/save.png');
+}
+.x-btn.remove_cls,
+a.remove_cls.x-btn-over.x-btn-default-toolbar-small,
+a.remove_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.remove_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/remove.png');
+}
+/*скрытие неактивных иконок*/
+.buttons_menu .x-btn-disabled{
+    width:0;
+    border:none;
+}
+.buttons_menu .x-btn-disabled ~ .x-btn{
+    /*margin-left:-30px !important;*/
+}
+/**/
