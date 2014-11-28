@@ -47,9 +47,10 @@ Ext.define('Earh.view.work.Case', {
 				editRole = Earh.editRole;
 		caseView.items = [{
 				xtype: 'form',
+                                cls:'section_panel',
 				title: Trans.acase,
 				defaults: {
-					labelWidth: 200,
+					labelWidth: 400,
 					readOnly: !editRole
 				},
 				items: [{
@@ -100,10 +101,11 @@ Ext.define('Earh.view.work.Case', {
 					}]
 			}, {
 				title: Trans.caseDocs,
+                                cls:'section_panel',
 				items: [{
 						xtype: 'textfield',
 						fieldLabel: Trans.caseDocsSearch,
-						labelWidth: 200,
+						labelWidth: 400,
 						name: 'context',
 						triggers: {
 							search: {
