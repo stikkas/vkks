@@ -27,11 +27,12 @@ Ext.define('Earh.view.search.Case', {
 		var resultStoreId = 'casesStore';
 		this.callParent([{
 				xtype: 'form',
+                                cls:'section_panel',
 				title: Trans.caseSearch,
 				layout: 'vbox',
 				width: '100%',
 				defaults: {
-					labelWidth: 200
+					labelWidth: 400
 				},
 				items: [{
 						xtype: 'textfield',
@@ -76,6 +77,7 @@ Ext.define('Earh.view.search.Case', {
 			}, {
 				xtype: 'gridpanel',
 				title: Trans.searchResult,
+                                cls:'section_panel',
 				store: resultStoreId,
 				width: '100%',
 				columns: {
