@@ -15,6 +15,7 @@ Ext.define('Earh.view.search.Base', {
 		'Ext.form.field.Text'
 	],
 	layout: 'vbox',
+                        cls:'fields_panel',
 	initComponent: function (searchForm, resultGrid) {
 		var baseForm = this;
 		baseForm.items = [

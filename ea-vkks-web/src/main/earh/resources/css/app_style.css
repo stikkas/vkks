@@ -31,11 +31,13 @@ textarea.x-form-text.x-form-text-default{
         }
     }
     @media screen and (min-width:0\0) {
-        div[id*="combo"].x-form-trigger-default{
+        div[id*="combo"].x-form-trigger-default,
+        div[id*="treepicker"].x-form-trigger-default{
             top:6px;
             position:relative;
         }
-        .x-form-dirty div[id*="combo"].x-form-trigger-default{
+        .x-form-dirty div[id*="combo"].x-form-trigger-default,
+        .x-form-dirty div[id*="treepicker"].x-form-trigger-default{
             top:6px;
             position:relative;
         }
@@ -218,3 +220,45 @@ label.user_cls.x-toolbar-item{
 .exit_cls.icons_cls span{
     font-family:'Souvenir', serif;
 }
+/**/
+/*панели разделов*/
+.fields_panel{
+    padding:15px;
+    border:1px solid #CADAF4;
+    box-shadow:6px 10px 18px rgba(98,119,168,.75)
+}
+.section_panel .x-panel-header .x-title-text{
+    color:#1D4B82;
+    font-family:'Philosopher Bold', serif;
+    font-size:22px;
+    font-weight:normal;
+    text-align:center;
+    padding:10px;
+    border-top:3px solid rgba(209,210,220,.6);
+    border-bottom:3px solid rgba(209,210,220,.6);
+    -moz-border-top-colors: #DFDFE4 #EAEAEC;
+    -moz-border-bottom-colors: #DFDFE4 #EAEAEC;
+}
+
+/*таблицы*/
+div.x-grid-header-ct,
+div.x-grid-with-row-lines{
+    border:1px solid #809EDA;
+}
+div.x-grid-header-ct,
+div.x-column-header{
+    background-color:#DCE5F3;
+}
+div.x-column-header,
+.x-panel-body td.x-grid-td{
+    border-right:1px solid #809EDA;
+    border-bottom:1px solid #809EDA;
+}
+    /*выравнивание неверной высоты ячеек, образующейся из-за отсутствующих бордеров*/
+    div.x-panel-body td.x-grid-td{
+        margin-top:-1px;
+        margin-right:2px;
+    }
+    div.x-grid-header-ct{
+        margin-bottom:-1px;
+    }

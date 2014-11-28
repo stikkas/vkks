@@ -49,3 +49,16 @@ div.x-toolbar-default{
     border:none;
     
 }
+/*tables*/
+table{
+    border-collapse:collapse !important;
+}
+div.x-grid-header-ct,
+div.x-column-header,
+div.x-column-header-over{
+    background-image:none;
+}
+.x-panel-body .x-grid-td,
+.x-grid-header-ct{
+    border:none;
+}
