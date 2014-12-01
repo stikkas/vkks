@@ -15,7 +15,7 @@ Ext.define('Other.field.Base', {
 		var me = this;
 		if (!(me.readOnly || me.allowBlank)) {
 			me.labelEl.setHtml("<span>*</span>" + me.fieldLabel + me.labelSeparator);
-			me.addListener("change", requiredFieldChanged, null, me);
+//			me.addListener("change", requiredFieldChanged, null, me);
 		}
 	}
 });

@@ -90,6 +90,7 @@ Ext.define('Earh.view.work.Case', {
 						readOnly: true
 					}, {
 						xtype: 'treepicker',
+						leafOnly: true,
 						fieldLabel: Trans.topoRef,
 						name: 'toporef',
 						store: Earh.store.TopoRef
@@ -201,6 +202,14 @@ Ext.define('Earh.view.work.Case', {
 	},
 	isValid: function () {
 		return this._frm.isValid();
+	},
+	/**
+	 * Реализация общего интерфейса для всех страниц
+	 * Для проверки несохраненных данных
+	 * @returns {Boolean}
+	 */
+	isDirty: function () {
+		return false;
 	}
 });
 

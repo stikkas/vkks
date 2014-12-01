@@ -81,6 +81,13 @@ Ext.define('Other.ux.TreePicker', {
 			me.setRawValue('');
 		}
 		return me;
+	},
+	onItemClick: function (view, record, node, rowIndex, e) {
+		if (this.leafOnly) { // Можно выбирать только листья
+			if (record.get('leaf'))
+				this.selectItem(record);
+		} else
+			this.selectItem(record);
 	}
 });
 

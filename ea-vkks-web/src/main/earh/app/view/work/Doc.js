@@ -166,6 +166,14 @@ Ext.define('Earh.view.work.Doc', {
 			viewGraph.hide();
 			tool.hide();
 		}
+	},
+	/**
+	 * Реализация общего интерфейса для всех страниц
+	 * Для проверки несохраненных данных
+	 * @returns {Boolean}
+	 */
+	isDirty: function () {
+		return false;
 	}
 });
 

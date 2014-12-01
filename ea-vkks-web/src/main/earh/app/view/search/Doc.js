@@ -139,12 +139,11 @@ Ext.define('Earh.view.search.Doc', {
 	 * Поиск документов
 	 */
 	search: function () {
-		var panels = this.items;
 //		panels.getAt(1).getStore().loadPage(1, {
 ////			params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
 //			params: {q: Ext.encode(panels.getAt(0).getValues())}
 //		});
-		panels.getAt(1).getStore().loadData([{
+		this._rslt.store.loadData([{
 				id: 1, acase: '18', number: '102', type: 'Правое',
 				title: 'Справка с работы',
 				pages: '1-10',

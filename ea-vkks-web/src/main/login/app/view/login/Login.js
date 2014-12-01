@@ -11,7 +11,7 @@ Ext.define('Login.view.login.Login', {
 		'Ext.button.Button'
 	],
 	controller: 'login',
-        cls:'login_page',
+	cls: 'login_page',
 	defaults: {
 		xtype: 'textfield',
 		labelSeparator: '',
@@ -36,12 +36,12 @@ Ext.define('Login.view.login.Login', {
 		loginPage.buttons = [{
 				text: Trans.enter,
 				handler: 'enter',
-                                cls:'buttons_style'
-			}, {
-				text: Trans.exit,
-				handler: 'exit',
-                                cls:'buttons_style'
-			}];
+				cls: 'buttons_style'
+			}/*, {
+			 text: Trans.exit,
+			 handler: 'exit',
+			 cls:'buttons_style'
+			 }*/];
 		loginPage.callParent();
 	}
 });

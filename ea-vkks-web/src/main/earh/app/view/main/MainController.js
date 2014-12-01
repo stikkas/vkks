@@ -15,12 +15,14 @@ Ext.define('Earh.view.main.MainController', {
 				subscribers = controller.subscribers = [],
 				listenersFormPages = {};
 		// Подпсчики на событие 'validChanged'
-		subscribers.push({
-			button: controller.view.items.getAt(0)._tb.items.getAt(5), // Кнопка сохранить
-			validChanged: function (valid) {
-				this.button.setDisabled(!valid);
-			}
-		});
+		/*
+		 subscribers.push({
+		 button: controller.view.items.getAt(0)._tb.items.getAt(5), // Кнопка сохранить
+		 validChanged: function (valid) {
+		 this.button.setDisabled(!valid);
+		 }
+		 });
+		 */
 		for (var o in Pages)
 			listenersFormPages[Pages[o]] = {activate: 'showTB'};
 		listenersFormPages.form = {validChanged: 'validChanged'};
@@ -41,26 +43,34 @@ Ext.define('Earh.view.main.MainController', {
 	hideTB: function () {
 		this.view.hideTB();
 	},
-	/*
-	 * Перенаправление к главной странице
+	/**
+	 * Перенаправляет на требуюмую страницу.
+	 * Перед перенапралением проверяет есть ли несохраненые данные.
+	 * Каждая страница должна реализовывать интерфейс isDirty
+	 * @param {String} page страница, на которую нужно уйти
 	 */
-	toMain: function () {
-//		this.redirectTo(Pages.home);
-		var currentPage = this.view.getActiveItem(),
-				home = Pages.home;
-		if (currentPage.$className === 'Earh.view.work.Case' &&
-				currentPage.updateRecord().dirty) {
-			showAlert("Контроль", "Выйти без сохранения?", "exitWithoutSave", this,
-					{next: home});
+	toPage: function (page) {
+		if (this.view.getActiveItem().isDirty()) {
+			exitWithoutSave(this, page);
 			return;
 		}
-		this.view.setActiveItem(home);
+		if (this[page])
+			this[page]();
+		else
+			this.view.setActiveItem(page);
+	},
+	/**
+	 * Перенапраление на главную страницу по кнопке "Главная"
+	 */
+	toMain: function () {
+		this.toPage(Pages.home);
 	},
 	/**
 	 * Перенаправление  к странице поиска дел
 	 */
 	toCasesSearch: function () {
 		this.view.setActiveItem(Pages.scases);
+		this.view.getActiveItem().clear();
 	},
 	/**
 	 * Перенаправление к странице дела
@@ -73,39 +83,27 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	toDocsSearch: function () {
 		this.view.setActiveItem(Pages.sdocs);
+		this.view.getActiveItem().clear();
 	},
 	/**
 	 * Обработчик события нажатия на клавишу "Выход"
 	 */
 	onExit: function () {
-		showAlert("Предупреждение", "Вы точно хотите выйти из приложения?", 'exit', this);
+		this.toPage('exit'); // exit - это функция
 	},
 	/**
-	 * Завершает работу и перенаправляет пользователя на страницу приветствия,
-	 * если пользователь ответил утвердительно, иначе ничего не делает
-	 * @param btn {String} кнопка, которую нажал пользователь - `yes` или `no`
+	 * Завершает работу и перенаправляет пользователя на страницу приветствия
 	 */
-	exit: function (btn) {
-		if (btn === "yes")
-			Ext.Ajax.request({
-				url: Urls.logout,
-				success: function () {
-					window.location.href = Urls.login;
-				},
-				failure: function () {
-					console.log(arguments);
-				}
-			});
-	},
-	/**
-	 * Вызывается когда нажали `да` или `нет` диалога "Выйти без сохранения?"
-	 * @param btn {String} кнопка, которую нажал пользователь
-	 * @param _ {String} в данном методе не используется
-	 * @param opt {Object} объект, переданный для Ext.Msg.show
-	 */
-	exitWithoutSave: function (btn, _, opt) {
-		if (btn === "yes")
-			this.view.setActiveItem(opt.args.next);
+	exit: function () {
+		Ext.Ajax.request({
+			url: Urls.logout,
+			success: function () {
+				window.location.href = Urls.login;
+			},
+			failure: function () {
+				console.log(arguments);
+			}
+		});
 	},
 	/**
 	 * Функция поиска дел, документов
@@ -117,7 +115,11 @@ Ext.define('Earh.view.main.MainController', {
 	 * Функция сохранения дела, документа
 	 */
 	save: function () {
-		this.view.getActiveItem().save();
+		var page = this.view.getActiveItem();
+		if (page.isValid())
+			page.save();
+		else
+			ctrlRequiredFields();
 	},
 	/**
 	 * Функция удаления дела, документа
@@ -138,7 +140,6 @@ Ext.define('Earh.view.main.MainController', {
 					idx = 3;
 					var form = page.items.getAt(0);
 					form.applyAll('setRequired');
-					form.fireEvent('validChanged', false);
 					page.clear();
 					page.model = Ext.create('Earh.model.Case');
 					break;
@@ -161,7 +162,7 @@ Ext.define('Earh.view.main.MainController', {
 			form.fireEvent('validChanged', false);
 			//--------------Для тестов только-------------------
 			var model = Ext.create('Earh.model.Doc');
-			model.setGraph(Ext.create('Earh.model.Graph', {id: 10, url: '/file.pdf'}))
+			model.setGraph(Ext.create('Earh.model.Graph', {id: 10, url: '/file.pdf'}));
 			page.model = model;
 			//---------------------------------------------------
 			page.setGraph();

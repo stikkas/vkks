@@ -15,14 +15,32 @@ Ext.define('Earh.view.search.Base', {
 		'Ext.form.field.Text'
 	],
 	layout: 'vbox',
-                        cls:'fields_panel',
+	cls: 'fields_panel',
 	initComponent: function (searchForm, resultGrid) {
 		var baseForm = this;
 		baseForm.items = [
-			baseForm._frm = searchForm,
-			baseForm._rslt = resultGrid
+			searchForm,
+			resultGrid
 		];
 		baseForm.callParent();
+		baseForm._frm = baseForm.items.getAt(0);
+		baseForm._rslt = baseForm.items.getAt(1);
+	},
+	/**
+	 * Реализация общего интерфейса для всех страниц
+	 * Для проверки несохраненных данных
+	 * @returns {Boolean}
+	 */
+	isDirty: function () {
+		return false;
+	},
+	/**
+	 * Очищает форму, если приходим с главной страницы
+	 * @returns {undefined}
+	 */
+	clear: function () {
+		this._frm.reset();
+		this._rslt.store.removeAll();
 	}
 });
 

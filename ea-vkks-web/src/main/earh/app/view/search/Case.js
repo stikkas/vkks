@@ -27,7 +27,7 @@ Ext.define('Earh.view.search.Case', {
 		var resultStoreId = 'casesStore';
 		this.callParent([{
 				xtype: 'form',
-                                cls:'section_panel',
+				cls: 'section_panel',
 				title: Trans.caseSearch,
 				layout: 'vbox',
 				width: '100%',
@@ -77,7 +77,7 @@ Ext.define('Earh.view.search.Case', {
 			}, {
 				xtype: 'gridpanel',
 				title: Trans.searchResult,
-                                cls:'section_panel',
+				cls: 'section_panel',
 				store: resultStoreId,
 				width: '100%',
 				columns: {
@@ -85,7 +85,7 @@ Ext.define('Earh.view.search.Case', {
 						menuDisabled: true
 					},
 					items: [{
-							text: Trans.caseNum,
+							text: Trans.caseNum_,
 							dataIndex: 'number'
 						},
 						{
@@ -120,12 +120,11 @@ Ext.define('Earh.view.search.Case', {
 	 * Поиск дел
 	 */
 	search: function () {
-		var panels = this.items;
 //		panels.getAt(1).getStore().loadPage(1, {
 ////			params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
 //			params: {q: Ext.encode(panels.getAt(0).getValues())}
 //		});
-		panels.getAt(1).getStore().loadData([{
+		this._rslt.store.loadData([{
 				id: 1, number: '102', type: 'Правое',
 				storeLife: 'Вечного хранения',
 				title: 'О пропавшей раковине',
@@ -133,6 +132,30 @@ Ext.define('Earh.view.search.Case', {
 				remark: 'Надо подумать'
 			}, {
 				id: 2, number: '194', type: 'Левое',
+				storeLife: 'Вечного хранения',
+				title: 'О найденой руковичке',
+				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
+				remark: 'Все сделано за нас'
+			}, {
+				id: 3, number: '194', type: 'Левое',
+				storeLife: 'Вечного хранения',
+				title: 'О найденой руковичке',
+				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
+				remark: 'Все сделано за нас'
+			}, {
+				id: 4, number: '194', type: 'Левое',
+				storeLife: 'Вечного хранения',
+				title: 'О найденой руковичке',
+				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
+				remark: 'Все сделано за нас'
+			}, {
+				id: 5, number: '194', type: 'Левое',
+				storeLife: 'Вечного хранения',
+				title: 'О найденой руковичке',
+				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
+				remark: 'Все сделано за нас'
+			}, {
+				id: 6, number: '194', type: 'Левое',
 				storeLife: 'Вечного хранения',
 				title: 'О найденой руковичке',
 				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',

@@ -29,6 +29,7 @@ Trans = {
 	show: "Показать",
 	acase: "Дело",
 	caseNum: "№ дела",
+	caseNum_: "№<br>дела",
 	caseType: "Тип дела",
 	docType: "Вид документа",
 	departmnt: "Структурное подразделение",
@@ -162,6 +163,33 @@ showAlert = function (title, message, fn, scope, args) {
 	});
 };
 /**
+ * Показывает диалог при попытки покинуть страницу с несохраненными данными
+ * @param {Object} controller контроллер, обрабатывающий ситуацию
+ * @param {String} where может быть либо названием страницы, куда надо перенаправить,
+ * или именем функции, которую надо вызвать, в случае утвердительного ответа
+ */
+exitWithoutSave = function (controller, where) {
+	showAlert('Контроль', 'Выйти без сохранения?', function (btn) {
+		if (btn === 'yes') {
+			if (controller[where])
+				controller[where]();
+			else
+				controller.view.setActiveItem(where);
+		}
+	});
+};
+/**
+ * Сообщает о неправильном заполнении формы при сохранении
+ */
+ctrlRequiredFields = function () {
+	Ext.Msg.show({
+		title: 'Контроль наличия значений',
+		msg: 'Отсутствуют значения в полях,<br>обязательных для сохранения',
+		buttons: Ext.Msg.OK,
+		icon: Ext.Msg.ERROR
+	});
+};
+/**
  * Показывает сообщение об успешной операции
  * @param {String} title заголовок окна
  * @param {String} message сообщение
@@ -173,8 +201,14 @@ showInfo = function (title, message) {
 		msg: message,
 		buttons: Ext.Msg.OK,
 		icon: Ext.Msg.INFO,
-		maxWidth: 800
+		maxWidth: 400
 	});
+};
+/**
+ * Отображает сообщение о пустых результатах поиска
+ */
+emptySearchResult = function () {
+	showInfo('Результаты поиска', 'Не найдены единицы хранения,<br> удволетворяющие заданным критериям поиска');
 };
 /**
  * Колонка для ссылки на графический образ
