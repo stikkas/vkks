@@ -168,3 +168,7 @@ h1{
     margin:auto;
     right:0 !important;
 }
+.login_page a{
+    left:0 !important;
+    margin-left:calc(50% - 20px) !important;
+}

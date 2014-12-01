@@ -12,7 +12,6 @@
     font-family:'Philosopher';
     src:url('../fonts/Philosopher/eot/Philosopher-Regular.eot');
     src:url('../fonts/Philosopher/eot/Philosopher-Regular.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Philosopher/woff2/Philosopher-Regular.woff2') format('woff2'),
         url('../fonts/Philosopher/woff/Philosopher-Regular.woff') format('woff'),
         url('../fonts/Philosopher/ttf/Philosopher-Regular.ttf') format('truetype'),
         url('../fonts/Philosopher/svg/Philosopher-Regular.svg') format('svg');
@@ -21,7 +20,6 @@
     font-family:'Philosopher Bold';
     src:url('../fonts/Philosopher/eot/Philosopher-Bold.eot');
     src:url('../fonts/Philosopher/eot/Philosopher-Bold.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Philosopher/woff2/Philosopher-Bold.woff2') format('woff2'),
         url('../fonts/Philosopher/woff/Philosopher-Bold.woff') format('woff'),
         url('../fonts/Philosopher/ttf/Philosopher-Bold.ttf') format('truetype'),
         url('../fonts/Philosopher/svg/Philosopher-Bold.svg') format('svg');
@@ -30,18 +28,18 @@
 @font-face{
     font-family:'Roboto';
     src:url('../fonts/Roboto/eot/roboto-regular-webfont.eot');
-    src:url('../fonts/Roboto/eot/roboto-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    src:/*url('../fonts/Roboto/eot/roboto-regular-webfont.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Roboto/woff2/roboto-regular-webfont.woff2') format('woff2'),
-        url('../fonts/Roboto/woff/roboto-regular-webfont.woff') format('woff'),
+        url('../fonts/Roboto/woff/roboto-regular-webfont.woff') format('woff'),*/
         url('../fonts/Roboto/ttf/Roboto-Regular.ttf') format('truetype'),
         url('../fonts/Roboto/svg/roboto-regular-webfont.svg') format('svg');
 }
 @font-face{
     font-family:'Roboto Bold';
     src:url('../fonts/Roboto/eot/roboto-bold-webfont.eot');
-    src:url('../fonts/Roboto/eot/roboto-bold-webfont.eot?#iefix') format('embedded-opentype'),
+    src:/*url('../fonts/Roboto/eot/roboto-bold-webfont.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Roboto/woff2/roboto-bold-webfont.woff2') format('woff2'),
-        url('../fonts/Roboto/woff/roboto-bold-webfont.woff') format('woff'),
+        url('../fonts/Roboto/woff/roboto-bold-webfont.woff') format('woff'),*/
         url('../fonts/Roboto/ttf/Roboto-Bold.ttf') format('truetype'),
         url('../fonts/Roboto/svg/roboto-bold-webfont.svg') format('svg');
 }
@@ -68,9 +66,9 @@
 @font-face{
     font-family:'Marmelad';
     src:url('../fonts/Marmelad/marmelad-regular-webfont.eot');
-    src:url('../fonts/Marmelad/marmelad-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    src:/*url('../fonts/Marmelad/marmelad-regular-webfont.eot?#iefix') format('embedded-opentype'),
         url('../fonts/Marmelad/marmelad-regular-webfont.woff2') format('woff2'),
-        url('../fonts/Marmelad/marmelad-regular-webfont.woff') format('woff'),
+        url('../fonts/Marmelad/marmelad-regular-webfont.woff') format('woff'),*/
         url('../fonts/Marmelad/Marmelad-Regular.ttf') format('truetype'),
         url('../fonts/Marmelad/marmelad-regular-webfont.svg') format('svg');
 }
