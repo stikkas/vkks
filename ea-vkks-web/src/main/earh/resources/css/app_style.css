@@ -200,9 +200,8 @@ h1{
 }
 label.user_cls.x-toolbar-item{
     color:#1D4B82;
-    font-family:'Souvenir Bold', serif;
+    font-family:'Souvenir Bold';
     font-size:14px;
-    font-weight:bold;       /*по-хорошему, это надо убрать, но почему-то жирный текст иначе не подтягивается*/
     margin:0px 10px 7px 0 !important;
 }
 .user_cls{
@@ -218,7 +217,7 @@ label.user_cls.x-toolbar-item{
     font-size:12px;
 }
 .exit_cls.icons_cls span{
-    font-family:'Souvenir', serif;
+    font-family:'Souvenir';
 }
 /**/
 /*панели разделов*/
@@ -229,7 +228,7 @@ label.user_cls.x-toolbar-item{
 }
 .section_panel .x-panel-header .x-title-text{
     color:#1D4B82;
-    font-family:'Philosopher Bold', serif;
+    font-family:'Philosopher Bold';
     font-size:22px;
     font-weight:normal;
     text-align:center;
@@ -252,6 +251,8 @@ div.x-column-header{
 div.x-column-header,
 .x-panel-body td.x-grid-td{
     border-right:1px solid #809EDA;
+}
+div.x-column-header{
     border-bottom:1px solid #809EDA;
 }
     /*выравнивание неверной высоты ячеек, образующейся из-за отсутствующих бордеров*/
@@ -262,3 +263,25 @@ div.x-column-header,
     div.x-grid-header-ct{
         margin-bottom:-1px;
     }
+div.x-column-header-inner{
+    color:#1D4B82;
+    font-family:'Scada Bold';
+    font-size:14px;
+    text-align:center;
+    padding:7px;
+}
+.x-panel-body .x-grid-item:nth-child(even){
+    background-color:#E1EEFF;
+}
+.x-panel-body .x-grid-item-over{
+    background-color:#EAE5FF !important;
+}
+.x-panel-body .x-grid-item .x-grid-cell-inner{
+    font-family:Arial, sans-serif;
+    font-size:14px;
+}
+.x-panel-body .x-grid-item-over .x-grid-cell-inner{
+    color:#1D4B82;
+    font-weight:bold;
+    text-decoration:underline;
+}
