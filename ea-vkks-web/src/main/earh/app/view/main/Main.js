@@ -7,6 +7,7 @@ Ext.define('Earh.view.main.Main', {
 		'Earh.view.main.MainController',
 		'Earh.view.header.Header',
 		'Earh.view.home.Home',
+		'Earh.store.TopoRef',
 		'Ext.layout.container.VBox',
 		'Ext.container.Container',
 		'Ext.layout.container.Card',
@@ -27,6 +28,7 @@ Ext.define('Earh.view.main.Main', {
 			 region: 'center'*/
 		}],
 	initComponent: function () {
+		Ext.create('Earh.store.TopoRef').load();
 		var mainView = this;
 		mainView.callParent();
 		mainView._header = mainView.items.getAt(0);

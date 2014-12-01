@@ -19,17 +19,26 @@ Ext.define('Earh.Application', {
 		Ext.Ajax.request({
 			url: Urls.user,
 			success: function (answer) {
-				var result = Ext.decode(answer.responseText),
-						roles = Earh.roles = result.roles;
-				Earh.user = result.user;
+				var result = Ext.decode(answer.responseText);
+				if (result.success) {
+					roles = Earh.roles = result.data.access;
+					Earh.user = result.data.user;
+					Earh.userId = result.data.id;
 
-				Earh.editRole = !!~roles.indexOf('CODE_OF_EDIT_ROLE');
-				if (Earh.editRole || ~roles.indexOf('CODE_OF_VIEW_ROLE'))
-					Ext.create('widget.eamain');
-				else {
-					showError("Ошибка", "Пользователь " + Earh.user + " не имеет прав для доступа к приложению");
-					window.location.href = Urls.logout;
+					Earh.editRole = !!~roles.indexOf('EARCH_EDIT');
+
+					if (Earh.editRole || ~roles.indexOf('EARCH_VIEW'))
+						Ext.create('widget.eamain');
+					else {
+						showError("Ошибка", "Пользователь " + Earh.user + " не имеет прав для доступа к приложению");
+						window.location.href = Urls.logout;
+					}
+				} else {
+					showError("Ошибка", result.error);
 				}
+			},
+			failure: function () {
+				console.log(arguments);
 			}
 		});
 	}

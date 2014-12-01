@@ -8,7 +8,6 @@ Ext.define('Earh.view.search.Case', {
 		'Earh.store.CaseResult',
 		'Earh.store.CaseType',
 		'Earh.store.StoreLife',
-		'Earh.store.TopoRef',
 		'Ext.ux.TreePicker'
 	],
 	tbb: [1, // Главная
@@ -67,7 +66,7 @@ Ext.define('Earh.view.search.Case', {
 					}, {
 						xtype: 'treepicker',
 						fieldLabel: Trans.topoRef,
-						store: Earh.store.TopoRef,
+						store: Ext.getStore('topoRefStore'),
 						name: 'toporef'
 					}, {
 						xtype: 'textfield',
@@ -161,6 +160,10 @@ Ext.define('Earh.view.search.Case', {
 				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
 				remark: 'Все сделано за нас'
 			}]);
+	},
+	clear: function () {
+		this._frm.items.getAt(6).initPicker();
+		this.callParent();
 	}
 });
 
