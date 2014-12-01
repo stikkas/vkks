@@ -11,10 +11,12 @@ label.x-form-item-label-default{
     color:#1D4B82;
     font-family:'Roboto Bold';
     font-size:15px;
-    padding-right:15px !important;
+   /* padding-right:15px !important;*/
+    /*margin-right:25px !important;*/
 }
 .x-form-text-field-body.x-form-item-body-default{
     min-height:25px;
+    padding-left:15px;
 }
 input.x-form-text.x-form-text-default,
 textarea.x-form-text.x-form-text-default{
@@ -284,4 +286,35 @@ div.x-column-header-inner{
     color:#1D4B82;
     font-weight:bold;
     text-decoration:underline;
+}
+
+/*панель навигации*/
+div[id*=pagingtoolbar].x-toolbar{
+    width:100%;             /*в общем случае. в карточках, где у таблиц есть кнопки, это не так*/
+}
+div[id*=pagingtoolbar].x-box-inner{
+    width:215px !important;
+    margin: auto;
+}
+.x-box-inner span.x-tbar-page-prev{
+    background-image:url('../images/project_images/navigation.png');
+    background-position:0px 1px;
+}
+.x-box-inner span.x-tbar-page-first{
+    background-image:url('../images/project_images/navigation.png');
+    background-position:-12px 1px;
+}
+.x-box-inner span.x-tbar-page-next{
+    background-image:url('../images/project_images/navigation.png');
+    background-position:-24px 1px;
+}
+.x-box-inner span.x-tbar-page-last{
+    background-image:url('../images/project_images/navigation.png');
+    background-position:-36px 1px;
+}
+.x-item-disabled .x-tbar-page-prev,
+.x-item-disabled .x-tbar-page-first,
+.x-item-disabled .x-tbar-page-next,
+.x-item-disabled .x-tbar-page-last{
+    opacity:0.5;
 }

@@ -63,3 +63,7 @@ div.x-column-header-over{
 .x-grid-header-ct{
     border:none;
 }
+/*navigation*/
+div[id*=pagingtoolbar].x-box-inner .x-btn.x-btn-default-toolbar-small{
+    border:none;
+}

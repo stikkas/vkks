@@ -36,42 +36,50 @@ Ext.define('Earh.view.search.Case', {
 				items: [{
 						xtype: 'textfield',
 						fieldLabel: Trans.caseNum,
-						name: 'number'
+						name: 'number',
+                                                width:515
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.caseType,
 						store: 'caseTypeStore',
 						name: 'type',
 						displayField: 'value',
-						valueField: 'id'
+						valueField: 'id',
+                                                width:775
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.storeLife,
 						name: 'storeLife',
 						store: 'storeLifeStore',
 						displayField: 'value',
-						valueField: 'id'
+						valueField: 'id',
+                                                width:675
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.caseTitle,
-						name: 'title'
+						name: 'title',
+                                                width:985
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.startDate,
-						name: 'startDate'
+						name: 'startDate',
+                                                width:535
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.endDate,
-						name: 'endDate'
+						name: 'endDate',
+                                                width:535
 					}, {
 						xtype: 'treepicker',
 						fieldLabel: Trans.topoRef,
 						store: Ext.getStore('topoRefStore'),
 						name: 'toporef'
+                        width:675
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.remark,
-						name: 'remark'
+						name: 'remark',
+                        width:985
 					}]
 			}, {
 				xtype: 'gridpanel',
