@@ -1,6 +1,8 @@
+/**
+ * Хранилище для листания дел
+ */
 Ext.define('Earh.store.Case', {
-	extend: 'Ext.data.Store',
+	extend: 'Earh.store.CaseResult',
 	storeId: 'caseStore',
-	singleton: true
+	pageSize: 1
 });
-

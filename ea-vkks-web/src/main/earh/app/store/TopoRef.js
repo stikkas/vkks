@@ -47,7 +47,7 @@ Ext.define('Earh.store.TopoRef', {
 			url: Urls.dict,
 			reader: 'json',
 			writer: 'json',
-			extraParams: {action: 'getToporef'}
+			extraParams: {action: Actions.tree}
 		}));
 	}
 });
