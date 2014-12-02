@@ -63,7 +63,7 @@ Ext.define('Earh.view.work.Doc', {
 						xtype: 'combobox',
 						fieldLabel: Trans.docType,
 						name: 'type',
-						displayField: 'value',
+						displayField: 'name',
 						valueField: 'id',
 						store: 'docTypeStore'
 					}, {

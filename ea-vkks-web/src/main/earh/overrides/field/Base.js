@@ -13,9 +13,19 @@ Ext.define('Other.field.Base', {
 	 */
 	setRequired: function () {
 		var me = this;
-		if (!(me.readOnly || me.allowBlank)) {
-			me.labelEl.setHtml("<span>*</span>" + me.fieldLabel + me.labelSeparator);
+		if (me._saveBlank !== undefined)
+			me.allowBlank = me._saveBlank;
+		if (me.readOnly) {
+			me.labelEl.setHtml(me.fieldLabel + me.labelSeparator);
+			me._saveBlank = me.allowBlank;
+			me.allowBlank = true;
+		} else {
+			if (!me.allowBlank) {
+				me.labelEl.setHtml("<span>*</span>" + me.fieldLabel + me.labelSeparator);
 //			me.addListener("change", requiredFieldChanged, null, me);
+			} else {
+				me.labelEl.setHtml(me.fieldLabel + me.labelSeparator);
+			}
 		}
 	}
 });

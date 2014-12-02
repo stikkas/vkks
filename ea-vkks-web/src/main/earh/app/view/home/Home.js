@@ -25,7 +25,7 @@ Ext.define('Earh.view.home.Home', {
 					}, {
 						xtype: 'button',
 						text: Trans.caseAdd,
-						handler: 'toCase'
+						handler: 'addCase'
 					}]
 			}, {
 				xtype: 'button',
