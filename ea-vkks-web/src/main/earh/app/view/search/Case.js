@@ -84,7 +84,7 @@ Ext.define('Earh.view.search.Case', {
 			}, {
 				xtype: 'gridpanel',
 				title: Trans.searchResult,
-				cls: 'section_panel',
+				cls: 'section_panel case_search',
 				store: resultStoreId,
 				width: '100%',
 				columns: {

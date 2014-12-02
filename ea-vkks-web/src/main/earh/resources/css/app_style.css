@@ -275,9 +275,17 @@ div.x-column-header-inner{
     text-align:center;
     padding:7px;
 }
-.x-grid-cell-first .x-grid-cell-inner {
-    text-align:center !important;       /*выравнивание данных первого столбца. по-хорошему, нужно привешивать класс к определенным столбцам с числовыми данными*/
-}
+    /*текст в таблицах*/
+    .x-grid-header-ct .x-column-header-text{
+        white-space:normal;
+    }
+    .case_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
+    .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
+    .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(2) .x-grid-cell-inner,
+    .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(5) .x-grid-cell-inner,
+    .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(9) .x-grid-cell-inner{
+        text-align:center !important;
+    }
 .x-panel-body .x-grid-item:nth-child(even){
     background-color:#E1EEFF;
 }
