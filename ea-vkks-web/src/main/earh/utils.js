@@ -122,14 +122,16 @@ Searchs = {
  * Показывает ошибки в диалоговом окне
  * @param {String} title заголовок окна
  * @param {String} message сообщение об ошибке
+ * @param {Function} fn вызывается по закрытии диалога
  * @method showError
  */
-showError = function (title, message) {
+showError = function (title, message, fn) {
 	if (message instanceof Object) {
 		if (message.statusText) {
 			message = message.statusText;
 		} else {
 			console.log(message);
+			fn();
 			return;
 		}
 	}
@@ -138,6 +140,7 @@ showError = function (title, message) {
 		msg: message,
 		buttons: Ext.Msg.OK,
 		icon: Ext.Msg.ERROR,
+		fn: fn,
 		maxWidth: 800
 	});
 };
