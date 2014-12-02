@@ -30,8 +30,9 @@ Ext.define('Earh.Application', {
 					if (Earh.editRole || ~roles.indexOf('EARCH_VIEW'))
 						Ext.create('widget.eamain');
 					else {
-						showError("Ошибка", "Пользователь " + Earh.user + " не имеет прав для доступа к приложению");
-						window.location.href = Urls.logout;
+						showError("Ошибка", "Пользователь " + Earh.user + " не имеет прав для доступа к приложению", function () {
+							window.location.href = Urls.logout;
+						});
 					}
 				} else {
 					showError("Ошибка", result.error);

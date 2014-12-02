@@ -10,10 +10,10 @@ Ext.define('Earh.store.SearchResult', {
 	},
 	constructor: function (url) {
 		this.callParent();
-//		this.setProxy(Ext.create('Ext.data.proxy.Ajax', {
-//			url: url,
-//			reader: 'json',
-//			writer: 'json'
-//		}));
+		this.setProxy(Ext.create('Ext.data.proxy.Ajax', {
+			url: url,
+			reader: 'json',
+			writer: 'json'
+		}));
 	}
 });

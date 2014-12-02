@@ -37,7 +37,7 @@ Ext.define('Earh.view.search.Case', {
 						xtype: 'textfield',
 						fieldLabel: Trans.caseNum,
 						name: 'number',
-                                                width:515
+						width: 515
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.caseType,
@@ -45,7 +45,7 @@ Ext.define('Earh.view.search.Case', {
 						name: 'type',
 						displayField: 'value',
 						valueField: 'id',
-                                                width:775
+						width: 775
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.storeLife,
@@ -53,22 +53,22 @@ Ext.define('Earh.view.search.Case', {
 						store: 'storeLifeStore',
 						displayField: 'value',
 						valueField: 'id',
-                                                width:675
+						width: 675
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.caseTitle,
 						name: 'title',
-                                                width:985
+						width: 985
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.startDate,
 						name: 'startDate',
-                                                width:535
+						width: 535
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.endDate,
 						name: 'endDate',
-                                                width:535
+						width: 535
 					}, {
 						xtype: 'treepicker',
 						fieldLabel: Trans.topoRef,
@@ -79,7 +79,7 @@ Ext.define('Earh.view.search.Case', {
 						xtype: 'textfield',
 						fieldLabel: Trans.remark,
 						name: 'remark',
-                                                width:985
+						width: 985
 					}]
 			}, {
 				xtype: 'gridpanel',
@@ -134,47 +134,29 @@ Ext.define('Earh.view.search.Case', {
 	 * Поиск дел
 	 */
 	search: function () {
-//		panels.getAt(1).getStore().loadPage(1, {
-////			params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
-//			params: {q: Ext.encode(panels.getAt(0).getValues())}
-//		});
-		this._rslt.store.loadData([{
-				id: 1, number: '102', type: 'Правое',
-				storeLife: 'Вечного хранения',
-				title: 'О пропавшей раковине',
-				dates: '11.01.2001-12.04.2014', toporef: 'ком. 1, ст. 1, п. 3',
-				remark: 'Надо подумать'
-			}, {
-				id: 2, number: '194', type: 'Левое',
-				storeLife: 'Вечного хранения',
-				title: 'О найденой руковичке',
-				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
-				remark: 'Все сделано за нас'
-			}, {
-				id: 3, number: '194', type: 'Левое',
-				storeLife: 'Вечного хранения',
-				title: 'О найденой руковичке',
-				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
-				remark: 'Все сделано за нас'
-			}, {
-				id: 4, number: '194', type: 'Левое',
-				storeLife: 'Вечного хранения',
-				title: 'О найденой руковичке',
-				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
-				remark: 'Все сделано за нас'
-			}, {
-				id: 5, number: '194', type: 'Левое',
-				storeLife: 'Вечного хранения',
-				title: 'О найденой руковичке',
-				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
-				remark: 'Все сделано за нас'
-			}, {
-				id: 6, number: '194', type: 'Левое',
-				storeLife: 'Вечного хранения',
-				title: 'О найденой руковичке',
-				dates: '11.11.2011-12.06.2013', toporef: 'ком. 10, ст. 3, п. 1',
-				remark: 'Все сделано за нас'
-			}]);
+		this._rslt.store.loadPage(1, {
+//		params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
+			params: {
+				q: Ext.encode(this._frm.getValues())
+			}
+		});
+		/*
+		 var item = {
+		 id: 1, number: '102', type: 'Правое',
+		 storeLife: 'Вечного хранения',
+		 title: 'О пропавшей раковине',
+		 dates: '11.01.2001-12.04.2014', toporef: 'ком. 1, ст. 1, п. 3',
+		 remark: 'Надо подумать'
+		 },
+		 items = [];
+		 for (var i = 0; i < 100; ++i) {
+		 items.push(item);
+		 item = Ext.decode(Ext.encode(item));
+		 item.id++;
+		 item.number = '' + (parseInt(item.number) + 1);
+		 }
+		 this._rslt.store.loadData(items);
+		 */
 	},
 	clear: function () {
 		this._frm.items.getAt(6).initPicker();

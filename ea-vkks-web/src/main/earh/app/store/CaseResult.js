@@ -7,6 +7,7 @@ Ext.define('Earh.store.CaseResult', {
 	model: 'Earh.model.CaseResult',
 	storeId: 'casesStore',
 	singleton: true,
+	pageSize: 12,
 	constructor: function () {
 		this.callParent(['cases']);
 	}
