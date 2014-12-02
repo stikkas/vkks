@@ -7,7 +7,7 @@
 			<url-pattern>/index.html</url-pattern>
 			<url-pattern>/app.json</url-pattern>
 			<url-pattern>/app.js</url-pattern>
-			<url-pattern>/srvcs/*</url-pattern>
+			<!--<url-pattern>/srvcs/*</url-pattern>-->
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>*</role-name>

@@ -257,20 +257,26 @@ div.x-column-header,
 div.x-column-header{
     border-bottom:1px solid #809EDA;
 }
-/*выравнивание неверной высоты ячеек, образующейся из-за отсутствующих бордеров*/
-div.x-panel-body td.x-grid-td{
-	margin-top:-1px;
-	margin-right:2px;
+.x-grid-header-ct > .x-box-inner{
+    width:100% !important;
 }
-div.x-grid-header-ct{
-	margin-bottom:-1px;
-}
+    /*выравнивание неверной высоты ячеек, образующейся из-за отсутствующих бордеров*/
+    div.x-panel-body td.x-grid-td{
+            margin-top:-1px;
+            margin-right:2px;
+    }
+    div.x-grid-header-ct{
+            margin-bottom:-1px;
+    }
 div.x-column-header-inner{
     color:#1D4B82;
     font-family:'Scada Bold';
     font-size:14px;
     text-align:center;
     padding:7px;
+}
+.x-grid-cell-first .x-grid-cell-inner {
+    text-align:center !important;       /*выравнивание данных первого столбца. по-хорошему, нужно привешивать класс к определенным столбцам с числовыми данными*/
 }
 .x-panel-body .x-grid-item:nth-child(even){
     background-color:#E1EEFF;

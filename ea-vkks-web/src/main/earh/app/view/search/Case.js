@@ -73,13 +73,13 @@ Ext.define('Earh.view.search.Case', {
 						xtype: 'treepicker',
 						fieldLabel: Trans.topoRef,
 						store: Ext.getStore('topoRefStore'),
-						name: 'toporef'
-                        width:675
+						name: 'toporef',
+                                                width:985
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.remark,
 						name: 'remark',
-                        width:985
+                                                width:985
 					}]
 			}, {
 				xtype: 'gridpanel',
@@ -93,27 +93,34 @@ Ext.define('Earh.view.search.Case', {
 					},
 					items: [{
 							text: Trans.caseNum_,
-							dataIndex: 'number'
+							dataIndex: 'number',
+                                                        width:'5%'
 						},
 						{
 							text: Trans.caseType,
-							dataIndex: 'type'
+							dataIndex: 'type',
+                                                        width:'20%'
 						},
 						{
 							text: Trans.storeLife,
-							dataIndex: 'storeLife'
+							dataIndex: 'storeLife',
+                                                        width:'10%'
 						}, {
 							text: Trans.caseTitle,
-							dataIndex: 'title'
+							dataIndex: 'title',
+                                                        width:'20%'
 						}, {
 							text: Trans.dates,
-							dataIndex: 'dates'
+							dataIndex: 'dates',
+                                                        width:'14%'
 						}, {
 							text: Trans.topoRef,
-							dataIndex: 'toporef'
+							dataIndex: 'toporef',
+                                                        width:'20%'
 						}, {
 							text: Trans.remark,
-							dataIndex: 'remark'
+							dataIndex: 'remark',
+                                                        width:'10.5%'
 						}]
 				},
 				dockedItems: [{
