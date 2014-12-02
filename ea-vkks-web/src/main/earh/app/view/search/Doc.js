@@ -39,34 +39,41 @@ Ext.define('Earh.view.search.Doc', {
 				items: [{
 						xtype: 'numberfield',
 						fieldLabel: Trans.volumeNum,
-						name: 'volume'
+						name: 'volume',
+						width: 515
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.docNum,
-						name: 'number'
+						name: 'number',
+						width: 515
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.docType,
 						store: 'docTypeStore',
 						name: 'type',
 						displayField: 'name',
-						valueField: 'id'
+						valueField: 'id',
+						width: 985
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.docTitle,
-						name: 'title'
+						name: 'title',
+						width: 985
 					}, {
 						xtype: 'numberfield',
 						fieldLabel: Trans.startPageNum,
-						name: 'startPage'
+						name: 'startPage',
+						width: 515
 					}, {
 						xtype: 'numberfield',
 						fieldLabel: Trans.endPageNum,
-						name: 'endPage'
+						name: 'endPage',
+						width: 515
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.docDate,
-						name: 'date'
+						name: 'date',
+						width: 535
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.court,
@@ -75,11 +82,13 @@ Ext.define('Earh.view.search.Doc', {
 						valueField: 'court',
 						displayField: 'court',
 						queryMode: 'local',
-						editable: true
+						editable: true,
+						width: 775
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.remark,
-						name: 'remark'
+						name: 'remark',
+						width: 985
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.fio,
@@ -88,46 +97,56 @@ Ext.define('Earh.view.search.Doc', {
 						valueField: 'fio',
 						displayField: 'fio',
 						queryMode: 'local',
-						editable: true
+						editable: true,
+						width: 775
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.ctxSearch,
-						name: 'context'
+						name: 'context',
+						width: 985
 					}]
 			}, {
 				xtype: 'gridpanel',
 				title: Trans.searchResult,
 				store: resultStoreId,
 				width: '100%',
-				cls: 'section_panel',
+                cls:'section_panel doc_search',
 				columns: {
 					defaults: {
 						menuDisabled: true
 					},
 					items: [{
 							text: Trans.caseNum,
-							dataIndex: 'acase'
+							dataIndex: 'acase',
+                                                        width:'5%'
 						}, {
 							text: Trans.docNum_,
-							dataIndex: 'number'
+							dataIndex: 'number',
+                                                        width:'8%'
 						}, {
 							text: Trans.docType,
-							dataIndex: 'type'
+							dataIndex: 'type',
+                                                        width:'15%'
 						}, {
 							text: Trans.docTitle,
-							dataIndex: 'title'
+							dataIndex: 'title',
+                                                        width:'30%'
 						}, {
 							text: Trans.pages,
-							dataIndex: 'pages'
+							dataIndex: 'pages',
+                                                        width:'8%'
 						}, {
 							text: Trans.docDate,
-							dataIndex: 'date'
+							dataIndex: 'date',
+                                                        width:'8%'
 						}, {
 							text: Trans.court,
-							dataIndex: 'court'
+							dataIndex: 'court',
+                                                        width:'10.6%'
 						}, {
 							text: Trans.fio,
-							dataIndex: 'fio'
+							dataIndex: 'fio',
+                                                        width:'10%'
 						}, graphLinkColumn]
 				},
 				dockedItems: [{

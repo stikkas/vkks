@@ -257,14 +257,17 @@ div.x-column-header,
 div.x-column-header{
     border-bottom:1px solid #809EDA;
 }
-/*выравнивание неверной высоты ячеек, образующейся из-за отсутствующих бордеров*/
-div.x-panel-body td.x-grid-td{
-	margin-top:-1px;
-	margin-right:2px;
+.x-grid-header-ct > .x-box-inner{
+    width:100% !important;
 }
-div.x-grid-header-ct{
-	margin-bottom:-1px;
-}
+    /*выравнивание неверной высоты ячеек, образующейся из-за отсутствующих бордеров*/
+    div.x-panel-body td.x-grid-td{
+            margin-top:-1px;
+            margin-right:2px;
+    }
+    div.x-grid-header-ct{
+            margin-bottom:-1px;
+    }
 div.x-column-header-inner{
     color:#1D4B82;
     font-family:'Scada Bold';
@@ -272,6 +275,17 @@ div.x-column-header-inner{
     text-align:center;
     padding:7px;
 }
+    /*текст в таблицах*/
+    .x-grid-header-ct .x-column-header-text{
+        white-space:normal;
+    }
+    .case_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
+    .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
+    .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(2) .x-grid-cell-inner,
+    .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(5) .x-grid-cell-inner,
+    .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(9) .x-grid-cell-inner{
+        text-align:center !important;
+    }
 .x-panel-body .x-grid-item:nth-child(even){
     background-color:#E1EEFF;
 }
