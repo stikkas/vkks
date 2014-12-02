@@ -47,15 +47,12 @@
 			<version>1.0-SP1</version>
 			<scope>provided</scope>
 		</dependency>
-<<<<<<< HEAD
         
                 <dependency>
                     <groupId>org.elasticsearch</groupId>
                     <artifactId>elasticsearch</artifactId>
                     <version>1.3.2</version>
                 </dependency>
-=======
->>>>>>> e7650a335d993e7626231dd98405f9d091ad3852
 
 		<dependency>
 			<groupId>ru.insoft.archive</groupId>
