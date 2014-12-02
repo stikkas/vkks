@@ -7,7 +7,7 @@ Ext.define('Earh.view.main.MainController', {
 		'Earh.view.work.Case',
 		'Earh.view.work.Doc',
 		'Earh.model.Graph',
-		'Earh.model.Case',
+		'Earh.model.CCase',
 		'Earh.model.Doc'
 	],
 	init: function () {
@@ -73,9 +73,24 @@ Ext.define('Earh.view.main.MainController', {
 		this.view.getActiveItem().clear();
 	},
 	/**
-	 * Перенаправление к странице дела
+	 * Перенаправление к странице дела,
+	 * когда щелкаем по делу из результатов поиска
+	 * @param {Object} gridview вьюха панели результатов поиска
+	 * @param {Object} cell ячейка, по которой щелкнули (не используется)
+	 * @param {Number} idcell номер ячейки, по которой щелкнули (не используется)
+	 * @param {Ext.data.Model} record запись с данными (не используется)
+	 * @param {Object} row ряд, по которому щелкнули (не используется)
+	 * @param {Number} idrow номер ряда, по которому щелкнули
 	 */
-	toCase: function () {
+	toCase: function (gridview, cell, idcell, record, row, idrow) {
+		var store = gridview.store;
+		this.view.setActiveItem(Pages.acase);
+		this.view.getActiveItem().loadPage(idrow + (store.currentPage - 1) * store.pageSize + 1);
+	},
+	/**
+	 * Добавляем дело
+	 */
+	addCase: function () {
 		this.view.setActiveItem(Pages.acase);
 	},
 	/**
@@ -133,19 +148,21 @@ Ext.define('Earh.view.main.MainController', {
 	 * @param prev {Object} предыдущая ЭФ
 	 */
 	setCaseMenu: function (page, prev) {
-		var idx = 0;
-		if (Earh.editRole) {
-			switch (prev.$className) {
-				case 'Earh.view.home.Home': // подготавливаем ЭФ для создания нового дела
-					idx = 3;
-					var form = page.items.getAt(0);
-					form.applyAll('setRequired');
-					page.clear();
-					page.model = Ext.create('Earh.model.Case');
-					break;
-				case 'Earh.view.search.Case':
-					idx = 1;
-			}
+		var idx,
+				form = page.items.getAt(0);
+		switch (prev.$className) {
+			case 'Earh.view.home.Home': // подготавливаем ЭФ для создания нового дела. Возможно только при наличии роли редактирования
+				idx = 3;
+				page.clear();
+				page.model = Ext.create('Earh.model.CCase');
+				form.applyAll('setReadOnly', [false]);
+				form.applyAll('setRequired');
+				break;
+			case 'Earh.view.search.Case':
+				Earh.editRole ? idx = 1 : idx = 0;
+				form.applyAll('setReadOnly', [true]);
+				form.applyAll('setRequired');
+				page.setVisibleCardBar(true);
 		}
 		page.tbb = page.hbtns[idx];
 	},
@@ -190,5 +207,19 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	addDoc: function () {
 		this.view.setActiveItem(Pages.adoc);
+	},
+	/**
+	 * вернуться к результатам поиска (дел)
+	 */
+	backToSearch: function () {
+		this.toPage(Pages.scases);
+	},
+	/**
+	 * Включение режима редактирования для дела
+	 */
+	edit: function () {
+		var page = this.view.getActiveItem();
+		page.switchEdit();
+		this.view.showTB(page.tbb);
 	}
 });

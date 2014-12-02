@@ -31,7 +31,7 @@ Ext.define('Earh.view.search.Doc', {
 				title: Trans.docSearch,
 				layout: 'vbox',
 				width: '100%',
-                                cls:'section_panel',
+				cls: 'section_panel',
 				defaults: {
 					labelWidth: 400,
 					labelAlign: 'right'
@@ -49,7 +49,7 @@ Ext.define('Earh.view.search.Doc', {
 						fieldLabel: Trans.docType,
 						store: 'docTypeStore',
 						name: 'type',
-						displayField: 'value',
+						displayField: 'name',
 						valueField: 'id'
 					}, {
 						xtype: 'textfield',
@@ -99,7 +99,7 @@ Ext.define('Earh.view.search.Doc', {
 				title: Trans.searchResult,
 				store: resultStoreId,
 				width: '100%',
-                                cls:'section_panel',
+				cls: 'section_panel',
 				columns: {
 					defaults: {
 						menuDisabled: true

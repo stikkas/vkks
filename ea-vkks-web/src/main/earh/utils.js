@@ -74,7 +74,8 @@ Trans = {
 	ctxSearch: "Контекстный поиск",
 	pages: "Листы",
 	delGraph: "Удалить графический образ",
-	file: "Файл"
+	file: "Файл",
+	card: "Карточка"
 };
 
 Pages = {
@@ -99,17 +100,21 @@ Urls = {
 	user: RootContext + 'srvcs/user',
 	fios: RootContext + 'srvcs/users',
 	courts: RootContext + 'srvcs/courts',
-	ccase: RootContext + 'srvcs/create/case'
+	ccase: RootContext + 'srvcs/create/case',
+	scase: RootContext + 'srvcs/search/case'
 };
 /**
  * параметры для получения справочников с сервера
  * @type {Object}
  */
 Dicts = {
-	storelife: 'storelife',
-	casetype: 'casetype',
-	doctype: 'doctype',
-	toporef: 'toporef'
+	storelife: 'CASE_STORE_LIFE',
+	casetype: 'CASE_TYPE',
+	doctype: 'DOCUMENT_TYPE'
+};
+Actions = {
+	plain: 'getDictValues',
+	tree: 'getToporef'
 };
 /**
  * Параметры для получения резельтатов поиска

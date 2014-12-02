@@ -1,5 +1,6 @@
 /**
  * Модель атрибутов дела
+ * @abstract
  */
 Ext.define('Earh.model.Case', {
 	extend: 'Ext.data.Model',
@@ -13,12 +14,12 @@ Ext.define('Earh.model.Case', {
 		{name: 'endDate', type: 'date', defaultValue: null},
 		{name: 'toporef', type: 'int', defaultValue: null},
 		{name: 'remark', type: 'string', defaultValue: null}],
-	constructor: function () {
+	constructor: function (url) {
 		Earh.model.Case.setProxy(Ext.create('Ext.data.proxy.Ajax', {
 			type: 'ajax',
 			writer: 'json',
 			reader: 'json',
-			url: Urls.ccase
+			url: url
 		}));
 		this.callParent();
 	}

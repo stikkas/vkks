@@ -14,7 +14,7 @@
 	"url": null,
 	"js": [
 		{
-			"path": "${ext.dir}/build/ext-all-rtl.js"
+			"path": "${ext.dir}/build/ext-all-debug.js"
 		},
 		{
 			"path": "utils.js",
@@ -27,22 +27,22 @@
 
 	],
 	"css": [
-        {
-            "path": "resources/css/login_style.css",
+		{
+			"path": "resources/css/login_style.css",
 			"bootstrap": false
-        },
-        {
-            "path": "resources/css/login_fonts.css",
+		},
+		{
+			"path": "resources/css/login_fonts.css",
 			"bootstrap": false
-        },
-        {
-            "path": "resources/css/login_clear.css",
+		},
+		{
+			"path": "resources/css/login_clear.css",
 			"bootstrap": false
-        },
-        {
-            "path": "resources/css/login_icons.css",
+		},
+		{
+			"path": "resources/css/login_icons.css",
 			"bootstrap": false
-        },
+		},
 		{
 			"path": "bootstrap.css",
 			"bootstrap": true
