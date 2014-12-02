@@ -1,10 +1,11 @@
-package ru.insoft.archive.eavkks.servlets;
+package ru.insoft.archive.eavkks.load.servlets;
 
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ru.insoft.archive.eavkks.ejb.Loader;
+import ru.insoft.archive.eavkks.load.ejb.Loader;
+import ru.insoft.archive.eavkks.servlets.VkksAbstractServlet;
 
 /**
  *

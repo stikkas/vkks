@@ -17,7 +17,6 @@ Ext.define('Earh.view.work.Case', {
 		'Ext.form.trigger.Trigger',
 		'Ext.button.Button',
 		'Ext.ux.TreePicker',
-		'Earh.store.TopoRef',
 		'Earh.store.CaseType',
 		'Earh.store.StoreLife',
 		'Earh.store.CaseDocResult',
@@ -47,7 +46,7 @@ Ext.define('Earh.view.work.Case', {
 				editRole = Earh.editRole;
 		caseView.items = [{
 				xtype: 'form',
-                                cls:'section_panel',
+				cls: 'section_panel',
 				title: Trans.acase,
 				defaults: {
 					labelWidth: 400,
@@ -94,7 +93,7 @@ Ext.define('Earh.view.work.Case', {
 						leafOnly: true,
 						fieldLabel: Trans.topoRef,
 						name: 'toporef',
-						store: Earh.store.TopoRef
+						store: Ext.getStore('topoRefStore')
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.caseRemark,
@@ -102,7 +101,7 @@ Ext.define('Earh.view.work.Case', {
 					}]
 			}, {
 				title: Trans.caseDocs,
-                                cls:'section_panel',
+				cls: 'section_panel',
 				items: [{
 						xtype: 'textfield',
 						fieldLabel: Trans.caseDocsSearch,
@@ -185,6 +184,7 @@ Ext.define('Earh.view.work.Case', {
 	clear: function () {
 		// Очищаем все поля
 		this._frm.applyAll('reset');
+		this._frm.items.getAt(6).initPicker();
 		// очищаем таблицу с результатами поиска
 		this._grd.store.removeAll();
 	},

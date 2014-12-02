@@ -9,11 +9,11 @@ Ext.define('Earh.store.TopoRef', {
 	],
 	model: 'Earh.model.Tree',
 	storeId: 'topoRefStore',
-	root: {
-		id: 0,
-		text: 'root',
-		expanded: true
-	},
+//	root: {
+//		id: 0,
+//		text: 'root',
+//		expanded: true
+//	},
 //	proxy: {
 //		type: 'memory'
 //	},
@@ -42,13 +42,13 @@ Ext.define('Earh.store.TopoRef', {
 //			}]
 //	},
 	constructor: function () {
+		this.callParent();
 		this.setProxy(Ext.create('Ext.data.proxy.Ajax', {
 			url: Urls.dict,
 			reader: 'json',
 			writer: 'json',
 			extraParams: {action: 'getToporef'}
 		}));
-		this.callParent();
 	}
 });
 

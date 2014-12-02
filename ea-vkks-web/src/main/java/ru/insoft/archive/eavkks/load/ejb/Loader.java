@@ -1,10 +1,9 @@
-package ru.insoft.archive.eavkks.ejb;
+package ru.insoft.archive.eavkks.load.ejb;
 
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import ru.insoft.archive.eavkks.ejb.es.EsAdminHelper;
-import ru.insoft.archive.extcommons.webmodel.FailMessage;
 
 /**
  *

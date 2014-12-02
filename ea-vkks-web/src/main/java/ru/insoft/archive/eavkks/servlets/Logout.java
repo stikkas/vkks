@@ -9,14 +9,13 @@ import ru.insoft.archive.extcommons.ejb.JsonTools;
  * @author С. Благодатских
  */
 @WebServlet("/srvcs/logout")
-public class Logout extends ru.insoft.archive.extcommons.servlet.Logout 
-{
-    @Inject
-    JsonTools jsonTools;
+public class Logout extends ru.insoft.archive.extcommons.servlet.Logout {
 
-    @Override
-    protected JsonTools getJsonTools() 
-    {
-        return jsonTools;
-    }	
+	@Inject
+	JsonTools jsonTools;
+
+	@Override
+	protected JsonTools getJsonTools() {
+		return jsonTools;
+	}
 }

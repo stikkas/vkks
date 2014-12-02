@@ -1,10 +1,10 @@
 /**
- * Делаем TreePicker (комобобокс с выборкой из дерева
+ * Делаем TreePicker (комобобокс с выборкой из дерева)
  * таким каким он нам нужен
  */
 Ext.define('Other.ux.TreePicker', {
 	override: 'Ext.ux.TreePicker',
-	displayField: 'name',
+	displayField: 'text',
 	valueField: 'id',
 	createPicker: function () {
 		var me = this,
@@ -44,6 +44,12 @@ Ext.define('Other.ux.TreePicker', {
 		}
 		return picker;
 	},
+	/**
+	 * Возвращает пикер к первоначальному состоянию
+	 */
+	initPicker: function () {
+		this.getPicker().collapseAll();
+	},
 	setValue: function (value) {
 		var me = this,
 				record;
@@ -68,15 +74,16 @@ Ext.define('Other.ux.TreePicker', {
 		// me.setRawValue(record ? record.get(me.displayField) : '');
 		// Заменяем нашим значением
 		if (record) {
-			var path = [];
-			while (true) {
-				if (record.parentNode) {
-					path.unshift(record.get(me.displayField));
-					record = record.parentNode;
-				} else
-					break;
-			}
-			me.setRawValue(path.join(','));
+//			var path = [];
+//			while (true) {
+//				if (record.parentNode) {
+//					path.unshift(record.get(me.displayField));
+//					record = record.parentNode;
+//				} else
+//					break;
+//			}
+//			me.setRawValue(path.join(','));
+			me.setRawValue(record.get('path'));
 		} else {
 			me.setRawValue('');
 		}
