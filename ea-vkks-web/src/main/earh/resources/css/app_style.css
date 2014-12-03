@@ -6,12 +6,17 @@
     background-attachment:fixed;
 }
 /*настройка всяческих полей*/
+label span:not(.x-form-item-label-inner){
+    color:#EF292B;          /*required*/
+    padding:5px;
+}
+
 label.x-form-item-label-default{
     /*vertical-align:middle;*/
     color:#1D4B82;
     font-family:'Roboto Bold';
     font-size:15px;
-   /* padding-right:15px !important;*/
+	/* padding-right:15px !important;*/
     /*margin-right:25px !important;*/
 }
 .x-form-text-field-body.x-form-item-body-default{
@@ -213,7 +218,8 @@ label.user_cls.x-toolbar-item{
 .exit_cls{
     left:calc(100% - 50px) !important;
 }
-.icons_cls span{
+.icons_cls span,
+.add_cls span{
     color:#1D4B82;
     font-family:Arial, sans-serif;
     font-size:12px;
@@ -247,7 +253,8 @@ div.x-grid-with-row-lines{
     border:1px solid #809EDA;
 }
 div.x-grid-header-ct,
-div.x-column-header{
+div.x-column-header,
+div.x-column-header-over{
     background-color:#DCE5F3;
 }
 div.x-column-header,
@@ -257,6 +264,9 @@ div.x-column-header,
 div.x-column-header{
     border-bottom:1px solid #809EDA;
 }
+.x-grid-header-ct > .x-box-inner{
+    width:100% !important;
+}
 /*выравнивание неверной высоты ячеек, образующейся из-за отсутствующих бордеров*/
 div.x-panel-body td.x-grid-td{
 	margin-top:-1px;
@@ -265,6 +275,7 @@ div.x-panel-body td.x-grid-td{
 div.x-grid-header-ct{
 	margin-bottom:-1px;
 }
+
 div.x-column-header-inner{
     color:#1D4B82;
     font-family:'Scada Bold';
@@ -272,6 +283,22 @@ div.x-column-header-inner{
     text-align:center;
     padding:7px;
 }
+/*текст в таблицах*/
+.x-grid-header-ct .x-column-header-text{
+	white-space:normal;
+}
+.case_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
+.doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
+.doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(2) .x-grid-cell-inner,
+.doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(5) .x-grid-cell-inner,
+.doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(9) .x-grid-cell-inner,
+.doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
+.doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(2) .x-grid-cell-inner,
+.doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(5) .x-grid-cell-inner,
+.doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(10) .x-grid-cell-inner{
+	text-align:center !important;
+}
+
 .x-panel-body .x-grid-item:nth-child(even){
     background-color:#E1EEFF;
 }
@@ -292,6 +319,15 @@ div.x-column-header-inner{
 div[id*=pagingtoolbar].x-toolbar{
     width:100%;             /*в общем случае. в карточках, где у таблиц есть кнопки, это не так*/
 }
+.doc_case div[id*=pagingtoolbar].x-toolbar{
+    width:calc(100% - 170px);
+}
+div[id*=pagingtoolbar] .x-toolbar-text{
+    color:#3B6392;
+    font-family:'Roboto Bold';
+    font-size:13px;
+}
+
 div[id*=pagingtoolbar].x-box-inner{
     width:215px !important;
     margin: auto;

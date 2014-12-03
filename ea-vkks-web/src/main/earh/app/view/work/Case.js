@@ -64,7 +64,8 @@ Ext.define('Earh.view.work.Case', {
 						xtype: 'textfield',
 						fieldLabel: Trans.caseNum,
 						name: 'number',
-						allowBlank: false
+						allowBlank: false,
+						width: 515
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.caseType,
@@ -72,7 +73,8 @@ Ext.define('Earh.view.work.Case', {
 						displayField: 'name',
 						valueField: 'id',
 						name: 'type',
-						allowBlank: false
+						allowBlank: false,
+						width: 775
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.storeLife,
@@ -80,41 +82,49 @@ Ext.define('Earh.view.work.Case', {
 						store: 'storeLifeStore',
 						displayField: 'name',
 						valueField: 'id',
-						allowBlank: false
+						allowBlank: false,
+						width: 675
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.caseTitle,
 						name: 'title',
-						allowBlank: false
+						allowBlank: false,
+						width: 985
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.startDate,
 						name: 'startDate',
-						readOnly: true
+						readOnly: true,
+						width: 515
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.endDate,
 						name: 'endDate',
-						readOnly: true
+						readOnly: true,
+						width: 515
 					}, {
 						xtype: 'treepicker',
 						leafOnly: true,
 						fieldLabel: Trans.topoRef,
 						name: 'toporef',
-						store: Ext.getStore('topoRefStore')
+						store: Ext.getStore('topoRefStore'),
+						width: 985
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.caseRemark,
-						name: 'remark'
+						name: 'remark',
+						width: 985
 					}]
 			}, {
 				title: Trans.caseDocs,
-				cls: 'section_panel',
+				cls: 'section_panel doc_case',
 				items: [{
 						xtype: 'textfield',
 						fieldLabel: Trans.caseDocsSearch,
 						labelWidth: 400,
 						name: 'context',
+						cls: 'find_doc',
+						width: 835,
 						triggers: {
 							search: {
 								cls: 'search',
@@ -127,26 +137,32 @@ Ext.define('Earh.view.work.Case', {
 						width: '100%',
 						columns: {
 							defaults: {
-								menuDisabled: true
+								menuDisabled: true,
+								width: '10%'
 							},
 							items: [{
 									text: Trans.volume,
-									dataIndex: 'volume'
+									dataIndex: 'volume',
+									width: '5%'
 								}, {
 									text: Trans.docNum_,
-									dataIndex: 'number'
+									dataIndex: 'number',
+									width: '7%'
 								}, {
 									text: Trans.docType,
 									dataIndex: 'type'
 								}, {
 									text: Trans.docTitle,
-									dataIndex: 'title'
+									dataIndex: 'title',
+									width: '30%'
 								}, {
 									text: Trans.pages,
-									dataIndex: 'pages'
+									dataIndex: 'pages',
+									width: '5%'
 								}, {
 									text: Trans.docDate_,
-									dataIndex: 'date'
+									dataIndex: 'date',
+									width: '8%'
 								}, {
 									text: Trans.remark,
 									dataIndex: 'remark'
@@ -166,7 +182,8 @@ Ext.define('Earh.view.work.Case', {
 										xtype: 'button',
 										text: Trans.add,
 										hidden: !editRole,
-										handler: 'addDoc'
+										handler: 'addDoc',
+										cls: 'add_cls'
 									}, {
 										xtype: 'pagingtoolbar',
 										store: 'caseDocsStore',
