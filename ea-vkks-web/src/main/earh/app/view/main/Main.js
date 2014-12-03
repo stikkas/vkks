@@ -8,6 +8,10 @@ Ext.define('Earh.view.main.Main', {
 		'Earh.view.header.Header',
 		'Earh.view.home.Home',
 		'Earh.store.TopoRef',
+		'Earh.store.CaseType',
+		'Earh.store.CaseResult',
+		'Earh.store.DocType',
+		'Earh.store.StoreLife',
 		'Ext.layout.container.VBox',
 		'Ext.container.Container',
 		'Ext.layout.container.Card',
@@ -28,7 +32,15 @@ Ext.define('Earh.view.main.Main', {
 			 region: 'center'*/
 		}],
 	initComponent: function () {
+		// Иницализируем нужные хранилища, которые по-хорошему должны быть
+		// одиночками, но в силу особенностей компиляции Extjs и моим желанием
+		// иметь все урлы в одном месте, приходится идти на такой трюк
 		Ext.create('Earh.store.TopoRef').load();
+		Ext.create('Earh.store.CaseType').load();
+		Ext.create('Earh.store.DocType').load();
+		Ext.create('Earh.store.StoreLife').load();
+		Ext.create('Earh.store.CaseResult');
+
 		var mainView = this;
 		mainView.callParent();
 		mainView._header = mainView.items.getAt(0);

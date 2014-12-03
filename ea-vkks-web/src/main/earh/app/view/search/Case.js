@@ -5,9 +5,7 @@ Ext.define('Earh.view.search.Case', {
 	extend: 'Earh.view.search.Base',
 	alias: 'widget.scases',
 	requires: [
-		'Earh.store.CaseResult',
-		'Earh.store.CaseType',
-		'Earh.store.StoreLife',
+		'Earh.store.Case',
 		'Ext.ux.TreePicker'
 	],
 	tbb: [1, // Главная
@@ -23,6 +21,7 @@ Ext.define('Earh.view.search.Case', {
 		1, // разделитель
 		1], // Выход
 	initComponent: function () {
+		Ext.create('Earh.store.Case');
 		var resultStoreId = 'casesStore';
 		this.callParent([{
 				xtype: 'form',
@@ -43,7 +42,7 @@ Ext.define('Earh.view.search.Case', {
 						fieldLabel: Trans.caseType,
 						store: 'caseTypeStore',
 						name: 'type',
-						displayField: 'value',
+						displayField: 'name',
 						valueField: 'id',
 						width: 775
 					}, {
@@ -51,7 +50,7 @@ Ext.define('Earh.view.search.Case', {
 						fieldLabel: Trans.storeLife,
 						name: 'storeLife',
 						store: 'storeLifeStore',
-						displayField: 'value',
+						displayField: 'name',
 						valueField: 'id',
 						width: 675
 					}, {
@@ -74,7 +73,7 @@ Ext.define('Earh.view.search.Case', {
 						fieldLabel: Trans.topoRef,
 						store: Ext.getStore('topoRefStore'),
 						name: 'toporef',
-						width: 835
+						width: 985
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.remark,
@@ -84,7 +83,7 @@ Ext.define('Earh.view.search.Case', {
 			}, {
 				xtype: 'gridpanel',
 				title: Trans.searchResult,
-				cls: 'section_panel',
+				cls: 'section_panel case_search',
 				store: resultStoreId,
 				width: '100%',
 				columns: {
@@ -93,27 +92,34 @@ Ext.define('Earh.view.search.Case', {
 					},
 					items: [{
 							text: Trans.caseNum_,
-							dataIndex: 'number'
+							dataIndex: 'number',
+							width: '5%'
 						},
 						{
 							text: Trans.caseType,
-							dataIndex: 'type'
+							dataIndex: 'type',
+							width: '20%'
 						},
 						{
 							text: Trans.storeLife,
-							dataIndex: 'storeLife'
+							dataIndex: 'storeLife',
+							width: '10%'
 						}, {
 							text: Trans.caseTitle,
-							dataIndex: 'title'
+							dataIndex: 'title',
+							width: '20%'
 						}, {
 							text: Trans.dates,
-							dataIndex: 'dates'
+							dataIndex: 'dates',
+							width: '14%'
 						}, {
 							text: Trans.topoRef,
-							dataIndex: 'toporef'
+							dataIndex: 'toporef',
+							width: '20%'
 						}, {
 							text: Trans.remark,
-							dataIndex: 'remark'
+							dataIndex: 'remark',
+							width: '10.5%'
 						}]
 				},
 				dockedItems: [{
@@ -131,25 +137,30 @@ Ext.define('Earh.view.search.Case', {
 //		params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
 			params: {
 				q: Ext.encode(this._frm.getValues())
+			},
+			scope: this,
+			callback: function (records, operation, success) {
+				if (!success || records.length === 0) {
+					emptySearchResult();
+//TODO: В рабочей версии убрать ------------
+					var item = {
+						id: 1, number: '201', type: 'Тип дела', storeLife: 'Срок хранения',
+						title: 'Название дела', dates: '11.01.2014-12.03.2014',
+						toporef: 'Топография', remark: 'Примечание'
+					}, items = [];
+
+					for (var i = 0; i < 12; ++i) {
+						items.push(item);
+						item = Ext.decode(Ext.encode(item));
+						item.id++;
+						item.number = '' + (parseInt(item.number) + 1);
+					}
+					this._rslt.store.loadData(items);
+//-----------------------------------------
+				}
 			}
+
 		});
-		/*
-		 var item = {
-		 id: 1, number: '102', type: 'Правое',
-		 storeLife: 'Вечного хранения',
-		 title: 'О пропавшей раковине',
-		 dates: '11.01.2001-12.04.2014', toporef: 'ком. 1, ст. 1, п. 3',
-		 remark: 'Надо подумать'
-		 },
-		 items = [];
-		 for (var i = 0; i < 100; ++i) {
-		 items.push(item);
-		 item = Ext.decode(Ext.encode(item));
-		 item.id++;
-		 item.number = '' + (parseInt(item.number) + 1);
-		 }
-		 this._rslt.store.loadData(items);
-		 */
 	},
 	clear: function () {
 		this._frm.items.getAt(6).initPicker();

@@ -3,10 +3,7 @@
  */
 Ext.define('Earh.store.TopoRef', {
 	extend: 'Ext.data.TreeStore',
-	requires: [
-		'Earh.model.Tree',
-		'Ext.data.proxy.Ajax'
-	],
+	requires: ['Ext.data.proxy.Ajax'],
 	model: 'Earh.model.Tree',
 	storeId: 'topoRefStore',
 //	root: {

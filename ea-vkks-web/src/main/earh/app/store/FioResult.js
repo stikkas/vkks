@@ -3,7 +3,6 @@
  */
 Ext.define('Earh.store.FioResult', {
 	extend: 'Earh.store.SearchResult',
-	requires: ['Earh.model.FioResult'],
 	model: 'Earh.model.FioResult',
 	storeId: 'fiosStore',
 	data: [

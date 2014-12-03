@@ -20,7 +20,7 @@ Ext.define('Earh.view.work.Case', {
 		'Earh.store.CaseType',
 		'Earh.store.StoreLife',
 		'Earh.store.CaseDocResult',
-		'Earh.model.Case'
+		'Earh.model.SCase'
 	],
 	layout: 'vbox',
 	defaults: {
@@ -44,6 +44,7 @@ Ext.define('Earh.view.work.Case', {
 	initComponent: function () {
 		var caseView = this,
 				editRole = Earh.editRole;
+		caseView.store = Ext.getStore('caseStore');
 		caseView.items = [{
 				xtype: 'form',
 				cls: 'section_panel',
@@ -52,6 +53,13 @@ Ext.define('Earh.view.work.Case', {
 					labelWidth: 400,
 					readOnly: !editRole
 				},
+				dockedItems: [{
+						dock: 'top',
+						xtype: 'pagingtoolbar',
+						store: caseView.store,
+						beforePageText: Trans.card,
+						displayInfo: false
+					}],
 				items: [{
 						xtype: 'textfield',
 						fieldLabel: Trans.caseNum,
@@ -61,7 +69,7 @@ Ext.define('Earh.view.work.Case', {
 						xtype: 'combobox',
 						fieldLabel: Trans.caseType,
 						store: 'caseTypeStore',
-						displayField: 'value',
+						displayField: 'name',
 						valueField: 'id',
 						name: 'type',
 						allowBlank: false
@@ -70,7 +78,7 @@ Ext.define('Earh.view.work.Case', {
 						fieldLabel: Trans.storeLife,
 						name: 'storeLife',
 						store: 'storeLifeStore',
-						displayField: 'value',
+						displayField: 'name',
 						valueField: 'id',
 						allowBlank: false
 					}, {
@@ -171,6 +179,7 @@ Ext.define('Earh.view.work.Case', {
 		caseView.callParent();
 		caseView._frm = caseView.items.getAt(0);
 		caseView._grd = caseView.items.getAt(1).items.getAt(1);
+		caseView._tbr = caseView._frm.getDockedItems()[0];
 	},
 	save: function () {
 		this._frm.updateRecord(this.model);
@@ -187,6 +196,23 @@ Ext.define('Earh.view.work.Case', {
 		this._frm.items.getAt(6).initPicker();
 		// очищаем таблицу с результатами поиска
 		this._grd.store.removeAll();
+	},
+	/**
+	 * Используется при листании
+	 * @param {Number} page номер страницы (осчет ведется с 1)
+	 */
+	loadPage: function (page) {
+		var caseView = this;
+		caseView.store.loadPage(page, {callback: function (records, operation, success) {
+				console.log(arguments);
+				// загрузить модель по id
+				// Earh.model.SCase.load(records[0].get('id'), {
+				// callback: function(){console.log(arguments);}
+				// });
+				// заполнить форму этой моделью
+				// caseView.loadRecord();
+			}
+		});
 	},
 	/**
 	 * Загружаем данные в форму
@@ -212,6 +238,23 @@ Ext.define('Earh.view.work.Case', {
 	 */
 	isDirty: function () {
 		return false;
+	},
+	/**
+	 * Переключает в режим редактирования
+	 */
+	switchEdit: function () {
+		var viewCase = this;
+		viewCase._frm.applyAll('setReadOnly', [false]);
+		viewCase._frm.applyAll('setRequired');
+		viewCase.setVisibleCardBar(false);
+		viewCase.tbb = viewCase.hbtns[2];
+	},
+	/**
+	 * Показывает или скрывает toolbar для пролистывания дел
+	 * @param {Boolean} stat true - показать, false - скрыть
+	 */
+	setVisibleCardBar: function (stat) {
+		this._tbr.setVisible(stat);
 	}
 });
 

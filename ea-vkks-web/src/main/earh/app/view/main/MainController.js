@@ -157,6 +157,7 @@ Ext.define('Earh.view.main.MainController', {
 				page.model = Ext.create('Earh.model.CCase');
 				form.applyAll('setReadOnly', [false]);
 				form.applyAll('setRequired');
+				page.setVisibleCardBar(false);
 				break;
 			case 'Earh.view.search.Case':
 				Earh.editRole ? idx = 1 : idx = 0;
