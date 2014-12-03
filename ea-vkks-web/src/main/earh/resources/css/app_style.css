@@ -272,6 +272,7 @@ div.x-column-header,
 }
 div.x-column-header{
     border-bottom:1px solid #809EDA;
+    min-height: 38px !important;
 }
 .x-grid-header-ct > .x-box-inner{
     width:100% !important;
@@ -289,9 +290,7 @@ div.x-column-header-inner{
     font-family:'Scada Bold';
     font-size:14px;
     text-align:center;
-   // padding:8px 7px 7px 7px !important;
-   padding-bottom: 0.4em !important;
-   padding-top: 0.4em !important;
+    padding:5px !important;
 }
 /*текст в таблицах*/
 .x-grid-header-ct .x-column-header-text{
