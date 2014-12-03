@@ -24,6 +24,7 @@ Ext.define('Earh.view.work.Case', {
 		'Earh.model.SCase'
 	],
 	layout: 'vbox',
+        cls: 'fields_panel',
 	defaults: {
 		xtype: 'panel',
 		layout: 'vbox',

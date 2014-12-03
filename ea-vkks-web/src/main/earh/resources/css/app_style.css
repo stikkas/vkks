@@ -238,7 +238,7 @@ label.user_cls.x-toolbar-item{
 }
 /**/
 /*панели разделов*/
-.fields_panel{
+div.fields_panel{
     padding:15px;
     border:1px solid #CADAF4;
     box-shadow:6px 10px 18px rgba(98,119,168,.75)
@@ -362,4 +362,25 @@ div[id*=pagingtoolbar].x-box-inner{
 .x-item-disabled .x-tbar-page-next,
 .x-item-disabled .x-tbar-page-last{
     opacity:0.5;
+}
+/*кртачка документа*/
+    /*разметка*/
+    .card_doc .x-box-inner div.x-box-target > .x-panel.fields_doc{
+        /*width:50% !important;*/
+        width:calc(100% - 567px) !important;
+    }
+    .card_doc .x-box-inner div.x-box-target > .x-panel{
+        position:relative !important;
+        display:inline-block;
+        float:left;
+    }
+.x-panel.graf_view{
+    left:0 !important;
+    background-color:#fff;
+    padding:0 30px;
+    border:1px solid #CADAF4;
+    box-shadow:6px 10px 18px rgba(98,119,168,.75)
+}
+.section_panel .graf_view .x-panel-header .x-title-text{
+    border:none;
 }

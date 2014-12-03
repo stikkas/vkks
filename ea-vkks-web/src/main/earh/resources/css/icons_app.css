@@ -96,6 +96,12 @@ a.remove_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
 a.remove_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
     background-image:url('../images/project_images/remove.png');
 }
+.x-btn.back_to_case,
+a.back_to_case.x-btn-over.x-btn-default-toolbar-small,
+a.back_to_case.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.back_to_case.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/back_to_case.png');
+}
 /*скрытие неактивных иконок*/
 .buttons_menu .x-btn-disabled{
     width:0;

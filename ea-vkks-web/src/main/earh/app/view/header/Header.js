@@ -47,7 +47,8 @@ Ext.define('Earh.view.header.Header', {
                                                                 cls:'back_to_search_cls icons_cls'
 							}, {
 								text: Trans.backToCase,
-								handler: 'backToCase'
+								handler: 'backToCase',
+                                                                cls:'back_to_case icons_cls'
 							},
 							' ',
 							{

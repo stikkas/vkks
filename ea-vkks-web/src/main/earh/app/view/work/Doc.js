@@ -4,6 +4,7 @@
 Ext.define('Earh.view.work.Doc', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.adoc',
+        cls: 'section_panel card_doc fields_panel',
 	requires: [
 		'Ext.layout.container.VBox',
 		'Ext.layout.container.HBox',
@@ -24,7 +25,8 @@ Ext.define('Earh.view.work.Doc', {
 	layout: 'hbox',
 	defaults: {
 		xtype: 'form',
-		layout: 'vbox'
+		layout: 'vbox',
+                cls:'fields_doc'
 	},
 	// Кнопки меню
 	hbtns: [
@@ -40,13 +42,13 @@ Ext.define('Earh.view.work.Doc', {
 		docView.title = Trans.doc;
 		docView.items = [{
 				defaults: {
-					labelWidth: 200,
+					labelWidth: 300,
 					allowBlank: false
 				},
 				items: [{
 						xtype: 'numberfield',
 						fieldLabel: Trans.volume,
-						name: 'volume'
+						name: 'volume',
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.acase,
@@ -111,6 +113,7 @@ Ext.define('Earh.view.work.Doc', {
 			}, {
 				title: Trans.graph,
 				controller: 'docwork',
+                                cls:'graf_view',
 				tools: [{
 						type: 'close',
 						tooltip: Trans.delGraph,
@@ -121,7 +124,6 @@ Ext.define('Earh.view.work.Doc', {
 						layout: 'hbox',
 						items: [{
 								xtype: 'fileuploadfield',
-								labelWidth: 200,
 								buttonOnly: true,
 								hideLabel: true,
 								buttonText: Trans.file,
@@ -134,7 +136,7 @@ Ext.define('Earh.view.work.Doc', {
 							}]
 					}, {
 						xtype: 'component',
-						width: 400,
+                                                width:500,
 						height: 500
 					}]
 			}];
