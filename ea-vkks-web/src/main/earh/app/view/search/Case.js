@@ -5,7 +5,6 @@ Ext.define('Earh.view.search.Case', {
 	extend: 'Earh.view.search.Base',
 	alias: 'widget.scases',
 	requires: [
-		'Earh.store.Case',
 		'Ext.ux.TreePicker'
 	],
 	tbb: [1, // Главная
@@ -21,7 +20,6 @@ Ext.define('Earh.view.search.Case', {
 		1, // разделитель
 		1], // Выход
 	initComponent: function () {
-		Ext.create('Earh.store.Case');
 		var resultStoreId = 'casesStore';
 		this.callParent([{
 				xtype: 'form',

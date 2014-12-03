@@ -148,24 +148,16 @@ Ext.define('Earh.view.main.MainController', {
 	 * @param prev {Object} предыдущая ЭФ
 	 */
 	setCaseMenu: function (page, prev) {
-		var idx,
-				form = page.items.getAt(0);
 		switch (prev.$className) {
 			case 'Earh.view.home.Home': // подготавливаем ЭФ для создания нового дела. Возможно только при наличии роли редактирования
-				idx = 3;
 				page.clear();
 				page.model = Ext.create('Earh.model.CCase');
-				form.applyAll('setReadOnly', [false]);
-				form.applyAll('setRequired');
-				page.setVisibleCardBar(false);
+				page.switchEdit(true);
+				page.tbb = page.hbtns[3];
 				break;
 			case 'Earh.view.search.Case':
-				Earh.editRole ? idx = 1 : idx = 0;
-				form.applyAll('setReadOnly', [true]);
-				form.applyAll('setRequired');
-				page.setVisibleCardBar(true);
+				page.switchEdit(false);
 		}
-		page.tbb = page.hbtns[idx];
 	},
 	/**
 	 * Устанавливает меню для ЭФ "Документ" и иницализирует ЭФ "Документ"
@@ -220,7 +212,7 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	edit: function () {
 		var page = this.view.getActiveItem();
-		page.switchEdit();
+		page.switchEdit(true);
 		this.view.showTB(page.tbb);
 	}
 });

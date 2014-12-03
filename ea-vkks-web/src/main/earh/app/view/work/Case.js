@@ -18,6 +18,7 @@ Ext.define('Earh.view.work.Case', {
 		'Ext.button.Button',
 		'Ext.ux.TreePicker',
 		'Earh.store.CaseType',
+		'Earh.store.Case',
 		'Earh.store.StoreLife',
 		'Earh.store.CaseDocResult',
 		'Earh.model.SCase'
@@ -44,7 +45,8 @@ Ext.define('Earh.view.work.Case', {
 	initComponent: function () {
 		var caseView = this,
 				editRole = Earh.editRole;
-		caseView.store = Ext.getStore('caseStore');
+		caseView.store = Ext.create('Earh.store.Case');
+
 		caseView.items = [{
 				xtype: 'form',
 				cls: 'section_panel',
@@ -197,6 +199,7 @@ Ext.define('Earh.view.work.Case', {
 		caseView._frm = caseView.items.getAt(0);
 		caseView._grd = caseView.items.getAt(1).items.getAt(1);
 		caseView._tbr = caseView._frm.getDockedItems()[0];
+		caseView._addb = caseView._grd.getDockedItems()[0].items.getAt(0);
 	},
 	save: function () {
 		this._frm.updateRecord(this.model);
@@ -258,13 +261,23 @@ Ext.define('Earh.view.work.Case', {
 	},
 	/**
 	 * Переключает в режим редактирования
+	 * @param {Boolean} stat
 	 */
-	switchEdit: function () {
+	switchEdit: function (stat) {
 		var viewCase = this;
-		viewCase._frm.applyAll('setReadOnly', [false]);
+		viewCase.setReadOnly(!stat);
 		viewCase._frm.applyAll('setRequired');
-		viewCase.setVisibleCardBar(false);
-		viewCase.tbb = viewCase.hbtns[2];
+		viewCase.setVisibleCardBar(!stat);
+		var idx;
+		if (Earh.editRole) {
+			if (stat)
+				idx = 2;
+			else
+				idx = 1;
+		} else
+			idx = 0;
+		viewCase.tbb = viewCase.hbtns[idx];
+		this._addb.setVisible(stat);
 	},
 	/**
 	 * Показывает или скрывает toolbar для пролистывания дел
@@ -272,6 +285,27 @@ Ext.define('Earh.view.work.Case', {
 	 */
 	setVisibleCardBar: function (stat) {
 		this._tbr.setVisible(stat);
+	},
+	/**
+	 * Устанавливает форму в режим просмотра или редактирования
+	 * @param {Boolean} stat  true - просмотр, false - редактирование
+	 */
+	setReadOnly: function (stat) {
+		var items = this._frm.items,
+				i, max = items.length;
+		for (i = 0; i < max; ++i) {
+			if (i === 4) {// пропускаем даты
+				++i;
+				continue;
+			}
+			items.getAt(i).setReadOnly(stat);
+		}
+	},
+	/**
+	 * Устанавливает звездочку для обязательных полей
+	 */
+	setRequired: function () {
+		this._frm.applyAll('setRequired');
 	}
 });
 
