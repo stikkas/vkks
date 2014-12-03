@@ -92,6 +92,15 @@ div[id*="combo"].x-form-trigger-default.x-form-trigger-click,
 div[id*="treepicker"].x-form-trigger-default.x-form-trigger-click{
 	background-color:rgba(235,240,248,.5);
 }
+    /*date*/
+    div.x-form-trigger-default.x-form-date-trigger,
+    div.x-form-trigger-default.x-form-date-trigger.x-form-trigger-over,
+    div.x-form-trigger-default.x-form-date-trigger.x-form-trigger-focus{
+        background-image:url('../images/project_images/calendar.png');
+        background-position:0 0;
+        width:22px;
+        margin-left:10px;
+    }
 /**/
 /*кнопки*/
 a.x-btn.buttons_style,
@@ -275,13 +284,14 @@ div.x-panel-body td.x-grid-td{
 div.x-grid-header-ct{
 	margin-bottom:-1px;
 }
-
 div.x-column-header-inner{
     color:#1D4B82;
     font-family:'Scada Bold';
     font-size:14px;
     text-align:center;
-    padding:7px;
+   // padding:8px 7px 7px 7px !important;
+   padding-bottom: 0.4em !important;
+   padding-top: 0.4em !important;
 }
 /*текст в таблицах*/
 .x-grid-header-ct .x-column-header-text{
