@@ -376,6 +376,7 @@ div[id*=pagingtoolbar].x-box-inner{
     }
 .x-panel.graf_view{
     left:0 !important;
+    min-height:700px;
     background-color:#fff;
     padding:0 30px;
     border:1px solid #CADAF4;

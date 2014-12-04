@@ -137,7 +137,7 @@ Ext.define('Earh.view.work.Doc', {
 					}, {
 						xtype: 'component',
                                                 width:500,
-						height: 500
+						minHeight: 500
 					}]
 			}];
 		docView.callParent();
