@@ -172,7 +172,7 @@ Ext.define('Earh.view.main.MainController', {
 			form.fireEvent('validChanged', false);
 			//--------------Для тестов только-------------------
 			var model = Ext.create('Earh.model.Doc');
-			model.setGraph(Ext.create('Earh.model.Graph', {id: 10, url: '/file.pdf'}));
+			model.setGraph(Ext.create('Earh.model.Graph', {id: 10, url: RootContext + 'file.pdf'}));
 			page.model = model;
 			//---------------------------------------------------
 			page.setGraph();
@@ -214,5 +214,11 @@ Ext.define('Earh.view.main.MainController', {
 		var page = this.view.getActiveItem();
 		page.switchEdit(true);
 		this.view.showTB(page.tbb);
+	},
+	/**
+	 * Вернуться в дело из добаления документа
+	 */
+	backToCase: function () {
+		this.toPage(Pages.acase);
 	}
 });

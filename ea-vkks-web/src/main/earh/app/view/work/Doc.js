@@ -4,7 +4,7 @@
 Ext.define('Earh.view.work.Doc', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.adoc',
-        cls: 'section_panel card_doc fields_panel',
+	cls: 'section_panel card_doc fields_panel',
 	requires: [
 		'Ext.layout.container.VBox',
 		'Ext.layout.container.HBox',
@@ -26,7 +26,7 @@ Ext.define('Earh.view.work.Doc', {
 	defaults: {
 		xtype: 'form',
 		layout: 'vbox',
-                cls:'fields_doc'
+		cls: 'fields_doc'
 	},
 	// Кнопки меню
 	hbtns: [
@@ -113,7 +113,7 @@ Ext.define('Earh.view.work.Doc', {
 			}, {
 				title: Trans.graph,
 				controller: 'docwork',
-                                cls:'graf_view',
+				cls: 'graf_view',
 				tools: [{
 						type: 'close',
 						tooltip: Trans.delGraph,
@@ -136,11 +136,12 @@ Ext.define('Earh.view.work.Doc', {
 							}]
 					}, {
 						xtype: 'component',
-                                                width:500,
+						width: 500,
 						height: 500
 					}]
 			}];
 		docView.callParent();
+		docView._frm = docView.items.getAt(0);
 	},
 	save: function () {
 		showInfo("Сохранение документа", "Операция успешно выполнена");
@@ -176,6 +177,13 @@ Ext.define('Earh.view.work.Doc', {
 	 */
 	isDirty: function () {
 		return false;
+	},
+	/**
+	 * Проверяет наличие необходимых данных при сохранении
+	 * @returns {boolean}
+	 */
+	isValid: function () {
+		return this._frm.isValid();
 	}
 });
 
