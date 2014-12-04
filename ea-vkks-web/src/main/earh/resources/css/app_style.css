@@ -322,6 +322,13 @@ div.x-column-header-inner{
     color:#1D4B82;
     font-weight:bold;
     text-decoration:underline;
+    cursor:pointer;
+}
+.doc_search .x-panel-body .x-grid-item-over .x-grid-cell-inner{
+    color:#000;
+    font-weight:normal;
+    text-decoration:none;
+    cursor:default;
 }
 
 /*панель навигации*/
@@ -376,9 +383,8 @@ div[id*=pagingtoolbar].x-box-inner{
     }
 .x-panel.graf_view{
     left:0 !important;
-    min-height:700px;
     background-color:#fff;
-    padding:0 30px;
+    padding:0 30px 30px;
     border:1px solid #CADAF4;
     box-shadow:6px 10px 18px rgba(98,119,168,.75)
 }
