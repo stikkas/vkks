@@ -60,7 +60,7 @@ public class CommonDBHandler extends ru.insoft.archive.extcommons.ejb.CommonDBHa
         Join<DescriptorValue, DescriptorGroup> join = root.join("group");
         cq.select(root.<Long>get("id"));
         cq.where(cb.and(
-                cb.equal(join.get("groupCode"), "TOPOREF"),
+                cb.equal(join.get("code"), "TOPOREF"),
                 cb.equal(cb.lower(root.<String>get("value")), name.toLowerCase()),
                 (parentId == null ? cb.isNull(root.get("parentId")) : 
                         cb.equal(root.get("parentId"), parentId))

@@ -58,6 +58,7 @@ public class Loader
                 throw new BadSourceException("Папка <" + filesDir.getPath() + "> не существует");
             
             //esAdmin.createSchema();
+            dbSaver.clearDb();
             FilenameFilter jsonFilter = new FilenameFilter() 
                     {
                         @Override
