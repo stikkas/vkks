@@ -9,7 +9,11 @@ Ext.define('Earh.store.SearchResult', {
 		this.callParent();
 		this.setProxy(Ext.create('Ext.data.proxy.Ajax', {
 			url: url,
-			reader: 'json',
+			reader: {
+				type: 'json',
+				root: 'items',
+				total: 'total'
+			},
 			writer: 'json'
 		}));
 	}

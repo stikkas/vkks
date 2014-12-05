@@ -95,7 +95,8 @@ Urls = {
 	logout: RootContext + 'srvcs/logout',
 	dict: RootContext + 'srvcs/dict',
 	cases: RootContext + 'srvcs/search/cases',
-	docs: RootContext + 'srvcs/search/docs',
+//	docs: RootContext + 'srvcs/search/docs',
+	docs: RootContext + 'fake/docs/search',
 	casedocs: RootContext + 'srvcs/search/casedocs',
 	user: RootContext + 'srvcs/user',
 	fios: RootContext + 'srvcs/users',
@@ -216,14 +217,14 @@ showInfo = function (title, message) {
  * Отображает сообщение о пустых результатах поиска
  */
 emptySearchResult = function () {
-	showInfo('Результаты поиска', 'Не найдены единицы хранения,<br> удволетворяющие заданным критериям поиска');
+	showInfo('Результаты поиска', 'Не найдены единицы учета,<br> удволетворяющие заданным критериям поиска');
 };
 /**
  * Колонка для ссылки на графический образ
  */
 graphLinkColumn = {
 	text: Trans.graph_,
-        width:'5%',
+	width: '5%',
 	xtype: 'actioncolumn',
 	dataIndex: 'graph',
 	items: [{

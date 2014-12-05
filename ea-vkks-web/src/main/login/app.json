@@ -14,7 +14,7 @@
 	"url": null,
 	"js": [
 		{
-			"path": "${ext.dir}/build/ext-all-debug.js"
+			"path": "${ext.dir}/build/ext-all.js"
 		},
 		{
 			"path": "utils.js",

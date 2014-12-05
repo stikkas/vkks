@@ -42,14 +42,13 @@ Ext.define('Earh.view.work.Doc', {
 		docView.title = Trans.doc;
 		docView.items = [{
 				defaults: {
-					labelWidth: 200,
+					labelWidth: 300,
 					allowBlank: false
 				},
 				items: [{
 						xtype: 'numberfield',
 						fieldLabel: Trans.volume,
-						name: 'volume',
-						width: 300
+						name: 'volume'
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.acase,
@@ -61,42 +60,35 @@ Ext.define('Earh.view.work.Doc', {
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.docNum,
-						name: 'number',
-						width: 300
+						name: 'number'
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.docType,
 						name: 'type',
 						displayField: 'name',
 						valueField: 'id',
-						store: 'docTypeStore',
-						width: 580
+						store: 'docTypeStore'
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.docTitle,
-						name: 'title',
-						width: 580
+						name: 'title'
 					}, {
 						xtype: 'numberfield',
 						fieldLabel: Trans.startPageNum,
-						name: 'startPage',
-						width: 300
+						name: 'startPage'
 					}, {
 						xtype: 'numberfield',
 						fieldLabel: Trans.endPageNum,
-						name: 'endPage',
-						width: 300
+						name: 'endPage'
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.docDate,
-						name: 'date',
-						width: 332
+						name: 'date'
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.remark,
 						name: 'remark',
-						allowBlank: true,
-						width: 580
+						allowBlank: true
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.court,
@@ -106,8 +98,7 @@ Ext.define('Earh.view.work.Doc', {
 						displayField: 'court',
 						queryMode: 'local',
 						allowBlank: true,
-						editable: true,
-						width: 580
+						editable: true
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.fio,
@@ -117,8 +108,7 @@ Ext.define('Earh.view.work.Doc', {
 						displayField: 'fio',
 						queryMode: 'local',
 						allowBlank: true,
-						editable: true,
-						width: 580
+						editable: true
 					}]
 			}, {
 				title: Trans.graph,
@@ -147,7 +137,7 @@ Ext.define('Earh.view.work.Doc', {
 					}, {
 						xtype: 'component',
                                                 width:500,
-						height: 500
+						minHeight: 500
 
 					}]
 			}];

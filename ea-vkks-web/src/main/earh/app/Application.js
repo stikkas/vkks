@@ -7,6 +7,7 @@ Ext.define('Earh.Application', {
 		'Other.field.Number',
 		'Other.field.Date',
 		'Other.field.ComboBox',
+		'Other.toolbar.Paging',
 		'Other.container.Container',
 		'Other.ux.TreePicker',
 		'Ext.Msg'

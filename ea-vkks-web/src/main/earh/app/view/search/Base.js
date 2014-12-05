@@ -12,7 +12,8 @@ Ext.define('Earh.view.search.Base', {
 		'Ext.toolbar.Paging',
 		'Ext.form.field.ComboBox',
 		'Ext.form.field.Date',
-		'Ext.form.field.Text'
+		'Ext.form.field.Text',
+		'Earh.cmp.ComboBoxEm'
 	],
 	layout: 'vbox',
 	cls: 'fields_panel',
@@ -25,6 +26,7 @@ Ext.define('Earh.view.search.Base', {
 		baseForm.callParent();
 		baseForm._frm = baseForm.items.getAt(0);
 		baseForm._rslt = baseForm.items.getAt(1);
+		baseForm._gtb = baseForm._rslt.dockedItems.getAt(1);
 	},
 	/**
 	 * Реализация общего интерфейса для всех страниц
@@ -41,6 +43,7 @@ Ext.define('Earh.view.search.Base', {
 	clear: function () {
 		this._frm.reset();
 		this._rslt.store.removeAll();
+		this._gtb.onLoad();
 	}
 });
 
