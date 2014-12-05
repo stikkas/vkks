@@ -16,6 +16,8 @@ public class EaCase implements Serializable {
 
 	private String remark;
 
+	private String type;
+
 	private Set<EaDocument> eaDocumentSet = new HashSet<EaDocument>();
 
 	public EaCase() {
@@ -25,11 +27,12 @@ public class EaCase implements Serializable {
 		this.eaCaseId = eaCaseId;
 	}
 
-	public EaCase(Integer eaCaseId, String caseNumber, String caseTitle, String remark) {
+	public EaCase(Integer eaCaseId, String caseNumber, String caseTitle, String remark, String type) {
 		this.eaCaseId = eaCaseId;
 		this.caseNumber = caseNumber;
 		this.caseTitle = caseTitle;
 		this.remark = remark;
+		this.type = type;
 	}
 
 	public Integer getEaCaseId() {

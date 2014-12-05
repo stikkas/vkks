@@ -47,7 +47,7 @@ Ext.define('Earh.view.search.Doc', {
 						name: 'number',
 						width: 515
 					}, {
-						xtype: 'combobox',
+						xtype: 'emptycombo',
 						fieldLabel: Trans.docType,
 						store: 'docTypeStore',
 						name: 'type',
@@ -160,9 +160,10 @@ Ext.define('Earh.view.search.Doc', {
 	 * Поиск документов
 	 */
 	search: function () {
-		this._rslt.store.loadPage(1, {
+		var store = this._rslt.store;
+		store.loadPage(1, {
 //			params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
-			params: {q: Ext.encode(this._frm.getValues())}
+			params: {q: Ext.encode(this._frm.getValues())},
 		});
 		/*
 		 this._rslt.store.loadData([{

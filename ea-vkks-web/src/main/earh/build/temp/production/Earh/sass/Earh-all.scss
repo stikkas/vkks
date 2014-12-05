@@ -1,9 +1,11 @@
 $image-search-path: '../webapp/resources';
 $theme-name:  'ext-theme-classic' !default;
 $include-earh-application: true;
+$include-earh-cmp-comboboxem: true;
 $include-earh-cmp-numberinterval: false;
 $include-earh-cmp-pdfpanel: false;
 $include-earh-cmp-textlayerbuilder: false;
+$include-earh-cmp-treepickerem: true;
 $include-earh-model-ccase: true;
 $include-earh-model-case: true;
 $include-earh-model-casedocresult: true;
@@ -770,6 +772,7 @@ $include-other-field-base: true;
 $include-other-field-combobox: true;
 $include-other-field-date: true;
 $include-other-field-number: true;
+$include-other-toolbar-paging: true;
 $include-other-ux-treepicker: true;
 /* including package ext-theme-base */
 @import '../../../../../ext/packages/ext-theme-base/sass/etc/all';

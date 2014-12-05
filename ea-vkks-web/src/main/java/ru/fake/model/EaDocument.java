@@ -2,7 +2,6 @@ package ru.fake.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class EaDocument implements Serializable {
 
@@ -10,15 +9,15 @@ public class EaDocument implements Serializable {
 
 	private Integer eaDocumentId;
 
-	private Short volume;
+	private Long volume;
 
 	private String docNumber;
 
 	private String docTitle;
 
-	private Short startPage;
+	private Long startPage;
 
-	private Short endPage;
+	private Long endPage;
 
 	private Date docDate;
 
@@ -30,17 +29,35 @@ public class EaDocument implements Serializable {
 
 	private EaCase eaCase;
 
+	private String type;
+	private String pdf;
+
+	public String getPdf() {
+		return pdf;
+	}
+
+	public void setPdf(String pdf) {
+		this.pdf = pdf;
+	}
+
 	public EaDocument() {
 	}
 
-	public EaDocument(String[] init) {
-		volume = Short.parseShort(init[0]);
-		docTitle = init[1];
-		startPage = Short.parseShort(init[2]);
-		endPage = Short.parseShort(init[3]);
-		docDate = new GregorianCalendar(Integer.parseInt(init[4]),
-			Integer.parseInt(init[5]), Integer.parseInt(init[6])).getTime();
-		remark = init[7];
+	public EaDocument(Integer eaDocumentId, Long volume, String docNumber,
+		String docTitle, Long startPage, Long endPage, Date docDate,
+		String remark, String court, String fio, String type, String pdf) {
+		this.eaDocumentId = eaDocumentId;
+		this.volume = volume;
+		this.docNumber = docNumber;
+		this.docTitle = docTitle;
+		this.startPage = startPage;
+		this.endPage = endPage;
+		this.docDate = docDate;
+		this.remark = remark;
+		this.court = court;
+		this.fio = fio;
+		this.type = type;
+		this.pdf = pdf;
 	}
 
 	public Integer getEaDocumentId() {
@@ -51,11 +68,11 @@ public class EaDocument implements Serializable {
 		this.eaDocumentId = eaDocumentId;
 	}
 
-	public Short getVolume() {
+	public Long getVolume() {
 		return volume;
 	}
 
-	public void setVolume(Short volume) {
+	public void setVolume(Long volume) {
 		this.volume = volume;
 	}
 
@@ -75,19 +92,19 @@ public class EaDocument implements Serializable {
 		this.docTitle = docTitle;
 	}
 
-	public Short getStartPage() {
+	public Long getStartPage() {
 		return startPage;
 	}
 
-	public void setStartPage(Short startPage) {
+	public void setStartPage(Long startPage) {
 		this.startPage = startPage;
 	}
 
-	public Short getEndPage() {
+	public Long getEndPage() {
 		return endPage;
 	}
 
-	public void setEndPage(Short endPage) {
+	public void setEndPage(Long endPage) {
 		this.endPage = endPage;
 	}
 
@@ -131,24 +148,12 @@ public class EaDocument implements Serializable {
 		this.eaCase = eaCase;
 	}
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (eaDocumentId != null ? eaDocumentId.hashCode() : 0);
-		return hash;
+	public String getType() {
+		return type;
 	}
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof EaDocument)) {
-			return false;
-		}
-		EaDocument other = (EaDocument) object;
-		if ((this.eaDocumentId == null && other.eaDocumentId != null) || (this.eaDocumentId != null && !this.eaDocumentId.equals(other.eaDocumentId))) {
-			return false;
-		}
-		return true;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	@Override

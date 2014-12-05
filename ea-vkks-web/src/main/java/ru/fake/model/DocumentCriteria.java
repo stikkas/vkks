@@ -16,138 +16,76 @@ import org.json.JSONObject;
  */
 public class DocumentCriteria {
 
-	public Short volume;
+	public Long volume;
 	public String number;
-	public Short type;
+	public Long type;
 	public String title;
 
-	public Short startPage;
-	public Short endPage;
+	public Long startPage;
+	public Long endPage;
 	public Date date;
 	public String court;
 	public String remark;
 	public String fio;
 	public String context;
 
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+	private boolean nullable;
+
 	public DocumentCriteria() {
 	}
 
 	public DocumentCriteria(String input) {
+		if (input.isEmpty()) {
+			nullable = true;
+			return;
+		}
 		try {
 			JSONObject jo = new JSONObject(input);
 			Iterator it = jo.keys();
-			String key;
+			String key, value;
 			while (it.hasNext()) {
 				key = (String) it.next();
-				if (key.equals("volume")) {
-
-				} else if (key.equals("number")) {
-
-				} else if (key.equals("type")) {
-				} else if (key.equals("title")) {
-				} else if (key.equals("startPage")) {
-				} else if (key.equals("endPage")) {
-				} else if (key.equals("date")) {
-				} else if (key.equals("court")) {
-				} else if (key.equals("remark")) {
-				} else if (key.equals("fio")) {
-				} else if (key.equals("context")) {
-
+				value = jo.getString(key);
+				if (value.isEmpty()) {
+					continue;
+				}
+				try {
+					switch (key) {
+						case "volume":
+						case "type":
+						case "startPage":
+						case "endPage":
+							getClass().getField(key).set(this, Long.parseLong(value));
+							break;
+						case "date":
+							date = sdf.parse(value);
+							break;
+						case "number":
+						case "title":
+						case "court":
+						case "remark":
+						case "fio":
+						case "context":
+							getClass().getField(key).set(this, value);
+					}
+				} catch (IllegalArgumentException | ParseException | NoSuchFieldException | SecurityException | IllegalAccessException ex) {
+					Logger.getLogger(DocumentCriteria.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
 		} catch (JSONException ex) {
 			Logger.getLogger(DocumentCriteria.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (IllegalArgumentException ex) {
-			Logger.getLogger(DocumentCriteria.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 
-	public Short getVolume() {
-		return volume;
+	public boolean isNullable() {
+		return nullable;
 	}
 
-	public void setVolume(Short volume) {
-		this.volume = volume;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public Short getType() {
-		return type;
-	}
-
-	public void setType(Short type) {
-		this.type = type;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public Short getStartPage() {
-		return startPage;
-	}
-
-	public void setStartPage(Short startPage) {
-		this.startPage = startPage;
-	}
-
-	public Short getEndPage() {
-		return endPage;
-	}
-
-	public void setEndPage(Short endPage) {
-		this.endPage = endPage;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getCourt() {
-		return court;
-	}
-
-	public void setCourt(String court) {
-		this.court = court;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public String getFio() {
-		return fio;
-	}
-
-	public void setFio(String fio) {
-		this.fio = fio;
-	}
-
-	public String getContext() {
-		return context;
-	}
-
-	public void setContext(String context) {
-		this.context = context;
+	@Override
+	public String toString() {
+		return "DocumentCriteria{" + "volume=" + volume + ", number=" + number + ", type=" + type + ", title=" + title + ", startPage=" + startPage + ", endPage=" + endPage + ", date=" + date + ", court=" + court + ", remark=" + remark + ", fio=" + fio + ", nullable=" + nullable + '}';
 	}
 
 }

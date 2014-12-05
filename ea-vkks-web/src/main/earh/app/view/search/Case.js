@@ -5,7 +5,7 @@ Ext.define('Earh.view.search.Case', {
 	extend: 'Earh.view.search.Base',
 	alias: 'widget.scases',
 	requires: [
-		'Ext.ux.TreePicker'
+		'Earh.cmp.TreePickerEm'
 	],
 	tbb: [1, // Главная
 		0, // Вернуться к результатам поиска
@@ -36,7 +36,7 @@ Ext.define('Earh.view.search.Case', {
 						name: 'number',
 						width: 515
 					}, {
-						xtype: 'combobox',
+						xtype: 'emptycombo',
 						fieldLabel: Trans.caseType,
 						store: 'caseTypeStore',
 						name: 'type',
@@ -44,7 +44,7 @@ Ext.define('Earh.view.search.Case', {
 						valueField: 'id',
 						width: 775
 					}, {
-						xtype: 'combobox',
+						xtype: 'emptycombo',
 						fieldLabel: Trans.storeLife,
 						name: 'storeLife',
 						store: 'storeLifeStore',
@@ -67,7 +67,7 @@ Ext.define('Earh.view.search.Case', {
 						name: 'endDate',
 						width: 535
 					}, {
-						xtype: 'treepicker',
+						xtype: 'emptytreepicker',
 						fieldLabel: Trans.topoRef,
 						store: Ext.getStore('topoRefStore'),
 						name: 'toporef',
