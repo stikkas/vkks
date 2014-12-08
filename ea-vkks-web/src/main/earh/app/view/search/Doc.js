@@ -163,7 +163,7 @@ Ext.define('Earh.view.search.Doc', {
 		var store = this._rslt.store;
 		store.loadPage(1, {
 //			params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
-			params: {q: Ext.encode(this._frm.getValues())},
+			params: {q: Ext.encode(this._frm.getValues())}
 		});
 		/*
 		 this._rslt.store.loadData([{

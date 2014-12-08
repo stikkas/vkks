@@ -5,7 +5,7 @@ Ext.define('Login.view.welcome.WelcomeController', {
 	],
 	alias: 'controller.welcome',
 	goToDocuments: function () {
-		this.redirectTo(Pages.login);
+		window.location.href = Urls.root;
 	},
 	goToArmAdmin: function () {
 		window.location.href = Urls.armadmin;

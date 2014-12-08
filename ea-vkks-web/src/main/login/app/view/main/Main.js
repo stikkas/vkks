@@ -33,7 +33,7 @@ Ext.define('Login.view.main.Main', {
 		mainView._center = mainView.items.getAt(1);
 		mainView._clayout = mainView._center.getLayout();
 		mainView._pages = {};
-		mainView.setActiveItem(Pages.welcome);
+		mainView.setActiveItem(Pages.login);
 	},
 	/**
 	 * Переключает на нужную страницу

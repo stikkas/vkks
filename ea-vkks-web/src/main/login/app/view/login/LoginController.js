@@ -2,14 +2,16 @@ Ext.define('Login.view.login.LoginController', {
 	extend: 'Ext.app.ViewController',
 	alias: 'controller.login',
 	enter: function () {
+		var controller = this;
 		Ext.Ajax.request({
 			url: Urls.root + 'j_security_check',
-			params: this.view.getForm().getValues(),
+			params: controller.view.getForm().getValues(),
 			success: function (response) {
 				if (~response.responseText.search(/<title>Login<\/title>/))
 					showError("Ошибка ввода регистрационных сведений", "Введены неправильные<br>идентификационные данные");
 				else
-					window.location.href = Urls.root;
+					controller.redirectTo(Pages.welcome);
+//					window.location.href = Urls.root;
 			},
 			failure: function (response) {
 				showError("Ошибка ввода регистрационных сведений", response.responseText);

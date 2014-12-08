@@ -25,7 +25,7 @@ Ext.define('Earh.view.main.MainController', {
 		 */
 		for (var o in Pages)
 			listenersFormPages[Pages[o]] = {activate: 'showTB'};
-		listenersFormPages.form = {validChanged: 'validChanged'};
+//		listenersFormPages.form = {validChanged: 'validChanged'};
 		listenersFormPages['scases gridpanel'] = {cellclick: 'toCase'};
 		controller.listen({component: listenersFormPages});
 		controller.callParent();

@@ -9,11 +9,33 @@ Ext.define('Earh.cmp.TreePickerEm', {
 		var me = this;
 		me.callParent();
 
-		var model = me.store.root.childNodes[0].$className,
-				emptyObj = Ext.create(model);
-		emptyObj.set(me.displayField, '');
-		emptyObj.set(me.valueField, '');
+		var root = me.copyNode(me.store.root);
+		root.children.unshift({id: 'root', text: '', path: '', leaf: true});
+		var newstore = Ext.create('Ext.data.TreeStore', {
+			proxy: {type: 'memory'},
+			queryMode: 'local',
+			model: me.store.model,
+			root: root
+		});
 
-		me.store.insert(0, emptyObj);
+		me.setStore(newstore);
+	},
+	/**
+	 * Копирует все дерево
+	 * @param {Object} node корень
+	 * @returns {Object} новое дерево
+	 */
+	copyNode: function (node) {
+		var data = node.data,
+				newnode = {id: data.id, text: data.text,
+					leaf: data.leaf, path: data.path};
+		if (node.childNodes) {
+			var children = [];
+			for (var i = 0; i < node.childNodes.length; ++i)
+				children.push(this.copyNode(node.childNodes[i]));
+
+			newnode.children = children;
+		}
+		return newnode;
 	}
 });
