@@ -32,14 +32,7 @@ Ext.define('Earh.view.main.Main', {
 			 region: 'center'*/
 		}],
 	initComponent: function () {
-		// Иницализируем нужные хранилища, которые по-хорошему должны быть
-		// одиночками, но в силу особенностей компиляции Extjs и моим желанием
-		// иметь все урлы в одном месте, приходится идти на такой трюк
-		Ext.create('Earh.store.TopoRef').load();
-		Ext.create('Earh.store.CaseType').load();
-		Ext.create('Earh.store.DocType').load();
-		Ext.create('Earh.store.StoreLife').load();
-		Ext.create('Earh.store.CaseResult');
+		this.initStores();
 
 		var mainView = this;
 		mainView.callParent();
@@ -82,5 +75,40 @@ Ext.define('Earh.view.main.Main', {
 	 */
 	showTB: function (buttons) {
 		this._header.showTB(buttons);
+	},
+	/** Иницализируем нужные хранилища, которые по-хорошему должны быть
+	 * одиночками, но в силу особенностей компиляции Extjs и моим желанием
+	 * иметь все урлы в одном месте, приходится идти на такой трюк
+	 */
+	initStores: function () {
+		Ext.create('Earh.store.TopoRef').load({callback: function () {
+				console.log("Helloooo1");
+			}});
+		Ext.create('Earh.store.CaseType').load({callback: function () {
+				console.log("Helloooo");
+			}});
+		Ext.create('Earh.store.DocType').load(function () {
+
+			console.log("Helloooo2");
+		});
+		Ext.create('Earh.store.StoreLife').load(function (records, op, success) {
+			if (success) {
+				var data = [{code: '', id: 0, name: '&nbsp'}];
+				for (var i = 0; i < records.length; ++i) {
+					var obj = {};
+					for (var o in records[i].raw)
+						obj[o] = records[i].raw[o];
+					data.push(obj);
+				}
+				Ext.create('Ext.data.Store', {
+					storeId: 'storeLifeStoreEm',
+					model: 'Earh.model.Dict',
+					data: data,
+					proxy: {type: 'memory'},
+					queryMode: 'local'
+				});
+			}
+		});
+		Ext.create('Earh.store.CaseResult');
 	}
 });

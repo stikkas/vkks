@@ -44,10 +44,16 @@ Ext.define('Earh.view.search.Case', {
 						valueField: 'id',
 						width: 775
 					}, {
-						xtype: 'emptycombo',
+						xtype: 'combobox',
 						fieldLabel: Trans.storeLife,
 						name: 'storeLife',
-						store: 'storeLifeStore',
+						store: 'storeLifeStoreEm',
+						listeners: {
+							change: function (cb, v) {
+								if (v === 0)
+									cb.reset();
+							}
+						},
 						displayField: 'name',
 						valueField: 'id',
 						width: 675

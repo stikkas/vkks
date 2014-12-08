@@ -26,7 +26,7 @@ Pages = {
 
 Urls = {
 	root: '/ea-vkks-web/',
-	armadmin: '/arm-admin/login.jsf'
+	armadmin: '/arm-admin/'
 };
 /**
  * Показывает ошибки в диалоговом окне

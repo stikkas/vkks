@@ -28,6 +28,6 @@ Ext.define('Login.view.main.MainController', {
 //		top.close();
 //		open(location, '_self').close();
 //		window.close();
-		this.redirectTo(Pages.welcome);
+		this.redirectTo(Pages.login);
 	}
 });
