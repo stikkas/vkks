@@ -57,7 +57,7 @@ public class Loader
             if (!filesDir.isDirectory())
                 throw new BadSourceException("Папка <" + filesDir.getPath() + "> не существует");
             
-            //esAdmin.createSchema();
+            esAdmin.createSchema();
             dbSaver.clearDb();
             FilenameFilter jsonFilter = new FilenameFilter() 
                     {
@@ -80,7 +80,7 @@ public class Loader
                     logger.log(Level.INFO, "{0}:\r\n{1}", new String[]{jsonFile.getName(), jo.toString()});
                     
                     LoadedCase lCase = jsonTools.parseEntity(jo, LoadedCase.class);
-                    dbSaver.saveLoadedData(lCase);
+                    dbSaver.saveLoadedData(lCase, filesDir);
                     succ++;
                 }
                 catch (JsonException | BadSourceException je)

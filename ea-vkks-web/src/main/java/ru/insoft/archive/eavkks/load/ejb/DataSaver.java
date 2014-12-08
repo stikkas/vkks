@@ -1,10 +1,18 @@
 package ru.insoft.archive.eavkks.load.ejb;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.annotation.Resource;
 import javax.ejb.EJBTransactionRolledbackException;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -15,6 +23,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.javatuples.Pair;
 import ru.insoft.archive.core_model.table.adm.AdmUser;
 import ru.insoft.archive.core_model.table.desc.DescriptorValue;
@@ -23,6 +34,7 @@ import ru.insoft.archive.eavkks.load.model.LoadedCase;
 import ru.insoft.archive.eavkks.load.model.LoadedToporef;
 import ru.insoft.archive.eavkks.model.EaCase;
 import ru.insoft.archive.eavkks.ejb.CommonDBHandler;
+import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
 import ru.insoft.archive.eavkks.load.model.LoadedDocument;
 import ru.insoft.archive.eavkks.model.EaDocument;
 import ru.insoft.archive.extcommons.ejb.UserInfo;
@@ -41,6 +53,10 @@ public class DataSaver
     CommonDBHandler dbHandler;
     @Inject
     UserInfo ui;
+    @Inject
+    EsIndexHelper esIndex;
+    @Resource
+    SessionContext context;
     
     private Map<String, Long> caseTypes       = new HashMap<String, Long>();
     private Map<String, Long> storeLifeTypes  = new HashMap<String, Long>();
@@ -49,9 +65,18 @@ public class DataSaver
     private Long loadUserId;
     private Long toporefGroupId;
     
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void clearDb()
     {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<EaDocument> root = cq.from(EaDocument.class);
+        cq.select(root.<Long>get("id"));
+        cq.where(cb.equal(root.get("addUserId"), getLoadUserId()));
+        List<Long> deletedIds = em.createQuery(cq).getResultList();
+        for (Long docId : deletedIds)
+            esIndex.deleteImageFile(docId.toString());
+        
         Query q = em.createNativeQuery(new StringBuilder()
                 .append("delete from EA_DOCUMENT where add_user_id = ?; ")
                 .append("delete from EA_CASE where add_user_id = ?; ")
@@ -61,50 +86,76 @@ public class DataSaver
         q.executeUpdate();
     }
     
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void saveLoadedData(LoadedCase lCase) throws BadSourceException
-    {        
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void saveLoadedData(LoadedCase lCase, File filesDir) throws BadSourceException
+    {       
         EaCase eaCase = new EaCase();
-        eaCase.setNumber(lCase.getNumber());
-        eaCase.setTitle(lCase.getTitle());
-        eaCase.setRemark(lCase.getRemark());
-        eaCase.setTypeId(getDescriptorValueId(caseTypes, "CASE_TYPE", lCase.getType(),
-                "Неверный код типа дела"));
-        eaCase.setStoreLifeTypeId(getDescriptorValueId(storeLifeTypes, "CASE_STORE_LIFE", lCase.getStoreLife(),
-                "Неверный код срока хранения"));
-        eaCase.setToporefId(getToporefValueId(lCase.getToporef()));
-        
-        eaCase.setAddUserId(getLoadUserId());
-        eaCase.setModUserId(getLoadUserId());
-        eaCase.setInsertDate(new Date());
-        eaCase.setLastUpdateDate(eaCase.getInsertDate());
-        
-        em.persist(eaCase);
-        em.flush();
-        
-        for (LoadedDocument lDoc : lCase.getDocuments())
-        {
-            EaDocument eaDoc = new EaDocument();
-            eaDoc.setEaCase(eaCase);
-            eaDoc.setTypeId(getDescriptorValueId(documentTypes, "DOCUMENT_TYPE", lDoc.getType(),
-                    "Неверный код вида документа"));
-            eaDoc.setVolume(lDoc.getVolume());
-            eaDoc.setNumber(lDoc.getNumber());
-            eaDoc.setTitle(lDoc.getTitle());
-            eaDoc.setStartPage(lDoc.getStartPage());
-            eaDoc.setEndPage(lDoc.getEndPage());
-            eaDoc.setDate(lDoc.getDate());
-            eaDoc.setRemark(lDoc.getRemark());
-            eaDoc.setCourt(lDoc.getCourt());
-            eaDoc.setFio(lDoc.getFio());
-            
-            eaDoc.setAddUserId(getLoadUserId());
-            eaDoc.setModUserId(getLoadUserId());
-            eaDoc.setInsertDate(new Date());
-            eaDoc.setLastUpdateDate(eaCase.getInsertDate());
-            
-            em.persist(eaDoc);
+        try
+        {            
+            eaCase.setNumber(lCase.getNumber());
+            eaCase.setTitle(lCase.getTitle());
+            eaCase.setRemark(lCase.getRemark());
+            eaCase.setTypeId(getDescriptorValueId(caseTypes, "CASE_TYPE", lCase.getType(),
+                    "Неверный код типа дела"));
+            eaCase.setStoreLifeTypeId(getDescriptorValueId(storeLifeTypes, "CASE_STORE_LIFE", lCase.getStoreLife(),
+                    "Неверный код срока хранения"));
+            eaCase.setToporefId(getToporefValueId(lCase.getToporef()));
+
+            eaCase.setAddUserId(getLoadUserId());
+            eaCase.setModUserId(getLoadUserId());
+            eaCase.setInsertDate(new Date());
+            eaCase.setLastUpdateDate(eaCase.getInsertDate());
+
+            em.persist(eaCase);
             em.flush();
+            esIndex.indexCase(eaCase);
+
+            for (LoadedDocument lDoc : lCase.getDocuments())
+            {
+                EaDocument eaDoc = new EaDocument();
+                eaDoc.setEaCase(eaCase);
+                eaDoc.setTypeId(getDescriptorValueId(documentTypes, "DOCUMENT_TYPE", lDoc.getType(),
+                        "Неверный код вида документа"));
+                eaDoc.setVolume(lDoc.getVolume());
+                eaDoc.setNumber(lDoc.getNumber());
+                eaDoc.setTitle(lDoc.getTitle());
+                eaDoc.setStartPage(lDoc.getStartPage());
+                eaDoc.setEndPage(lDoc.getEndPage());
+                eaDoc.setDate(lDoc.getDate());
+                eaDoc.setRemark(lDoc.getRemark());
+                eaDoc.setCourt(lDoc.getCourt());
+                eaDoc.setFio(lDoc.getFio());
+
+                eaDoc.setAddUserId(getLoadUserId());
+                eaDoc.setModUserId(getLoadUserId());
+                eaDoc.setInsertDate(new Date());
+                eaDoc.setLastUpdateDate(eaCase.getInsertDate());
+
+                em.persist(eaDoc);
+                em.flush();
+                esIndex.indexDocument(eaDoc);
+
+                Path imageFilePath = FileSystems.getDefault().getPath(filesDir.getPath(), lDoc.getGraph());                
+                try
+                {
+                    byte[] fileData = Files.readAllBytes(imageFilePath);
+                    esIndex.indexImage(eaDoc.getId().toString(), fileData);
+                }
+                catch (IOException e)
+                {
+                    throw new BadSourceException("Невозможно прочитать файл <" + imageFilePath.toString() + ">");
+                }
+            }
+        }
+        catch (BadSourceException e)
+        {
+            context.setRollbackOnly();
+            if (eaCase.getId() != null)
+            {
+                esIndex.deleteAllCaseDocuments(eaCase.getId());
+                esIndex.deleteCase(eaCase.getId());
+            }
+            throw e;
         }
     }
     
