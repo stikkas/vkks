@@ -8,6 +8,6 @@ Ext.define('Login.view.welcome.WelcomeController', {
 		window.location.href = Urls.root;
 	},
 	goToArmAdmin: function () {
-		window.location.href = Urls.armadmin;
+		window.location.href = Urls.armadmin + "?back=" + Urls.logout;
 	}
 });

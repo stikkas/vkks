@@ -25,6 +25,11 @@ Ext.define('Earh.view.search.Doc', {
 		1, // разделитель
 		1], // Выход
 	initComponent: function () {
+		function emptyCombo(cb, value) {
+			if (value === 0)
+				cb.reset();
+		}
+
 		var resultStoreId = Ext.create('Earh.store.DocResult');
 		this.callParent([{
 				xtype: 'form',
@@ -47,12 +52,13 @@ Ext.define('Earh.view.search.Doc', {
 						name: 'number',
 						width: 515
 					}, {
-						xtype: 'emptycombo',
+						xtype: 'combobox',
 						fieldLabel: Trans.docType,
-						store: 'docTypeStore',
+						store: 'docTypeStoreEm',
 						name: 'type',
 						displayField: 'name',
 						valueField: 'id',
+						listeners: {change: emptyCombo},
 						width: 985
 					}, {
 						xtype: 'textfield',

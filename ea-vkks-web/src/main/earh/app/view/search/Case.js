@@ -4,9 +4,7 @@
 Ext.define('Earh.view.search.Case', {
 	extend: 'Earh.view.search.Base',
 	alias: 'widget.scases',
-	requires: [
-		'Earh.cmp.TreePickerEm'
-	],
+	requires: ['Ext.ux.TreePicker'],
 	tbb: [1, // Главная
 		0, // Вернуться к результатам поиска
 		0, // Вернуться в дело
@@ -20,6 +18,11 @@ Ext.define('Earh.view.search.Case', {
 		1, // разделитель
 		1], // Выход
 	initComponent: function () {
+		function emptyCombo(cb, value) {
+			if (value === 0)
+				cb.reset();
+		}
+
 		var resultStoreId = 'casesStore';
 		this.callParent([{
 				xtype: 'form',
@@ -36,26 +39,22 @@ Ext.define('Earh.view.search.Case', {
 						name: 'number',
 						width: 515
 					}, {
-						xtype: 'emptycombo',
+						xtype: 'combobox',
 						fieldLabel: Trans.caseType,
-						store: 'caseTypeStore',
+						store: 'caseTypeStoreEm',
 						name: 'type',
 						displayField: 'name',
 						valueField: 'id',
+						listeners: {change: emptyCombo},
 						width: 775
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.storeLife,
 						name: 'storeLife',
 						store: 'storeLifeStoreEm',
-						listeners: {
-							change: function (cb, v) {
-								if (v === 0)
-									cb.reset();
-							}
-						},
 						displayField: 'name',
 						valueField: 'id',
+						listeners: {change: emptyCombo},
 						width: 675
 					}, {
 						xtype: 'textfield',
@@ -73,9 +72,9 @@ Ext.define('Earh.view.search.Case', {
 						name: 'endDate',
 						width: 535
 					}, {
-						xtype: 'emptytreepicker',
+						xtype: 'treepicker',
 						fieldLabel: Trans.topoRef,
-						store: Ext.getStore('topoRefStore'),
+						store: Ext.getStore('topoRefStoreEm'),
 						name: 'toporef',
 						width: 985
 					}, {

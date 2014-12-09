@@ -11,6 +11,7 @@ Ext.define('Earh.view.main.Main', {
 		'Earh.store.CaseType',
 		'Earh.store.CaseResult',
 		'Earh.store.DocType',
+		'Earh.store.FioResult',
 		'Earh.store.StoreLife',
 		'Ext.layout.container.VBox',
 		'Ext.container.Container',
@@ -81,34 +82,38 @@ Ext.define('Earh.view.main.Main', {
 	 * иметь все урлы в одном месте, приходится идти на такой трюк
 	 */
 	initStores: function () {
-		Ext.create('Earh.store.TopoRef').load({callback: function () {
-				console.log("Helloooo1");
+		Ext.create('Earh.store.CaseType').load({callback: function (records, op, success) {
+				if (success)
+					addEmptyToPlain(records, 'caseTypeStoreEm');
 			}});
-		Ext.create('Earh.store.CaseType').load({callback: function () {
-				console.log("Helloooo");
-			}});
-		Ext.create('Earh.store.DocType').load(function () {
-
-			console.log("Helloooo2");
+		Ext.create('Earh.store.DocType').load(function (records, op, success) {
+			if (success)
+				addEmptyToPlain(records, 'docTypeStoreEm');
 		});
 		Ext.create('Earh.store.StoreLife').load(function (records, op, success) {
-			if (success) {
-				var data = [{code: '', id: 0, name: '&nbsp'}];
-				for (var i = 0; i < records.length; ++i) {
-					var obj = {};
-					for (var o in records[i].raw)
-						obj[o] = records[i].raw[o];
-					data.push(obj);
-				}
-				Ext.create('Ext.data.Store', {
-					storeId: 'storeLifeStoreEm',
-					model: 'Earh.model.Dict',
-					data: data,
-					proxy: {type: 'memory'},
-					queryMode: 'local'
-				});
-			}
+			if (success)
+				addEmptyToPlain(records, 'storeLifeStoreEm');
 		});
+		Ext.create('Earh.store.TopoRef').load();
 		Ext.create('Earh.store.CaseResult');
+		Ext.create('Earh.store.FioResult').load();
+
+		function addEmptyToPlain(records, storeId) {
+			var data = [{code: '', id: 0, name: '&nbsp'}];
+			for (var i = 0; i < records.length; ++i) {
+				var obj = {};
+				for (var o in records[i].raw)
+					obj[o] = records[i].raw[o];
+				data.push(obj);
+			}
+			Ext.create('Ext.data.Store', {
+				storeId: storeId,
+				model: 'Earh.model.Dict',
+				data: data,
+				proxy: {type: 'memory'},
+				queryMode: 'local'
+			});
+
+		}
 	}
 });

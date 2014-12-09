@@ -5,18 +5,9 @@ Trans = {
 	vkks: "высшая квалификационная коллегия судей российской федерации",
 	docs: "Документы",
 	admin: "Администратор",
-	main: "Главная",
-	search: "Поиск",
-	exit: "Выход",
-	acase: "Дело",
-	title: "Заголовок",
-	remark: "Примечание",
-	topoRef: "Топографический указатель",
-	doc: "Документ",
 	enter: "Вход",
 	user: "Пользователь",
-	pass: "Пароль",
-	tenter: "Войти"
+	pass: "Пароль"
 };
 
 Pages = {
@@ -26,6 +17,8 @@ Pages = {
 
 Urls = {
 	root: '/ea-vkks-web/',
+	user: '/ea-vkks-web/srvcs/user',
+	logout: '/ea-vkks-web/srvcs/logout',
 	armadmin: '/arm-admin/'
 };
 /**
@@ -48,6 +41,35 @@ showError = function (title, message) {
 		msg: message,
 		buttons: Ext.Msg.OK,
 		icon: Ext.Msg.ERROR,
+		maxWidth: 800
+	});
+};
+/**
+ * Показывает сообщение об ошибке и перенаправляет на начальную страницу
+ * @param {String} title заголовок окна
+ * @param {String} message сообщение об ошибке
+ * @method showErrorAndExit
+ */
+showErrorAndExit = function (title, message) {
+	function exit() {
+		window.location.href = Urls.logout;
+	}
+
+	if (message instanceof Object) {
+		if (message.statusText) {
+			message = message.statusText;
+		} else {
+			console.log(message);
+			exit();
+			return;
+		}
+	}
+	Ext.Msg.show({
+		title: title,
+		msg: message,
+		buttons: Ext.Msg.OK,
+		icon: Ext.Msg.ERROR,
+		fn: exit,
 		maxWidth: 800
 	});
 };

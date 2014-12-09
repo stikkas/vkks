@@ -25,24 +25,7 @@ public class DB implements Serializable {
 	private static List<EaDocument> documents = new ArrayList<EaDocument>();
 	private static List<EaCase> cases = new ArrayList<EaCase>();
 
-	private static Set<String> fio = new HashSet<String>() {
-		{
-			add("Иванов И.М.");
-			add("Петров И.П.");
-			add("Цветков И.Я.");
-			add("Конанов И.Н.");
-			add("Ушаков И.И.");
-			add("Бузенков И.И.");
-			add("Безногий Б.Б.");
-			add("Ручейник Р.И.");
-			add("Гнездо Г.И.");
-			add("Окно И.И.");
-			add("Качан К.И.");
-			add("Трутнов И.И.");
-			add("Ковалев И.И.");
-			add("Жмульков В.В.");
-		}
-	};
+	private static Set<String> fio;
 	private static DictValue[] caseType = {
 		new DictValue(21l, "иные материалы", "CT_11"),
 		new DictValue(18l, "материалы о привлечении к дисциплинарной ответственности", "CT_08"),
@@ -105,11 +88,29 @@ public class DB implements Serializable {
 		}
 	};
 
+	private static String bigABC = "АБВГДЕЁЖЗИЙКЛМНОПРСТФЧУХЮШЦЩЭЯ";
+	private static String smallABC = "абвгдеёжзийклмнопрстфчухышцщэя";
 	private static Random random = new Random();
 
 	@PostConstruct
 	void initData() {
-		System.out.println("In initData");
+		// инициализация списка фамилий--------------------
+		fio = new HashSet<>();
+		for (int j = 0; j < 30; ++j) {
+			StringBuilder sb = new StringBuilder("" + bigABC.charAt(Math.abs(random.nextInt()) % bigABC.length()));
+			int familySize = Math.abs(random.nextInt()) % 15 + 10;
+			for (int k = 10; k < familySize; ++k) {
+				sb.append(smallABC.charAt(Math.abs(random.nextInt()) % smallABC.length()));
+			}
+			sb.append(" ")
+				.append(bigABC.charAt(Math.abs(random.nextInt()) % bigABC.length()))
+				.append(".")
+				.append(bigABC.charAt(Math.abs(random.nextInt()) % bigABC.length()))
+				.append(".");
+			fio.add(sb.toString());
+		}
+		//----------------------------------------------------
+
 		int i = 1;
 		String[] courts = court.toArray(new String[0]);
 		String[] fios = fio.toArray(new String[0]);
@@ -140,6 +141,7 @@ public class DB implements Serializable {
 			}
 			cases.add(acase);
 		}
+
 	}
 
 	public void addCase(EaCase acase) {
@@ -224,6 +226,7 @@ public class DB implements Serializable {
 			}
 		}
 		return false;
+
 	}
 
 	private static class DictValue {

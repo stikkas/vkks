@@ -46,6 +46,38 @@ Ext.define('Earh.store.TopoRef', {
 			writer: 'json',
 			extraParams: {action: Actions.tree}
 		}));
+	},
+	listeners: {
+		load: function (st, records, suc, op, node) {
+			if (records.length > 0) {
+				var root = st.copyNode(node);
+				root.children.unshift({id: 'root', text: '', path: '', leaf: true});
+				Ext.create('Ext.data.TreeStore', {
+					model: 'Earh.model.Tree',
+					storeId: 'topoRefStoreEm',
+					proxy: {type: 'memory'},
+					root: root
+				});
+			}
+		}
+	},
+	/**
+	 * Копирует все дерево
+	 * @param {Object} node корень
+	 * @returns {Object} новое дерево
+	 */
+	copyNode: function (node) {
+		var data = node.data,
+				newnode = {id: data.id, text: data.text,
+					leaf: data.leaf, path: data.path};
+		if (node.childNodes) {
+			var children = [];
+			for (var i = 0; i < node.childNodes.length; ++i)
+				children.push(this.copyNode(node.childNodes[i]));
+
+			newnode.children = children;
+		}
+		return newnode;
 	}
 });
 
