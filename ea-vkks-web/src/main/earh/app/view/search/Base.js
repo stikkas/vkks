@@ -12,8 +12,7 @@ Ext.define('Earh.view.search.Base', {
 		'Ext.toolbar.Paging',
 		'Ext.form.field.ComboBox',
 		'Ext.form.field.Date',
-		'Ext.form.field.Text',
-		'Earh.cmp.ComboBoxEm'
+		'Ext.form.field.Text'
 	],
 	layout: 'vbox',
 	cls: 'fields_panel',

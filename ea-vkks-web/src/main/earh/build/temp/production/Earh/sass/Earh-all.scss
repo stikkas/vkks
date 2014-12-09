@@ -1,11 +1,11 @@
 $image-search-path: '../webapp/resources';
 $theme-name:  'ext-theme-classic' !default;
 $include-earh-application: true;
-$include-earh-cmp-comboboxem: true;
+$include-earh-cmp-comboboxem: false;
 $include-earh-cmp-numberinterval: false;
 $include-earh-cmp-pdfpanel: false;
 $include-earh-cmp-textlayerbuilder: false;
-$include-earh-cmp-treepickerem: true;
+$include-earh-cmp-treepickerem: false;
 $include-earh-model-ccase: true;
 $include-earh-model-case: true;
 $include-earh-model-casedocresult: true;
