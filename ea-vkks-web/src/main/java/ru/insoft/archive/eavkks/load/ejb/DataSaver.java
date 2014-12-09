@@ -6,6 +6,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -87,7 +88,7 @@ public class DataSaver
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void saveLoadedData(LoadedCase lCase, File filesDir) throws BadSourceException
+    public void saveLoadedData(LoadedCase lCase, File filesDir) throws BadSourceException, IOException
     {       
         EaCase eaCase = new EaCase();
         try
@@ -100,6 +101,7 @@ public class DataSaver
             eaCase.setStoreLifeTypeId(getDescriptorValueId(storeLifeTypes, "CASE_STORE_LIFE", lCase.getStoreLife(),
                     "Неверный код срока хранения"));
             eaCase.setToporefId(getToporefValueId(lCase.getToporef()));
+            eaCase.setDocuments(new ArrayList<EaDocument>());
 
             eaCase.setAddUserId(getLoadUserId());
             eaCase.setModUserId(getLoadUserId());
@@ -133,13 +135,14 @@ public class DataSaver
 
                 em.persist(eaDoc);
                 em.flush();
+                eaCase.getDocuments().add(eaDoc);
                 esIndex.indexDocument(eaDoc);
 
                 Path imageFilePath = FileSystems.getDefault().getPath(filesDir.getPath(), lDoc.getGraph());                
                 try
                 {
                     byte[] fileData = Files.readAllBytes(imageFilePath);
-                    esIndex.indexImage(eaDoc.getId().toString(), fileData);
+                    esIndex.indexImage(eaCase.getId().toString(), eaDoc.getId().toString(), fileData);
                 }
                 catch (IOException e)
                 {
@@ -152,7 +155,7 @@ public class DataSaver
             context.setRollbackOnly();
             if (eaCase.getId() != null)
             {
-                esIndex.deleteAllCaseDocuments(eaCase.getId());
+                esIndex.deleteAllCaseDocuments(eaCase.getId(), eaCase.getDocuments());
                 esIndex.deleteCase(eaCase.getId());
             }
             throw e;
