@@ -140,6 +140,9 @@ h1{
     width:60% !important;
     left:0 !important;
 }
+.login_page .x-panel-body-default{
+    background-color:transparent;
+}
 .login_page .x-panel-header,
 .login_page .x-panel-header div{
     width:100% !important;
