@@ -17,10 +17,7 @@ Ext.define('Earh.view.work.Doc', {
 		'Ext.form.field.TextArea',
 		'Ext.form.field.File',
 		'Ext.panel.Tool',
-		'Earh.view.work.DocController',
-		'Earh.store.FioResult',
-		'Earh.store.CourtResult',
-		'Earh.store.DocType'
+		'Earh.view.work.DocController'
 	],
 	layout: 'hbox',
 	defaults: {
@@ -38,6 +35,12 @@ Ext.define('Earh.view.work.Doc', {
 		activate: 'setDocMenu'
 	},
 	initComponent: function () {
+		//-----for staff use only------------
+		function emptyCombo2(cb) {
+			if (!cb.getRawValue())
+				cb.reset();
+		}
+		//-----------------------------------
 		var docView = this;
 		docView.title = Trans.doc;
 		docView.items = [{
@@ -102,23 +105,27 @@ Ext.define('Earh.view.work.Doc', {
 						fieldLabel: Trans.court,
 						name: 'court',
 						store: 'courtsStore',
-						valueField: 'court',
-						displayField: 'court',
-						queryMode: 'local',
+						minChars: 1,
 						allowBlank: true,
 						editable: true,
+<<<<<<< HEAD
                                                 width: 580
+=======
+						listeners: {blur: emptyCombo2}
+>>>>>>> ef6cab4df590990cadea758faca89be4ebfa61e4
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.fio,
 						name: 'fio',
 						store: 'fiosStore',
-						valueField: 'fio',
-						displayField: 'fio',
-						queryMode: 'local',
+						minChars: 1,
 						allowBlank: true,
 						editable: true,
+<<<<<<< HEAD
                                                 width: 500
+=======
+						listeners: {blur: emptyCombo2}
+>>>>>>> ef6cab4df590990cadea758faca89be4ebfa61e4
 					}]
 			}, {
 				title: Trans.graph,
@@ -146,7 +153,7 @@ Ext.define('Earh.view.work.Doc', {
 							}]
 					}, {
 						xtype: 'component',
-                                                width:500,
+						width: 500,
 						minHeight: 500
 
 					}]

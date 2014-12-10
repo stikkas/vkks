@@ -7,8 +7,6 @@ Ext.define('Earh.view.search.Doc', {
 	requires: [
 		'Earh.store.DocResult',
 		'Earh.store.DocType',
-		'Earh.store.FioResult',
-		'Earh.store.CourtResult',
 		'Ext.form.field.Number',
 		'Ext.grid.column.Action'
 	],
@@ -25,11 +23,16 @@ Ext.define('Earh.view.search.Doc', {
 		1, // разделитель
 		1], // Выход
 	initComponent: function () {
+		//-----for staff use only------------
 		function emptyCombo(cb, value) {
-			if (value === 0)
+			if (!value)
 				cb.reset();
 		}
-
+		function emptyCombo2(cb) {
+			if (!cb.getRawValue())
+				cb.reset();
+		}
+		//-----------------------------------
 		var resultStoreId = Ext.create('Earh.store.DocResult');
 		this.callParent([{
 				xtype: 'form',
@@ -85,10 +88,9 @@ Ext.define('Earh.view.search.Doc', {
 						fieldLabel: Trans.court,
 						name: 'court',
 						store: 'courtsStore',
-						valueField: 'court',
-						displayField: 'court',
-						queryMode: 'local',
+						minChars: 1,
 						editable: true,
+						listeners: {blur: emptyCombo2},
 						width: 775
 					}, {
 						xtype: 'textfield',
@@ -100,9 +102,9 @@ Ext.define('Earh.view.search.Doc', {
 						fieldLabel: Trans.fio,
 						name: 'fio',
 						store: 'fiosStore',
-						valueField: 'text',
 						minChars: 1,
 						editable: true,
+						listeners: {blur: emptyCombo2},
 						width: 775
 					}, {
 						xtype: 'textfield',

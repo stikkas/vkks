@@ -12,6 +12,7 @@ Ext.define('Earh.view.main.Main', {
 		'Earh.store.CaseResult',
 		'Earh.store.DocType',
 		'Earh.store.FioResult',
+		'Earh.store.CourtResult',
 		'Earh.store.StoreLife',
 		'Ext.layout.container.VBox',
 		'Ext.container.Container',
@@ -97,7 +98,9 @@ Ext.define('Earh.view.main.Main', {
 		Ext.create('Earh.store.TopoRef').load();
 		Ext.create('Earh.store.CaseResult');
 		Ext.create('Earh.store.FioResult');
+		Ext.create('Earh.store.CourtResult');
 
+// Создает новое хранилище с первым нулевым элементом
 		function addEmptyToPlain(records, storeId) {
 			var data = [{code: '', id: 0, name: '&nbsp'}];
 			for (var i = 0; i < records.length; ++i) {
