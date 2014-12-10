@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -25,7 +26,6 @@ public class DB implements Serializable {
 	private static List<EaDocument> documents = new ArrayList<EaDocument>();
 	private static List<EaCase> cases = new ArrayList<EaCase>();
 
-	private static Set<String> fio;
 	private static DictValue[] caseType = {
 		new DictValue(21l, "иные материалы", "CT_11"),
 		new DictValue(18l, "материалы о привлечении к дисциплинарной ответственности", "CT_08"),
@@ -72,68 +72,69 @@ public class DB implements Serializable {
 		new DictValue(55l, "Заявление о выдаче протокола", "DT_28"),
 		new DictValue(56l, "Сопроводительное письмо", "DT_29")
 	};
-	private static Set<String> court = new HashSet<String>() {
-		{
-			add("Хамовнический");
-			add("Рамовнический");
-			add("Бамовнический");
-			add("Гамовнический");
-			add("Жамовнический");
-			add("Памовнический");
-			add("Замовнический");
-			add("Цамовнический");
-			add("Шамовнический");
-			add("Петровский");
-			add("Высший");
-		}
-	};
+
+	private static Set<String> fio;
+	private static Set<String> court;
 
 	private static String bigABC = "АБВГДЕЁЖЗИЙКЛМНОПРСТФЧУХЮШЦЩЭЯ";
+	private static int bigABCLength = bigABC.length();
 	private static String smallABC = "абвгдеёжзийклмнопрстфчухышцщэя";
+	private static int smallABCLength = smallABC.length();
 	private static Random random = new Random();
 
 	@PostConstruct
 	void initData() {
 		// инициализация списка фамилий--------------------
 		fio = new HashSet<>();
-		for (int j = 0; j < 30; ++j) {
-			StringBuilder sb = new StringBuilder("" + bigABC.charAt(Math.abs(random.nextInt()) % bigABC.length()));
-			int familySize = Math.abs(random.nextInt()) % 15 + 10;
-			for (int k = 10; k < familySize; ++k) {
-				sb.append(smallABC.charAt(Math.abs(random.nextInt()) % smallABC.length()));
+		for (int j = 0; j < 1000000; ++j) {
+			StringBuilder sb = new StringBuilder("" + bigABC.charAt(random.nextInt(bigABCLength)));
+			int familySize = random.nextInt(10) + 10;
+			for (int k = 0; k < familySize; ++k) {
+				sb.append(smallABC.charAt(random.nextInt(smallABCLength)));
 			}
 			sb.append(" ")
-				.append(bigABC.charAt(Math.abs(random.nextInt()) % bigABC.length()))
+				.append(bigABC.charAt(random.nextInt(bigABCLength)))
 				.append(".")
-				.append(bigABC.charAt(Math.abs(random.nextInt()) % bigABC.length()))
+				.append(bigABC.charAt(random.nextInt(bigABCLength)))
 				.append(".");
 			fio.add(sb.toString());
 		}
 		//----------------------------------------------------
 
+		// иницализация списка судов--------------------------
+		court = new HashSet<>();
+		for (int j = 0; j < 1000000; ++j) {
+			StringBuilder sb = new StringBuilder("" + bigABC.charAt(random.nextInt(bigABCLength)));
+			int courtSize = random.nextInt(15) + 10;
+			for (int k = 0; k < courtSize; ++k) {
+				sb.append(smallABC.charAt(random.nextInt(smallABCLength)));
+			}
+			court.add(sb.toString());
+		}
+		//----------------------------------------------------
+
+		// иницализация базы документов и дел------------------
 		int i = 1;
 		String[] courts = court.toArray(new String[0]);
 		String[] fios = fio.toArray(new String[0]);
 
 		for (int j = 1; j < 40; ++j) {
-			Integer numberCase = Math.abs(random.nextInt()) % 100;
+			Integer numberCase = random.nextInt(100) + 1;
 			EaCase acase = new EaCase(j, "№" + numberCase,
 				"Простое дело ", "Замечания по делу",
-				caseType[Math.abs(random.nextInt()) % caseType.length].name
+				caseType[random.nextInt(caseType.length)].name
 			);
 			for (; i < 30 * j; ++i) {
 
 				Calendar cal = new GregorianCalendar();
-				cal.add(Calendar.YEAR, random.nextInt() % 50);
-				cal.add(Calendar.MONTH, random.nextInt() % 12);
-				cal.add(Calendar.DAY_OF_YEAR, random.nextInt() % 365);
+				cal.add(Calendar.DAY_OF_YEAR, random.nextInt() % 3650);
 
 				EaDocument doc = new EaDocument(i, 1l, "№" + i, "Просто документ",
 					1l, 10l,
 					cal.getTime(), "Примечания",
-					courts[Math.abs(random.nextInt()) % courts.length],
-					fios[Math.abs(random.nextInt()) % fios.length],
-					docType[Math.abs(random.nextInt()) % docType.length].name,
+					courts[random.nextInt(courts.length)],
+					fios[random.nextInt(fios.length)],
+					docType[random.nextInt(docType.length)].name,
 					i % 5 == 0 ? "/ea-vkks-web/file.pdf" : null);
 
 				documents.add(doc);
@@ -141,6 +142,7 @@ public class DB implements Serializable {
 			}
 			cases.add(acase);
 		}
+		//----------------------------------------------------
 
 	}
 
@@ -156,12 +158,24 @@ public class DB implements Serializable {
 		fio.add(doc.getFio());
 	}
 
-	public String[] getFios() {
-		return fio.toArray(new String[fio.size()]);
+	/**
+	 * Возвращает списко ФИО, начинающихся с key (не более 25)
+	 *
+	 * @param key начальная последовательность символов для ФИО
+	 * @return список найденных ФИО
+	 */
+	public List<String> getFios(String key) {
+		return getChunck(key, fio);
 	}
 
-	public String[] getCourts() {
-		return court.toArray(new String[court.size()]);
+	/**
+	 * Возвращает списко судов, начинающихся с key (не более 25)
+	 *
+	 * @param key начальная последовательность символов для суда
+	 * @return список найденных судов
+	 */
+	public List<String> getCourts(String key) {
+		return getChunck(key, court);
 	}
 
 	public List<EaDocument> findDocuments(DocumentCriteria criteria) {
@@ -217,6 +231,27 @@ public class DB implements Serializable {
 	}
 
 	/**
+	 * Возвращает часть данных из массива, соответсвующих заданному критерию
+	 *
+	 * @param query критерий поиска
+	 * @param data источник данных
+	 * @return новый массив данных
+	 */
+	private List<String> getChunck(String query, Set<String> data) {
+		int i = 25;
+		List<String> result = new ArrayList<>(25);
+		Iterator<String> iterator = data.iterator();
+		while (iterator.hasNext() && i > 0) {
+			String item = iterator.next();
+			if (item.startsWith(query)) {
+				result.add(item);
+				--i;
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * Сравнивает два типа, у одного берется id у второго name
 	 */
 	private boolean equalTypes(Long id, String name, DictValue[] types) {
@@ -226,7 +261,6 @@ public class DB implements Serializable {
 			}
 		}
 		return false;
-
 	}
 
 	private static class DictValue {
