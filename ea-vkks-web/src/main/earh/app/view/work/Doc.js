@@ -45,13 +45,14 @@ Ext.define('Earh.view.work.Doc', {
 		docView.title = Trans.doc;
 		docView.items = [{
 				defaults: {
-					labelWidth: 300,
+					labelWidth: 200,
 					allowBlank: false
 				},
 				items: [{
 						xtype: 'numberfield',
 						fieldLabel: Trans.volume,
-						name: 'volume'
+						name: 'volume',                                               
+                                                width: 300
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.acase,
@@ -63,35 +64,42 @@ Ext.define('Earh.view.work.Doc', {
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.docNum,
-						name: 'number'
+						name: 'number',
+                                                width: 300
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.docType,
 						name: 'type',
 						displayField: 'name',
 						valueField: 'id',
-						store: 'docTypeStore'
+						store: 'docTypeStore',
+                                                width: 580
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.docTitle,
-						name: 'title'
+						name: 'title',
+                                                width: 580
 					}, {
 						xtype: 'numberfield',
 						fieldLabel: Trans.startPageNum,
-						name: 'startPage'
+						name: 'startPage',
+                                                width: 300
 					}, {
 						xtype: 'numberfield',
 						fieldLabel: Trans.endPageNum,
-						name: 'endPage'
+						name: 'endPage',
+                                                width: 300
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.docDate,
-						name: 'date'
+						name: 'date',
+                                                width: 332
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.remark,
 						name: 'remark',
-						allowBlank: true
+						allowBlank: true,
+                                                width: 580
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.court,
@@ -100,7 +108,11 @@ Ext.define('Earh.view.work.Doc', {
 						minChars: 1,
 						allowBlank: true,
 						editable: true,
+<<<<<<< HEAD
+                                                width: 580
+=======
 						listeners: {blur: emptyCombo2}
+>>>>>>> ef6cab4df590990cadea758faca89be4ebfa61e4
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.fio,
@@ -109,7 +121,11 @@ Ext.define('Earh.view.work.Doc', {
 						minChars: 1,
 						allowBlank: true,
 						editable: true,
+<<<<<<< HEAD
+                                                width: 500
+=======
 						listeners: {blur: emptyCombo2}
+>>>>>>> ef6cab4df590990cadea758faca89be4ebfa61e4
 					}]
 			}, {
 				title: Trans.graph,

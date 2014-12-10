@@ -345,7 +345,7 @@ div[id*=pagingtoolbar] .x-toolbar-text{
 }
 
 div[id*=pagingtoolbar].x-box-inner{
-    width:215px !important;
+    width:230px !important;
     margin: auto;
 }
 .x-box-inner span.x-tbar-page-prev{
