@@ -1,7 +1,6 @@
 package ru.fake.srvcs;
 
 import java.util.List;
-import ru.fake.answer.Fio;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -25,15 +24,14 @@ public class BigDicts {
 	@Path("users")
 	@Produces("application/json")
 	public List<String> getFios(@QueryParam("query") String query) {
-		/*
-		 List<String> fios = store.getFios(query);
-
-		 Fio[] result = new Fio[fios.size()];
-		 for (int i = 0; i < result.length; ++i) {
-		 result[i] = new Fio(fios.get(i));
-		 }
-		 return result;
-		 */
 		return store.getFios(query);
 	}
+
+	@GET
+	@Path("courts")
+	@Produces("application/json")
+	public List<String> getCourts(@QueryParam("query") String query) {
+		return store.getCourts(query);
+	}
+
 }
