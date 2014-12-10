@@ -108,11 +108,8 @@ Ext.define('Earh.view.work.Doc', {
 						minChars: 1,
 						allowBlank: true,
 						editable: true,
-<<<<<<< HEAD
-                                                width: 580
-=======
+                                                width: 580,
 						listeners: {blur: emptyCombo2}
->>>>>>> ef6cab4df590990cadea758faca89be4ebfa61e4
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.fio,
@@ -121,11 +118,8 @@ Ext.define('Earh.view.work.Doc', {
 						minChars: 1,
 						allowBlank: true,
 						editable: true,
-<<<<<<< HEAD
-                                                width: 500
-=======
+                                                width: 500,
 						listeners: {blur: emptyCombo2}
->>>>>>> ef6cab4df590990cadea758faca89be4ebfa61e4
 					}]
 			}, {
 				title: Trans.graph,

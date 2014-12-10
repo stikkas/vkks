@@ -136,6 +136,16 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
 .title_head{
     width: calc(100% - 150px);
 }
+    /*opera (временное решение)*/
+    noindex:-o-prefocus, .title_head { 
+        width: 90%;
+      } 
+      /*safari*/
+     @media screen and ( -webkit-min-device-pixel-ratio : 0 )	 { 
+        .title_head { 
+            width: 90%;
+        } 
+      }
 .title_head .title_head{
     border-bottom-image:url('../images/project_images/blue_underline.png');
     -moz-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
@@ -227,6 +237,16 @@ label.user_cls.x-toolbar-item{
 .exit_cls{
     left:calc(100% - 50px) !important;
 }
+    /*Opera*/
+    noindex:-o-prefocus, .exit_cls { 
+        left:96% !important; 
+      } 
+    /*safari*/
+    @media screen and ( -webkit-min-device-pixel-ratio : 0 )	 { 
+        .exit_cls { 
+            left:96% !important; 
+         }
+  }
 .icons_cls span,
 .add_cls span{
     color:#1D4B82;
