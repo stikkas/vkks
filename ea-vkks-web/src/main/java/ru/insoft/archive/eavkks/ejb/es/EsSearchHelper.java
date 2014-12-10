@@ -40,4 +40,24 @@ public class EsSearchHelper
             res.add(bucket.getKey());
         return res;
     }
+    
+    public List<String> searchCourts(String prefix)
+    {
+        Client esClient = esAdmin.getClient();
+        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+                .setTypes("document")
+                .setQuery(prefix == null || prefix.isEmpty() ?
+                        QueryBuilders.matchAllQuery() :
+                        QueryBuilders.matchPhrasePrefixQuery("court", prefix))
+                .setSize(0)
+                .addAggregation(AggregationBuilders.terms("court")
+                        .field("court.raw")
+                )
+                .execute().actionGet();
+        Terms fios = resp.getAggregations().get("court");
+        List<String> res = new ArrayList<>();
+        for (Bucket bucket : fios.getBuckets())
+            res.add(bucket.getKey());
+        return res;
+    }
 }
