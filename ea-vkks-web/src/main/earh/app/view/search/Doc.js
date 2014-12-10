@@ -100,9 +100,8 @@ Ext.define('Earh.view.search.Doc', {
 						fieldLabel: Trans.fio,
 						name: 'fio',
 						store: 'fiosStore',
-						valueField: 'fio',
-						displayField: 'fio',
-						queryMode: 'local',
+						valueField: 'text',
+						minChars: 1,
 						editable: true,
 						width: 775
 					}, {

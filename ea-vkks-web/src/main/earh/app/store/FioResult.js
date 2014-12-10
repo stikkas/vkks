@@ -3,7 +3,7 @@
  */
 Ext.define('Earh.store.FioResult', {
 	extend: 'Earh.store.BigDicts',
-	model: 'Earh.model.FioResult',
+//	model: 'Earh.model.SingleDimArray',
 	storeId: 'fiosStore',
 	constructor: function () {
 		this.callParent([Urls.fios]);

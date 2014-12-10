@@ -96,7 +96,7 @@ Ext.define('Earh.view.main.Main', {
 		});
 		Ext.create('Earh.store.TopoRef').load();
 		Ext.create('Earh.store.CaseResult');
-		Ext.create('Earh.store.FioResult').load();
+		Ext.create('Earh.store.FioResult');
 
 		function addEmptyToPlain(records, storeId) {
 			var data = [{code: '', id: 0, name: '&nbsp'}];

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -96,7 +97,7 @@ public class DB implements Serializable {
 	void initData() {
 		// инициализация списка фамилий--------------------
 		fio = new HashSet<>();
-		for (int j = 0; j < 30; ++j) {
+		for (int j = 0; j < 1000; ++j) {
 			StringBuilder sb = new StringBuilder("" + bigABC.charAt(Math.abs(random.nextInt()) % bigABC.length()));
 			int familySize = Math.abs(random.nextInt()) % 15 + 10;
 			for (int k = 10; k < familySize; ++k) {
@@ -156,8 +157,18 @@ public class DB implements Serializable {
 		fio.add(doc.getFio());
 	}
 
-	public String[] getFios() {
-		return fio.toArray(new String[fio.size()]);
+	public List<String> getFios(String key) {
+		int i = 25;
+		List<String> result = new ArrayList<>(25);
+		Iterator<String> iterator = fio.iterator();
+		while (iterator.hasNext() && i > 0) {
+			String fio = iterator.next();
+			if (fio.startsWith(key)) {
+				result.add(fio);
+				--i;
+			}
+		}
+		return result;
 	}
 
 	public String[] getCourts() {
