@@ -17,55 +17,55 @@ import ru.insoft.archive.extcommons.json.JsonOut;
  *
  * @author melnikov
  */
-@Entity
-@Table(name = "EA_CASE")
+//@Entity
+//@Table(name = "EA_CASE")
 public class EaCase implements JsonOut
 {
-    @Id
-    @SequenceGenerator(sequenceName = "ea_case_ea_case_id_seq", name = "seqCase", allocationSize = 1)
-    @GeneratedValue(generator = "seqCase", strategy = GenerationType.SEQUENCE)
-    @Column(name = "ea_case_id")
-    private Long id;
+    //@Id
+    //@SequenceGenerator(sequenceName = "ea_case_ea_case_id_seq", name = "seqCase", allocationSize = 1)
+    //@GeneratedValue(generator = "seqCase", strategy = GenerationType.SEQUENCE)
+    //@Column(name = "ea_case_id")
+    private String id;
     
-    @Column(name = "case_number")
+    //@Column(name = "case_number")
     private String number;
     
-    @Column(name = "case_type_id")
+    //@Column(name = "case_type_id")
     private Long typeId;
     
-    @Column(name = "store_life_type_id")
+    //@Column(name = "store_life_type_id")
     private Long storeLifeTypeId;
     
-    @Column(name = "case_title")
+    //@Column(name = "case_title")
     private String title;
     
-    @Column(name = "toporef_id")
+    //@Column(name = "toporef_id")
     private Long toporefId;
     
-    @Column(name = "remark")
+    //@Column(name = "remark")
     private String remark;
     
-    @Column(name = "add_user_id")
+    //@Column(name = "add_user_id")
     private Long addUserId;
     
-    @Column(name = "mod_user_id")
+    //@Column(name = "mod_user_id")
     private Long modUserId;
     
-    @Column(name = "insert_date")
+    //@Column(name = "insert_date")
     private Date insertDate;
     
-    @Column(name = "last_update_date")
+    //@Column(name = "last_update_date")
     private Date lastUpdateDate;
     
-    @OneToMany(mappedBy = "eaCase")
-    @OrderBy("volume, startPage")
+    //@OneToMany(mappedBy = "eaCase")
+    //@OrderBy("volume, startPage")
     List<EaDocument> documents;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

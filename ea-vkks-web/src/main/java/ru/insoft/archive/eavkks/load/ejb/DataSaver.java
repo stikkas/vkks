@@ -66,7 +66,7 @@ public class DataSaver
     private Long loadUserId;
     private Long toporefGroupId;
     
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    /*@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void clearDb()
     {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -85,7 +85,7 @@ public class DataSaver
         q.setParameter(1, getLoadUserId());
         q.setParameter(2, getLoadUserId());
         q.executeUpdate();
-    }
+    }*/
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void saveLoadedData(LoadedCase lCase, File filesDir) throws BadSourceException, IOException
@@ -108,9 +108,9 @@ public class DataSaver
             eaCase.setInsertDate(new Date());
             eaCase.setLastUpdateDate(eaCase.getInsertDate());
 
-            em.persist(eaCase);
-            em.flush();
-            esIndex.indexCase(eaCase);
+            //em.persist(eaCase);
+            //em.flush();
+            eaCase.setId(esIndex.indexCase(eaCase));
 
             for (LoadedDocument lDoc : lCase.getDocuments())
             {
@@ -133,16 +133,16 @@ public class DataSaver
                 eaDoc.setInsertDate(new Date());
                 eaDoc.setLastUpdateDate(eaCase.getInsertDate());
 
-                em.persist(eaDoc);
-                em.flush();
-                eaCase.getDocuments().add(eaDoc);
-                esIndex.indexDocument(eaDoc);
+                //em.persist(eaDoc);
+                //em.flush();
+                eaDoc.setId(esIndex.indexDocument(eaDoc));
+                eaCase.getDocuments().add(eaDoc);                
 
                 Path imageFilePath = FileSystems.getDefault().getPath(filesDir.getPath(), lDoc.getGraph());                
                 try
                 {
                     byte[] fileData = Files.readAllBytes(imageFilePath);
-                    esIndex.indexImage(eaCase.getId().toString(), eaDoc.getId().toString(), fileData);
+                    esIndex.indexImage(eaCase.getId(), eaDoc.getId(), fileData);
                 }
                 catch (IOException e)
                 {

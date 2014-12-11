@@ -16,6 +16,7 @@ import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import ru.insoft.archive.eavkks.ejb.es.EsAdminHelper;
+import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
 import ru.insoft.archive.eavkks.load.model.LoadedCase;
 import ru.insoft.archive.extcommons.ejb.JsonTools;
 
@@ -34,6 +35,8 @@ public class Loader
     JsonTools jsonTools;
     @Inject
     DataSaver dbSaver;
+    @Inject
+    EsIndexHelper esIndex;
     
     public Loader()
     {
@@ -58,7 +61,8 @@ public class Loader
                 throw new BadSourceException("Папка <" + filesDir.getPath() + "> не существует");
             
             esAdmin.createSchema();
-            dbSaver.clearDb();
+            esIndex.deleteAllImages();
+            //dbSaver.clearDb();
             FilenameFilter jsonFilter = new FilenameFilter() 
                     {
                         @Override

@@ -17,67 +17,67 @@ import ru.insoft.archive.extcommons.json.JsonOut;
  *
  * @author melnikov
  */
-@Entity
-@Table(name = "EA_DOCUMENT")
+//@Entity
+//@Table(name = "EA_DOCUMENT")
 public class EaDocument implements JsonOut
 {
-    @Id
-    @SequenceGenerator(sequenceName = "ea_document_ea_document_id_seq", name = "seqDocument", allocationSize = 1)
-    @GeneratedValue(generator = "seqDocument", strategy = GenerationType.SEQUENCE)
-    @Column(name = "ea_document_id")
-    private Long id;
+    //@Id
+    //@SequenceGenerator(sequenceName = "ea_document_ea_document_id_seq", name = "seqDocument", allocationSize = 1)
+    //@GeneratedValue(generator = "seqDocument", strategy = GenerationType.SEQUENCE)
+    //@Column(name = "ea_document_id")
+    private String id;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ea_case_id")
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "ea_case_id")
     private EaCase eaCase;
     
-    @Column(name = "doc_type_id")
+    //@Column(name = "doc_type_id")
     private Long typeId;
     
-    @Column(name = "volume")
+    //@Column(name = "volume")
     private Integer volume;
     
-    @Column(name = "doc_number")
+    //@Column(name = "doc_number")
     private String number;
     
-    @Column(name = "doc_title")
+    //@Column(name = "doc_title")
     private String title;
     
-    @Column(name = "start_page")
+    //@Column(name = "start_page")
     private Integer startPage;
     
-    @Column(name = "end_page")
+    //@Column(name = "end_page")
     private Integer endPage;
     
-    @Column(name = "doc_date")
+    //@Column(name = "doc_date")
     private Date date;
     
-    @Column(name = "remark")
+    //@Column(name = "remark")
     private String remark;
     
-    @Column(name = "court")
+    //@Column(name = "court")
     private String court;
     
-    @Column(name = "fio")
+    //@Column(name = "fio")
     private String fio;
     
-    @Column(name = "add_user_id")
+    //@Column(name = "add_user_id")
     private Long addUserId;
     
-    @Column(name = "mod_user_id")
+    //@Column(name = "mod_user_id")
     private Long modUserId;
     
-    @Column(name = "insert_date")
+    //@Column(name = "insert_date")
     private Date insertDate;
     
-    @Column(name = "last_update_date")
+    //@Column(name = "last_update_date")
     private Date lastUpdateDate;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
