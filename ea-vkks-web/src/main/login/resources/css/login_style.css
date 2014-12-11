@@ -175,3 +175,13 @@ h1{
     left:0 !important;
     margin-left:calc(50% - 20px) !important;
 }
+/*Opera*/
+noindex:-o-prefocus, .login_page a{
+    margin-left:50% !important;
+}
+/*safari*/
+@media screen and ( -webkit-min-device-pixel-ratio : 0 ) {
+    .login_page a{
+        margin-left:50% !important;
+    }
+}
