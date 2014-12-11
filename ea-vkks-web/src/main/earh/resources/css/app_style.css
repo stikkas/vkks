@@ -28,6 +28,9 @@ textarea.x-form-text.x-form-text-default{
     box-shadow:inset -3px 6px 5px rgba(134,134,134,.2);
     border:1px solid #809EDA;
     border-radius:6px;
+    padding:3px;
+}
+input.x-form-text.x-form-text-default{
     min-height:25px;
 }
 /*combobox*/
@@ -141,7 +144,7 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
         width: 90%;
       } 
       /*safari*/
-     @media screen and ( -webkit-min-device-pixel-ratio : 0 )	 { 
+     @media screen and ( -webkit-min-device-pixel-ratio : 0 ) { 
         .title_head { 
             width: 90%;
         } 
@@ -392,9 +395,6 @@ div[id*=pagingtoolbar].x-box-inner{
 }
 /*карточка документа*/
     /*разметка*/
-    /*.card_doc .x-box-inner div.x-box-target > .x-panel.fields_doc{
-        width:calc(100% - 567px) !important;
-    } */   
     .card_doc .x-box-inner div.x-box-target .graf_view{
         position:relative !important;
         display:inline-block;
