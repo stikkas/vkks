@@ -1,15 +1,26 @@
 package ru.insoft.archive.eavkks.ejb.es;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.collect.ImmutableMap;
+import org.elasticsearch.index.query.BoolFilterBuilder;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.FilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
+import org.javatuples.Pair;
+import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
 
 /**
  *
@@ -59,5 +70,137 @@ public class EsSearchHelper
         for (Bucket bucket : fios.getBuckets())
             res.add(bucket.getKey());
         return res;
+    }
+    
+    public SearchHits searchDocuments(DocumentSearchCriteria q, Integer start, Integer limit)
+    {
+        Client esClient = esAdmin.getClient();
+        QueryBuilder query;
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("title", q.getTitle());
+        queryMap.put("court", q.getCourt());
+        queryMap.put("remark", q.getRemark());
+        queryMap.put("fio", q.getFio());
+        queryMap.put("graph", q.getContext());
+        
+        if (allNulls(queryMap))
+            query = QueryBuilders.matchAllQuery();
+        else
+        {
+            if (oneNotNull(queryMap))
+            {
+                String field = getNotNull(queryMap);
+                query = getQuery(field, queryMap.get(field));
+            }
+            else
+            {
+                BoolQueryBuilder bool = QueryBuilders.boolQuery();
+                for (String field : queryMap.keySet())
+                {
+                    Object obj = queryMap.get(field);
+                    if (obj != null)
+                        bool.must(getQuery(field, obj));
+                }
+                query = bool;
+            }
+        }
+        
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("volume", q.getVolume());
+        filterMap.put("number", q.getNumber());
+        filterMap.put("type", q.getType());
+        filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
+                        new Pair<>(q.getStartPage(), q.getEndPage())));
+        filterMap.put("date", q.getDate());
+        
+        if (!allNulls(filterMap))
+        {
+            FilterBuilder filter;
+            if (oneNotNull(filterMap))
+            {
+                String field = getNotNull(filterMap);
+                filter = getFilter(field, filterMap.get(field));
+            }
+            else
+            {
+                BoolFilterBuilder bool = FilterBuilders.boolFilter();
+                for (String field : filterMap.keySet())
+                {
+                    Object obj = filterMap.get(field);
+                    if (obj != null)
+                        bool.must(getFilter(field, obj));
+                }
+                filter = bool;
+            }
+            query = QueryBuilders.filteredQuery(query, filter);
+        }
+        
+        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+                .setTypes("document")
+                .setQuery(query)
+                .setFrom(start)
+                .setSize(limit)
+                .setFetchSource(null, new String[]
+                    {"graph", "_parent", "addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
+                .execute().actionGet();
+        return resp.getHits();
+    }
+    
+    protected boolean allNulls(Map<String, Object> objMap)
+    {
+        for (Object obj : objMap.values())
+            if (obj != null)
+                return false;
+        return true;
+    }
+    
+    protected boolean oneNotNull(Map<String, Object> objMap)
+    {
+        boolean found = false;
+        for (Object obj : objMap.values())
+            if (obj != null)
+            {
+                if (found)
+                    return false;
+                found = true;
+            }
+        return found;
+    }
+    
+    protected String getNotNull(Map<String, Object> objMap)
+    {
+        for (String key : objMap.keySet())
+            if (objMap.get(key) != null)
+                return key;
+        return null;
+    }
+    
+    protected QueryBuilder getQuery(String field, Object value)
+    {
+        return QueryBuilders.matchQuery(field, value);
+    }
+    
+    protected FilterBuilder getFilter(String field, Object value)
+    {
+        if (field.equals("pages"))
+        {
+            Pair<Integer, Integer> pages = (Pair<Integer, Integer>)value;
+            if (pages.getValue0() == null)
+                return FilterBuilders.rangeFilter("startPage").lte(pages.getValue1());
+            if (pages.getValue1() == null)
+                return FilterBuilders.rangeFilter("endPage").gte(pages.getValue0());
+            
+            return FilterBuilders.boolFilter()
+                    .should(FilterBuilders.boolFilter()
+                        .must(FilterBuilders.rangeFilter("startPage").lte(pages.getValue0()))
+                        .must(FilterBuilders.rangeFilter("endPage").gte(pages.getValue0())))
+                    .should(FilterBuilders.boolFilter()
+                        .must(FilterBuilders.rangeFilter("startPage").lte(pages.getValue1()))
+                        .must(FilterBuilders.rangeFilter("endPage").gte(pages.getValue1())))
+                    .should(FilterBuilders.boolFilter()
+                        .must(FilterBuilders.rangeFilter("startPage").gte(pages.getValue0()))
+                        .must(FilterBuilders.rangeFilter("endPage").lte(pages.getValue1())));
+        }
+        return FilterBuilders.termFilter(field, value);
     }
 }
