@@ -1,6 +1,8 @@
 package ru.insoft.archive.eavkks.ejb.es;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +10,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.collect.ImmutableMap;
 import org.elasticsearch.index.query.BoolFilterBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
@@ -201,6 +202,9 @@ public class EsSearchHelper
                         .must(FilterBuilders.rangeFilter("startPage").gte(pages.getValue0()))
                         .must(FilterBuilders.rangeFilter("endPage").lte(pages.getValue1())));
         }
+        if (field.equals("date"))
+            return FilterBuilders.termFilter(field, new SimpleDateFormat("dd.MM.YYYY").format(value));
+        
         return FilterBuilders.termFilter(field, value);
     }
 }
