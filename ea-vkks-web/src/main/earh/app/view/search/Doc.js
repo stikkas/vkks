@@ -8,7 +8,8 @@ Ext.define('Earh.view.search.Doc', {
 		'Earh.store.DocResult',
 		'Earh.store.DocType',
 		'Ext.form.field.Number',
-		'Ext.grid.column.Action'
+		'Ext.grid.column.Action',
+		'Earh.model.DocsQuery'
 	],
 	tbb: [1, // Главная
 		0, // Вернуться к результатам поиска
@@ -162,15 +163,25 @@ Ext.define('Earh.view.search.Doc', {
 						store: resultStoreId
 					}]
 			}]);
+		this.model = Ext.create('Earh.model.DocsQuery');
 	},
 	/**
 	 * Поиск документов
 	 */
 	search: function () {
-		var store = this._rslt.store;
+		var searchDocsView = this,
+				store = searchDocsView._rslt.store,
+				criteria = {},
+				model = searchDocsView.model;
+		searchDocsView._frm.updateRecord(model);
+		var data = model.data;
+		for (var o in data)
+			if (o !== 'id')
+				criteria[o] = data[o];
+
 		store.loadPage(1, {
 //			params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
-			params: {q: Ext.encode(this._frm.getValues())}
+			params: {q: Ext.encode(criteria)}
 		});
 		/*
 		 this._rslt.store.loadData([{
