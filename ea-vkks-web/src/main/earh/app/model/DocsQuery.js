@@ -3,6 +3,7 @@
  */
 Ext.define('Earh.model.DocsQuery', {
 	extend: 'Ext.data.Model',
+	idProperty: 'volume',
 	fields: [
 		{name: 'volume', type: 'int', defaultValue: null, convert: null},
 		{name: 'number', type: 'string', defaultValue: null, convert: function (v) {

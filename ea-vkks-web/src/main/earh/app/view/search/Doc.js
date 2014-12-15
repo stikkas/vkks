@@ -170,18 +170,11 @@ Ext.define('Earh.view.search.Doc', {
 	 */
 	search: function () {
 		var searchDocsView = this,
-				store = searchDocsView._rslt.store,
-				criteria = {},
 				model = searchDocsView.model;
 		searchDocsView._frm.updateRecord(model);
-		var data = model.data;
-		for (var o in data)
-			if (o !== 'id')
-				criteria[o] = data[o];
-
-		store.loadPage(1, {
+		searchDocsView._rslt.store.loadPage(1, {
 //			params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
-			params: {q: Ext.encode(criteria)}
+			params: {q: Ext.encode(model.data)}
 		});
 		/*
 		 this._rslt.store.loadData([{
