@@ -1,0 +1,30 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15.12.2014, 16:28:57
+    Author     : shapovalova
+*/
+
+/*Opera*/
+noindex:-o-prefocus, .exit_cls { 
+    left:96% !important; 
+  } 
+/*safari*/
+@media screen and ( -webkit-min-device-pixel-ratio : 0 )	 { 
+    .exit_cls { 
+        left:96% !important; 
+     }
+}
+/*opera (временное решение)*/
+noindex:-o-prefocus, .title_head { 
+  width: 90%;
+} 
+/*safari*/
+@media screen and ( -webkit-min-device-pixel-ratio : 0 ) { 
+  .title_head { 
+      width: 90%;
+  } 
+}

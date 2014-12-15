@@ -175,6 +175,8 @@ h1{
     left:0 !important;
     margin-left:calc(50% - 20px) !important;
 }
+
+/*перенести в отдельный файл, если будет много*/
 /*Opera*/
 noindex:-o-prefocus, .login_page a{
     margin-left:50% !important;

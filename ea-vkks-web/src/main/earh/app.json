@@ -44,6 +44,10 @@
 			"bootstrap": false
 		},
 		{
+			"path": "resources/css/crossbrousers.css",
+			"bootstrap": false
+		},
+		{
 			"path": "bootstrap.css",
 			"bootstrap": true
 		}
