@@ -11,8 +11,8 @@ Ext.define('Earh.store.SearchResult', {
 			url: url,
 			reader: {
 				type: 'json',
-				root: 'items',
-				total: 'total'
+				root: 'values',
+				total: 'results'
 			},
 			writer: 'json'
 		}));
