@@ -127,6 +127,7 @@ Ext.define('Earh.view.work.Doc', {
 				cls: 'graf_view',
 				tools: [{
 						type: 'close',
+                                                cls:'close_cls',
 						tooltip: Trans.delGraph,
 						handler: 'removeGraph'
 					}],
@@ -138,6 +139,7 @@ Ext.define('Earh.view.work.Doc', {
 								buttonOnly: true,
 								hideLabel: true,
 								buttonText: Trans.file,
+                                                                cls:'add_file_cls',
 								listeners: {
 									change: 'graphAdded'
 								}

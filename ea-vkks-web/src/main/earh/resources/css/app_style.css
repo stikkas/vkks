@@ -376,6 +376,7 @@ div[id*=pagingtoolbar].x-box-inner{
 /*карточка документа*/
     /*разметка*/
     .card_doc .x-box-inner div.x-box-target .graf_view{
+        min-width:500px;
         position:relative !important;
         display:inline-block;
         float:right;
@@ -387,6 +388,12 @@ div[id*=pagingtoolbar].x-box-inner{
     padding:0 30px 30px;
     border:1px solid #CADAF4;
     box-shadow:6px 10px 18px rgba(98,119,168,.75)
+}
+.graf_view .x-panel-header{
+    display:block;
+    left:0 !important;
+    right:0 !important;
+    margin: auto;
 }
 .section_panel .graf_view .x-panel-header .x-title-text{
     border:none;

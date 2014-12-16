@@ -3,7 +3,8 @@
 a.x-btn-over.x-btn-default-small,
 a.x-btn.x-btn-pressed.x-btn-default-small,
 a.x-btn-over.x-btn-default-toolbar-small,
-a.x-btn.x-btn-pressed.x-btn-default-toolbar-small{
+a.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+div.x-btn-over.x-btn-default-small{
     border:none;
     background-image:none;
     background-color:transparent;
