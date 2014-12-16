@@ -96,11 +96,11 @@ public class DataSaver
             eaCase.setNumber(lCase.getNumber());
             eaCase.setTitle(lCase.getTitle());
             eaCase.setRemark(lCase.getRemark());
-            eaCase.setTypeId(getDescriptorValueId(caseTypes, "CASE_TYPE", lCase.getType(),
+            eaCase.setType(getDescriptorValueId(caseTypes, "CASE_TYPE", lCase.getType(),
                     "Неверный код типа дела"));
-            eaCase.setStoreLifeTypeId(getDescriptorValueId(storeLifeTypes, "CASE_STORE_LIFE", lCase.getStoreLife(),
+            eaCase.setStoreLife(getDescriptorValueId(storeLifeTypes, "CASE_STORE_LIFE", lCase.getStoreLife(),
                     "Неверный код срока хранения"));
-            eaCase.setToporefId(getToporefValueId(lCase.getToporef()));
+            eaCase.setToporef(getToporefValueId(lCase.getToporef()));
             eaCase.setDocuments(new ArrayList<EaDocument>());
 
             eaCase.setAddUserId(getLoadUserId());

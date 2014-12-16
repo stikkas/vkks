@@ -1,6 +1,5 @@
 package ru.insoft.archive.eavkks.ejb.es;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.BoolFilterBuilder;
@@ -23,8 +23,6 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
-import org.elasticsearch.search.aggregations.metrics.max.Max;
-import org.elasticsearch.search.aggregations.metrics.min.Min;
 import org.javatuples.Pair;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
@@ -137,14 +135,14 @@ public class EsSearchHelper
         return resp.getHits();
     }
     
-    public Terms queryCaseEdgeDates(Set<String> caseIds)
+    public Terms queryCaseEdgeDates(Iterable<String> caseIds)
     {
         Client esClient = esAdmin.getClient();
         SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
                 .setTypes("document")
                 .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
                         FilterBuilders.hasParentFilter("case", 
-                                FilterBuilders.termsFilter("_id", (Iterable<String>)caseIds))))
+                                FilterBuilders.termsFilter("_id", caseIds))))
                 .setSize(0)
                 .addAggregation(AggregationBuilders.terms("dates").field("_parent")
                     .subAggregation(AggregationBuilders.min("startDate").field("date"))
@@ -152,6 +150,14 @@ public class EsSearchHelper
                 .execute().actionGet();
         Terms ids = resp.getAggregations().get("dates");
         return ids;        
+    }
+    
+    public Map<String, Object> getCaseById(String id)
+    {
+        Client esClient = esAdmin.getClient();
+        GetResponse resp = esClient.prepareGet(esAdmin.getIndexName(), "case", id)
+                .execute().actionGet();
+        return resp.getSource();
     }
     
     protected QueryBuilder makeQuery(Map<String, Object> queryMap, Map<String, Object> filterMap)

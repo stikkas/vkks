@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
 import ru.insoft.archive.eavkks.ejb.es.EsSearchHelper;
+import ru.insoft.archive.eavkks.model.EaCase;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchResult;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
@@ -136,6 +138,29 @@ public class SearchHandler
         
         res.setValues(values);
         return res;
+    }
+    
+    public EaCase getCaseById(String id)
+    {
+        Map<String, Object> esData = esSearch.getCaseById(id);
+        Bucket datesInfo = esSearch.queryCaseEdgeDates(Arrays.asList(id)).getBucketByKey(id);
+        
+        EaCase eaCase = new EaCase();
+        eaCase.setId(id);
+        eaCase.setNumber((String)esData.get("number"));
+        eaCase.setType(((Number)esData.get("type")).longValue());
+        eaCase.setStoreLife(((Number)esData.get("storeLife")).longValue());
+        eaCase.setTitle((String)esData.get("title"));
+        if (datesInfo != null)
+        {
+            Date startDate = new Date(((Number)((Min)datesInfo.getAggregations().get("startDate")).getValue()).longValue());
+            Date endDate   = new Date(((Number)((Max)datesInfo.getAggregations().get("endDate")).getValue()).longValue());
+            eaCase.setStartDate(startDate);
+            eaCase.setEndDate(endDate);
+        }
+        eaCase.setToporef(((Number)esData.get("toporef")).longValue());
+        eaCase.setRemark((String)esData.get("remark"));
+        return eaCase;
     }
     
     protected String getDocumentTypeName(Long typeId)
