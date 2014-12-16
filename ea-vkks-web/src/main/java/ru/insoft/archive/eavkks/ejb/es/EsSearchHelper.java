@@ -1,11 +1,13 @@
 package ru.insoft.archive.eavkks.ejb.es;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.elasticsearch.action.search.SearchResponse;
@@ -16,11 +18,15 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeFilterBuilder;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
+import org.elasticsearch.search.aggregations.metrics.max.Max;
+import org.elasticsearch.search.aggregations.metrics.min.Min;
 import org.javatuples.Pair;
+import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
 
 /**
@@ -75,8 +81,6 @@ public class EsSearchHelper
     
     public SearchHits searchDocuments(DocumentSearchCriteria q, Integer start, Integer limit)
     {
-        Client esClient = esAdmin.getClient();
-        QueryBuilder query;
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("title", q.getTitle());
         queryMap.put("court", q.getCourt());
@@ -84,6 +88,75 @@ public class EsSearchHelper
         queryMap.put("fio", q.getFio());
         queryMap.put("graph", q.getContext());
         
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("volume", q.getVolume());
+        filterMap.put("number", q.getNumber());
+        filterMap.put("type", q.getType());
+        filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
+                        new Pair<>(q.getStartPage(), q.getEndPage())));
+        filterMap.put("date", q.getDate());
+        
+        QueryBuilder query = makeQuery(queryMap, filterMap);
+        
+        Client esClient = esAdmin.getClient();
+        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+                .setTypes("document")
+                .setQuery(query)
+                .setFrom(start)
+                .setSize(limit)
+                .setFetchSource(null, new String[]
+                    {"graph", "_parent", "addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
+                .execute().actionGet();
+        return resp.getHits();
+    }
+    
+    public SearchHits searchCases(CaseSearchCriteria q, Integer start, Integer limit)
+    {
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("title", q.getTitle());
+        queryMap.put("remark", q.getRemark());
+        
+        Map<String, Object> filterMap = new HashMap<>();
+        filterMap.put("number", q.getNumber());
+        filterMap.put("type", q.getType());
+        filterMap.put("storeLife", q.getStoreLife());
+        filterMap.put("dates", (q.getStartDate() == null && q.getEndDate() == null) ? null :
+                new Pair<>(q.getStartDate(), q.getEndDate()));
+        filterMap.put("toporef", q.getToporefIds());
+        
+        QueryBuilder query = makeQuery(queryMap, filterMap);
+        Client esClient = esAdmin.getClient();
+        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+                .setTypes("case")
+                .setQuery(query)
+                .setFrom(start)
+                .setSize(limit)
+                .setFetchSource(null, new String[]
+                    {"addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
+                .execute().actionGet();
+        return resp.getHits();
+    }
+    
+    public Terms queryCaseEdgeDates(Set<String> caseIds)
+    {
+        Client esClient = esAdmin.getClient();
+        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+                .setTypes("document")
+                .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
+                        FilterBuilders.hasParentFilter("case", 
+                                FilterBuilders.termsFilter("_id", (Iterable<String>)caseIds))))
+                .setSize(0)
+                .addAggregation(AggregationBuilders.terms("dates").field("_parent")
+                    .subAggregation(AggregationBuilders.min("startDate").field("date"))
+                    .subAggregation(AggregationBuilders.max("endDate").field("date")))
+                .execute().actionGet();
+        Terms ids = resp.getAggregations().get("dates");
+        return ids;        
+    }
+    
+    protected QueryBuilder makeQuery(Map<String, Object> queryMap, Map<String, Object> filterMap)
+    {
+        QueryBuilder query;
         if (allNulls(queryMap))
             query = QueryBuilders.matchAllQuery();
         else
@@ -104,15 +177,7 @@ public class EsSearchHelper
                 }
                 query = bool;
             }
-        }
-        
-        Map<String, Object> filterMap = new HashMap<>();
-        filterMap.put("volume", q.getVolume());
-        filterMap.put("number", q.getNumber());
-        filterMap.put("type", q.getType());
-        filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
-                        new Pair<>(q.getStartPage(), q.getEndPage())));
-        filterMap.put("date", q.getDate());
+        }                
         
         if (!allNulls(filterMap))
         {
@@ -135,16 +200,7 @@ public class EsSearchHelper
             }
             query = QueryBuilders.filteredQuery(query, filter);
         }
-        
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("document")
-                .setQuery(query)
-                .setFrom(start)
-                .setSize(limit)
-                .setFetchSource(null, new String[]
-                    {"graph", "_parent", "addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
-                .execute().actionGet();
-        return resp.getHits();
+        return query;
     }
     
     protected boolean allNulls(Map<String, Object> objMap)
@@ -204,6 +260,20 @@ public class EsSearchHelper
         }
         if (field.equals("date"))
             return FilterBuilders.termFilter(field, new SimpleDateFormat("dd.MM.YYYY").format(value));
+        
+        if (field.equals("dates"))
+        {
+            Pair<Date, Date> dates = (Pair<Date, Date>)value;
+            RangeFilterBuilder range = FilterBuilders.rangeFilter("date");
+            SimpleDateFormat df = new SimpleDateFormat("dd.MM.YYYY");
+            if (dates.getValue1() != null)
+                range = range.lte(df.format(dates.getValue1()));
+            if (dates.getValue0() != null)
+                range = range.gte(df.format(dates.getValue0()));
+            return FilterBuilders.hasChildFilter("document", range);
+        }
+        if (field.equals("toporef"))
+            return FilterBuilders.termsFilter(field, (Iterable<Long>)value);
         
         return FilterBuilders.termFilter(field, value);
     }
