@@ -43,6 +43,17 @@ Ext.define('Earh.view.search.Base', {
 		this._frm.reset();
 		this._rslt.store.removeAll();
 		this._gtb.onLoad();
+	},
+	/**
+	 * Функция поиска по критериям
+	 */
+	search: function () {
+		var view = this,
+				model = view.model;
+		view._frm.updateRecord(model);
+		view._rslt.store.loadPage(1, {
+			params: {q: Ext.encode(model.data)}
+		});
 	}
 });
 

@@ -12,7 +12,7 @@ Ext.define('Earh.view.main.MainController', {
 	],
 	init: function () {
 		var controller = this,
-				subscribers = controller.subscribers = [],
+//				subscribers = controller.subscribers = [],
 				listenersFormPages = {};
 		// Подпсчики на событие 'validChanged'
 		/*
@@ -26,7 +26,6 @@ Ext.define('Earh.view.main.MainController', {
 		for (var o in Pages)
 			listenersFormPages[Pages[o]] = {activate: 'showTB'};
 //		listenersFormPages.form = {validChanged: 'validChanged'};
-		listenersFormPages['scases gridpanel'] = {cellclick: 'toCase'};
 		controller.listen({component: listenersFormPages});
 		controller.callParent();
 	},
@@ -85,7 +84,7 @@ Ext.define('Earh.view.main.MainController', {
 	toCase: function (gridview, cell, idcell, record, row, idrow) {
 		var store = gridview.store;
 		this.view.setActiveItem(Pages.acase);
-		this.view.getActiveItem().loadPage(idrow + (store.currentPage - 1) * store.pageSize + 1);
+		this.view.getActiveItem().store.loadPage(idrow + (store.currentPage - 1) * store.pageSize + 1);
 	},
 	/**
 	 * Добавляем дело
@@ -151,7 +150,6 @@ Ext.define('Earh.view.main.MainController', {
 		switch (prev.$className) {
 			case 'Earh.view.home.Home': // подготавливаем ЭФ для создания нового дела. Возможно только при наличии роли редактирования
 				page.clear();
-				page.model = Ext.create('Earh.model.CCase');
 				page.switchEdit(true);
 				page.tbb = page.hbtns[3];
 				break;
