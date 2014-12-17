@@ -160,6 +160,27 @@ public class EsSearchHelper
         return resp.getSource();
     }
     
+    public SearchHits searchCaseDocuments(String caseId, String context, Integer start, Integer limit)
+    {
+        QueryBuilder query;
+        if (context == null)
+            query = QueryBuilders.matchAllQuery();
+        else
+            query = getQuery("graph", context);
+        FilterBuilder filter = getFilter("caseId", caseId);
+        
+        Client esClient = esAdmin.getClient();
+        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+                .setTypes("document")
+                .setQuery(QueryBuilders.filteredQuery(query, filter))
+                .setFrom(start)
+                .setSize(limit)
+                .setFetchSource(null, new String[]
+                    {"addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
+                .execute().actionGet();
+        return resp.getHits();
+    }
+    
     protected QueryBuilder makeQuery(Map<String, Object> queryMap, Map<String, Object> filterMap)
     {
         QueryBuilder query;
@@ -280,6 +301,9 @@ public class EsSearchHelper
         }
         if (field.equals("toporef"))
             return FilterBuilders.termsFilter(field, (Iterable<Long>)value);
+        if (field.equals("caseId"))
+            return FilterBuilders.hasParentFilter("case", 
+                    FilterBuilders.termFilter("_id", value));
         
         return FilterBuilders.termFilter(field, value);
     }

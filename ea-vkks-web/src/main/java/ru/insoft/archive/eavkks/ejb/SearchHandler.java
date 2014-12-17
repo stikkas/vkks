@@ -163,6 +163,11 @@ public class SearchHandler
         return eaCase;
     }
     
+    public SearchResult searchCaseDocuments(String caseId, String context, Integer start, Integer limit)
+    {
+        return processDocSearchHits(esSearch.searchCaseDocuments(caseId, context, start, limit));
+    }
+    
     protected String getDocumentTypeName(Long typeId)
     {
         return getDocumentTypes().get(typeId);
