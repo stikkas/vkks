@@ -2,7 +2,10 @@ package ru.insoft.archive.eavkks.model;
 
 import java.util.Date;
 import java.util.List;
+import ru.insoft.archive.extcommons.entity.HasId;
+import ru.insoft.archive.extcommons.entity.HasUserInfo;
 import ru.insoft.archive.extcommons.json.JsonExclude;
+import ru.insoft.archive.extcommons.json.JsonIn;
 import ru.insoft.archive.extcommons.json.JsonOut;
 
 /**
@@ -11,7 +14,7 @@ import ru.insoft.archive.extcommons.json.JsonOut;
  */
 //@Entity
 //@Table(name = "EA_CASE")
-public class EaCase implements JsonOut
+public class EaCase implements JsonOut, JsonIn, HasId, HasUserInfo
 {
     //@Id
     //@SequenceGenerator(sequenceName = "ea_case_ea_case_id_seq", name = "seqCase", allocationSize = 1)
@@ -62,6 +65,7 @@ public class EaCase implements JsonOut
     @JsonExclude
     List<EaDocument> documents;
 
+    @Override
     public String getId() {
         return id;
     }
@@ -134,34 +138,42 @@ public class EaCase implements JsonOut
         this.remark = remark;
     }
 
+    @Override
     public Long getAddUserId() {
         return addUserId;
     }
 
+    @Override
     public void setAddUserId(Long addUserId) {
         this.addUserId = addUserId;
     }
 
+    @Override
     public Long getModUserId() {
         return modUserId;
     }
 
+    @Override
     public void setModUserId(Long modUserId) {
         this.modUserId = modUserId;
     }
 
+    @Override
     public Date getInsertDate() {
         return insertDate;
     }
 
+    @Override
     public void setInsertDate(Date insertDate) {
         this.insertDate = insertDate;
     }
 
+    @Override
     public Date getLastUpdateDate() {
         return lastUpdateDate;
     }
 
+    @Override
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
