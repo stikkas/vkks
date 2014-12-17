@@ -4,7 +4,10 @@
 Ext.define('Earh.view.search.Case', {
 	extend: 'Earh.view.search.Base',
 	alias: 'widget.scases',
-	requires: ['Ext.ux.TreePicker'],
+	requires: [
+		'Ext.ux.TreePicker',
+		'Earh.model.CasesQuery'
+	],
 	tbb: [1, // Главная
 		0, // Вернуться к результатам поиска
 		0, // Вернуться в дело
@@ -89,6 +92,9 @@ Ext.define('Earh.view.search.Case', {
 				cls: 'section_panel case_search',
 				store: resultStoreId,
 				width: '100%',
+				listeners: {
+					cellclick: 'toCase'
+				},
 				columns: {
 					defaults: {
 						menuDisabled: true
@@ -131,40 +137,11 @@ Ext.define('Earh.view.search.Case', {
 						store: resultStoreId
 					}]
 			}]);
+		this.model = Ext.create('Earh.model.CasesQuery');
 	},
 	/**
-	 * Поиск дел
+	 * Очистка формы перед использованием
 	 */
-	search: function () {
-		this._rslt.store.loadPage(1, {
-//		params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
-			params: {
-				q: Ext.encode(this._frm.getValues())
-			},
-			scope: this,
-			callback: function (records, operation, success) {
-				if (!success || records.length === 0) {
-					emptySearchResult();
-//TODO: В рабочей версии убрать ------------
-					var item = {
-						id: 1, number: '201', type: 'Тип дела', storeLife: 'Срок хранения',
-						title: 'Название дела', dates: '11.01.2014-12.03.2014',
-						toporef: 'Топография', remark: 'Примечание'
-					}, items = [];
-
-					for (var i = 0; i < 12; ++i) {
-						items.push(item);
-						item = Ext.decode(Ext.encode(item));
-						item.id++;
-						item.number = '' + (parseInt(item.number) + 1);
-					}
-					this._rslt.store.loadData(items);
-//-----------------------------------------
-				}
-			}
-
-		});
-	},
 	clear: function () {
 		this._frm.items.getAt(6).initPicker();
 		this.callParent();
