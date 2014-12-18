@@ -81,7 +81,7 @@ public class CommonDBHandler extends ru.insoft.archive.extcommons.ejb.CommonDBHa
     
     public TreeItem getToporef()
     {
-        TreeItem obj = (TreeItem)getDescValuesForGroupHierarch("TOPOREF", true);
+        TreeItem obj = (TreeItem)getDescValuesForGroupHierarch("TOPOREF", true, false);
         obj.setChildren(setToporefPath(obj.getChildren(), null));
         return obj;
     }

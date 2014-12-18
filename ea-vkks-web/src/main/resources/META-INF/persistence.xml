@@ -6,7 +6,7 @@
 
 	<persistence-unit name="VkksEm" transaction-type="JTA">
 		<jta-data-source>java:jboss/VkksDS</jta-data-source>
-                <jar-file>lib/core-model-0.1.2.jar</jar-file>
+                <jar-file>lib/core-model-0.1.3-SNAPSHOT.jar</jar-file>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="none" />

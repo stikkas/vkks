@@ -217,7 +217,7 @@ public class SearchHandler
     protected Map<Long, String> getFlatDescMap(String desc)
     {
         Map<Long, String> map = new HashMap<>();
-        List<JsonOut> values = dbHandler.getDescValuesForGroup(desc, false);
+        List<JsonOut> values = dbHandler.getDescValuesForGroup(desc, false, false);
         for (JsonOut val : values)
         {
             ScalarItem item = (ScalarItem)val;
