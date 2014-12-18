@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -114,11 +115,12 @@ public class EsIndexHelper
         }
     }
     
-    public void deleteCase(String id)
+    public boolean deleteCase(String id)
     {
         Client esClient = esAdmin.getClient();
-        esClient.prepareDelete(esAdmin.getIndexName(), "case", id)
+        DeleteResponse resp = esClient.prepareDelete(esAdmin.getIndexName(), "case", id)
                 .execute().actionGet();
+        return resp.isFound();
     }
     
     public String indexDocument(EaDocument eaDoc) throws IOException

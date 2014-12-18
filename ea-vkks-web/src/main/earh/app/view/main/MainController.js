@@ -7,7 +7,6 @@ Ext.define('Earh.view.main.MainController', {
 		'Earh.view.work.Case',
 		'Earh.view.work.Doc',
 		'Earh.model.Graph',
-		'Earh.model.CCase',
 		'Earh.model.Doc'
 	],
 	init: function () {
