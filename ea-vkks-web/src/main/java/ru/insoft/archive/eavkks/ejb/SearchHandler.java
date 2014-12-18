@@ -114,7 +114,10 @@ public class SearchHandler
             csr.setType(getCaseTypeName(((Number)source.get("type")).longValue()));
             csr.setStoreLife(getStoreLifeName(((Number)source.get("storeLife")).longValue()));
             csr.setTitle((String)source.get("title"));
-            csr.setToporef(getToporefItemName(((Number)source.get("toporef")).longValue()));
+            
+            Number toporef = (Number)source.get("toporef");
+            if (toporef != null)
+                csr.setToporef(getToporefItemName(toporef.longValue()));
             csr.setRemark((String)source.get("remark"));
             
             values.add(csr);
@@ -158,7 +161,9 @@ public class SearchHandler
             eaCase.setStartDate(startDate);
             eaCase.setEndDate(endDate);
         }
-        eaCase.setToporef(((Number)esData.get("toporef")).longValue());
+        Number toporef = (Number)esData.get("toporef");
+        if (toporef != null)
+            eaCase.setToporef(toporef.longValue());
         eaCase.setRemark((String)esData.get("remark"));
         return eaCase;
     }
