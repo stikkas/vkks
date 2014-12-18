@@ -21,8 +21,7 @@ Ext.define('Earh.view.work.Case', {
 		'Earh.store.Case',
 		'Earh.store.StoreLife',
 		'Earh.store.CaseDocResult',
-		'Earh.model.SCase',
-		'Earh.model.CCase'
+		'Earh.model.Case'
 	],
 	layout: 'vbox',
 	cls: 'fields_panel',
@@ -46,9 +45,6 @@ Ext.define('Earh.view.work.Case', {
 		backToSearch: 'backToSearch'
 	},
 	initComponent: function () {
-// Настраиваем модели для создания и поиска дела
-		Earh.model.SCase.getProxy().setUrl(Urls.scase);
-		Earh.model.CCase.getProxy().setUrl(Urls.ccase);
 
 		var caseView = this,
 				editRole = Earh.editRole;
@@ -207,33 +203,49 @@ Ext.define('Earh.view.work.Case', {
 		caseView._tbr = caseView._frm.getDockedItems()[0];
 		caseView._addb = caseView._grd.getDockedItems()[0].items.getAt(0);
 		caseView.store.on('load', caseView.loadPage, caseView);
-		caseView.models = [Ext.create('Earh.model.SCase'), Ext.create('Earh.model.CCase')];
 	},
+	/**
+	 * Сохраняет данные на сервере, если они изменились.
+	 * Проверка на валидность данных должна делаться вызывающей стороной
+	 * с помощью метода isValid
+	 */
 	save: function () {
 		var caseView = this;
-		caseView.updateRecord().save({callback: function (model, operation, success) {
-				if (success) {
-					caseView.switchEdit(false);
-				} else {
-					showError("Ошибка сохранения", operation.getError());
+		if (caseView.isDirty()) {
+			// Модель обновлена уже раньше, когда проверялась на несохраненные данные
+			caseView.model.save({callback: function (model, operation, success) {
+					if (success) {
+						if (!caseView._crMode)
+							caseView.switchEdit(false);
+					} else {
+						showError("Ошибка сохранения", operation.getError());
+					}
 				}
-			}});
+			});
+		} else if (!caseView._crMode)
+			caseView.switchEdit(false);
+
 	},
 	remove: function () {
 		showInfo("Удаление дела", "Операция успешно выполнена");
 	},
+	/**
+	 * Очищает форму перед созданием нового дела.
+	 * Перед редактированием дела отвечает метод loadPage.
+	 */
 	clear: function () {
-		var viewCase = this;
+		var caseView = this;
+		// нужно для отличия режима создания от режима редактирования
+		caseView._crMode = true;
 		// Очищаем все поля
-		viewCase._frm.applyAll('reset');
-		viewCase._frm.items.getAt(6).initPicker();
+		caseView._frm.applyAll('reset');
+		caseView._frm.items.getAt(6).initPicker();
 		// очищаем таблицу с результатами поиска
-		viewCase._grd.store.removeAll();
-		// удаляем модель
-		viewCase.model = null;
-		viewCase.models.forEach(function (it) {
-			it.set('id', null);
-		});
+		caseView._grd.store.removeAll();
+		// создаем новую модель
+		caseView.model = Ext.create('Earh.model.Case');
+		// Только так можно выставить id, иниче extjs присваивает свой id
+		caseView.model.set('id', null);
 	},
 	/**
 	 * Используется при листании
@@ -244,7 +256,9 @@ Ext.define('Earh.view.work.Case', {
 	loadPage: function (store, records, success) {
 		var caseView = this;
 		if (success) {
-			Earh.model.SCase.load(records[0].get('id'), {
+			Earh.model.Case.getProxy().setUrl(Urls.scase);
+			caseView._crMode = false;
+			Earh.model.Case.load(records[0].get('id'), {
 				success: function (model, operation) {
 					caseView.model = model;
 					caseView._frm.loadRecord(model);
@@ -291,17 +305,14 @@ Ext.define('Earh.view.work.Case', {
 	 * @param {Boolean} stat true - редактирование, false - просмотр
 	 */
 	switchEdit: function (stat) {
-		var viewCase = this,
-				oldModel = viewCase.model,
+		var caseView = this,
 				idx;
 
-		viewCase.setReadOnly(!stat);
-		viewCase._frm.applyAll('setRequired');
-		viewCase.setVisibleCardBar(!stat);
+		caseView.setReadOnly(!stat);
+		caseView._frm.applyAll('setRequired');
+		caseView.setVisibleCardBar(!stat);
 
-		viewCase.model = viewCase.models[+stat];
-		if (oldModel)
-			viewCase.updateRecord().set('id', oldModel.get('id'));
+		caseView.model.getProxy().setUrl(stat ? Urls.ccase : Urls.scase);
 
 		if (Earh.editRole) {
 			if (stat)
@@ -310,7 +321,7 @@ Ext.define('Earh.view.work.Case', {
 				idx = 1;
 		} else
 			idx = 0;
-		viewCase.tbb = viewCase.hbtns[idx];
+		caseView.tbb = caseView.hbtns[idx];
 		this._addb.setVisible(stat);
 	},
 	/**

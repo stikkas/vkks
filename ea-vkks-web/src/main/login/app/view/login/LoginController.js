@@ -26,7 +26,7 @@ Ext.define('Login.view.login.LoginController', {
 										docrole = ~roles.indexOf('EARCH_EDIT') || ~roles.indexOf('EARCH_VIEW');
 
 								if (!(adminrole || docrole)) {
-									showErrorAndExit("Ошибка", "Пользователь " + user + " не имеет прав для доступа к приложению");
+									showErrorAndExit("Ошибка", "Пользователь " + result.data.user + " не имеет прав для доступа к приложению");
 									return;
 								}
 								/*
