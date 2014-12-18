@@ -1,16 +1,10 @@
 package ru.insoft.archive.eavkks.model;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import ru.insoft.archive.extcommons.entity.HasId;
+import ru.insoft.archive.extcommons.entity.HasUserInfo;
+import ru.insoft.archive.extcommons.json.JsonExclude;
+import ru.insoft.archive.extcommons.json.JsonIn;
 import ru.insoft.archive.extcommons.json.JsonOut;
 
 /**
@@ -19,7 +13,7 @@ import ru.insoft.archive.extcommons.json.JsonOut;
  */
 //@Entity
 //@Table(name = "EA_DOCUMENT")
-public class EaDocument implements JsonOut
+public class EaDocument implements JsonOut, JsonIn, HasId, HasUserInfo
 {
     //@Id
     //@SequenceGenerator(sequenceName = "ea_document_ea_document_id_seq", name = "seqDocument", allocationSize = 1)
@@ -29,10 +23,11 @@ public class EaDocument implements JsonOut
     
     //@ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "ea_case_id")
-    private EaCase eaCase;
+    private String caseId;
+    private String caseTitle;
     
     //@Column(name = "doc_type_id")
-    private Long typeId;
+    private Long type;
     
     //@Column(name = "volume")
     private Integer volume;
@@ -50,7 +45,7 @@ public class EaDocument implements JsonOut
     private Integer endPage;
     
     //@Column(name = "doc_date")
-    private Date date;
+    private String date;
     
     //@Column(name = "remark")
     private String remark;
@@ -61,18 +56,25 @@ public class EaDocument implements JsonOut
     //@Column(name = "fio")
     private String fio;
     
+    private String graph;
+    
     //@Column(name = "add_user_id")
+    @JsonExclude
     private Long addUserId;
     
     //@Column(name = "mod_user_id")
+    @JsonExclude
     private Long modUserId;
     
     //@Column(name = "insert_date")
+    @JsonExclude
     private Date insertDate;
     
     //@Column(name = "last_update_date")
+    @JsonExclude
     private Date lastUpdateDate;
 
+    @Override
     public String getId() {
         return id;
     }
@@ -81,20 +83,28 @@ public class EaDocument implements JsonOut
         this.id = id;
     }
 
-    public EaCase getEaCase() {
-        return eaCase;
+    public String getCaseId() {
+        return caseId;
     }
 
-    public void setEaCase(EaCase eaCase) {
-        this.eaCase = eaCase;
+    public void setCaseId(String caseId) {
+        this.caseId = caseId;
     }
 
-    public Long getTypeId() {
-        return typeId;
+    public String getCaseTitle() {
+        return caseTitle;
     }
 
-    public void setTypeId(Long typeId) {
-        this.typeId = typeId;
+    public void setCaseTitle(String caseTitle) {
+        this.caseTitle = caseTitle;
+    }
+
+    public Long getType() {
+        return type;
+    }
+
+    public void setType(Long type) {
+        this.type = type;
     }
 
     public Integer getVolume() {
@@ -137,11 +147,11 @@ public class EaDocument implements JsonOut
         this.endPage = endPage;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -169,34 +179,50 @@ public class EaDocument implements JsonOut
         this.fio = fio;
     }
 
+    public String getGraph() {
+        return graph;
+    }
+
+    public void setGraph(String graph) {
+        this.graph = graph;
+    }
+
+    @Override
     public Long getAddUserId() {
         return addUserId;
     }
 
+    @Override
     public void setAddUserId(Long addUserId) {
         this.addUserId = addUserId;
     }
 
+    @Override
     public Long getModUserId() {
         return modUserId;
     }
 
+    @Override
     public void setModUserId(Long modUserId) {
         this.modUserId = modUserId;
     }
 
+    @Override
     public Date getInsertDate() {
         return insertDate;
     }
 
+    @Override
     public void setInsertDate(Date insertDate) {
         this.insertDate = insertDate;
     }
 
+    @Override
     public Date getLastUpdateDate() {
         return lastUpdateDate;
     }
 
+    @Override
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }

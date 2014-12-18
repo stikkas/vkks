@@ -181,6 +181,15 @@ public class EsSearchHelper
         return resp.getHits();
     }
     
+    public Map<String, Object> getDocumentById(String id, String caseId)
+    {
+        Client esClient = esAdmin.getClient();
+        GetResponse resp = esClient.prepareGet(esAdmin.getIndexName(), "document", id)
+                .setParent(caseId)
+                .execute().actionGet();
+        return resp.getSource();
+    }
+    
     protected QueryBuilder makeQuery(Map<String, Object> queryMap, Map<String, Object> filterMap)
     {
         QueryBuilder query;

@@ -20,8 +20,10 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
+import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
 import ru.insoft.archive.eavkks.ejb.es.EsSearchHelper;
 import ru.insoft.archive.eavkks.model.EaCase;
+import ru.insoft.archive.eavkks.model.EaDocument;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchResult;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
@@ -43,6 +45,8 @@ public class SearchHandler
     EsSearchHelper esSearch;
     @Inject
     CommonDBHandler dbHandler;
+    @Inject
+    EsIndexHelper esIndex;
     
     private Logger logger;
     private Map<Long, String> documentTypes;
@@ -89,7 +93,8 @@ public class SearchHandler
             dsr.setRemark((String)source.get("remark"));
             dsr.setCourt((String)source.get("court"));
             dsr.setFio((String)source.get("fio"));
-            dsr.setGraph(MessageFormat.format("{0}{1}.pdf", getLinkPrefix(), dsr.getId()));
+            if (esIndex.isExistsImageFile(dsr.getId()))
+                dsr.setGraph(MessageFormat.format("{0}{1}.pdf", getLinkPrefix(), dsr.getId()));
             values.add(dsr);
         }
         res.setValues(values);
@@ -171,6 +176,30 @@ public class SearchHandler
     public SearchResult searchCaseDocuments(String caseId, String context, Integer start, Integer limit)
     {
         return processDocSearchHits(esSearch.searchCaseDocuments(caseId, context, start, limit));
+    }
+    
+    public EaDocument getDocumentById(String id, String caseId)
+    {
+        Map<String, Object> docData  = esSearch.getDocumentById(id, caseId);
+        Map<String, Object> caseData = esSearch.getCaseById(caseId);
+        
+        EaDocument doc = new EaDocument();
+        doc.setId(id);
+        doc.setCaseId(caseId);
+        doc.setVolume((Integer)docData.get("volume"));
+        doc.setCaseTitle((String)caseData.get("title"));
+        doc.setNumber((String)docData.get("number"));
+        doc.setType(((Number)docData.get("type")).longValue());
+        doc.setTitle((String)docData.get("title"));
+        doc.setStartPage((Integer)docData.get("startPage"));
+        doc.setEndPage((Integer)docData.get("endPage"));
+        doc.setDate((String)docData.get("date"));
+        doc.setRemark((String)docData.get("remark"));
+        doc.setCourt((String)docData.get("court"));
+        doc.setFio((String)docData.get("fio"));
+        if (esIndex.isExistsImageFile(id))
+            doc.setGraph(MessageFormat.format("{0}{1}.pdf", getLinkPrefix(), id));
+        return doc;
     }
     
     protected String getDocumentTypeName(Long typeId)

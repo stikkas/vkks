@@ -124,20 +124,20 @@ public class EsIndexHelper
         return resp.isFound();
     }
     
-    public String indexDocument(EaDocument eaDoc) throws IOException
+    public String indexDocument(EaDocument eaDoc, String caseNumber) throws IOException
     {
         Client esClient = esAdmin.getClient();
         XContentBuilder src = jsonBuilder()
                 .startObject()
-                    .field("_parent", eaDoc.getEaCase().getId())
-                    .field("acase", eaDoc.getEaCase().getNumber())
+                    .field("_parent", eaDoc.getCaseId())
+                    .field("acase", caseNumber)
                     .field("number", eaDoc.getNumber())
                     .field("volume", eaDoc.getVolume())
-                    .field("type", eaDoc.getTypeId())
+                    .field("type", eaDoc.getType())
                     .field("title", eaDoc.getTitle())
                     .field("startPage", eaDoc.getStartPage())
                     .field("endPage", eaDoc.getEndPage())
-                    .field("date", eaDoc.getDate(), DateTimeFormat.forPattern("dd.MM.YYYY"))
+                    .field("date", eaDoc.getDate())
                     .field("remark", eaDoc.getRemark())
                     .field("court", eaDoc.getCourt())
                     .field("fio", eaDoc.getFio())
@@ -153,7 +153,7 @@ public class EsIndexHelper
         if (eaDoc.getId() == null)
         {
             IndexResponse ir = esClient.prepareIndex(esAdmin.getIndexName(), "document")
-                    .setParent(eaDoc.getEaCase().getId())
+                    .setParent(eaDoc.getCaseId())
                     .setSource(src)
                     .execute().actionGet();
             return ir.getId();
@@ -161,7 +161,7 @@ public class EsIndexHelper
         else       
         {
             esClient.prepareUpdate(esAdmin.getIndexName(), "document", eaDoc.getId())
-                .setParent(eaDoc.getEaCase().getId())
+                .setParent(eaDoc.getCaseId())
                 .setDoc(src)
                 .execute().actionGet();
             return eaDoc.getId();
@@ -226,5 +226,11 @@ public class EsIndexHelper
     {
         File f = new File(getPathToSaveFiles());
         FileUtils.cleanDirectory(f);
+    }
+    
+    public boolean isExistsImageFile(String documentId)
+    {
+        File f = new File(getPathToSaveFiles(), documentId + ".pdf");
+        return f.exists();
     }
 }

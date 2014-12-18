@@ -6,10 +6,10 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.ejb.EJBTransactionRolledbackException;
@@ -23,10 +23,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.javatuples.Pair;
 import ru.insoft.archive.core_model.table.adm.AdmUser;
 import ru.insoft.archive.core_model.table.desc.DescriptorValue;
@@ -115,15 +111,15 @@ public class DataSaver
             for (LoadedDocument lDoc : lCase.getDocuments())
             {
                 EaDocument eaDoc = new EaDocument();
-                eaDoc.setEaCase(eaCase);
-                eaDoc.setTypeId(getDescriptorValueId(documentTypes, "DOCUMENT_TYPE", lDoc.getType(),
+                eaDoc.setCaseId(eaCase.getId());
+                eaDoc.setType(getDescriptorValueId(documentTypes, "DOCUMENT_TYPE", lDoc.getType(),
                         "Неверный код вида документа"));
                 eaDoc.setVolume(lDoc.getVolume());
                 eaDoc.setNumber(lDoc.getNumber());
                 eaDoc.setTitle(lDoc.getTitle());
                 eaDoc.setStartPage(lDoc.getStartPage());
                 eaDoc.setEndPage(lDoc.getEndPage());
-                eaDoc.setDate(lDoc.getDate());
+                eaDoc.setDate(new SimpleDateFormat("dd.MM.YYYY").format(lDoc.getDate()));
                 eaDoc.setRemark(lDoc.getRemark());
                 eaDoc.setCourt(lDoc.getCourt());
                 eaDoc.setFio(lDoc.getFio());
@@ -135,7 +131,7 @@ public class DataSaver
 
                 //em.persist(eaDoc);
                 //em.flush();
-                eaDoc.setId(esIndex.indexDocument(eaDoc));
+                eaDoc.setId(esIndex.indexDocument(eaDoc, eaCase.getNumber()));
                 eaCase.getDocuments().add(eaDoc);                
 
                 Path imageFilePath = FileSystems.getDefault().getPath(filesDir.getPath(), lDoc.getGraph());                
