@@ -21,10 +21,11 @@ Ext.define('Earh.view.work.Case', {
 		'Earh.store.Case',
 		'Earh.store.StoreLife',
 		'Earh.store.CaseDocResult',
-		'Earh.model.SCase'
+		'Earh.model.SCase',
+		'Earh.model.CCase'
 	],
 	layout: 'vbox',
-        cls: 'fields_panel',
+	cls: 'fields_panel',
 	defaults: {
 		xtype: 'panel',
 		layout: 'vbox',
@@ -41,13 +42,17 @@ Ext.define('Earh.view.work.Case', {
 		// Роль редактирование в режиме создания
 		[1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1]],
 	listeners: {
-		activate: 'setCaseMenu'
+		activate: 'setCaseMenu',
+		backToSearch: 'backToSearch'
 	},
 	initComponent: function () {
+// Настраиваем модели для создания и поиска дела
+		Earh.model.SCase.getProxy().setUrl(Urls.scase);
+		Earh.model.CCase.getProxy().setUrl(Urls.ccase);
+
 		var caseView = this,
 				editRole = Earh.editRole;
 		caseView.store = Ext.create('Earh.store.Case');
-
 		caseView.items = [{
 				xtype: 'form',
 				cls: 'section_panel',
@@ -201,47 +206,68 @@ Ext.define('Earh.view.work.Case', {
 		caseView._grd = caseView.items.getAt(1).items.getAt(1);
 		caseView._tbr = caseView._frm.getDockedItems()[0];
 		caseView._addb = caseView._grd.getDockedItems()[0].items.getAt(0);
+		caseView.store.on('load', caseView.loadPage, caseView);
+		caseView.models = [Ext.create('Earh.model.SCase'), Ext.create('Earh.model.CCase')];
 	},
 	save: function () {
-		this._frm.updateRecord(this.model);
-		// TODO реальное сохранение
-		this.model.dirty = false;
-		showInfo("Сохранение дела", "Операция успешно выполнена");
+		var caseView = this;
+		caseView.updateRecord().save({callback: function (model, operation, success) {
+				if (success) {
+					caseView.switchEdit(false);
+				} else {
+					showError("Ошибка сохранения", operation.getError());
+				}
+			}});
 	},
 	remove: function () {
 		showInfo("Удаление дела", "Операция успешно выполнена");
 	},
 	clear: function () {
+		var viewCase = this;
 		// Очищаем все поля
-		this._frm.applyAll('reset');
-		this._frm.items.getAt(6).initPicker();
+		viewCase._frm.applyAll('reset');
+		viewCase._frm.items.getAt(6).initPicker();
 		// очищаем таблицу с результатами поиска
-		this._grd.store.removeAll();
+		viewCase._grd.store.removeAll();
+		// удаляем модель
+		viewCase.model = null;
+		viewCase.models.forEach(function (it) {
+			it.set('id', null);
+		});
 	},
 	/**
 	 * Используется при листании
-	 * @param {Number} page номер страницы (осчет ведется с 1)
+	 * @param {Ext.data.Store} store хранилище
+	 * @param {Ext.data.Model[]} records загруженные записи, в нашем случае одна
+	 * @param {Boolean} success результат операции
 	 */
-	loadPage: function (page) {
+	loadPage: function (store, records, success) {
 		var caseView = this;
-		caseView.store.loadPage(page, {callback: function (records, operation, success) {
-				console.log(arguments);
-				// загрузить модель по id
-				// Earh.model.SCase.load(records[0].get('id'), {
-				// callback: function(){console.log(arguments);}
-				// });
-				// заполнить форму этой моделью
-				// caseView.loadRecord();
-			}
-		});
+		if (success) {
+			Earh.model.SCase.load(records[0].get('id'), {
+				success: function (model, operation) {
+					caseView.model = model;
+					caseView._frm.loadRecord(model);
+				},
+				failure: function (r, ans) {
+					caseView.fireEvent('backToSearch');
+					showError("Ошибка", ans.error.statusText);
+				}
+			});
+		} else {
+			caseView.fireEvent('backToSearch');
+			showError("Ошибка", operation.getError());
+		}
 	},
 	/**
 	 * Загружаем данные в форму
 	 */
-	loadRecord: function () {
-		this._frm.loadRecord(this.model);
-		return this.model;
-	},
+	/*
+	 loadRecord: function () {
+	 this._frm.loadRecord(this.model);
+	 return this.model;
+	 },
+	 */
 	/**
 	 * Выгружаем данные в модель
 	 */
@@ -258,18 +284,25 @@ Ext.define('Earh.view.work.Case', {
 	 * @returns {Boolean}
 	 */
 	isDirty: function () {
-		return false;
+		return this.updateRecord().dirty;
 	},
 	/**
 	 * Переключает в режим редактирования
-	 * @param {Boolean} stat
+	 * @param {Boolean} stat true - редактирование, false - просмотр
 	 */
 	switchEdit: function (stat) {
-		var viewCase = this;
+		var viewCase = this,
+				oldModel = viewCase.model,
+				idx;
+
 		viewCase.setReadOnly(!stat);
 		viewCase._frm.applyAll('setRequired');
 		viewCase.setVisibleCardBar(!stat);
-		var idx;
+
+		viewCase.model = viewCase.models[+stat];
+		if (oldModel)
+			viewCase.updateRecord().set('id', oldModel.get('id'));
+
 		if (Earh.editRole) {
 			if (stat)
 				idx = 2;

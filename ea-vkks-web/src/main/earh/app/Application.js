@@ -10,6 +10,7 @@ Ext.define('Earh.Application', {
 		'Other.toolbar.Paging',
 		'Other.container.Container',
 		'Other.ux.TreePicker',
+		'Other.picker.Date',
 		'Ext.Msg'
 	],
 	name: 'Earh',

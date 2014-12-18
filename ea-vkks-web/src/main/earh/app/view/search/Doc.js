@@ -164,34 +164,5 @@ Ext.define('Earh.view.search.Doc', {
 					}]
 			}]);
 		this.model = Ext.create('Earh.model.DocsQuery');
-	},
-	/**
-	 * Поиск документов
-	 */
-	search: function () {
-		var searchDocsView = this,
-				model = searchDocsView.model;
-		searchDocsView._frm.updateRecord(model);
-		searchDocsView._rslt.store.loadPage(1, {
-//			params: {q: Ext.encode(panels.getAt(0).getValues(true, false))}
-			params: {q: Ext.encode(model.data)}
-		});
-		/*
-		 this._rslt.store.loadData([{
-		 id: 1, acase: '18', number: '102', type: 'Правое',
-		 title: 'Справка с работы',
-		 pages: '1-10',
-		 date: '11.01.2011', court: 'Московский областной суд',
-		 fio: 'Петровс С.И.',
-		 graph: '/ea-vkks-web/file.pdf'
-		 }, {
-		 id: 2, acase: '28', number: '432', type: 'Модное',
-		 title: 'Справка с учебы',
-		 pages: '11-20',
-		 date: '16.11.2013', court: 'Московский областной суд',
-		 fio: 'Петровс С.И.',
-		 graph: null
-		 }]);
-		 */
 	}
 });

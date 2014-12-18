@@ -86,10 +86,10 @@ public class EsIndexHelper
         XContentBuilder src = jsonBuilder()
                     .startObject()
                         .field("number", eaCase.getNumber())
-                        .field("type", eaCase.getTypeId())
-                        .field("storeLife", eaCase.getStoreLifeTypeId())
+                        .field("type", eaCase.getType())
+                        .field("storeLife", eaCase.getStoreLife())
                         .field("title", eaCase.getTitle())
-                        .field("toporef", eaCase.getToporefId())
+                        .field("toporef", eaCase.getToporef())
                         .field("remark", eaCase.getRemark())
                         .field("modUserId", eaCase.getModUserId())
                         .field("lastUpdateDate", eaCase.getLastUpdateDate(), DateTimeFormat.forPattern("dd.MM.YYYY HH:mm:ss"));

@@ -6,15 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ru.insoft.archive.eavkks.ejb.SearchHandler;
-import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
+import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.extcommons.webmodel.SearchResult;
 
 /**
  *
  * @author melnikov
  */
-@WebServlet("/srvcs/search/docs")
-public class DocumentSearch extends VkksAbstractServlet
+@WebServlet("/srvcs/search/cases")
+public class CaseSearch extends VkksAbstractServlet
 {
     @Inject
     SearchHandler search;
@@ -25,15 +25,15 @@ public class DocumentSearch extends VkksAbstractServlet
         HttpSession session = req.getSession();
         String rawCriteria = req.getParameter("q");
         if (rawCriteria == null)
-            rawCriteria = (String)session.getAttribute("qdocs");
+            rawCriteria = (String)session.getAttribute("qcases");
         else
-            session.setAttribute("qdocs", rawCriteria);
-        DocumentSearchCriteria q = jsonTools.parseEntity(rawCriteria, DocumentSearchCriteria.class);
+            session.setAttribute("qcases", rawCriteria);
+        CaseSearchCriteria q = jsonTools.parseEntity(rawCriteria, CaseSearchCriteria.class);
         
         Integer start = Integer.valueOf(req.getParameter(startParamKey));
         Integer limit = Integer.valueOf(req.getParameter(limitParamKey));
         
-        SearchResult sr = search.searchDocuments(q, start, limit);
+        SearchResult sr = search.searchCases(q, start, limit);
         resp.getWriter().write(jsonTools.getJsonForEntity(sr).toString());
     }    
 }

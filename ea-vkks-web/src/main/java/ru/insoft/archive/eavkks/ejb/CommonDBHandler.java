@@ -1,5 +1,6 @@
 package ru.insoft.archive.eavkks.ejb;
 
+import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -15,7 +16,10 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import ru.insoft.archive.core_model.table.desc.DescriptorGroup;
 import ru.insoft.archive.core_model.table.desc.DescriptorValue;
+import ru.insoft.archive.eavkks.webmodel.ToporefItem;
 import ru.insoft.archive.extcommons.ejb.UserInfo;
+import ru.insoft.archive.extcommons.json.JsonOut;
+import ru.insoft.archive.extcommons.webmodel.TreeItem;
 
 /**
  *
@@ -73,5 +77,29 @@ public class CommonDBHandler extends ru.insoft.archive.extcommons.ejb.CommonDBHa
         {
             return null;
         }
+    }
+    
+    public TreeItem getToporef()
+    {
+        TreeItem obj = (TreeItem)getDescValuesForGroupHierarch("TOPOREF", true);
+        obj.setChildren(setToporefPath(obj.getChildren(), null));
+        return obj;
+    }
+    
+    private List<JsonOut> setToporefPath(List<JsonOut> items, String parentPath)
+    {
+        for (int i = 0; i < items.size(); i++)
+        {
+            TreeItem src = (TreeItem)items.get(i);
+            ToporefItem topoItem = new ToporefItem(src);
+            if (parentPath == null)
+                topoItem.setPath(src.getTextShort());
+            else
+                topoItem.setPath(parentPath + "; " + src.getTextShort());
+            items.set(i, topoItem);
+            if (!topoItem.isLeaf())
+                topoItem.setChildren(setToporefPath(topoItem.getChildren(), topoItem.getPath()));
+        }
+        return items;
     }
 }
