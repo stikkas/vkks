@@ -89,6 +89,10 @@ Ext.define('Other.ux.TreePicker', {
 		}
 		return me;
 	},
+	getValue: function () {
+		var value = this.callParent();
+		return value === 'root' ? 0 : value;
+	},
 	onItemClick: function (view, record, node, rowIndex, e) {
 		if (this.leafOnly) { // Можно выбирать только листья
 			if (record.get('leaf'))

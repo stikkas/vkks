@@ -212,18 +212,18 @@ Ext.define('Earh.view.work.Case', {
 	save: function () {
 		var caseView = this;
 		if (caseView.isDirty()) {
+
+			console.log(this.model.data);
 			// Модель обновлена уже раньше, когда проверялась на несохраненные данные
 			caseView.model.save({callback: function (model, operation, success) {
 					if (success) {
-						if (!caseView._crMode)
-							caseView.switchEdit(false);
+						showInfo("Результат", "Данные сохранены");
 					} else {
 						showError("Ошибка сохранения", operation.getError());
 					}
 				}
 			});
-		} else if (!caseView._crMode)
-			caseView.switchEdit(false);
+		}
 
 	},
 	remove: function () {
@@ -245,7 +245,7 @@ Ext.define('Earh.view.work.Case', {
 		// создаем новую модель
 		caseView.model = Ext.create('Earh.model.Case');
 		// Только так можно выставить id, иниче extjs присваивает свой id
-		caseView.model.set('id', null);
+		caseView.model.set('id', null, {dirty: false});
 	},
 	/**
 	 * Используется при листании
@@ -257,11 +257,12 @@ Ext.define('Earh.view.work.Case', {
 		var caseView = this;
 		if (success) {
 			Earh.model.Case.getProxy().setUrl(Urls.scase);
-			caseView._crMode = false;
+			caseView._crMode = false; // Режим создания карточки
 			Earh.model.Case.load(records[0].get('id'), {
 				success: function (model, operation) {
 					caseView.model = model;
 					caseView._frm.loadRecord(model);
+					caseView.switchEdit(false);
 				},
 				failure: function (r, ans) {
 					caseView.fireEvent('backToSearch');
@@ -298,31 +299,36 @@ Ext.define('Earh.view.work.Case', {
 	 * @returns {Boolean}
 	 */
 	isDirty: function () {
+		console.log(this.model.data);
 		return this.updateRecord().dirty;
 	},
 	/**
 	 * Переключает в режим редактирования
 	 * @param {Boolean} stat true - редактирование, false - просмотр
 	 */
-	switchEdit: function (stat) {
-		var caseView = this,
-				idx;
+	switchEdit: function se(stat) {
+		if (se.p !== stat) { // Выполняется только если предыдущий вызов был с другим параметром
+			se.p = stat;
+			var caseView = this,
+					idx;
 
-		caseView.setReadOnly(!stat);
-		caseView._frm.applyAll('setRequired');
-		caseView.setVisibleCardBar(!stat);
+			caseView.setReadOnly(!stat);
+			caseView._frm.applyAll('setRequired');
+			caseView.setVisibleCardBar(!stat);
 
-		caseView.model.getProxy().setUrl(stat ? Urls.ccase : Urls.scase);
+			if (caseView.model)
+				caseView.model.getProxy().setUrl(stat ? Urls.ccase : Urls.scase);
 
-		if (Earh.editRole) {
-			if (stat)
-				idx = 2;
-			else
-				idx = 1;
-		} else
-			idx = 0;
-		caseView.tbb = caseView.hbtns[idx];
-		this._addb.setVisible(stat);
+			if (Earh.editRole) {
+				if (stat)
+					idx = 2;
+				else
+					idx = 1;
+			} else
+				idx = 0;
+			caseView.tbb = caseView.hbtns[idx];
+			this._addb.setVisible(stat);
+		}
 	},
 	/**
 	 * Показывает или скрывает toolbar для пролистывания дел

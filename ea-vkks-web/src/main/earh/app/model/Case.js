@@ -20,7 +20,10 @@ Ext.define('Earh.model.Case', {
 		{name: 'remark', type: 'string', defaultValue: null}],
 	proxy: {
 		type: 'ajax',
-		writer: 'json',
+		writer: {
+			type: 'json',
+			writeAllFields: true
+		},
 		reader: 'json'
 	}
 });

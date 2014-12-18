@@ -146,14 +146,13 @@ Ext.define('Earh.view.main.MainController', {
 	 * @param prev {Object} предыдущая ЭФ
 	 */
 	setCaseMenu: function (page, prev) {
-		switch (prev.$className) {
-			case 'Earh.view.home.Home': // подготавливаем ЭФ для создания нового дела. Возможно только при наличии роли редактирования
-				page.clear();
-				page.switchEdit(true);
-				page.tbb = page.hbtns[3];
-				break;
-			case 'Earh.view.search.Case':
-				page.switchEdit(false);
+		// подготавливаем ЭФ для создания нового дела. Возможно только при наличии роли редактирования
+		if (prev.$className === 'Earh.view.home.Home') {
+			page.clear();
+			page.switchEdit(true);
+			page.tbb = page.hbtns[3];
+		} else {
+			page.switchEdit(false);
 		}
 	},
 	/**
