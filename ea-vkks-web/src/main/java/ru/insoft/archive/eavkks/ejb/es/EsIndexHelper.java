@@ -79,7 +79,8 @@ public class EsIndexHelper
                         start += limit;
                     }
                     while (total > start);
-                    bulk.execute().actionGet();
+                    if (bulk.numberOfActions() > 0)
+                        bulk.execute().actionGet();
                 }
             }
         }
