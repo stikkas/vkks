@@ -1,6 +1,9 @@
 package ru.insoft.archive.eavkks.servlets;
 
+import java.math.BigDecimal;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +25,8 @@ public class CaseIndex extends VkksAbstractServlet
     {
         String rawCase = readRequestData(req);
         String caseId = index.indexCase(jsonTools.parseEntity(rawCase, EaCase.class));
-        resp.getWriter().write(caseId);
+        JsonObjectBuilder job = Json.createObjectBuilder();
+        job.add("id", caseId);       
+        resp.getWriter().write(job.build().toString());
     }    
 }
