@@ -187,3 +187,18 @@ noindex:-o-prefocus, .login_page a{
         margin-left:50% !important;
     }
 }
+
+/*кнопка в логине*/
+/*noindex:-o-prefocus, */.login_page .x-toolbar-footer{
+    left:0 !important;
+}
+.login_page a.x-btn.buttons_style,
+.login_page a.x-btn.buttons_style.x-btn-focus.x-btn-default-small{
+    margin: auto !important;
+    width: 50px !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+.login_page .x-toolbar-footer > div{
+    width:100% !important;
+}
