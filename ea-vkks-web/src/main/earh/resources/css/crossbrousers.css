@@ -1,18 +1,9 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 15.12.2014, 16:28:57
-    Author     : shapovalova
-*/
 /*Opera*/
 noindex:-o-prefocus, .exit_cls { 
     left:96% !important; 
   } 
 /*safari*/
-@media screen and ( -webkit-min-device-pixel-ratio : 0 )	 { 
+@media screen and ( -webkit-min-device-pixel-ratio : 0 ){ 
     .exit_cls { 
         left:96% !important; 
      }
@@ -84,4 +75,18 @@ div.search {
 .find_doc .x-form-text-wrap.x-form-text-wrap-default input[id*="textfield"]{
     box-sizing:padding-box !important;    
     padding-right:24px;
+}
+@media screen and ( -webkit-min-device-pixel-ratio : 0 ){
+    .main_page .x-btn.x-btn-default-small.doc_cls, 
+    .main_page .x-btn.doc_cls.x-btn-over, 
+    .main_page a.x-btn.doc_cls.x-btn-pressed, 
+    .main_page a.x-btn.doc_cls.x-btn-focus.x-btn-default-small,
+    .deal_cls{
+        margin-left:0px !important;
+    }
+     .x-body .main_page .x-box-inner > .x-box-target{
+        width:500px !important;
+        margin:auto !important;
+        position:relative;
+    }
 }
