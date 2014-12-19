@@ -168,6 +168,15 @@ public class EsIndexHelper
         }
     }
     
+    public boolean deleteDocument(String docId, String caseId)
+    {
+        Client esClient = esAdmin.getClient();
+        DeleteResponse resp = esClient.prepareDelete(esAdmin.getIndexName(), "document", docId)
+                .setParent(caseId)
+                .execute().actionGet();
+        return resp.isFound();
+    }
+    
     public void deleteAllCaseDocuments(String id, List<EaDocument> docs)
     {
         if (docs != null)
