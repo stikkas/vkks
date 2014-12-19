@@ -215,6 +215,20 @@ public class EsIndexHelper
                 .execute().actionGet();
     }
     
+    public void clearImage(String caseId, String documentId) throws IOException
+    {
+        Client esClient = esAdmin.getClient();
+        esClient.prepareUpdate(esAdmin.getIndexName(), "document", documentId)
+                .setParent(caseId)
+                .setDoc(jsonBuilder()
+                    .startObject()
+                        .field("graph", "")
+                    .endObject()
+                )
+                .execute().actionGet();
+        deleteImageFile(documentId);
+    }
+    
     private String getPathToSaveFiles()
     {
         if (PATH_TO_SAVE_FILES == null)

@@ -14,7 +14,8 @@ Ext.define('Earh.view.main.MainController', {
 			activate: 'setCaseMenu',
 			backToSearch: 'backToSearch',
 			removeModel: 'removeModel',
-			toMain: 'toMain'
+			toMain: 'toMain',
+			toDocEn: 'toDocEnable'
 		}
 	},
 	init: function () {
@@ -213,6 +214,12 @@ Ext.define('Earh.view.main.MainController', {
 		this.view.setActiveItem(Pages.adoc);
 	},
 	/**
+	 *  Переход на страницу редактирования документа
+	 */
+	toDoc: function () {
+		this.view.setActiveItem(Pages.adoc);
+	},
+	/**
 	 * вернуться к результатам поиска (дел)
 	 */
 	backToSearch: function () {
@@ -236,10 +243,21 @@ Ext.define('Earh.view.main.MainController', {
 	 * Обрабатывает событие удаления дела, документа
 	 * @param {Object} args аргументы, передаваемые обработчику
 	 *
-	 * 	- `page` - {String} страница с результатами поиска. здесь надо обновить данные.
+	 * 	- `page` - {Object} страница с результатами поиска. здесь надо обновить данные.
 	 *
 	 */
 	removeModel: function (args) {
 		this.view.getPageByName(args.page).sstore.reload();
+	},
+	/**
+	 * Добавляет или удаляет возможность входа в карточку документа
+	 * @param {Object} args аргументы, передоваемые событию:
+	 *
+	 *	- `flag` - {Boolean} true - включить возможность, false - выключить
+	 *	- `scope` - {Object} страница, владеющая виджетом (в данном случае adoc)
+	 *
+	 */
+	toDocEnable: function (args) {
+		args.scope.toDocEnable(args.flag, this.toDoc, this);
 	}
 });

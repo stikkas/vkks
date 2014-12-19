@@ -205,15 +205,17 @@ ctrlRequiredFields = function () {
  * Показывает сообщение об успешной операции
  * @param {String} title заголовок окна
  * @param {String} message сообщение
+ * @param {Function} fn функция для выполнение после нажатия на кнопку
  * @method showInfo
  */
-showInfo = function (title, message) {
+showInfo = function (title, message, fn) {
 	Ext.Msg.show({
 		title: title,
 		msg: message,
 		buttons: Ext.Msg.OK,
 		icon: Ext.Msg.INFO,
-		maxWidth: 400
+		maxWidth: 400,
+		fn: fn
 	});
 };
 /**
