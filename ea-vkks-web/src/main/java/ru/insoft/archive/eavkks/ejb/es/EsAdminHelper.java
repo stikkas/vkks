@@ -245,4 +245,11 @@ public class EsAdminHelper
         logger.log(Level.INFO, "mapping for {0}: \r\n{1}", new Object[]{INDEX_NAME, builder.string()});
         return builder;
     }
+    
+    public void refreshIndex()
+    {
+        esClient = getClient();
+        IndicesAdminClient indices = esClient.admin().indices();
+        indices.prepareRefresh(getIndexName()).execute().actionGet();
+    }
 }

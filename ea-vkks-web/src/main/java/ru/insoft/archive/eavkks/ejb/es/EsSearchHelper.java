@@ -163,7 +163,7 @@ public class EsSearchHelper
     public SearchHits searchCaseDocuments(String caseId, String context, Integer start, Integer limit)
     {
         QueryBuilder query;
-        if (context == null)
+        if (context == null || context.isEmpty())
             query = QueryBuilders.matchAllQuery();
         else
             query = getQuery("graph", context);

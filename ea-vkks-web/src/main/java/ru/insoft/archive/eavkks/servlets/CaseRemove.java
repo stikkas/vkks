@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ru.insoft.archive.eavkks.ejb.es.EsAdminHelper;
 import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
 import ru.insoft.archive.eavkks.ejb.es.EsSearchHelper;
 import ru.insoft.archive.extcommons.webmodel.FailMessage;
@@ -20,6 +21,8 @@ public class CaseRemove extends VkksAbstractServlet
     EsIndexHelper esIndex;
     @Inject
     EsSearchHelper esSearch;
+    @Inject
+    EsAdminHelper esAdmin;
 
     @Override
     protected void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception 
@@ -32,7 +35,10 @@ public class CaseRemove extends VkksAbstractServlet
         {
             boolean found = esIndex.deleteCase(id);
             if (found)
+            {
                 fm = new FailMessage(true, null);
+                esAdmin.refreshIndex();
+            }
             else
                 fm = new FailMessage(false, MessageFormat.format("Дело с id=\"{0}\" не существует", id));
         }

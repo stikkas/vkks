@@ -168,6 +168,16 @@ public class EsIndexHelper
         }
     }
     
+    public boolean deleteDocument(String docId, String caseId)
+    {
+        Client esClient = esAdmin.getClient();
+        DeleteResponse resp = esClient.prepareDelete(esAdmin.getIndexName(), "document", docId)
+                .setParent(caseId)
+                .execute().actionGet();
+        deleteImageFile(docId);
+        return resp.isFound();
+    }
+    
     public void deleteAllCaseDocuments(String id, List<EaDocument> docs)
     {
         if (docs != null)
@@ -203,6 +213,20 @@ public class EsIndexHelper
                     .endObject()
                 )
                 .execute().actionGet();
+    }
+    
+    public void clearImage(String caseId, String documentId) throws IOException
+    {
+        Client esClient = esAdmin.getClient();
+        esClient.prepareUpdate(esAdmin.getIndexName(), "document", documentId)
+                .setParent(caseId)
+                .setDoc(jsonBuilder()
+                    .startObject()
+                        .field("graph", "")
+                    .endObject()
+                )
+                .execute().actionGet();
+        deleteImageFile(documentId);
     }
     
     private String getPathToSaveFiles()
