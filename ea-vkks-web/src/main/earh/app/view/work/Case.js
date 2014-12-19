@@ -233,13 +233,15 @@ Ext.define('Earh.view.work.Case', {
 					success: function (answer) {
 						var result = Ext.decode(answer.responseText);
 						if (result.success) {
-							caseView._frm.loadRecord(caseView.model);
-							if (caseView._crMode) {
-								caseView.fireEvent('toMain');
-							} else {
-								caseView.fireEvent('removeModel', {page: Pages.scases});
-								caseView.fireEvent('backToSearch');
-							}
+							showInfo("Результаты", "Дело удалено", function () {
+								caseView._frm.loadRecord(caseView.model);
+								if (caseView._crMode) {
+									caseView.fireEvent('toMain');
+								} else {
+									caseView.fireEvent('removeModel', {page: Pages.scases});
+									caseView.fireEvent('backToSearch');
+								}
+							});
 						} else {
 							showError("Ошибка", result.msg);
 						}
@@ -350,7 +352,26 @@ Ext.define('Earh.view.work.Case', {
 			} else
 				idx = 0;
 			caseView.tbb = caseView.hbtns[idx];
-			this._addb.setVisible(stat);
+			caseView._addb.setVisible(stat);
+			// Изменяем вид результатов поиска при наведении курсора
+			caseView.fireEvent('toDocEn', {flag: stat, scope: caseView});
+		}
+	},
+	/**
+	 * открывает или закрывает доступ к переходу в карточку документа
+	 * @param {Boolean} stat true - открыть, false - закрыть
+	 * @param {Function} fn обработчик события
+	 * @param {Object} controller scope для обработчика события
+	 */
+	toDocEnable: function (stat, fn, controller) {
+		var grid = this._grd,
+				cls = 'doc_search';
+		if (stat) {
+			grid.removeCls(cls);
+			grid.addListener('cellclick', fn, controller);
+		} else {
+			grid.addCls(cls);
+			grid.removeListener('cellclick', fn, controller);
 		}
 	},
 	/**
