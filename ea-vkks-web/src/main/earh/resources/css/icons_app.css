@@ -53,7 +53,7 @@ a.exit_cls.x-btn-over.x-btn-default-toolbar-small,
 a.exit_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
 a.exit_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
     background-image:url('../images/project_images/exit.png');
-    border-left:2px solid;
+    border-left:2px solid #5781B4;
     border-left-image:url('../images/project_images/vert_border.png');
     -moz-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
     -webkit-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;

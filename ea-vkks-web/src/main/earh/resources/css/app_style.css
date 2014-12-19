@@ -114,7 +114,7 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
     -webkit-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
     -ms-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
     -o-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
-    border-bottom:2px solid;
+    border-bottom:2px solid #5781B4;
     width:100%;
 }
 .title_head > div{
