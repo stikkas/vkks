@@ -20,7 +20,6 @@ Ext.define('Earh.view.work.Case', {
 		'Earh.store.CaseType',
 		'Earh.store.Case',
 		'Earh.store.StoreLife',
-		'Earh.store.CaseDocResult',
 		'Earh.model.Case'
 	],
 	layout: 'vbox',
@@ -33,17 +32,13 @@ Ext.define('Earh.view.work.Case', {
 	// Кнопки меню
 	hbtns: [
 		// Роль только чтение
-		[1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1],
+		[1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1],
 		// Роль редактирование в режиме просмотра (возможно только из поиска)
-		[1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1],
+		[1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1],
 		// Роль редактирование в режиме редактирования
-		[1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1],
+		[1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1],
 		// Роль редактирование в режиме создания
-		[1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1]],
-	listeners: {
-		activate: 'setCaseMenu',
-		backToSearch: 'backToSearch'
-	},
+		[1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1]],
 	initComponent: function () {
 
 		var caseView = this,
@@ -132,7 +127,8 @@ Ext.define('Earh.view.work.Case', {
 						triggers: {
 							search: {
 								cls: 'search',
-								handler: 'searchDocs'
+								handler: caseView.search,
+								scope: caseView
 							}
 						}
 					}, {
@@ -212,8 +208,6 @@ Ext.define('Earh.view.work.Case', {
 	save: function () {
 		var caseView = this;
 		if (caseView.isDirty()) {
-
-			console.log(this.model.data);
 			// Модель обновлена уже раньше, когда проверялась на несохраненные данные
 			caseView.model.save({callback: function (model, operation, success) {
 					if (success) {
@@ -227,7 +221,34 @@ Ext.define('Earh.view.work.Case', {
 
 	},
 	remove: function () {
-		showInfo("Удаление дела", "Операция успешно выполнена");
+		if (this._grd.store.getCount() > 0) {
+			showError("Ошибка", "Невозможно удалить дело, в котором содержатся документы");
+		} else {
+			var caseView = this,
+					id = caseView.model.get('id');
+			if (id)
+				Ext.Ajax.request({
+					url: Urls.rcase,
+					params: {id: id},
+					success: function (answer) {
+						var result = Ext.decode(answer.responseText);
+						if (result.success) {
+							caseView._frm.loadRecord(caseView.model);
+							if (caseView._crMode) {
+								caseView.fireEvent('toMain');
+							} else {
+								caseView.fireEvent('removeModel', {page: Pages.scases});
+								caseView.fireEvent('backToSearch');
+							}
+						} else {
+							showError("Ошибка", result.msg);
+						}
+					},
+					failure: function (answer) {
+						showError("Ошибка", answer.responseText);
+					}
+				});
+		}
 	},
 	/**
 	 * Очищает форму перед созданием нового дела.
@@ -256,12 +277,15 @@ Ext.define('Earh.view.work.Case', {
 	loadPage: function (store, records, success) {
 		var caseView = this;
 		if (success) {
+			var caseId;
 			Earh.model.Case.getProxy().setUrl(Urls.scase);
 			caseView._crMode = false; // Режим создания карточки
-			Earh.model.Case.load(records[0].get('id'), {
+			Earh.model.Case.load(caseId = records[0].get('id'), {
 				success: function (model, operation) {
 					caseView.model = model;
 					caseView._frm.loadRecord(model);
+					caseView._grd.store.loadPage(1,
+							{params: {q: Ext.encode({id: caseId})}});
 					caseView.switchEdit(false);
 				},
 				failure: function (r, ans) {
@@ -299,7 +323,6 @@ Ext.define('Earh.view.work.Case', {
 	 * @returns {Boolean}
 	 */
 	isDirty: function () {
-		console.log(this.model.data);
 		return this.updateRecord().dirty;
 	},
 	/**
@@ -357,6 +380,17 @@ Ext.define('Earh.view.work.Case', {
 	 */
 	setRequired: function () {
 		this._frm.applyAll('setRequired');
+	},
+	/**
+	 * Ищет документы в соответствии с текущим делом
+	 * @param {Ext.form.field.TextField} tf виджет с данными для поиска
+	 */
+	search: function (tf) {
+		var caseView = this;
+		caseView._grd.store.loadPage(1, {
+			params: {q: Ext.encode({id: caseView.model.get('id'),
+					context: tf.getValue()})}
+		});
 	}
 });
 

@@ -12,6 +12,7 @@ Ext.define('Earh.view.search.Case', {
 		0, // Вернуться к результатам поиска
 		0, // Вернуться в дело
 		1, // пробел
+		0, // Поиск дел
 		1, // Поиск
 		0, // Сохранить
 		0, // Удалить
@@ -138,6 +139,7 @@ Ext.define('Earh.view.search.Case', {
 					}]
 			}]);
 		this.model = Ext.create('Earh.model.CasesQuery');
+		this.sstore = Ext.getStore(resultStoreId);
 	},
 	/**
 	 * Очистка формы перед использованием

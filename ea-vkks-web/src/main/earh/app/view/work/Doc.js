@@ -28,9 +28,9 @@ Ext.define('Earh.view.work.Doc', {
 	// Кнопки меню
 	hbtns: [
 		// В режиме добавления или удаления в / из дела
-		[1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1],
+		[1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1],
 		// В режиме редактирования, удаления, добавления из поиска документов
-		[1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1]],
+		[1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1]],
 	listeners: {
 		activate: 'setDocMenu'
 	},
@@ -51,8 +51,8 @@ Ext.define('Earh.view.work.Doc', {
 				items: [{
 						xtype: 'numberfield',
 						fieldLabel: Trans.volume,
-						name: 'volume',                                               
-                                                width: 300
+						name: 'volume',
+						width: 300
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.acase,
@@ -65,7 +65,7 @@ Ext.define('Earh.view.work.Doc', {
 						xtype: 'textfield',
 						fieldLabel: Trans.docNum,
 						name: 'number',
-                                                width: 300
+						width: 300
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.docType,
@@ -73,33 +73,33 @@ Ext.define('Earh.view.work.Doc', {
 						displayField: 'name',
 						valueField: 'id',
 						store: 'docTypeStore',
-                                                width: 580
+						width: 580
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.docTitle,
 						name: 'title',
-                                                width: 580
+						width: 580
 					}, {
 						xtype: 'numberfield',
 						fieldLabel: Trans.startPageNum,
 						name: 'startPage',
-                                                width: 300
+						width: 300
 					}, {
 						xtype: 'numberfield',
 						fieldLabel: Trans.endPageNum,
 						name: 'endPage',
-                                                width: 300
+						width: 300
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.docDate,
 						name: 'date',
-                                                width: 332
+						width: 332
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.remark,
 						name: 'remark',
 						allowBlank: true,
-                                                width: 580
+						width: 580
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.court,
@@ -108,7 +108,7 @@ Ext.define('Earh.view.work.Doc', {
 						minChars: 1,
 						allowBlank: true,
 						editable: true,
-                                                width: 580,
+						width: 580,
 						listeners: {blur: emptyCombo2}
 					}, {
 						xtype: 'combobox',
@@ -118,7 +118,7 @@ Ext.define('Earh.view.work.Doc', {
 						minChars: 1,
 						allowBlank: true,
 						editable: true,
-                                                width: 500,
+						width: 500,
 						listeners: {blur: emptyCombo2}
 					}]
 			}, {
@@ -127,7 +127,7 @@ Ext.define('Earh.view.work.Doc', {
 				cls: 'graf_view',
 				tools: [{
 						type: 'close',
-                                                cls:'close_cls',
+						cls: 'close_cls',
 						tooltip: Trans.delGraph,
 						handler: 'removeGraph'
 					}],
@@ -139,7 +139,7 @@ Ext.define('Earh.view.work.Doc', {
 								buttonOnly: true,
 								hideLabel: true,
 								buttonText: Trans.file,
-                                                                cls:'add_file_cls',
+								cls: 'add_file_cls',
 								listeners: {
 									change: 'graphAdded'
 								}

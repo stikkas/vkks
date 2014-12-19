@@ -1,7 +1,7 @@
 Ext.define('Earh.view.header.Header', {
 	extend: 'Ext.container.Container',
 	alias: 'widget.eaheader',
-        cls:'header_cls',
+	cls: 'header_cls',
 	requires: [
 		'Ext.toolbar.Toolbar',
 		'Ext.layout.container.HBox',
@@ -23,61 +23,66 @@ Ext.define('Earh.view.header.Header', {
 				baseCls: 'gerb'
 			}, {
 				xtype: 'container',
-                                cls:'title_head',
+				cls: 'title_head',
 				layout: 'vbox',
 				items: [
 					{
 						xtype: 'component',
-                                                cls:'title_head',
+						cls: 'title_head',
 						html: '<h1>' + Trans.vkks + '</h1>'
 					},
 					headerView._tb = Ext.create('Ext.toolbar.Toolbar', {
 						//minWidth: 1050,
-                                                cls:'buttons_menu',
+						cls: 'buttons_menu',
 						defaults: {
 							xtype: 'button'
 						},
 						items: [{
 								text: Trans.main,
 								handler: 'toMain',
-                                                                cls:'home_cls icons_cls'
+								cls: 'home_cls icons_cls'
 							}, {
 								text: Trans.backToSearch,
 								handler: 'backToSearch',
-                                                                cls:'back_to_search_cls icons_cls'
+								cls: 'back_to_search_cls icons_cls'
 							}, {
 								text: Trans.backToCase,
 								handler: 'backToCase',
-                                                                cls:'back_to_case icons_cls'
+								cls: 'back_to_case icons_cls'
 							},
 							' ',
 							{
+								text: Trans.caseSearch,
+								handler: 'toCasesSearch1',
+								cls: 'back_to_search_cls icons_cls'
+							},
+							{
 								text: Trans.search,
 								handler: 'search',
-                                                                cls:'search_cls icons_cls'
+								cls: 'search_cls icons_cls'
 							}, {
 								text: Trans.save,
 								handler: 'save',
-                                                                cls:'save_cls icons_cls'
+								cls: 'save_cls icons_cls'
 							}, {
 								text: Trans.remove,
 								handler: 'remove',
-                                                                cls:'remove_cls icons_cls'
+								cls: 'remove_cls icons_cls'
 							}, {
 								text: Trans.edit,
 								handler: 'edit',
-                                                                cls:'edit_cls icons_cls'
+								cls: 'edit_cls icons_cls'
 							},
 							'->',
 							{
 								xtype: 'label',
 								text: Earh.user,
-                                                                cls:'user_cls icons_cls'
+								cls: 'user_cls icons_cls'
 							},
 							{
 								text: Trans.exit,
 								handler: 'onExit',
-                                                                cls:'exit_cls icons_cls'
+								cls: 'exit_cls icons_cls'
 							}]
 					})]
 			}

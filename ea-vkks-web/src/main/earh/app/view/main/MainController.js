@@ -9,6 +9,14 @@ Ext.define('Earh.view.main.MainController', {
 		'Earh.model.Graph',
 		'Earh.model.Doc'
 	],
+	control: {
+		acase: {
+			activate: 'setCaseMenu',
+			backToSearch: 'backToSearch',
+			removeModel: 'removeModel',
+			toMain: 'toMain'
+		}
+	},
 	init: function () {
 		var controller = this,
 //				subscribers = controller.subscribers = [],
@@ -45,7 +53,8 @@ Ext.define('Earh.view.main.MainController', {
 	 * Перенаправляет на требуюмую страницу.
 	 * Перед перенапралением проверяет есть ли несохраненые данные.
 	 * Каждая страница должна реализовывать интерфейс isDirty
-	 * @param {String} page страница, на которую нужно уйти
+	 * @param {String} page - страница, на которую нужно уйти, либо метод этого контроллера,
+	 * который нужно выполнить в случае утвердительного ответа.
 	 */
 	toPage: function (page) {
 		if (this.view.getActiveItem().isDirty()) {
@@ -69,6 +78,12 @@ Ext.define('Earh.view.main.MainController', {
 	toCasesSearch: function () {
 		this.view.setActiveItem(Pages.scases);
 		this.view.getActiveItem().clear();
+	},
+	/**
+	 * Перенаправление к странице поиска дел с проверкой несохраненных данных
+	 */
+	toCasesSearch1: function () {
+		this.toPage('toCasesSearch');
 	},
 	/**
 	 * Перенаправление к странице дела,
@@ -216,5 +231,15 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	backToCase: function () {
 		this.toPage(Pages.acase);
+	},
+	/**
+	 * Обрабатывает событие удаления дела, документа
+	 * @param {Object} args аргументы, передаваемые обработчику
+	 *
+	 * 	- `page` - {String} страница с результатами поиска. здесь надо обновить данные.
+	 *
+	 */
+	removeModel: function (args) {
+		this.view.getPageByName(args.page).sstore.reload();
 	}
 });

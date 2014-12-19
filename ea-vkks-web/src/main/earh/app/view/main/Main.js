@@ -10,6 +10,7 @@ Ext.define('Earh.view.main.Main', {
 		'Earh.store.TopoRef',
 		'Earh.store.CaseType',
 		'Earh.store.CaseResult',
+		'Earh.store.CaseDocResult',
 		'Earh.store.DocType',
 		'Earh.store.FioResult',
 		'Earh.store.CourtResult',
@@ -58,6 +59,13 @@ Ext.define('Earh.view.main.Main', {
 		mainView._clayout.setActiveItem(item);
 	},
 	/**
+	 * Возвращает экранную форму по названию страницы (из Pages)
+	 * @param {String} page экранная форма
+	 */
+	getPageByName: function (page) {
+		return this._pages[page];
+	},
+	/**
 	 * Возвращает активный на данным момент компонент
 	 * @returns {Object} активный компонент
 	 */
@@ -97,6 +105,7 @@ Ext.define('Earh.view.main.Main', {
 		});
 		Ext.create('Earh.store.TopoRef').load();
 		Ext.create('Earh.store.CaseResult');
+		Ext.create('Earh.store.CaseDocResult');
 		Ext.create('Earh.store.FioResult');
 		Ext.create('Earh.store.CourtResult');
 
