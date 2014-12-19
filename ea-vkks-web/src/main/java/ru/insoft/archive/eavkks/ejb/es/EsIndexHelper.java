@@ -174,6 +174,7 @@ public class EsIndexHelper
         DeleteResponse resp = esClient.prepareDelete(esAdmin.getIndexName(), "document", docId)
                 .setParent(caseId)
                 .execute().actionGet();
+        deleteImageFile(docId);
         return resp.isFound();
     }
     
