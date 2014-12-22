@@ -3,6 +3,7 @@
  */
 Ext.define('Earh.view.work.Doc', {
 	extend: 'Ext.panel.Panel',
+	mixins: ['Earh.view.work.Share'],
 	alias: 'widget.adoc',
 	cls: 'section_panel card_doc fields_panel',
 	requires: [
@@ -17,7 +18,9 @@ Ext.define('Earh.view.work.Doc', {
 		'Ext.form.field.TextArea',
 		'Ext.form.field.File',
 		'Ext.panel.Tool',
-		'Earh.view.work.DocController'
+		'Earh.view.work.DocController',
+		'Earh.model.Graph',
+		'Earh.store.DocStore'
 	],
 	layout: 'hbox',
 	defaults: {
@@ -26,14 +29,7 @@ Ext.define('Earh.view.work.Doc', {
 		cls: 'fields_doc'
 	},
 	// Кнопки меню
-	hbtns: [
-		// В режиме добавления или удаления в / из дела
-		[1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1],
-		// В режиме редактирования, удаления, добавления из поиска документов
-		[1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1]],
-	listeners: {
-		activate: 'setDocMenu'
-	},
+	tbb: [1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1],
 	initComponent: function () {
 		//-----for staff use only------------
 		function emptyCombo2(cb) {
@@ -54,11 +50,9 @@ Ext.define('Earh.view.work.Doc', {
 						name: 'volume',
 						width: 300
 					}, {
-						xtype: 'combobox',
+						xtype: 'textfield',
 						fieldLabel: Trans.acase,
-						displayField: 'name',
-						valueField: 'id',
-						name: 'acase',
+						name: 'caseTitle',
 						allowBlank: true,
 						readOnly: true
 					}, {
@@ -156,6 +150,39 @@ Ext.define('Earh.view.work.Doc', {
 			}];
 		docView.callParent();
 		docView._frm = docView.items.getAt(0);
+		docView.store = Ext.create('Earh.store.DocStore');
+	},
+	/**
+	 * Открывает карточку документа. может вызываться по нажатию на ссылку документа,
+	 * или на кнопку добавить новый документ
+	 * @param {String} caseId идентификатор дела
+	 * @param {String} id идентификатор документа (для нового - undefined)
+	 */
+	open: function (caseId, id) {
+		var docView = this;
+
+		if (id) { // Загружаем существуещий документ
+			docView.store.load({
+				params: {caseId: caseId, id: id},
+				callback: function (records, operation, success) {
+					if (success) {
+						docView.model = records[0];
+						docView._frm.loadRecord(docView.model);
+						docView.model.getProxy().setUrl(Urls.cdoc);
+						docView.setGraph();
+					} else {
+						docView.fireEvent('backToCase');
+						showError("Ошибка", operation.getError());
+					}
+				}
+			});
+		} else { // Подготавливаем форму для нового документа
+			var model = docView.model = Ext.create('Earh.model.Doc');
+			model.set('id', null, {dirty: false});
+			model.set('caseId', caseId, {dirty: false});
+			model.getProxy().setUrl(Urls.cdoc);
+			docView.setGraph();
+		}
 	},
 	save: function () {
 		showInfo("Сохранение документа", "Операция успешно выполнена");
@@ -173,7 +200,7 @@ Ext.define('Earh.view.work.Doc', {
 				addGraph = sg.agrh || (sg.argh = items.first()),
 				viewGraph = sg.vgrh || (sg.vgrh = items.last());
 
-		if (url = (this.model && (graph = this.model.getGraph()) && graph.get('url'))) {
+		if (url = (this.model && this.model.get("graph"))) {
 			addGraph.hide();
 			viewGraph.setHtml('<iframe src="' + url + '" width="100%" height="100%"></iframe>');
 			viewGraph.show();
@@ -183,21 +210,6 @@ Ext.define('Earh.view.work.Doc', {
 			viewGraph.hide();
 			tool.hide();
 		}
-	},
-	/**
-	 * Реализация общего интерфейса для всех страниц
-	 * Для проверки несохраненных данных
-	 * @returns {Boolean}
-	 */
-	isDirty: function () {
-		return false;
-	},
-	/**
-	 * Проверяет наличие необходимых данных при сохранении
-	 * @returns {boolean}
-	 */
-	isValid: function () {
-		return this._frm.isValid();
 	}
 });
 

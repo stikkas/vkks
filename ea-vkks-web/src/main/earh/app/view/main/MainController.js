@@ -5,17 +5,19 @@ Ext.define('Earh.view.main.MainController', {
 		'Earh.view.search.Case',
 		'Earh.view.search.Doc',
 		'Earh.view.work.Case',
-		'Earh.view.work.Doc',
-		'Earh.model.Graph',
-		'Earh.model.Doc'
+		'Earh.view.work.Doc'
 	],
 	control: {
-		acase: {
+		acase: { // Форма работы с делом
 			activate: 'setCaseMenu',
 			backToSearch: 'backToSearch',
 			removeModel: 'removeModel',
 			toMain: 'toMain',
 			toDocEn: 'toDocEnable'
+		},
+		adoc: {
+			afterrender: 'docRender',
+			backToCase: 'backToCase'
 		}
 	},
 	init: function () {
@@ -167,31 +169,11 @@ Ext.define('Earh.view.main.MainController', {
 			page.clear();
 			page.switchEdit(true);
 			page.tbb = page.hbtns[3];
-		} else {
+		} else if (prev.$className !== 'Earh.view.work.Doc') {
 			page.switchEdit(false);
 		}
 	},
-	/**
-	 * Устанавливает меню для ЭФ "Документ" и иницализирует ЭФ "Документ"
-	 * @param {Object} page ЭФ "Документ"
-	 * @param {Object} prev предыдущая ЭФ
-	 */
-	setDocMenu: function (page, prev) {
-		var idx = 1;
-		if (prev.$className === 'Earh.view.work.Case') {
-			var form = page.items.getAt(0);
-			form.applyAll('setRequired');
-			form.fireEvent('validChanged', false);
-			//--------------Для тестов только-------------------
-			var model = Ext.create('Earh.model.Doc');
-			model.setGraph(Ext.create('Earh.model.Graph', {id: 10, url: RootContext + 'file.pdf'}));
-			page.model = model;
-			//---------------------------------------------------
-			page.setGraph();
-		}
-		idx = 0;
-		page.tbb = page.hbtns[idx];
-	},
+
 	/**
 	 * Вызывается когда форма запускает событие 'validChanged'
 	 * @param {Boolean} valid валидна или нет форма
@@ -218,6 +200,7 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	toDoc: function () {
 		this.view.setActiveItem(Pages.adoc);
+		this.view.getActiveItem().open(arguments[8].caseId, arguments[3].id);
 	},
 	/**
 	 * вернуться к результатам поиска (дел)
@@ -259,5 +242,12 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	toDocEnable: function (args) {
 		args.scope.toDocEnable(args.flag, this.toDoc, this);
+	},
+	/**
+	 * Добавляет красные звезочки к требуемым полям формы документа
+	 * @param {Object} doc форма документа
+	 */
+	docRender: function (doc) {
+		doc._frm.applyAll('setRequired');
 	}
 });

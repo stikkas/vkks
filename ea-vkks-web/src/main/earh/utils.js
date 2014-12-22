@@ -105,7 +105,9 @@ Urls = {
 	courts: RootContext + 'srvcs/courts',
 //	courts: RootContext + 'fake/bigdicts/courts',
 	ccase: RootContext + 'srvcs/create/case',
-	scase: RootContext + 'srvcs/search/case'
+	cdoc: RootContext + 'srvcs/create/doc',
+	scase: RootContext + 'srvcs/search/case',
+	sdoc: RootContext + 'srvcs/search/doc'
 };
 /**
  * параметры для получения справочников с сервера

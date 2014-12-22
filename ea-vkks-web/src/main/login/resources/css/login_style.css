@@ -78,7 +78,6 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
     -ms-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
     -o-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
     border-bottom:2px solid #5781B4;
-    
 }
 .title_head div{
     width:100% !important;
@@ -105,13 +104,13 @@ h1{
     }
 }
 .header_cls ~ .x-container{
-    width:800px !important; 
+    width:800px !important;
     margin:auto !important;
     position:relative !important;
     left:0 !important;
 }
 .main_page .x-autocontainer-outerCt{
-    width:800px !important;    
+    width:800px !important;
 }
 .main_page a .x-btn-inner-default-small{
     color:#1D4B82;
