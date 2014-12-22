@@ -35,10 +35,10 @@
 @font-face{
     font-family:'Roboto Bold';
     src:url('../fonts/Roboto/eot/roboto-bold-webfont.eot');
-    src:url('../fonts/Roboto/ttf/Roboto-Bold.ttf') format('truetype'),
-        url('../fonts/Roboto/svg/roboto-bold-webfont.svg') format('svg'),
-        url('../fonts/Roboto/eot/roboto-bold-webfont.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Roboto/woff/roboto-bold-webfont.woff') format('woff');
+    src:url('../fonts/Roboto/eot/roboto-bold-webfont.eot?#iefix') format('embedded-opentype'),
+        /*url('../fonts/Roboto/woff/roboto-bold-webfont.woff') format('woff'),*/
+        url('../fonts/Roboto/ttf/Roboto-Bold.ttf') format('truetype'),
+        url('../fonts/Roboto/svg/roboto-bold-webfont.svg') format('svg');
 }
 
 @font-face{
