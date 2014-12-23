@@ -98,6 +98,7 @@ Urls = {
 	docs: RootContext + 'srvcs/search/docs',
 	rcase: RootContext + 'srvcs/remove/case',
 	rdoc: RootContext + 'srvcs/remove/doc',
+	rgraph: RootContext + 'srvcs/remove/graph',
 //	docs: RootContext + 'fake/docs/search',
 	casedocs: RootContext + 'srvcs/search/casedocs',
 	user: RootContext + 'srvcs/user',
@@ -107,6 +108,7 @@ Urls = {
 //	courts: RootContext + 'fake/bigdicts/courts',
 	ccase: RootContext + 'srvcs/create/case',
 	cdoc: RootContext + 'srvcs/create/doc',
+	cgraph: RootContext + 'srvcs/create/graph',
 	scase: RootContext + 'srvcs/search/case',
 	sdoc: RootContext + 'srvcs/search/doc'
 };

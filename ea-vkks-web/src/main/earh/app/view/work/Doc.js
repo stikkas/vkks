@@ -130,6 +130,7 @@ Ext.define('Earh.view.work.Doc', {
 						layout: 'hbox',
 						items: [{
 								xtype: 'fileuploadfield',
+								name: 'attachedFile0',
 								buttonOnly: true,
 								hideLabel: true,
 								buttonText: Trans.file,
@@ -150,6 +151,7 @@ Ext.define('Earh.view.work.Doc', {
 			}];
 		docView.callParent();
 		docView._frm = docView.items.getAt(0);
+		docView._gfrm = docView.items.getAt(1);
 		docView._ctf = docView._frm.items.getAt(1);
 		docView.store = Ext.create('Earh.store.DocStore');
 	},
@@ -162,7 +164,6 @@ Ext.define('Earh.view.work.Doc', {
 	 */
 	open: function (caseId, caseTitle, id) {
 		var docView = this;
-
 		if (id) { // Загружаем существуещий документ
 			docView.store.load({
 				params: {caseId: caseId, id: id},
@@ -190,11 +191,93 @@ Ext.define('Earh.view.work.Doc', {
 		}
 	},
 	/**
-	 * Выполняется после успешного сохранения данных на сервере.
-	 * Общий интерфейс.
+	 * Проверяет есть ли не сохраненные данные
+	 * @returns {Boolean}
 	 */
-	sucSave: function () {
-		this.setGraph();
+	isDirty: function () {
+		var docView = this;
+		if (docView.model) {
+			return docView.graph || docView.updateRecord().dirty;
+		}
+		// Если модели нет, то об чем может быть речь - все чисто.
+		return false;
+	},
+	/**
+	 * Сохраняет данные на сервере, если они изменились.
+	 * Проверка на валидность данных должна делаться вызывающей стороной
+	 * с помощью метода isValid. 
+	 */
+	save: function () {
+		var view = this;
+		if (view.updateRecord().dirty)
+			view.model.save({
+				callback: function (model, operation, success) {
+					if (success) {
+						if (view.graph)
+							view.saveGraph();
+					} else {
+						showError("Ошибка сохранения", operation.getError());
+					}
+				}
+			});
+		else if (view.graph) {
+			view.saveGraph();
+		}
+	},
+	/**
+	 * Сохраняет файл на сервере
+	 */
+	saveGraph: function () {
+		var docView = this,
+				id = docView.model.get('id'),
+				caseId = docView.model.get('caseId');
+		docView._gfrm.submit({
+			clientValidation: false,
+			url: Urls.cgraph,
+			params: {
+				id: id,
+				caseId: caseId
+			},
+			success: function (form, action) {
+				if (action.result.success) {
+					docView.setGraph();
+					docView.graph = null;
+					docView.open(caseId, '', id);
+					showInfo("Результат", "Данные сохранены");
+				} else {
+					showError("Ошибка", action.result.msg);
+				}
+			},
+			failure: function (form, action) {
+				showError("Ошибка", action.response.responseText);
+			}
+		});
+	},
+	/**
+	 * Удаляет графический образ 
+	 */
+	removeGraph: function () {
+		var docView = this;
+		Ext.Ajax.request({
+			url: Urls.rgraph,
+			params: {
+				id: docView.model.get('id'),
+				caseId: docView.model.get('caseId')
+			},
+			success: function (answer) {
+				var result = Ext.decode(answer.responseText);
+				if (result.success) {
+					docView.model.set('graph', null, {dirty: false});
+					docView.setGraph();
+					showInfo("Результаты", "Графический образ удален");
+				} else {
+					showError("Ошибка", result.msg);
+				}
+			},
+			failure: function (answer) {
+				showError("Ошибка", answer.responseText);
+			}
+		});
 	},
 	/**
 	 * Удаляет документ из дела
@@ -229,19 +312,21 @@ Ext.define('Earh.view.work.Doc', {
 	 * Переключает режим либо отображения граф. образа, либо кнопки добавления гр. образа
 	 */
 	setGraph: function sg() {
-		var url, graph,
-				items = sg.items || (sg.items = this.items.getAt(1).items),
-				tool = sg.tool || (sg.tool = this.items.getAt(1).getHeader().items.getAt(1)),
+		var docView = this,
+				url, graph,
+				items = sg.items || (sg.items = docView._gfrm.items),
+				tool = sg.tool || (sg.tool = docView._gfrm.getHeader().items.getAt(1)),
 				addGraph = sg.agrh || (sg.argh = items.first()),
 				viewGraph = sg.vgrh || (sg.vgrh = items.last());
-
-		if (url = (this.model && this.model.get("graph"))) {
+		docView.graph = null;
+		if (url = (docView.model && docView.model.get("graph"))) {
 			addGraph.hide();
 			viewGraph.setHtml('<iframe src="' + url + '" width="100%" height="100%"></iframe>');
 			viewGraph.show();
 			tool.show();
 		} else {
 			addGraph.show();
+			addGraph.items.getAt(1).setText(Trans.addGraph);
 			viewGraph.hide();
 			tool.hide();
 		}

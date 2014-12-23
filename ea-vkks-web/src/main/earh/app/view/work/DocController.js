@@ -13,16 +13,22 @@ Ext.define('Earh.view.work.DocController', {
 	 * @param path {String} имя файла, отдаваемое браузером
 	 */
 	graphAdded: function (ff, path) {
-		// Не работает, т.к. браузер отдает поддельный адрес
-		this.page.model.getGraph().set('url', path);
-		this.page.setGraph();
+		var text;
+		if (path) {
+			text = path.substr(path.lastIndexOf("\\") + 1);
+			this.page.graph = text;
+		} else {
+			this.page.graph = null;
+			text = Trans.addGraph;
+		}
+
+		ff.nextSibling().setText(text);
 	},
 	/**
 	 * Удаляет графический образ документа
 	 */
 	removeGraph: function () {
-		this.page.model.getGraph().set('url', null);
-		this.page.setGraph();
+		this.page.removeGraph();
 	}
 });
 

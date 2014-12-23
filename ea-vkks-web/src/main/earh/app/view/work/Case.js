@@ -204,11 +204,47 @@ Ext.define('Earh.view.work.Case', {
 		caseView.store.on('load', caseView.loadPage, caseView);
 	},
 	/**
-	 * Вызывается после удачного сохранения данных на сервере
+	 * Реализация общего интерфейса для всех страниц
+	 * Для проверки несохраненных данных
+	 * @returns {Boolean}
 	 */
-	sucSave: function () {
-		if (this._addb.hidden)
-			this._addb.show();
+	isDirty: function () {
+		if (this.model)
+			return this.updateRecord().dirty;
+		// Если модели нет, то об чем может быть речь - все чисто.
+		return false;
+	},
+	/**
+	 * Сохраняет данные на сервере, если они изменились.
+	 * Проверка на валидность данных должна делаться вызывающей стороной
+	 * с помощью метода isValid. наследующий данный метод должен предаставить
+	 * метод sucSave, который будет вызываться в случае удачного сохранения.
+	 */
+	save: function () {
+		var view = this;
+		if (view.isDirty()) {
+			var caseId = view.model.get('id');
+			// Модель обновлена уже раньше, когда проверялась на несохраненные данные
+			view.model.save({
+				callback: function (model, operation, success) {
+					if (success) {
+						if (view._addb.hidden)
+							view._addb.show();
+						if (!caseId)
+							view._grd.store.loadPage(1, {
+								params: {
+									q: Ext.encode({
+										id: model.get('id')
+									})
+								}
+							});
+						showInfo("Результат", "Данные сохранены");
+					} else {
+						showError("Ошибка сохранения", operation.getError());
+					}
+				}
+			});
+		}
 	},
 	/**
 	 * Удаляет дело
