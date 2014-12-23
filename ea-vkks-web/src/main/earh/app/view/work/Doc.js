@@ -150,15 +150,17 @@ Ext.define('Earh.view.work.Doc', {
 			}];
 		docView.callParent();
 		docView._frm = docView.items.getAt(0);
+		docView._ctf = docView._frm.items.getAt(1);
 		docView.store = Ext.create('Earh.store.DocStore');
 	},
 	/**
 	 * Открывает карточку документа. может вызываться по нажатию на ссылку документа,
 	 * или на кнопку добавить новый документ
 	 * @param {String} caseId идентификатор дела
+	 * @param {String} caseTitle заголовок дела 
 	 * @param {String} id идентификатор документа (для нового - undefined)
 	 */
-	open: function (caseId, id) {
+	open: function (caseId, caseTitle, id) {
 		var docView = this;
 
 		if (id) { // Загружаем существуещий документ
@@ -180,15 +182,48 @@ Ext.define('Earh.view.work.Doc', {
 			var model = docView.model = Ext.create('Earh.model.Doc');
 			model.set('id', null, {dirty: false});
 			model.set('caseId', caseId, {dirty: false});
+			model.set('caseTitle', caseTitle, {dirty: false});
 			model.getProxy().setUrl(Urls.cdoc);
+			docView._frm.reset();
+			docView._ctf.setValue(caseTitle);
 			docView.setGraph();
 		}
 	},
-	save: function () {
-		showInfo("Сохранение документа", "Операция успешно выполнена");
+	/**
+	 * Выполняется после успешного сохранения данных на сервере.
+	 * Общий интерфейс.
+	 */
+	sucSave: function () {
+		this.setGraph();
 	},
+	/**
+	 * Удаляет документ из дела
+	 */
 	remove: function () {
-		showInfo("Удаление документа", "Операция успешно выполнена");
+		var docView = this,
+				id = docView.model.get('id');
+		if (id)
+			Ext.Ajax.request({
+				url: Urls.rdoc,
+				params: {
+					id: id,
+					caseId: docView.model.get('caseId')
+				},
+				success: function (answer) {
+					var result = Ext.decode(answer.responseText);
+					if (result.success) {
+						showInfo("Результаты", "Документ удален", function () {
+							docView.model = null; // Чтобы синхронизировать данные в модели и форме
+							docView.fireEvent('backToCase');
+						});
+					} else {
+						showError("Ошибка", result.msg);
+					}
+				},
+				failure: function (answer) {
+					showError("Ошибка", answer.responseText);
+				}
+			});
 	},
 	/**
 	 * Переключает режим либо отображения граф. образа, либо кнопки добавления гр. образа

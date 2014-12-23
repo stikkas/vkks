@@ -1,3 +1,4 @@
+
 Ext.define('Earh.view.main.MainController', {
 	extend: 'Ext.app.ViewController',
 	alias: 'controller.main',
@@ -8,7 +9,7 @@ Ext.define('Earh.view.main.MainController', {
 		'Earh.view.work.Doc'
 	],
 	control: {
-		acase: { // Форма работы с делом
+		acase: {// Форма работы с делом
 			activate: 'setCaseMenu',
 			backToSearch: 'backToSearch',
 			removeModel: 'removeModel',
@@ -169,11 +170,12 @@ Ext.define('Earh.view.main.MainController', {
 			page.clear();
 			page.switchEdit(true);
 			page.tbb = page.hbtns[3];
-		} else if (prev.$className !== 'Earh.view.work.Doc') {
+		} else if (prev.$className === 'Earh.view.work.Doc') {
+			Ext.getStore('caseDocsStore').reload();
+		} else {
 			page.switchEdit(false);
 		}
 	},
-
 	/**
 	 * Вызывается когда форма запускает событие 'validChanged'
 	 * @param {Boolean} valid валидна или нет форма
@@ -193,14 +195,17 @@ Ext.define('Earh.view.main.MainController', {
 	 * Добавляет документ к делу (Создает новый документ)
 	 */
 	addDoc: function () {
-		this.view.setActiveItem(Pages.adoc);
+		var controller = this,
+				model = controller.view.getActiveItem().model;
+		controller.view.setActiveItem(Pages.adoc);
+		controller.view.getActiveItem().open(model.get('id'), model.get('title'));
 	},
 	/**
 	 *  Переход на страницу редактирования документа
 	 */
 	toDoc: function () {
 		this.view.setActiveItem(Pages.adoc);
-		this.view.getActiveItem().open(arguments[8].caseId, arguments[3].id);
+		this.view.getActiveItem().open(arguments[8].caseId, '', arguments[3].id);
 	},
 	/**
 	 * вернуться к результатам поиска (дел)

@@ -97,6 +97,7 @@ Urls = {
 	cases: RootContext + 'srvcs/search/cases',
 	docs: RootContext + 'srvcs/search/docs',
 	rcase: RootContext + 'srvcs/remove/case',
+	rdoc: RootContext + 'srvcs/remove/doc',
 //	docs: RootContext + 'fake/docs/search',
 	casedocs: RootContext + 'srvcs/search/casedocs',
 	user: RootContext + 'srvcs/user',

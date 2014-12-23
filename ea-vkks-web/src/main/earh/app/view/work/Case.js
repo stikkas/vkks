@@ -204,28 +204,15 @@ Ext.define('Earh.view.work.Case', {
 		caseView.store.on('load', caseView.loadPage, caseView);
 	},
 	/**
-	 * Сохраняет данные на сервере, если они изменились.
-	 * Проверка на валидность данных должна делаться вызывающей стороной
-	 * с помощью метода isValid
+	 * Вызывается после удачного сохранения данных на сервере
 	 */
-	save: function () {
-		var caseView = this;
-		if (caseView.isDirty()) {
-			// Модель обновлена уже раньше, когда проверялась на несохраненные данные
-			caseView.model.save({
-				callback: function (model, operation, success) {
-					if (success) {
-						if (caseView._addb.hidden)
-							caseView._addb.show();
-						showInfo("Результат", "Данные сохранены");
-					} else {
-						showError("Ошибка сохранения", operation.getError());
-					}
-				}
-			});
-		}
-
+	sucSave: function () {
+		if (this._addb.hidden)
+			this._addb.show();
 	},
+	/**
+	 * Удаляет дело
+	 */
 	remove: function () {
 		if (this._grd.store.getCount() > 0) {
 			showError("Ошибка", "Невозможно удалить дело, в котором содержатся документы");
@@ -242,7 +229,8 @@ Ext.define('Earh.view.work.Case', {
 						var result = Ext.decode(answer.responseText);
 						if (result.success) {
 							showInfo("Результаты", "Дело удалено", function () {
-								caseView._frm.loadRecord(caseView.model);
+								caseView.model = null; // Чтобы синхронизировать данные в модели и форме
+//								caseView._frm.loadRecord(caseView.model);
 								if (caseView._crMode) {
 									caseView.fireEvent('toMain');
 								} else {

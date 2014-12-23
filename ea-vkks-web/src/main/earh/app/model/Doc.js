@@ -26,15 +26,18 @@ Ext.define('Earh.model.Doc', {
 		{name: 'graph', type: 'string', defaultValue: null}
 	],
 	/*
-	associations: [
-		{type: 'hasOne', model: 'Earh.model.Graph', foreingKey: 'id',
-			setterName: 'setGraph', getterName: 'getGraph'}
-	],
-	*/
+	 associations: [
+	 {type: 'hasOne', model: 'Earh.model.Graph', foreingKey: 'id',
+	 setterName: 'setGraph', getterName: 'getGraph'}
+	 ],
+	 */
 	proxy: {
 		type: 'ajax',
 		reader: 'json',
-		writer: 'json'
+		writer: {
+			type: 'json',
+			writeAllFields: true
+		}
 	}
 });
 
