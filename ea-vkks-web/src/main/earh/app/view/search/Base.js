@@ -52,7 +52,12 @@ Ext.define('Earh.view.search.Base', {
 				model = view.model;
 		view._frm.updateRecord(model);
 		view._rslt.store.loadPage(1, {
-			params: {q: Ext.encode(model.data)}
+			params: {q: Ext.encode(model.data)},
+			callback: function (records) {
+				if (!records || records.length === 0)
+					showInfo("Результат", (view.$className === 'Earh.view.search.Case' ?
+							"Дела" : "Документы") + " не найдены");
+			}
 		});
 	}
 });

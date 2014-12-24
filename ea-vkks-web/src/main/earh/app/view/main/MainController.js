@@ -18,7 +18,8 @@ Ext.define('Earh.view.main.MainController', {
 		},
 		adoc: {
 			afterrender: 'docRender',
-			backToCase: 'backToCase'
+			backToCase: 'backToCase',
+			docChanged: 'docChanged'
 		}
 	},
 	init: function () {
@@ -171,10 +172,21 @@ Ext.define('Earh.view.main.MainController', {
 			page.switchEdit(true);
 			page.tbb = page.hbtns[3];
 		} else if (prev.$className === 'Earh.view.work.Doc') {
-			Ext.getStore('caseDocsStore').reload();
+			if (this.updateCase) {
+				Ext.getStore('caseDocsStore').reload();
+				page.loadRecord();
+			}
 		} else {
 			page.switchEdit(false);
 		}
+		// Сбрасываем флаг обновления в любом случае
+		this.updateCase = false;
+	},
+	/**
+	 * Выставляет флаг, который указывает, что следует обновить страницу дела.
+	 */
+	docChanged: function () {
+		this.updateCase = true;
 	},
 	/**
 	 * Вызывается когда форма запускает событие 'validChanged'
@@ -184,12 +196,6 @@ Ext.define('Earh.view.main.MainController', {
 		this.subscribers.forEach(function (s) {
 			s.validChanged(valid);
 		});
-	},
-	/**
-	 * Контекстный поиск документов относительно дела
-	 */
-	searchDocs: function () {
-		showInfo("Тестовый режим", "Эта функциональность в разработке");
 	},
 	/**
 	 * Добавляет документ к делу (Создает новый документ)

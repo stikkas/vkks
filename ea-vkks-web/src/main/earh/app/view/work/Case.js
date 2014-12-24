@@ -223,10 +223,11 @@ Ext.define('Earh.view.work.Case', {
 	save: function () {
 		var view = this;
 		if (view.isDirty()) {
-			var caseId = view.model.get('id');
-			// Модель обновлена уже раньше, когда проверялась на несохраненные данные
+			var caseId = view.model.get('id'); // Модель обновлена уже раньше, когда проверялась на несохраненные данные
+			Ext.getBody().mask("Выполнение");
 			view.model.save({
 				callback: function (model, operation, success) {
+					Ext.getBody().unmask();
 					if (success) {
 						if (view._addb.hidden)
 							view._addb.show();
@@ -255,13 +256,15 @@ Ext.define('Earh.view.work.Case', {
 		} else {
 			var caseView = this,
 					id = caseView.model.get('id');
-			if (id)
+			if (id) {
+				Ext.getBody().mask("Удаление");
 				Ext.Ajax.request({
 					url: Urls.rcase,
 					params: {
 						id: id
 					},
 					success: function (answer) {
+						Ext.getBody().unmask();
 						var result = Ext.decode(answer.responseText);
 						if (result.success) {
 							showInfo("Результаты", "Дело удалено", function () {
@@ -281,9 +284,11 @@ Ext.define('Earh.view.work.Case', {
 						}
 					},
 					failure: function (answer) {
+						Ext.getBody().unmask();
 						showError("Ошибка", answer.responseText);
 					}
 				});
+			}
 		}
 	},
 	/**
@@ -344,14 +349,23 @@ Ext.define('Earh.view.work.Case', {
 		}
 	},
 	/**
-	 * Загружаем данные в форму
+	 * Загружаем данные в форму.
+	 * Используется после обновления, или добавления документа
 	 */
-	/*
-	 loadRecord: function () {
-	 this._frm.loadRecord(this.model);
-	 return this.model;
-	 },
-	 */
+	loadRecord: function () {
+		var caseView = this;
+		Earh.model.Case.getProxy().setUrl(Urls.scase);
+		Earh.model.Case.load(caseView.model.get('id'), {
+			success: function (model, operation) {
+				caseView.model = model;
+				caseView._frm.loadRecord(model);
+				caseView.model.getProxy().setUrl(Urls.ccase);
+			},
+			failure: function (r, ans) {
+				showError("Ошибка", ans.error.statusText);
+			}
+		});
+	},
 	/**
 	 * Переключает в режим редактирования
 	 * @param {Boolean} stat true - редактирование, false - просмотр
@@ -444,6 +458,10 @@ Ext.define('Earh.view.work.Case', {
 						id: caseId,
 						context: tf.getValue()
 					})
+				},
+				callback: function (records) {
+					if (!records || records.length === 0)
+						showInfo("Результат", "Документы не найдены");
 				}
 			});
 	}

@@ -209,18 +209,24 @@ Ext.define('Earh.view.work.Doc', {
 	 */
 	save: function () {
 		var view = this;
-		if (view.updateRecord().dirty)
+		if (view.updateRecord().dirty) {
+			Ext.getBody().mask("Выполнение");
 			view.model.save({
 				callback: function (model, operation, success) {
 					if (success) {
 						if (view.graph)
 							view.saveGraph();
+						else 
+							Ext.getBody().unmask();
+						view.fireEvent('docChanged');
 					} else {
 						showError("Ошибка сохранения", operation.getError());
+						Ext.getBody().unmask();
 					}
 				}
 			});
-		else if (view.graph) {
+		} else if (view.graph) {
+			Ext.getBody().mask("Выполнение");
 			view.saveGraph();
 		}
 	},
@@ -239,6 +245,7 @@ Ext.define('Earh.view.work.Doc', {
 				caseId: caseId
 			},
 			success: function (form, action) {
+				Ext.getBody().unmask();
 				if (action.result.success) {
 					docView.setGraph();
 					docView.graph = null;
@@ -249,6 +256,7 @@ Ext.define('Earh.view.work.Doc', {
 				}
 			},
 			failure: function (form, action) {
+				Ext.getBody().unmask();
 				showError("Ошибка", action.response.responseText);
 			}
 		});
@@ -258,6 +266,7 @@ Ext.define('Earh.view.work.Doc', {
 	 */
 	removeGraph: function () {
 		var docView = this;
+		Ext.getBody().mask("Выполение");
 		Ext.Ajax.request({
 			url: Urls.rgraph,
 			params: {
@@ -265,6 +274,7 @@ Ext.define('Earh.view.work.Doc', {
 				caseId: docView.model.get('caseId')
 			},
 			success: function (answer) {
+				Ext.getBody().unmask();
 				var result = Ext.decode(answer.responseText);
 				if (result.success) {
 					docView.model.set('graph', null, {dirty: false});
@@ -275,6 +285,7 @@ Ext.define('Earh.view.work.Doc', {
 				}
 			},
 			failure: function (answer) {
+				Ext.getBody().unmask();
 				showError("Ошибка", answer.responseText);
 			}
 		});
@@ -285,7 +296,8 @@ Ext.define('Earh.view.work.Doc', {
 	remove: function () {
 		var docView = this,
 				id = docView.model.get('id');
-		if (id)
+		if (id) {
+			Ext.getBody().mask("Выполнение");
 			Ext.Ajax.request({
 				url: Urls.rdoc,
 				params: {
@@ -293,6 +305,7 @@ Ext.define('Earh.view.work.Doc', {
 					caseId: docView.model.get('caseId')
 				},
 				success: function (answer) {
+					Ext.getBody().unmask();
 					var result = Ext.decode(answer.responseText);
 					if (result.success) {
 						showInfo("Результаты", "Документ удален", function () {
@@ -304,9 +317,11 @@ Ext.define('Earh.view.work.Doc', {
 					}
 				},
 				failure: function (answer) {
+					Ext.getBody().unmask();
 					showError("Ошибка", answer.responseText);
 				}
 			});
+		}
 	},
 	/**
 	 * Переключает режим либо отображения граф. образа, либо кнопки добавления гр. образа
