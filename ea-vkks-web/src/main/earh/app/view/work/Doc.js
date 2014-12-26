@@ -216,9 +216,10 @@ Ext.define('Earh.view.work.Doc', {
 					if (success) {
 						if (view.graph)
 							view.saveGraph();
-						else 
+						else {
 							Ext.getBody().unmask();
-						view.fireEvent('docChanged');
+							view.fireEvent('docChanged');
+						}
 					} else {
 						showError("Ошибка сохранения", operation.getError());
 						Ext.getBody().unmask();
@@ -247,6 +248,7 @@ Ext.define('Earh.view.work.Doc', {
 			success: function (form, action) {
 				Ext.getBody().unmask();
 				if (action.result.success) {
+					docView.fireEvent('docChanged');
 					docView.setGraph();
 					docView.graph = null;
 					docView.open(caseId, '', id);
@@ -277,6 +279,7 @@ Ext.define('Earh.view.work.Doc', {
 				Ext.getBody().unmask();
 				var result = Ext.decode(answer.responseText);
 				if (result.success) {
+					docView.fireEvent('docChanged');
 					docView.model.set('graph', null, {dirty: false});
 					docView.setGraph();
 					showInfo("Результаты", "Графический образ удален");
@@ -308,6 +311,7 @@ Ext.define('Earh.view.work.Doc', {
 					Ext.getBody().unmask();
 					var result = Ext.decode(answer.responseText);
 					if (result.success) {
+						docView.fireEvent('docChanged');
 						showInfo("Результаты", "Документ удален", function () {
 							docView.model = null; // Чтобы синхронизировать данные в модели и форме
 							docView.fireEvent('backToCase');
