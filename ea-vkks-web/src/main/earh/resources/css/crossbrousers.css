@@ -31,8 +31,16 @@ noindex:-o-prefocus, .title_head {
     /*safari*/
     @media all and (-webkit-min-device-pixel-ratio:0) {
             .x-form-dirty div[id*="combo"].x-form-trigger-default{
-                    top:10px;
                     position:relative;
+                    top:6px;
+            }
+            div[id*="treepicker"].x-form-trigger-default{
+                    position:relative;
+                    top:0px;
+            }
+            .case_panel div[id*="treepicker"].x-form-trigger-default{
+                    position:absolute;
+                    height:25px !important;
             }
     }
     @media screen and (min-width:0\0) {
@@ -48,7 +56,11 @@ noindex:-o-prefocus, .title_head {
     .x-border-box .x-form-text-wrap.x-form-text-wrap-default input[id*="combo"],
     .x-border-box .x-form-text-wrap.x-form-trigger-focus input[id*="combo"],
     .x-border-box .x-form-text-wrap.x-form-trigger-over input[id*="combo"],
-    .x-border-box .x-form-text-wrap.x-form-trigger-click input[id*="combo"]{
+    .x-border-box .x-form-text-wrap.x-form-trigger-click input[id*="combo"],
+    .x-border-box .x-form-text-wrap.x-form-text-wrap-default input[id*="treepicker"],
+    .x-border-box .x-form-text-wrap.x-form-trigger-focus input[id*="treepicker"],
+    .x-border-box .x-form-text-wrap.x-form-trigger-over input[id*="treepicker"],
+    .x-border-box .x-form-text-wrap.x-form-trigger-click input[id*="treepicker"]{
         box-sizing:padding-box !important;    
     }
     .x-border-box div[id*="combo"].x-form-trigger-default,
@@ -62,6 +74,18 @@ noindex:-o-prefocus, .title_head {
             display:inline;
             box-sizing:padding-box !important;
             padding:0 9px;
+    }
+    .x-border-box div[id*="treepicker"].x-form-trigger-default,
+    .x-border-box div[id*="treepicker"].x-form-trigger-default.x-form-trigger-over,
+    .x-border-box div[id*="treepicker"].x-form-trigger-default.x-form-trigger-focus,
+    .x-border-box div[id*="treepicker"].x-form-trigger-default.x-form-trigger-click{
+            /*vertical-align: middle;
+            top: -5px;
+            position: relative;
+            padding-top: 5px;
+            display: block;
+height: 14px;*/
+            
     }
 /*поиск документов дела в деле*/
 div.search {
