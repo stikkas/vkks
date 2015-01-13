@@ -30,15 +30,12 @@ noindex:-o-prefocus, .title_head {
 /*combobox*/
     /*safari*/
     @media all and (-webkit-min-device-pixel-ratio:0) {
-            .x-form-dirty div[id*="combo"].x-form-trigger-default{
-                    position:relative;
-                    top:6px;
-            }
             div[id*="treepicker"].x-form-trigger-default{
                     position:relative;
                     top:0px;
             }
-            .case_panel div[id*="treepicker"].x-form-trigger-default{
+            div[id*="treepicker"].x-form-trigger-default,
+            div[id*="combo"].x-form-trigger-default{
                     position:absolute;
                     height:25px !important;
             }
