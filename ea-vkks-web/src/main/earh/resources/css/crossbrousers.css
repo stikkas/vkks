@@ -75,18 +75,6 @@ noindex:-o-prefocus, .title_head {
             box-sizing:padding-box !important;
             padding:0 9px;
     }
-    .x-border-box div[id*="treepicker"].x-form-trigger-default,
-    .x-border-box div[id*="treepicker"].x-form-trigger-default.x-form-trigger-over,
-    .x-border-box div[id*="treepicker"].x-form-trigger-default.x-form-trigger-focus,
-    .x-border-box div[id*="treepicker"].x-form-trigger-default.x-form-trigger-click{
-            /*vertical-align: middle;
-            top: -5px;
-            position: relative;
-            padding-top: 5px;
-            display: block;
-height: 14px;*/
-            
-    }
 /*поиск документов дела в деле*/
 div.search {
     display:block;
