@@ -6,6 +6,12 @@
  */
 Ext.define('Other.picker.Date', {
 	override: 'Ext.picker.Date',
+
+	initComponent: function () {
+		this.startDay = 1;
+		this.callParent();
+	},
+
 	runAnimation: function (isHide) {
 		var me = this,
 				picker = this.monthPicker,
@@ -17,17 +23,16 @@ Ext.define('Other.picker.Date', {
 						picker.ownerCmp = isHide ? null : me;
 					}
 				};
-
 		if (isHide) {
 			picker.el.slideOut('t', options);
 		} else {
 			picker.el.slideIn('t', options);
 		}
 	},
+
 	hideMonthPicker: function (animate) {
 		var me = this,
 				picker = me.monthPicker;
-
 
 		if (picker && picker.isVisible()) {
 			if (me.shouldAnimate(animate)) {
@@ -40,12 +45,11 @@ Ext.define('Other.picker.Date', {
 		}
 		return me;
 	},
+
 	showMonthPicker: function (animate) {
 		var me = this,
 				el = me.el,
 				picker;
-
-
 		if (me.rendered && !me.disabled) {
 			picker = me.createMonthPicker();
 			if (!picker.isVisible()) {

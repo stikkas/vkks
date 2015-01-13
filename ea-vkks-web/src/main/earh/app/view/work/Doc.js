@@ -219,6 +219,9 @@ Ext.define('Earh.view.work.Doc', {
 						else {
 							Ext.getBody().unmask();
 							view.fireEvent('docChanged');
+							showInfo("Результат", "Данные сохранены", function () {
+								view.fireEvent('backToCase');
+							});
 						}
 					} else {
 						showError("Ошибка сохранения", operation.getError());
@@ -229,6 +232,8 @@ Ext.define('Earh.view.work.Doc', {
 		} else if (view.graph) {
 			Ext.getBody().mask("Выполнение");
 			view.saveGraph();
+		} else {
+			view.fireEvent('backToCase');
 		}
 	},
 	/**
@@ -252,7 +257,9 @@ Ext.define('Earh.view.work.Doc', {
 					docView.setGraph();
 					docView.graph = null;
 					docView.open(caseId, '', id);
-					showInfo("Результат", "Данные сохранены");
+					showInfo("Результат", "Данные сохранены", function () {
+						docView.fireEvent('backToCase');
+					});
 				} else {
 					showError("Ошибка", action.result.msg);
 				}
