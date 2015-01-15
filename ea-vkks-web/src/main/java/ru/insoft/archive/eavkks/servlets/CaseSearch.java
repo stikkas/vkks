@@ -18,7 +18,7 @@ public class CaseSearch extends VkksAbstractServlet
 {
     @Inject
     SearchHandler search;
-
+    
     @Override
     protected void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception 
     {

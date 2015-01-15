@@ -1,12 +1,13 @@
 package ru.insoft.archive.eavkks.ejb.es;
 
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.elasticsearch.action.get.GetResponse;
@@ -23,7 +24,12 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
+import org.elasticsearch.search.aggregations.metrics.max.Max;
+import org.elasticsearch.search.aggregations.metrics.min.Min;
 import org.javatuples.Pair;
+import ru.insoft.archive.eavkks.ejb.CommonDBHandler;
+import ru.insoft.archive.eavkks.model.EaCase;
+import ru.insoft.archive.eavkks.model.EaDocument;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
 
@@ -36,6 +42,12 @@ public class EsSearchHelper
 {
     @Inject
     EsAdminHelper esAdmin;
+    @Inject
+    EsIndexHelper esIndex;
+    @Inject
+    CommonDBHandler dbHandler;
+    
+    private String LINK_PREFIX;
     
     public List<String> searchFios(String prefix)
     {
@@ -152,12 +164,36 @@ public class EsSearchHelper
         return ids;        
     }
     
-    public Map<String, Object> getCaseById(String id)
+    public EaCase getCaseById(String id)
     {
         Client esClient = esAdmin.getClient();
         GetResponse resp = esClient.prepareGet(esAdmin.getIndexName(), "case", id)
                 .execute().actionGet();
-        return resp.getSource();
+        EaCase eaCase = parseCase(resp.getSource());
+        eaCase.setId(id);
+        Bucket datesInfo = queryCaseEdgeDates(Arrays.asList(id)).getBucketByKey(id);
+        if (datesInfo != null)
+        {
+            Date startDate = new Date(((Number)((Min)datesInfo.getAggregations().get("startDate")).getValue()).longValue());
+            Date endDate   = new Date(((Number)((Max)datesInfo.getAggregations().get("endDate")).getValue()).longValue());
+            eaCase.setStartDate(startDate);
+            eaCase.setEndDate(endDate);
+        }
+        return eaCase;
+    }
+    
+    public EaCase parseCase(Map<String, Object> esData)
+    {
+        EaCase eaCase = new EaCase();
+        eaCase.setNumber((String)esData.get("number"));
+        eaCase.setType(((Number)esData.get("type")).longValue());
+        eaCase.setStoreLife(((Number)esData.get("storeLife")).longValue());
+        eaCase.setTitle((String)esData.get("title"));
+        Number toporef = (Number)esData.get("toporef");
+        if (toporef != null)
+            eaCase.setToporef(toporef.longValue());
+        eaCase.setRemark((String)esData.get("remark"));
+        return eaCase;
     }
     
     public SearchHits searchCaseDocuments(String caseId, String context, Integer start, Integer limit)
@@ -181,13 +217,35 @@ public class EsSearchHelper
         return resp.getHits();
     }
     
-    public Map<String, Object> getDocumentById(String id, String caseId)
+    public EaDocument getDocumentById(String id, String caseId)
     {
         Client esClient = esAdmin.getClient();
         GetResponse resp = esClient.prepareGet(esAdmin.getIndexName(), "document", id)
                 .setParent(caseId)
                 .execute().actionGet();
-        return resp.getSource();
+        EaDocument doc = parseDocument(resp.getSource());
+        doc.setId(id);
+        doc.setCaseId(caseId);
+        doc.setCaseTitle(getCaseById(caseId).getTitle());
+        if (esIndex.isExistsImageFile(id))
+            doc.setGraph(MessageFormat.format("{0}{1}.pdf", getLinkPrefix(), id));
+        return doc;
+    }
+    
+    public EaDocument parseDocument(Map<String, Object> docData)
+    {
+        EaDocument doc = new EaDocument();
+        doc.setVolume((Integer)docData.get("volume"));
+        doc.setNumber((String)docData.get("number"));
+        doc.setType(((Number)docData.get("type")).longValue());
+        doc.setTitle((String)docData.get("title"));
+        doc.setStartPage((Integer)docData.get("startPage"));
+        doc.setEndPage((Integer)docData.get("endPage"));
+        doc.setDate((String)docData.get("date"));
+        doc.setRemark((String)docData.get("remark"));
+        doc.setCourt((String)docData.get("court"));
+        doc.setFio((String)docData.get("fio"));
+        return doc;
     }
     
     protected QueryBuilder makeQuery(Map<String, Object> queryMap, Map<String, Object> filterMap)
@@ -315,5 +373,12 @@ public class EsSearchHelper
                     FilterBuilders.termFilter("_id", value));
         
         return FilterBuilders.termFilter(field, value);
+    }
+    
+    public String getLinkPrefix()
+    {
+        if (LINK_PREFIX == null)
+            LINK_PREFIX = dbHandler.getCoreParameterValue("LINK_PREFIX");
+        return LINK_PREFIX;
     }
 }

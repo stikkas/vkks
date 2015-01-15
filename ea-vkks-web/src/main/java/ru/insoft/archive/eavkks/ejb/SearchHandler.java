@@ -4,14 +4,11 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.elasticsearch.search.SearchHit;
@@ -22,17 +19,11 @@ import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
 import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
 import ru.insoft.archive.eavkks.ejb.es.EsSearchHelper;
-import ru.insoft.archive.eavkks.model.EaCase;
-import ru.insoft.archive.eavkks.model.EaDocument;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchResult;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchResult;
-import ru.insoft.archive.eavkks.webmodel.ToporefItem;
-import ru.insoft.archive.extcommons.json.JsonOut;
-import ru.insoft.archive.extcommons.webmodel.ScalarItem;
 import ru.insoft.archive.extcommons.webmodel.SearchResult;
-import ru.insoft.archive.extcommons.webmodel.TreeItem;
 
 /**
  *
@@ -44,22 +35,9 @@ public class SearchHandler
     @Inject
     EsSearchHelper esSearch;
     @Inject
-    CommonDBHandler dbHandler;
-    @Inject
     EsIndexHelper esIndex;
-    
-    private Logger logger;
-    private Map<Long, String> documentTypes;
-    private Map<Long, Set<Long>> toporefHierarchy;
-    private Map<Long, String> toporefNames;
-    private Map<Long, String> caseTypes;
-    private Map<Long, String> caseStoreLifeTypes;
-    private String LINK_PREFIX;
-    
-    public SearchHandler()
-    {
-        logger = Logger.getLogger(getClass().getName());
-    }
+    @Inject
+    DescValueMapsProvider dvMaps;
     
     public SearchResult searchDocuments(DocumentSearchCriteria q, Integer start, Integer limit)
     {
@@ -79,7 +57,7 @@ public class SearchHandler
             dsr.setAcase((String)source.get("acase"));
             dsr.setVolume((Integer)source.get("volume"));
             dsr.setNumber((String)source.get("number"));
-            dsr.setType(getDocumentTypeName(((Number)source.get("type")).longValue()));
+            dsr.setType(dvMaps.getDocumentTypeName(((Number)source.get("type")).longValue()));
             dsr.setTitle((String)source.get("title"));
             
             Integer startPage = (Integer)source.get("startPage");
@@ -94,7 +72,7 @@ public class SearchHandler
             dsr.setCourt((String)source.get("court"));
             dsr.setFio((String)source.get("fio"));
             if (esIndex.isExistsImageFile(dsr.getId()))
-                dsr.setGraph(MessageFormat.format("{0}{1}.pdf", getLinkPrefix(), dsr.getId()));
+                dsr.setGraph(MessageFormat.format("{0}{1}.pdf", esSearch.getLinkPrefix(), dsr.getId()));
             values.add(dsr);
         }
         res.setValues(values);
@@ -104,7 +82,7 @@ public class SearchHandler
     public SearchResult searchCases(CaseSearchCriteria q, Integer start, Integer limit)
     {
         if (q.getToporef() != null)
-            q.setToporefIds(getToporefHierarchy().get(q.getToporef()));
+            q.setToporefIds(dvMaps.getToporefHierarchy().get(q.getToporef()));
         SearchHits hits = esSearch.searchCases(q, start, limit);
         SearchResult res = new SearchResult();
         res.setResults(hits.getTotalHits());
@@ -116,13 +94,13 @@ public class SearchHandler
             csr.setId(hit.getId());
             Map<String, Object> source = hit.getSource();
             csr.setNumber((String)source.get("number"));
-            csr.setType(getCaseTypeName(((Number)source.get("type")).longValue()));
-            csr.setStoreLife(getStoreLifeName(((Number)source.get("storeLife")).longValue()));
+            csr.setType(dvMaps.getCaseTypeName(((Number)source.get("type")).longValue()));
+            csr.setStoreLife(dvMaps.getStoreLifeName(((Number)source.get("storeLife")).longValue()));
             csr.setTitle((String)source.get("title"));
             
             Number toporef = (Number)source.get("toporef");
             if (toporef != null)
-                csr.setToporef(getToporefItemName(toporef.longValue()));
+                csr.setToporef(dvMaps.getToporefItemName(toporef.longValue()));
             csr.setRemark((String)source.get("remark"));
             
             values.add(csr);
@@ -148,157 +126,8 @@ public class SearchHandler
         return res;
     }
     
-    public EaCase getCaseById(String id)
-    {
-        Map<String, Object> esData = esSearch.getCaseById(id);
-        Bucket datesInfo = esSearch.queryCaseEdgeDates(Arrays.asList(id)).getBucketByKey(id);
-        
-        EaCase eaCase = new EaCase();
-        eaCase.setId(id);
-        eaCase.setNumber((String)esData.get("number"));
-        eaCase.setType(((Number)esData.get("type")).longValue());
-        eaCase.setStoreLife(((Number)esData.get("storeLife")).longValue());
-        eaCase.setTitle((String)esData.get("title"));
-        if (datesInfo != null)
-        {
-            Date startDate = new Date(((Number)((Min)datesInfo.getAggregations().get("startDate")).getValue()).longValue());
-            Date endDate   = new Date(((Number)((Max)datesInfo.getAggregations().get("endDate")).getValue()).longValue());
-            eaCase.setStartDate(startDate);
-            eaCase.setEndDate(endDate);
-        }
-        Number toporef = (Number)esData.get("toporef");
-        if (toporef != null)
-            eaCase.setToporef(toporef.longValue());
-        eaCase.setRemark((String)esData.get("remark"));
-        return eaCase;
-    }
-    
     public SearchResult searchCaseDocuments(String caseId, String context, Integer start, Integer limit)
     {
         return processDocSearchHits(esSearch.searchCaseDocuments(caseId, context, start, limit));
-    }
-    
-    public EaDocument getDocumentById(String id, String caseId)
-    {
-        Map<String, Object> docData  = esSearch.getDocumentById(id, caseId);
-        Map<String, Object> caseData = esSearch.getCaseById(caseId);
-        
-        EaDocument doc = new EaDocument();
-        doc.setId(id);
-        doc.setCaseId(caseId);
-        doc.setVolume((Integer)docData.get("volume"));
-        doc.setCaseTitle((String)caseData.get("title"));
-        doc.setNumber((String)docData.get("number"));
-        doc.setType(((Number)docData.get("type")).longValue());
-        doc.setTitle((String)docData.get("title"));
-        doc.setStartPage((Integer)docData.get("startPage"));
-        doc.setEndPage((Integer)docData.get("endPage"));
-        doc.setDate((String)docData.get("date"));
-        doc.setRemark((String)docData.get("remark"));
-        doc.setCourt((String)docData.get("court"));
-        doc.setFio((String)docData.get("fio"));
-        if (esIndex.isExistsImageFile(id))
-            doc.setGraph(MessageFormat.format("{0}{1}.pdf", getLinkPrefix(), id));
-        return doc;
-    }
-    
-    protected String getDocumentTypeName(Long typeId)
-    {
-        return getDocumentTypes().get(typeId);
-    }
-    
-    protected String getCaseTypeName(Long typeId)
-    {
-        return getCaseTypes().get(typeId);
-    }
-    
-    protected String getStoreLifeName(Long storeLifeId)
-    {
-        return getStoreLifeTypes().get(storeLifeId);
-    }
-    
-    protected String getToporefItemName(Long toporefId)
-    {
-        return getToporefNames().get(toporefId);
-    }
-    
-    protected Map<Long, String> getDocumentTypes()
-    {
-        if (documentTypes == null)
-            documentTypes = getFlatDescMap("DOCUMENT_TYPE");
-        return documentTypes;
-    }
-    
-    protected Map<Long, String> getCaseTypes()
-    {
-        if (caseTypes == null)
-            caseTypes = getFlatDescMap("CASE_TYPE");
-        return caseTypes;
-    }
-    
-    protected Map<Long, String> getStoreLifeTypes()
-    {
-        if (caseStoreLifeTypes == null)
-            caseStoreLifeTypes = getFlatDescMap("CASE_STORE_LIFE");
-        return caseStoreLifeTypes;
-    }
-    
-    protected Map<Long, String> getFlatDescMap(String desc)
-    {
-        Map<Long, String> map = new HashMap<>();
-        List<JsonOut> values = dbHandler.getDescValuesForGroup(desc, false, false);
-        for (JsonOut val : values)
-        {
-            ScalarItem item = (ScalarItem)val;
-            map.put(item.getId(), item.getName());
-        }
-        return map;
-    }
-    
-    protected String getLinkPrefix()
-    {
-        if (LINK_PREFIX == null)
-            LINK_PREFIX = dbHandler.getCoreParameterValue("LINK_PREFIX");
-        return LINK_PREFIX;
-    }
-    
-    protected Map<Long, Set<Long>> getToporefHierarchy()
-    {
-        if (toporefHierarchy == null)
-            makeToporefMaps();
-        return toporefHierarchy;
-    }
-    
-    protected Map<Long, String> getToporefNames()
-    {
-        if (toporefNames == null)
-            makeToporefMaps();
-        return toporefNames;
-    }
-    
-    protected void makeToporefMaps()
-    {
-        toporefHierarchy = new HashMap<>();
-        toporefNames     = new HashMap<>();
-        TreeItem tree = dbHandler.getToporef();
-        makeToporefMaps(tree.getChildren(), null);
-    }
-    
-    protected Set<Long> makeToporefMaps(List<JsonOut> values, Long parent)
-    {
-        Set<Long> childrenIds = new HashSet<>();
-        if (parent != null)
-            childrenIds.add(parent);
-            
-        for (JsonOut jo : values)
-        {
-            ToporefItem item = (ToporefItem)jo;
-            toporefNames.put(item.getId(), item.getPath());
-            childrenIds.add(item.getId());
-            childrenIds.addAll(makeToporefMaps(item.getChildren(), item.getId()));
-        }
-        if (parent != null)
-            toporefHierarchy.put(parent, childrenIds);
-        return childrenIds;
-    }
+    }    
 }

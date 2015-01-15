@@ -36,8 +36,8 @@ public class IndexHandler
     public String indexDocument(EaDocument eaDoc) throws IOException
     {
         setUserInfo(eaDoc);
-        Map<String, Object> caseData = esSearch.getCaseById(eaDoc.getCaseId());
-        return esIndex.indexDocument(eaDoc, (String)caseData.get("number"));
+        EaCase eaCase = esSearch.getCaseById(eaDoc.getCaseId());
+        return esIndex.indexDocument(eaDoc, eaCase.getNumber());
     }
     
     protected void setUserInfo(HasUserInfo entity)

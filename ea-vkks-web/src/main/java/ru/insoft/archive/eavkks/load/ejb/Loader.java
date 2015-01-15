@@ -7,8 +7,6 @@ import java.io.StringReader;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.text.MessageFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -26,9 +24,7 @@ import ru.insoft.archive.extcommons.ejb.JsonTools;
  */
 @Stateless
 public class Loader 
-{
-    private Logger logger;
-    
+{    
     @Inject
     EsAdminHelper esAdmin;
     @Inject
@@ -37,11 +33,6 @@ public class Loader
     DataSaver dbSaver;
     @Inject
     EsIndexHelper esIndex;
-    
-    public Loader()
-    {
-        logger = Logger.getLogger(getClass().getName());
-    }
     
     public String load(String fromDir)
     {
@@ -52,7 +43,6 @@ public class Loader
             File mainDir = new File(fromDir);
             if (!mainDir.isDirectory())
                 throw new BadSourceException("Папка <" + fromDir + "> не существует");
-            logger.info("Loading from: " + fromDir);
             File dataDir  = new File(fromDir + "/data");
             File filesDir = new File(fromDir + "/files");
             if (!dataDir.isDirectory())
@@ -81,7 +71,6 @@ public class Loader
                     data = data.replace("\\", "\\u005C");
                     JsonReader reader = Json.createReader(new StringReader(data));
                     JsonObject jo = reader.readObject();
-                    logger.log(Level.INFO, "{0}:\r\n{1}", new String[]{jsonFile.getName(), jo.toString()});
                     
                     LoadedCase lCase = jsonTools.parseEntity(jo, LoadedCase.class);
                     dbSaver.saveLoadedData(lCase, filesDir);
@@ -91,7 +80,6 @@ public class Loader
                 {
                     String msg = MessageFormat.format("Ошибка при обработке файла <{0}>:\r\n{1}", 
                             jsonFile.getName(), je.getMessage());
-                    logger.log(Level.SEVERE, msg);
                     retMsg.append(msg).append("\r\n");
                     err++;
                 }
