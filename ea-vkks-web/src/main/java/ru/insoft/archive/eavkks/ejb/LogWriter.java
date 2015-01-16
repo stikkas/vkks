@@ -200,7 +200,7 @@ public class LogWriter
             case STRING:
                 return MessageFormat.format("\"{0}\"", value);
             case DATE:
-                return new SimpleDateFormat("dd.mm.yyyy").format((Date)value);
+                return new SimpleDateFormat("\"dd.mm.yyyy\"").format((Date)value);
             case CASE_TYPE:
                 return MessageFormat.format("\"{0}\"", dvMaps.getCaseTypeName((Long)value));
             case CASE_STORE_LIFE:

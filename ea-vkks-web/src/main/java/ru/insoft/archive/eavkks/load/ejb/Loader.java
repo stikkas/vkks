@@ -35,7 +35,7 @@ public class Loader
     EsIndexHelper esIndex;
     
     public String load(String fromDir)
-    {
+    {               
         try
         {
             if (fromDir == null)

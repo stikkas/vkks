@@ -1,9 +1,12 @@
 package ru.insoft.archive.eavkks.load.servlets;
 
 import javax.inject.Inject;
+import javax.security.auth.login.FailedLoginException;
+import javax.security.auth.login.LoginContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jboss.security.auth.callback.UsernamePasswordHandler;
 import ru.insoft.archive.eavkks.load.ejb.Loader;
 import ru.insoft.archive.eavkks.servlets.VkksAbstractServlet;
 
@@ -18,10 +21,22 @@ public class LoadServlet extends VkksAbstractServlet
     Loader loader;
 
     @Override
-    protected void handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception 
+    protected void handleRequest(final HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception 
     {
-        String fromDir = readRequestData(hsr);
-        String res = loader.load(fromDir);
+        String res;
+        try
+        {
+            LoginContext lc = new LoginContext("vkks", new UsernamePasswordHandler("LOAD", "loader"));
+            lc.login();
+            
+            String fromDir = readRequestData(hsr);
+            res = loader.load(fromDir);
+        }
+        catch (FailedLoginException e)
+        {
+            res = "В БД не существует пользователя LOAD/loader";
+        }                
+                
         hsr1.getWriter().write(res);
     }    
 }

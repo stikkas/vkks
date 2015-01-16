@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -21,10 +20,8 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.javatuples.Pair;
-import ru.insoft.archive.core_model.table.adm.AdmUser;
 import ru.insoft.archive.core_model.table.desc.DescriptorValue;
 import ru.insoft.archive.eavkks.load.misc.BadSourceException;
 import ru.insoft.archive.eavkks.load.model.LoadedCase;
@@ -158,11 +155,12 @@ public class DataSaver
         }
     }
     
-    private Long getLoadUserId()
+    public Long getLoadUserId()
     {
         if (loadUserId == null)
         {
-            try
+            loadUserId = ui.getUser().getId();
+            /*try
             {
                 AdmUser loadUser = ui.queryUserByLogin("LOAD");
                 loadUserId = loadUser.getId();
@@ -173,7 +171,7 @@ public class DataSaver
                     throw new RuntimeException("В БД не существует пользователя LOAD");
                 else
                     throw e;
-            }
+            }*/
         }
         return loadUserId;
     }
