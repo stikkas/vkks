@@ -28,41 +28,41 @@ public class DescValueMapsProvider
     private Map<Long, String> caseTypes;
     private Map<Long, String> caseStoreLifeTypes;
     
-    protected String getDocumentTypeName(Long typeId)
+    public String getDocumentTypeName(Long typeId)
     {
         return getDocumentTypes().get(typeId);
     }
     
-    protected String getCaseTypeName(Long typeId)
+    public String getCaseTypeName(Long typeId)
     {
         return getCaseTypes().get(typeId);
     }
     
-    protected String getStoreLifeName(Long storeLifeId)
+    public String getStoreLifeName(Long storeLifeId)
     {
         return getStoreLifeTypes().get(storeLifeId);
     }
     
-    protected String getToporefItemName(Long toporefId)
+    public String getToporefItemName(Long toporefId)
     {
         return getToporefNames().get(toporefId);
     }
     
-    protected Map<Long, String> getDocumentTypes()
+    public Map<Long, String> getDocumentTypes()
     {
         if (documentTypes == null)
             documentTypes = getFlatDescMap("DOCUMENT_TYPE");
         return documentTypes;
     }
     
-    protected Map<Long, String> getCaseTypes()
+    public Map<Long, String> getCaseTypes()
     {
         if (caseTypes == null)
             caseTypes = getFlatDescMap("CASE_TYPE");
         return caseTypes;
     }
     
-    protected Map<Long, String> getStoreLifeTypes()
+    public Map<Long, String> getStoreLifeTypes()
     {
         if (caseStoreLifeTypes == null)
             caseStoreLifeTypes = getFlatDescMap("CASE_STORE_LIFE");
@@ -81,14 +81,14 @@ public class DescValueMapsProvider
         return map;
     }
     
-    protected Map<Long, Set<Long>> getToporefHierarchy()
+    public Map<Long, Set<Long>> getToporefHierarchy()
     {
         if (toporefHierarchy == null)
             makeToporefMaps();
         return toporefHierarchy;
     }
     
-    protected Map<Long, String> getToporefNames()
+    public Map<Long, String> getToporefNames()
     {
         if (toporefNames == null)
             makeToporefMaps();
