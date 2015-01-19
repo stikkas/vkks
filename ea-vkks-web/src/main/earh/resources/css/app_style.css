@@ -231,7 +231,7 @@ div.fields_panel{
 }
 
 /*таблицы*/
-div.x-grid-header-ct,
+/*div.x-grid-header-ct,*/
 div.x-grid-with-row-lines{
     border:1px solid #809EDA;
 }
@@ -254,7 +254,7 @@ div.x-column-header{
 /*выравнивание неверной высоты ячеек, образующейся из-за отсутствующих бордеров*/
 div.x-panel-body td.x-grid-td{
 	margin-top:-1px;
-	margin-right:2px;
+	//margin-right:-2px;
 }
 div.x-grid-header-ct{
 	margin-bottom:-1px;
