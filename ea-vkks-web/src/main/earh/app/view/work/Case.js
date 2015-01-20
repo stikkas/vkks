@@ -411,7 +411,7 @@ Ext.define('Earh.view.work.Case', {
 				cls = 'doc_search';
 		if (stat) {
 			grid.removeCls(cls);
-			grid.addListener('cellclick', fn, controller, {caseId: this.model.get('id')});
+			grid.addListener('cellclick', fn, controller);
 		} else {
 			grid.addCls(cls);
 			grid.removeListener('cellclick', fn, controller);
