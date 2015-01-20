@@ -210,8 +210,10 @@ Ext.define('Earh.view.main.MainController', {
 	 *  Переход на страницу редактирования документа
 	 */
 	toDoc: function () {
-		this.view.setActiveItem(Pages.adoc);
-		this.view.getActiveItem().open(arguments[8].caseId, '', arguments[3].id);
+		var controller = this,
+				caseId = controller.view.getActiveItem().model.get('id');
+		controller.view.setActiveItem(Pages.adoc);
+		controller.view.getActiveItem().open(caseId, '', arguments[3].id);
 	},
 	/**
 	 * вернуться к результатам поиска (дел)
@@ -248,7 +250,7 @@ Ext.define('Earh.view.main.MainController', {
 	 * @param {Object} args аргументы, передоваемые событию:
 	 *
 	 *	- `flag` - {Boolean} true - включить возможность, false - выключить
-	 *	- `scope` - {Object} страница, владеющая виджетом (в данном случае adoc)
+	 *	- `scope` - {Object} страница, владеющая виджетом (в данном случае acase)
 	 *
 	 */
 	toDocEnable: function (args) {
