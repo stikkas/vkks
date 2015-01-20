@@ -174,13 +174,13 @@ public class LogWriter
         TOPOREF
     };
     
-    protected String getFieldChange(Object value1, Object value2, FieldType valueType, String fieldName)
+    protected String getFieldChange(Object newValue, Object oldValue, FieldType valueType, String fieldName)
     {
-        if (value1 == null && value2 == null || value1 != null && value1.equals(value2))
+        if (newValue == null && oldValue == null || newValue != null && newValue.equals(oldValue))
             return "";
         
-        String val1 = getDisplayedValue(value1, valueType);
-        String val2 = getDisplayedValue(value2, valueType);
+        String val1 = getDisplayedValue(oldValue, valueType);
+        String val2 = getDisplayedValue(newValue, valueType);
         return MessageFormat.format(", {0}: {1} -> {2}", fieldName, val1, val2);
     }
     
@@ -191,7 +191,7 @@ public class LogWriter
     
     protected String getDisplayedValue(Object value, FieldType valueType)
     {
-        if (value == null)
+        if (value == null || value.toString().isEmpty())
             return "<<пусто>>";
         switch (valueType)
         {

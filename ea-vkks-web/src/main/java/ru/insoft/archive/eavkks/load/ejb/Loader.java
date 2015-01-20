@@ -13,6 +13,7 @@ import javax.json.Json;
 import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import ru.insoft.archive.eavkks.ejb.LogWriter;
 import ru.insoft.archive.eavkks.ejb.es.EsAdminHelper;
 import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
 import ru.insoft.archive.eavkks.load.model.LoadedCase;
@@ -33,6 +34,8 @@ public class Loader
     DataSaver dbSaver;
     @Inject
     EsIndexHelper esIndex;
+    @Inject
+    LogWriter log;
     
     public String load(String fromDir)
     {               
@@ -80,6 +83,7 @@ public class Loader
                 {
                     String msg = MessageFormat.format("Ошибка при обработке файла <{0}>:\r\n{1}", 
                             jsonFile.getName(), je.getMessage());
+                    log.logError(msg);
                     retMsg.append(msg).append("\r\n");
                     err++;
                 }
@@ -90,6 +94,7 @@ public class Loader
         }
         catch (BadSourceException e)
         {
+            log.logError(e.getMessage());
             return e.getMessage();
         }
         catch (Exception e)

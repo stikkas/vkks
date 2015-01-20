@@ -17,7 +17,6 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
-import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
 import ru.insoft.archive.eavkks.ejb.es.EsSearchHelper;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchResult;
@@ -34,8 +33,6 @@ public class SearchHandler
 {
     @Inject
     EsSearchHelper esSearch;
-    @Inject
-    EsIndexHelper esIndex;
     @Inject
     DescValueMapsProvider dvMaps;
     
@@ -71,7 +68,7 @@ public class SearchHandler
             dsr.setRemark((String)source.get("remark"));
             dsr.setCourt((String)source.get("court"));
             dsr.setFio((String)source.get("fio"));
-            if (esIndex.isExistsImageFile(dsr.getId()))
+            if (esSearch.isExistsImageFile(dsr.getId()))
                 dsr.setGraph(MessageFormat.format("{0}{1}.pdf", esSearch.getLinkPrefix(), dsr.getId()));
             values.add(dsr);
         }

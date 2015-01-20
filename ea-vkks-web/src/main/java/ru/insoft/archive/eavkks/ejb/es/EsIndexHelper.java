@@ -7,11 +7,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
-import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
@@ -24,6 +24,7 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import ru.insoft.archive.eavkks.ejb.CommonDBHandler;
+import ru.insoft.archive.eavkks.ejb.LogWriter;
 import ru.insoft.archive.eavkks.model.EaCase;
 import ru.insoft.archive.eavkks.model.EaDocument;
 
@@ -38,19 +39,23 @@ public class EsIndexHelper
     EsAdminHelper esAdmin;
     @Inject
     CommonDBHandler dbHandler;
-    
-    private String PATH_TO_SAVE_FILES;
+    @Inject
+    LogWriter log;
+    @Inject
+    EsSearchHelper esSearch;    
     
     public String indexCase(EaCase eaCase) throws IOException
     {
         Client esClient = esAdmin.getClient();
+        Map<String, Object> oldCase = null;
         if (eaCase.getId() != null)
         {
             GetResponse gr = esClient.prepareGet(esAdmin.getIndexName(), "case", eaCase.getId())
                     .execute().actionGet();
             if (gr.isExists())
             {
-                String acase = (String)gr.getSourceAsMap().get("number");
+                oldCase = gr.getSourceAsMap();
+                String acase = (String)oldCase.get("number");
                 if (!acase.equals(eaCase.getNumber()))
                 {
                     Integer start = 0, limit = 25;
@@ -106,12 +111,14 @@ public class EsIndexHelper
         {
             IndexResponse ir = esClient.prepareIndex(esAdmin.getIndexName(), "case")
                 .setSource(src).execute().actionGet();
+            log.logAddCase(ir.getId(), eaCase.getNumber());
             return ir.getId();
         }
         else
         {
             esClient.prepareUpdate(esAdmin.getIndexName(), "case", eaCase.getId())
                     .setDoc(src).execute().actionGet();
+            log.logEditCase(eaCase, esSearch.parseCase(oldCase));
             return eaCase.getId();
         }
     }
@@ -119,9 +126,19 @@ public class EsIndexHelper
     public boolean deleteCase(String id)
     {
         Client esClient = esAdmin.getClient();
-        DeleteResponse resp = esClient.prepareDelete(esAdmin.getIndexName(), "case", id)
-                .execute().actionGet();
-        return resp.isFound();
+        GetResponse gr = esClient.prepareGet(esAdmin.getIndexName(), "case", id)
+                    .execute().actionGet();
+        if (gr.isExists())
+        {
+            esClient.prepareDelete(esAdmin.getIndexName(), "case", id)
+                    .execute().actionGet();
+            
+            EaCase eaCase = esSearch.parseCase(gr.getSourceAsMap());
+            eaCase.setId(id);
+            log.logDeleteCase(eaCase);            
+            return true;
+        }
+        return false;
     }
     
     public String indexDocument(EaDocument eaDoc, String caseNumber) throws IOException
@@ -156,14 +173,19 @@ public class EsIndexHelper
                     .setParent(eaDoc.getCaseId())
                     .setSource(src)
                     .execute().actionGet();
+            log.logAddDocument(ir.getId(), eaDoc.getNumber(), caseNumber);
             return ir.getId();
         }
         else       
         {
+            GetResponse gr = esClient.prepareGet(esAdmin.getIndexName(), "document", eaDoc.getId())
+                    .setParent(eaDoc.getCaseId())
+                    .execute().actionGet();
             esClient.prepareUpdate(esAdmin.getIndexName(), "document", eaDoc.getId())
                 .setParent(eaDoc.getCaseId())
                 .setDoc(src)
                 .execute().actionGet();
+            log.logEditDocument(eaDoc, esSearch.parseDocument(gr.getSourceAsMap()), caseNumber);            
             return eaDoc.getId();
         }
     }
@@ -171,11 +193,22 @@ public class EsIndexHelper
     public boolean deleteDocument(String docId, String caseId)
     {
         Client esClient = esAdmin.getClient();
-        DeleteResponse resp = esClient.prepareDelete(esAdmin.getIndexName(), "document", docId)
+        GetResponse gr = esClient.prepareGet(esAdmin.getIndexName(), "document", docId)
                 .setParent(caseId)
                 .execute().actionGet();
-        deleteImageFile(docId);
-        return resp.isFound();
+        if (gr.isExists())
+        {
+            esClient.prepareDelete(esAdmin.getIndexName(), "document", docId)
+                    .setParent(caseId)
+                    .execute().actionGet();
+            deleteImageFile(docId);
+            
+            EaDocument eaDoc = esSearch.parseDocument(gr.getSourceAsMap());
+            eaDoc.setId(docId);
+            log.logDeleteDocument(eaDoc, (String)gr.getSourceAsMap().get("acase"));
+            return true;
+        }        
+        return false;
     }
     
     public void deleteAllCaseDocuments(String id, List<EaDocument> docs)
@@ -194,7 +227,7 @@ public class EsIndexHelper
     
     public void indexImage(String caseId, String documentId, byte[] data) throws IOException
     {
-        Path p = FileSystems.getDefault().getPath(getPathToSaveFiles(), documentId + ".pdf");
+        Path p = FileSystems.getDefault().getPath(esAdmin.getPathToSaveFiles(), documentId + ".pdf");
         try
         {
             Files.write(p, data, StandardOpenOption.CREATE);
@@ -204,7 +237,7 @@ public class EsIndexHelper
             throw new RuntimeException("Ошибка при записи в файл <" + p.toString() + ">");
         }
         
-        Client esClient = esAdmin.getClient();
+        Client esClient = esAdmin.getClient();        
         esClient.prepareUpdate(esAdmin.getIndexName(), "document", documentId)
                 .setParent(caseId)
                 .setDoc(jsonBuilder()
@@ -213,6 +246,11 @@ public class EsIndexHelper
                     .endObject()
                 )
                 .execute().actionGet();
+        GetResponse gr = esClient.prepareGet(esAdmin.getIndexName(), "document", documentId)
+                .setParent(caseId)
+                .execute().actionGet();
+        log.logAttachFile(documentId, (String)gr.getSourceAsMap().get("number"), 
+                (String)gr.getSourceAsMap().get("acase"));
     }
     
     public void clearImage(String caseId, String documentId) throws IOException
@@ -227,34 +265,23 @@ public class EsIndexHelper
                 )
                 .execute().actionGet();
         deleteImageFile(documentId);
-    }
-    
-    private String getPathToSaveFiles()
-    {
-        if (PATH_TO_SAVE_FILES == null)
-        {
-            PATH_TO_SAVE_FILES = dbHandler.getCoreParameterValue("PATH_TO_SAVE_FILES");
-        }
-            
-        return PATH_TO_SAVE_FILES;
+        GetResponse gr = esClient.prepareGet(esAdmin.getIndexName(), "document", documentId)
+                .setParent(caseId)
+                .execute().actionGet();
+        log.logDetachFile(documentId, (String)gr.getSourceAsMap().get("number"), 
+                (String)gr.getSourceAsMap().get("acase"));
     }
     
     public void deleteImageFile(String documentId)
     {
-        File f = new File(getPathToSaveFiles(), documentId + ".pdf");
+        File f = new File(esAdmin.getPathToSaveFiles(), documentId + ".pdf");
         if (f.exists())
             f.delete();
     }
     
     public void deleteAllImages() throws IOException
     {
-        File f = new File(getPathToSaveFiles());
+        File f = new File(esAdmin.getPathToSaveFiles());
         FileUtils.cleanDirectory(f);
-    }
-    
-    public boolean isExistsImageFile(String documentId)
-    {
-        File f = new File(getPathToSaveFiles(), documentId + ".pdf");
-        return f.exists();
     }
 }
