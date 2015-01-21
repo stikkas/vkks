@@ -16,7 +16,7 @@ Ext.define('Earh.model.Case', {
 		{name: 'title', type: 'string', defaultValue: null},
 		{name: 'startDate', type: 'date', defaultValue: null, dateFormat: 'd.m.Y'},
 		{name: 'endDate', type: 'date', defaultValue: null, dateFormat: 'd.m.Y'},
-		{name: 'toporef', type: 'int', defaultValue: null},
+		{name: 'toporef', type: 'int', defaultValue: null, convert: null},
 		{name: 'remark', type: 'string', defaultValue: null}],
 	proxy: {
 		type: 'ajax',
