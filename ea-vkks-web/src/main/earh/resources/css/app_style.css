@@ -5,6 +5,12 @@
     background-position:center center;
     background-attachment:fixed;
 }
+/*body > .x-box-inner .x-container*/
+body > .x-box-inner > .x-box-target > .x-container{
+    overflow-x:hidden;
+    overflow-y:auto;
+    height:calc(100% - 190px);
+}
 /*настройка всяческих полей*/
 label span:not(.x-form-item-label-inner){
     color:#EF292B;          /*required*/
@@ -95,6 +101,7 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
 .x-body > .x-box-inner,
 .x-body .x-box-inner > .x-box-target{
     width:100% !important;
+    height:100%;
 }
 .x-viewport > body.x-body{
     padding:10px 30px;

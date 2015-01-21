@@ -11,6 +11,11 @@ and open the template in the editor.
 noindex:-o-prefocus, .exit_cls { 
     left:96% !important; 
   } 
+  noindex:-o-prefocus, body > .x-box-inner > .x-box-target > .x-container{
+    overflow-x:hidden;
+    overflow-y:auto;
+    height:100% !important;
+}
 /*safari*/
 @media screen and ( -webkit-min-device-pixel-ratio : 0 )	 { 
     .exit_cls { 
