@@ -28,6 +28,7 @@ import ru.insoft.archive.eavkks.load.model.LoadedCase;
 import ru.insoft.archive.eavkks.load.model.LoadedToporef;
 import ru.insoft.archive.eavkks.model.EaCase;
 import ru.insoft.archive.eavkks.ejb.CommonDBHandler;
+import ru.insoft.archive.eavkks.ejb.LogWriter;
 import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
 import ru.insoft.archive.eavkks.load.model.LoadedDocument;
 import ru.insoft.archive.eavkks.model.EaDocument;
@@ -51,6 +52,8 @@ public class DataSaver
     EsIndexHelper esIndex;
     @Resource
     SessionContext context;
+    @Inject
+    LogWriter log;
     
     private Map<String, Long> caseTypes       = new HashMap<String, Long>();
     private Map<String, Long> storeLifeTypes  = new HashMap<String, Long>();
@@ -225,7 +228,9 @@ public class DataSaver
             }
             catch (Exception e)
             {
-                throw new RuntimeException("В БД отсутствует справочник топографического указателя");
+                String msg = "В БД отсутствует справочник топографического указателя";
+                log.logError(msg);
+                throw new RuntimeException(msg);
             }
         
         return toporefGroupId;

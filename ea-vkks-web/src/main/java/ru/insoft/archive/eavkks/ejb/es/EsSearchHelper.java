@@ -1,5 +1,6 @@
 package ru.insoft.archive.eavkks.ejb.es;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,8 +43,6 @@ public class EsSearchHelper
 {
     @Inject
     EsAdminHelper esAdmin;
-    @Inject
-    EsIndexHelper esIndex;
     @Inject
     CommonDBHandler dbHandler;
     
@@ -227,7 +226,7 @@ public class EsSearchHelper
         doc.setId(id);
         doc.setCaseId(caseId);
         doc.setCaseTitle(getCaseById(caseId).getTitle());
-        if (esIndex.isExistsImageFile(id))
+        if (isExistsImageFile(id))
             doc.setGraph(MessageFormat.format("{0}{1}.pdf", getLinkPrefix(), id));
         return doc;
     }
@@ -380,5 +379,11 @@ public class EsSearchHelper
         if (LINK_PREFIX == null)
             LINK_PREFIX = dbHandler.getCoreParameterValue("LINK_PREFIX");
         return LINK_PREFIX;
+    }
+    
+    public boolean isExistsImageFile(String documentId)
+    {
+        File f = new File(esAdmin.getPathToSaveFiles(), documentId + ".pdf");
+        return f.exists();
     }
 }

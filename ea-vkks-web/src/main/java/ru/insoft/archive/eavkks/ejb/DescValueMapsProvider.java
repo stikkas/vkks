@@ -48,21 +48,21 @@ public class DescValueMapsProvider
         return getToporefNames().get(toporefId);
     }
     
-    public Map<Long, String> getDocumentTypes()
+    protected Map<Long, String> getDocumentTypes()
     {
         if (documentTypes == null)
             documentTypes = getFlatDescMap("DOCUMENT_TYPE");
         return documentTypes;
     }
     
-    public Map<Long, String> getCaseTypes()
+    protected Map<Long, String> getCaseTypes()
     {
         if (caseTypes == null)
             caseTypes = getFlatDescMap("CASE_TYPE");
         return caseTypes;
     }
     
-    public Map<Long, String> getStoreLifeTypes()
+    protected Map<Long, String> getStoreLifeTypes()
     {
         if (caseStoreLifeTypes == null)
             caseStoreLifeTypes = getFlatDescMap("CASE_STORE_LIFE");
@@ -88,7 +88,7 @@ public class DescValueMapsProvider
         return toporefHierarchy;
     }
     
-    public Map<Long, String> getToporefNames()
+    protected Map<Long, String> getToporefNames()
     {
         if (toporefNames == null)
             makeToporefMaps();

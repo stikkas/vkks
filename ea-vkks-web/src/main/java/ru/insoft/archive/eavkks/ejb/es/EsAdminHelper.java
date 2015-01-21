@@ -1,7 +1,6 @@
 package ru.insoft.archive.eavkks.ejb.es;
 
 import java.io.IOException;
-import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -17,6 +16,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import ru.insoft.archive.eavkks.ejb.CommonDBHandler;
+import ru.insoft.archive.eavkks.ejb.LogWriter;
 
 /**
  *
@@ -27,6 +27,8 @@ public class EsAdminHelper
 {
     @Inject
     CommonDBHandler dbHandler;
+    @Inject
+    LogWriter log;
     
     private Client esClient;
     private String ES_HOST_NAME;
@@ -34,6 +36,7 @@ public class EsAdminHelper
     private Integer NUMBER_OF_SHARDS;
     private Integer NUMBER_OF_REPLICAS;
     private String INDEX_NAME;
+    private String PATH_TO_SAVE_FILES;
     
     @PostConstruct
     private void init()
@@ -48,6 +51,16 @@ public class EsAdminHelper
     public String getIndexName()
     {
         return INDEX_NAME;
+    }
+    
+    public String getPathToSaveFiles()
+    {
+        if (PATH_TO_SAVE_FILES == null)
+        {
+            PATH_TO_SAVE_FILES = dbHandler.getCoreParameterValue("PATH_TO_SAVE_FILES");
+        }
+            
+        return PATH_TO_SAVE_FILES;
     }
     
     public Client getClient()
@@ -78,6 +91,7 @@ public class EsAdminHelper
             {
                 DeleteIndexRequest diRequest = new DeleteIndexRequest(INDEX_NAME);
                 indices.delete(diRequest).actionGet();
+                log.logClearData();
             }
             
             XContentBuilder src = jsonBuilder()

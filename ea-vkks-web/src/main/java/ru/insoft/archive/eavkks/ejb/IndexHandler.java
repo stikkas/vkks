@@ -26,6 +26,8 @@ public class IndexHandler
     EsIndexHelper esIndex;
     @Inject
     EsSearchHelper esSearch;
+    @Inject
+    LogWriter log;
     
     public String indexCase(EaCase eaCase) throws IOException
     {
@@ -44,7 +46,11 @@ public class IndexHandler
     {
         AdmUser user = ui.getUser();
         if (user == null)
-            throw new RuntimeException("Пользователь не авторизован");
+        {
+            String msg = "Пользователь не авторизован";
+            log.logError(msg);
+            throw new RuntimeException(msg);
+        }
         
         entity.setModUserId(user.getId());
         entity.setLastUpdateDate(new Date());
