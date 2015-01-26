@@ -22,6 +22,14 @@ noindex:-o-prefocus, .exit_cls {
         left:96% !important; 
      }
 }
+@media all and (-webkit-min-device-pixel-ratio:0) {
+    .x-btn.exit_cls,
+    a.exit_cls.x-btn-over.x-btn-default-toolbar-small,
+    a.exit_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+    a.exit_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+        margin-left:-20px !important;        
+    }
+}
 /*opera (временное решение)*/
 noindex:-o-prefocus, .title_head { 
   width: 90%;
@@ -99,9 +107,12 @@ div.search {
     box-sizing:padding-box !important;    
     padding-right:24px;
 }
-/*выравнивание неверной ширины ячеек, образующейся из-за отсутствующих бордеров*/
+/*выравнивание неверной ширины ячеек*/
 @media all and (-webkit-min-device-pixel-ratio:0) {
     div.x-grid-item-container{
-        margin-left:-1px;
+        /*margin-left:-1px;*/
+    }
+    .x-grid-header-ct > .x-box-inner{
+        margin-left:0.1%;
     }
 }

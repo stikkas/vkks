@@ -250,7 +250,9 @@ div.x-column-header,
 div.x-column-header-over{
     background-color:#DCE5F3;
 }
-div.x-column-header,
+div.x-column-header{
+    border-right:1px solid #809EDA !important;
+}
 .x-panel-body td.x-grid-td{
     border-right:1px solid #809EDA;
 }
@@ -272,13 +274,24 @@ div.x-grid-header-ct{
 div.x-column-header-inner{
     color:#1D4B82;
     font-family:'Scada Bold';
-    font-size:14px;
+    font-size:1.3em;
     text-align:center;
-    padding:5px !important;
+    padding:5px 7px !important;
+}
+div.x-grid-cell-inner{
+    padding: 3px 2px;
+}
+div.x-column-header{
+    /*padding:0 1px !important;*/
 }
 /*текст в таблицах*/
-.x-grid-header-ct .x-column-header-text{
-	white-space:normal;
+.x-grid-header-ct .x-column-header-text,
+.x-grid-cell .x-grid-cell-inner{
+    white-space:normal;
+    word-wrap: break-word;
+}
+.x-grid-row .x-grid-td{
+    vertical-align:middle;
 }
 .case_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
 .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
@@ -300,7 +313,7 @@ div.x-column-header-inner{
 }
 .x-panel-body .x-grid-item .x-grid-cell-inner{
     font-family:Arial, sans-serif;
-    font-size:14px;
+    font-size:1.3em;
 }
 .x-panel-body .x-grid-item-over .x-grid-cell-inner{
     color:#1D4B82;
@@ -334,7 +347,9 @@ div[id*=pagingtoolbar] .x-toolbar-text{
 div[id*=pagingtoolbar] .x-form-text-field-body.x-form-item-body-default{
     padding-left:0;
 }
-
+div[id*=pagingtoolbar] input.x-form-text.x-form-text-default{
+    min-width:30px;
+}
 div[id*=pagingtoolbar].x-box-inner{
     width:230px !important;
     margin: auto;

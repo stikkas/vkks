@@ -92,7 +92,7 @@ Ext.define('Earh.view.search.Case', {
 				title: Trans.searchResult,
 				cls: 'section_panel case_search',
 				store: resultStoreId,
-				width: '100%',
+				width: '99%',
 				listeners: {
 					cellclick: 'toCase'
 				},
@@ -103,7 +103,7 @@ Ext.define('Earh.view.search.Case', {
 					items: [{
 							text: Trans.caseNum_,
 							dataIndex: 'number',
-							width: '5%'
+							width: '6.1%'
 						},
 						{
 							text: Trans.caseType,
@@ -129,7 +129,7 @@ Ext.define('Earh.view.search.Case', {
 						}, {
 							text: Trans.remark,
 							dataIndex: 'remark',
-							width: '10.5%'
+							width: '10%'
 						}]
 				},
 				dockedItems: [{

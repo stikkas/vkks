@@ -59,7 +59,6 @@ a.exit_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
     -webkit-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
     -ms-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
     -o-border-image:url('../images/project_images/vert_border.png') 0 0 10 10 stretch stretch;
-    margin-left:-8px !important;
 }
 .x-btn.home_cls,
 a.home_cls.x-btn-over.x-btn-default-toolbar-small,
