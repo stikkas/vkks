@@ -5,7 +5,7 @@ Ext.define('Earh.store.DocResult', {
 	extend: 'Earh.store.SearchResult',
 	model: 'Earh.model.DocResult',
 	storeId: 'docsStore',
-	pageSize: 10,
+	pageSize: 8,
 	constructor: function () {
 		this.callParent([Urls.docs]);
 	}

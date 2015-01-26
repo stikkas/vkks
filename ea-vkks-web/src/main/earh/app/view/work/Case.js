@@ -243,6 +243,7 @@ Ext.define('Earh.view.work.Case', {
 									})
 								}
 							});
+						view.fireEvent('caseChanged');
 						showInfo("Результат", "Данные сохранены");
 					} else {
 						showError("Ошибка сохранения", operation.getError());
@@ -277,9 +278,10 @@ Ext.define('Earh.view.work.Case', {
 								if (caseView._crMode) {
 									caseView.fireEvent('toMain');
 								} else {
-									caseView.fireEvent('removeModel', {
-										page: Pages.scases
-									});
+									caseView.fireEvent('caseChanged');
+									//		caseView.fireEvent('removeModel', {
+									//			page: Pages.scases
+									//		});
 									caseView.fireEvent('backToSearch');
 								}
 							});
@@ -349,7 +351,7 @@ Ext.define('Earh.view.work.Case', {
 			});
 		} else {
 			caseView.fireEvent('backToSearch');
-			showError("Ошибка", operation.getError());
+			showError("Ошибка", "Ошибка получения данных");
 		}
 	},
 	/**
