@@ -12,7 +12,7 @@ Ext.define('Earh.view.main.MainController', {
 		acase: {// Форма работы с делом
 			activate: 'setCaseMenu',
 			backToSearch: 'backToSearch',
-			removeModel: 'removeModel',
+			caseChanged: 'caseChanged',
 			toMain: 'toMain',
 			toDocEn: 'toDocEnable'
 		},
@@ -20,6 +20,9 @@ Ext.define('Earh.view.main.MainController', {
 			afterrender: 'docRender',
 			backToCase: 'backToCase',
 			docChanged: 'docChanged'
+		},
+		scases: {
+			activate: 'updateCases'
 		}
 	},
 	init: function () {
@@ -183,10 +186,25 @@ Ext.define('Earh.view.main.MainController', {
 		this.updateCase = false;
 	},
 	/**
+	 * Обновляет список найденых дел (при необходимости)
+	 */
+	updateCases: function() {
+		if (this.updateCaseSearch) {
+			Ext.getStore('casesStore').reload();
+			this.updateCaseSearch = false;
+		}
+	},
+	/**
 	 * Выставляет флаг, который указывает, что следует обновить страницу дела.
 	 */
 	docChanged: function () {
 		this.updateCase = true;
+	},
+	/**
+	 * Выставляет флаг, который указывает, что следует обновить страницу поиска дел.
+	 */
+	caseChanged: function () {
+		this.updateCaseSearch = true;
 	},
 	/**
 	 * Вызывается когда форма запускает событие 'validChanged'
@@ -234,16 +252,6 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	backToCase: function () {
 		this.toPage(Pages.acase);
-	},
-	/**
-	 * Обрабатывает событие удаления дела, документа
-	 * @param {Object} args аргументы, передаваемые обработчику
-	 *
-	 * 	- `page` - {Object} страница с результатами поиска. здесь надо обновить данные.
-	 *
-	 */
-	removeModel: function (args) {
-		this.view.getPageByName(args.page).sstore.reload();
 	},
 	/**
 	 * Добавляет или удаляет возможность входа в карточку документа

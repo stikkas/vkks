@@ -30,9 +30,9 @@ Ext.define('Earh.view.main.Main', {
 			 region: 'north'*/
 		}, {
 			xtype: 'container',
-			width: "100%",
-			layout: 'card'/*,
-			 region: 'center'*/
+			width: '100%',
+			layout: 'card'
+					/*, region: 'center'*/
 		}],
 	initComponent: function () {
 		this.initStores();
