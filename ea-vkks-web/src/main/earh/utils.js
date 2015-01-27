@@ -234,7 +234,8 @@ emptySearchResult = function () {
  */
 graphLinkColumn = {
 	text: Trans.graph_,
-	width: '5%',
+//	width: '5%',
+	flex: 0.5,
 	xtype: 'actioncolumn',
 	dataIndex: 'graph',
 	items: [{

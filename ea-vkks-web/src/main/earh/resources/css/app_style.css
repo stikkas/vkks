@@ -403,6 +403,10 @@ div[id*=pagingtoolbar].x-box-inner{
 .section_panel .graf_view .x-panel-header .x-title-text{
     border:none;
 }
-
+/* отображение ячеек с номером дела и указателем на карточке поиска документов */
+.case-of-doc-cell:hover, .case-of-doc-cell:hover div {
+	text-decoration: underline;
+	cursor: pointer !important;
+}
 
 /*временно здесь. Должно быт перенесено в crossbrousers.css*/

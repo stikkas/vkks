@@ -4,12 +4,14 @@
 Ext.define('Earh.view.search.Doc', {
 	extend: 'Earh.view.search.Base',
 	alias: 'widget.sdocs',
+	controller: 'csgrid',
 	requires: [
 		'Earh.store.DocResult',
 		'Earh.store.DocType',
 		'Ext.form.field.Number',
 		'Ext.grid.column.Action',
-		'Earh.model.DocsQuery'
+		'Earh.model.DocsQuery',
+		'Earh.view.search.DocGridController'
 	],
 	tbb: [1, // Главная
 		0, // Вернуться к результатам поиска
@@ -35,8 +37,10 @@ Ext.define('Earh.view.search.Doc', {
 				cb.reset();
 		}
 		//-----------------------------------
-		var resultStoreId = Ext.create('Earh.store.DocResult');
-		this.callParent([{
+		var searchDocView = this,
+				resultStoreId = Ext.create('Earh.store.DocResult');
+
+		searchDocView.callParent([{
 				xtype: 'form',
 				title: Trans.docSearch,
 				layout: 'vbox',
@@ -120,6 +124,9 @@ Ext.define('Earh.view.search.Doc', {
 				store: resultStoreId,
 				width: '100%',
 				cls: 'section_panel doc_search',
+				listeners: {
+					cellclick: 'cellClicked'
+				},
 				columns: {
 					defaults: {
 						menuDisabled: true
@@ -127,35 +134,49 @@ Ext.define('Earh.view.search.Doc', {
 					items: [{
 							text: Trans.caseNum,
 							dataIndex: 'acase',
-							width: '5%'
+							flex: 0.5,
+							renderer: 'caseRenderer'
+//							width: '5%'
+						}, {
+							text: Trans.topoRef,
+							dataIndex: 'toporef',
+							flex: 1,
+							renderer: 'caseRenderer'
 						}, {
 							text: Trans.docNum_,
 							dataIndex: 'number',
-							width: '8%'
+							flex: 0.8
+//							width: '8%'
 						}, {
 							text: Trans.docType,
 							dataIndex: 'type',
-							width: '15%'
+							flex: 1
+//							width: '15%'
 						}, {
 							text: Trans.docTitle,
 							dataIndex: 'title',
-							width: '30%'
+							flex: 1.7
+//							width: '30%'
 						}, {
-							text: Trans.pages,
+							text: Trans.pagesCount,
 							dataIndex: 'pages',
-							width: '8%'
+//							width: '8%'
+							flex: 0.8
 						}, {
 							text: Trans.docDate,
 							dataIndex: 'date',
-							width: '8%'
+							flex: 0.8
+//							width: '8%'
 						}, {
 							text: Trans.court,
 							dataIndex: 'court',
-							width: '10.6%'
+							flex: 1
+//							width: '10.6%'
 						}, {
 							text: Trans.fio,
 							dataIndex: 'fio',
-							width: '10%'
+							flex: 1
+//							width: '10%'
 						}, graphLinkColumn]
 				},
 				dockedItems: [{
@@ -164,6 +185,6 @@ Ext.define('Earh.view.search.Doc', {
 						store: resultStoreId
 					}]
 			}]);
-		this.model = Ext.create('Earh.model.DocsQuery');
+		searchDocView.model = Ext.create('Earh.model.DocsQuery');
 	}
 });
