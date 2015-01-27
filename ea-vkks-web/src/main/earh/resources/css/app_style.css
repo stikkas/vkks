@@ -9,7 +9,8 @@
 body > .x-box-inner > .x-box-target > .x-container{
     overflow-x:hidden;
     overflow-y:auto;
-    height:calc(100% - 190px);
+    /*height:calc(100% - 190px);*/
+    height:75%;
 }
 /*настройка всяческих полей*/
 label span:not(.x-form-item-label-inner){
@@ -113,6 +114,7 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
     width:100%;
 }
 .header_cls > .x-box-inner{
+    height:40% !important;
     width:100% !important;
 }
 .title_head{

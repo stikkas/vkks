@@ -27,13 +27,16 @@ noindex:-o-prefocus, .exit_cls {
     a.exit_cls.x-btn-over.x-btn-default-toolbar-small,
     a.exit_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
     a.exit_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
-        margin-left:-20px !important;        
+        margin-left:-13px !important;        
     }
 }
-/*opera (временное решение)*/
+/*opera*/
 noindex:-o-prefocus, .title_head { 
   width: 90%;
 } 
+noindex:-o-prefocus, body > .x-box-inner > .x-box-target > .x-container{
+    height:72% !important;
+}
 /*safari*/
 @media screen and ( -webkit-min-device-pixel-ratio : 0 ) { 
   .title_head { 
