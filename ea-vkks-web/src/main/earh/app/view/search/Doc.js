@@ -89,15 +89,22 @@ Ext.define('Earh.view.search.Doc', {
 						xtype: 'fieldcontainer',
 						fieldLabel: Trans.docDate,
 						labelSeparator: '',
-//						width: 535,
+						width: 775,
+						layout: 'hbox',
 						items: [{
 								xtype: 'datefield',
 								fieldLabel: "с",
-								name: 'startDate'
+								name: 'startDate',
+                                                                labelWidth:10,
+                                                                cls:'marl-15',
+                                                                width:140
 							}, {
 								xtype: 'datefield',
 								fieldLabel: "по",
-								name: 'endDate'
+								name: 'endDate',
+                                                                labelWidth:20,
+                                                                cls:'marl-15',                                                                
+                                                                width:150
 							}]
 					}, {
 						xtype: 'combobox',
@@ -107,7 +114,7 @@ Ext.define('Earh.view.search.Doc', {
 						minChars: 1,
 						editable: true,
 						listeners: {blur: emptyCombo2},
-						width: 775
+						width: 735
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.remark,
