@@ -69,7 +69,12 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
     width:100% !important;
 }
 .title_head{
-    width: calc(100% - 150px);
+    width:calc(100% - 150px);
+)
+@media all and (-webkit-min-device-pixel-ratio:0) {
+    .title_head{
+        width: 90%;
+    }
 }
 .title_head > div{
     border-bottom-image:url('../images/project_images/blue_underline.png');
