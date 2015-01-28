@@ -353,9 +353,11 @@ div[id*=pagingtoolbar] input.x-form-text.x-form-text-default{
     min-width:30px;
 }
 div[id*=pagingtoolbar].x-box-inner{
-    /*width:230px !important;*/
-    width:100% !important;
+    width:230px !important;
     margin: auto;
+}
+.case_search div[id*=pagingtoolbar].x-box-inner{
+    width:100% !important    
 }
 div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
     left:auto !important;
