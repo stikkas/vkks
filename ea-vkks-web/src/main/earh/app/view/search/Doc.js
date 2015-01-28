@@ -128,7 +128,7 @@ Ext.define('Earh.view.search.Doc', {
 						minChars: 1,
 						editable: true,
 						listeners: {blur: emptyCombo2},
-						width: 775
+						width: 735
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.ctxSearch,

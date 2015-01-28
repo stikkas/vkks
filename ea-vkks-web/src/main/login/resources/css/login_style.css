@@ -109,7 +109,8 @@ h1{
     }
 }
 .header_cls ~ .x-container{
-    width:800px !important;
+    /*width:800px !important;*/
+    width:65.574%;
     margin:auto !important;
     position:relative !important;
     left:0 !important;
