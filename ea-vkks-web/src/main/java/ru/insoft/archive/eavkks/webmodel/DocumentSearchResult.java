@@ -9,12 +9,15 @@ import ru.insoft.archive.extcommons.json.JsonOut;
 public class DocumentSearchResult implements JsonOut
 {
     private String id;
+    private String caseId;
     private String acase;
-    private Integer volume;
+    private String toporef;
+    //private Integer volume;
     private String number;
     private String type;
     private String title;
-    private String pages;
+    //private String pages;
+    private Integer pages;
     private String date;
     private String remark;
     private String court;
@@ -29,6 +32,14 @@ public class DocumentSearchResult implements JsonOut
         this.id = id;
     }
 
+    public String getCaseId() {
+        return caseId;
+    }
+
+    public void setCaseId(String caseId) {
+        this.caseId = caseId;
+    }
+
     public String getAcase() {
         return acase;
     }
@@ -37,13 +48,21 @@ public class DocumentSearchResult implements JsonOut
         this.acase = acase;
     }
 
-    public Integer getVolume() {
+    public String getToporef() {
+        return toporef;
+    }
+
+    public void setToporef(String toporef) {
+        this.toporef = toporef;
+    }
+
+    /*public Integer getVolume() {
         return volume;
     }
 
     public void setVolume(Integer volume) {
         this.volume = volume;
-    }
+    }*/
 
     public String getRemark() {
         return remark;
@@ -77,11 +96,19 @@ public class DocumentSearchResult implements JsonOut
         this.title = title;
     }
 
-    public String getPages() {
+    /*public String getPages() {
         return pages;
     }
 
     public void setPages(String pages) {
+        this.pages = pages;
+    }*/
+
+    public Integer getPages() {
+        return pages;
+    }
+
+    public void setPages(Integer pages) {
         this.pages = pages;
     }
 

@@ -56,7 +56,9 @@ public class EsIndexHelper
             {
                 oldCase = gr.getSourceAsMap();
                 String acase = (String)oldCase.get("number");
-                if (!acase.equals(eaCase.getNumber()))
+                Number toporefId = (Number)oldCase.get("toporef");
+                if (!acase.equals(eaCase.getNumber()) || 
+                        toporefId == null ? eaCase.getToporef() != null : !((Long)(toporefId.longValue())).equals(eaCase.getToporef()))
                 {
                     Integer start = 0, limit = 25;
                     Long total;
@@ -75,9 +77,11 @@ public class EsIndexHelper
                         total = sr.getHits().getTotalHits();                    
                         for (SearchHit hit : sr.getHits().getHits())
                             bulk.add(esClient.prepareUpdate(esAdmin.getIndexName(), "document", hit.getId())
+                                    .setParent(eaCase.getId())
                                     .setDoc(jsonBuilder()
                                             .startObject()
                                                 .field("acase", eaCase.getNumber())
+                                                .field("toporef", eaCase.getToporef())
                                             .endObject()
                                     )
                             );
@@ -141,19 +145,21 @@ public class EsIndexHelper
         return false;
     }
     
-    public String indexDocument(EaDocument eaDoc, String caseNumber) throws IOException
+    public String indexDocument(EaDocument eaDoc, String caseNumber, Long toporefId) throws IOException
     {
         Client esClient = esAdmin.getClient();
         XContentBuilder src = jsonBuilder()
                 .startObject()
                     .field("_parent", eaDoc.getCaseId())
                     .field("acase", caseNumber)
+                    .field("toporef", toporefId)
                     .field("number", eaDoc.getNumber())
-                    .field("volume", eaDoc.getVolume())
+                    //.field("volume", eaDoc.getVolume())
                     .field("type", eaDoc.getType())
                     .field("title", eaDoc.getTitle())
-                    .field("startPage", eaDoc.getStartPage())
-                    .field("endPage", eaDoc.getEndPage())
+                    //.field("startPage", eaDoc.getStartPage())
+                    //.field("endPage", eaDoc.getEndPage())
+                    .field("pages", eaDoc.getPages())
                     .field("date", eaDoc.getDate())
                     .field("remark", eaDoc.getRemark())
                     .field("court", eaDoc.getCourt())

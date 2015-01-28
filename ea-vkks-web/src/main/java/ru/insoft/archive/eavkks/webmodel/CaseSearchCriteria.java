@@ -16,6 +16,8 @@ public class CaseSearchCriteria implements JsonIn
     private String title;
     private Date startDate;
     private Date endDate;
+    private String court;
+    private String fio;
     private Long toporef;
     private Set<Long> toporefIds;
     private String remark;
@@ -66,6 +68,22 @@ public class CaseSearchCriteria implements JsonIn
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getCourt() {
+        return court;
+    }
+
+    public void setCourt(String court) {
+        this.court = court;
+    }
+
+    public String getFio() {
+        return fio;
+    }
+
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
     public Long getToporef() {

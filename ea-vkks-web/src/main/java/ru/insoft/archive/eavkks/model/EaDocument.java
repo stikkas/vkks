@@ -30,7 +30,7 @@ public class EaDocument implements JsonOut, JsonIn, HasId, HasUserInfo
     private Long type;
     
     //@Column(name = "volume")
-    private Integer volume;
+    //private Integer volume;
     
     //@Column(name = "doc_number")
     private String number;
@@ -39,10 +39,12 @@ public class EaDocument implements JsonOut, JsonIn, HasId, HasUserInfo
     private String title;
     
     //@Column(name = "start_page")
-    private Integer startPage;
+    //private Integer startPage;
     
     //@Column(name = "end_page")
-    private Integer endPage;
+    //private Integer endPage;
+    
+    private Integer pages;
     
     //@Column(name = "doc_date")
     private String date;
@@ -107,13 +109,13 @@ public class EaDocument implements JsonOut, JsonIn, HasId, HasUserInfo
         this.type = type;
     }
 
-    public Integer getVolume() {
+    /*public Integer getVolume() {
         return volume;
     }
 
     public void setVolume(Integer volume) {
         this.volume = volume;
-    }
+    }*/
 
     public String getNumber() {
         return number;
@@ -131,7 +133,7 @@ public class EaDocument implements JsonOut, JsonIn, HasId, HasUserInfo
         this.title = title;
     }
 
-    public Integer getStartPage() {
+    /*public Integer getStartPage() {
         return startPage;
     }
 
@@ -145,6 +147,14 @@ public class EaDocument implements JsonOut, JsonIn, HasId, HasUserInfo
 
     public void setEndPage(Integer endPage) {
         this.endPage = endPage;
+    }*/
+
+    public Integer getPages() {
+        return pages;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
     }
 
     public String getDate() {
