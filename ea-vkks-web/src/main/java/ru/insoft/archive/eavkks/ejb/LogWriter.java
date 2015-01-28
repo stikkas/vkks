@@ -113,13 +113,14 @@ public class LogWriter
     {
         StringBuilder sb = new StringBuilder();
         sb.append(MessageFormat.format("ID: \"{0}\", Номер дела: \"{1}\"", newDoc.getId(), caseNumber));
-        sb.append(getFieldChange(newDoc.getVolume(), oldDoc.getVolume(), FieldType.NUMBER, "Том"));
+        //sb.append(getFieldChange(newDoc.getVolume(), oldDoc.getVolume(), FieldType.NUMBER, "Том"));
         sb.append(getFieldChange(newDoc.getNumber(), oldDoc.getNumber(), FieldType.STRING, "Номер документа"));
         sb.append(getFieldChange(newDoc.getType(), oldDoc.getType(), FieldType.DOCUMENT_TYPE, "Вид"));
         sb.append(getFieldChange(newDoc.getTitle(), oldDoc.getTitle(), FieldType.STRING, "Заголовок"));
-        sb.append(getFieldChange(MessageFormat.format("{0}-{1}", newDoc.getStartPage(), newDoc.getEndPage()),
+        /*sb.append(getFieldChange(MessageFormat.format("{0}-{1}", newDoc.getStartPage(), newDoc.getEndPage()),
                 MessageFormat.format("{0}-{1}", oldDoc.getStartPage(), oldDoc.getEndPage()),
-                FieldType.STRING, "Листы"));
+                FieldType.STRING, "Листы"));*/
+        sb.append(getFieldChange(newDoc.getPages(), oldDoc.getPages(), FieldType.NUMBER, "Кол-во листов"));
         sb.append(getFieldChange(newDoc.getDate(), oldDoc.getDate(), FieldType.STRING, "Дата"));
         sb.append(getFieldChange(newDoc.getRemark(), oldDoc.getRemark(), FieldType.STRING, "Примечание"));
         sb.append(getFieldChange(newDoc.getCourt(), oldDoc.getCourt(), FieldType.STRING, "Суд"));
@@ -131,12 +132,13 @@ public class LogWriter
     {
         StringBuilder sb = new StringBuilder();
         sb.append(MessageFormat.format("ID: \"{0}\", Номер дела: \"{1}\"", doc.getId(), caseNumber));
-        sb.append(getFieldValue(doc.getVolume(), FieldType.NUMBER, "Том"));
+        //sb.append(getFieldValue(doc.getVolume(), FieldType.NUMBER, "Том"));
         sb.append(getFieldValue(doc.getNumber(), FieldType.STRING, "Номер документа"));
         sb.append(getFieldValue(doc.getType(), FieldType.DOCUMENT_TYPE, "Вид"));
         sb.append(getFieldValue(doc.getTitle(), FieldType.STRING, "Заголовок"));
-        sb.append(getFieldValue(MessageFormat.format("{0}-{1}", doc.getStartPage(), doc.getEndPage()),
-                FieldType.STRING, "Листы"));
+        /*sb.append(getFieldValue(MessageFormat.format("{0}-{1}", doc.getStartPage(), doc.getEndPage()),
+                FieldType.STRING, "Листы"));*/
+        sb.append(getFieldValue(doc.getPages(), FieldType.NUMBER, "Кол-во листов"));
         sb.append(getFieldValue(doc.getDate(), FieldType.STRING, "Дата"));
         sb.append(getFieldValue(doc.getRemark(), FieldType.STRING, "Примечание"));
         sb.append(getFieldValue(doc.getCourt(), FieldType.STRING, "Суд"));

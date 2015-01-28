@@ -39,7 +39,7 @@ public class IndexHandler
     {
         setUserInfo(eaDoc);
         EaCase eaCase = esSearch.getCaseById(eaDoc.getCaseId());
-        return esIndex.indexDocument(eaDoc, eaCase.getNumber());
+        return esIndex.indexDocument(eaDoc, eaCase.getNumber(), eaCase.getToporef());
     }
     
     protected void setUserInfo(HasUserInfo entity)

@@ -114,11 +114,11 @@ public class DataSaver
                 eaDoc.setCaseId(eaCase.getId());
                 eaDoc.setType(getDescriptorValueId(documentTypes, "DOCUMENT_TYPE", lDoc.getType(),
                         "Неверный код вида документа"));
-                eaDoc.setVolume(lDoc.getVolume());
+                //eaDoc.setVolume(lDoc.getVolume());
                 eaDoc.setNumber(lDoc.getNumber());
                 eaDoc.setTitle(lDoc.getTitle());
-                eaDoc.setStartPage(lDoc.getStartPage());
-                eaDoc.setEndPage(lDoc.getEndPage());
+                //eaDoc.setStartPage(lDoc.getStartPage());
+                //eaDoc.setEndPage(lDoc.getEndPage());
                 eaDoc.setDate(new SimpleDateFormat("dd.MM.YYYY").format(lDoc.getDate()));
                 eaDoc.setRemark(lDoc.getRemark());
                 eaDoc.setCourt(lDoc.getCourt());
@@ -131,7 +131,7 @@ public class DataSaver
 
                 //em.persist(eaDoc);
                 //em.flush();
-                eaDoc.setId(esIndex.indexDocument(eaDoc, eaCase.getNumber()));
+                eaDoc.setId(esIndex.indexDocument(eaDoc, eaCase.getNumber(), eaCase.getToporef()));
                 eaCase.getDocuments().add(eaDoc);                
 
                 Path imageFilePath = FileSystems.getDefault().getPath(filesDir.getPath(), lDoc.getGraph());                

@@ -9,25 +9,26 @@ import ru.insoft.archive.extcommons.json.JsonIn;
  */
 public class DocumentSearchCriteria implements JsonIn
 {
-    private Integer volume;
+    //private Integer volume;
     private String number;
     private Long type;
     private String title;
-    private Integer startPage;
-    private Integer endPage;
-    private Date date;
+    //private Integer startPage;
+    //private Integer endPage;
+    private Date startDate;
+    private Date endDate;
     private String court;
     private String remark;
     private String fio;
     private String context;
 
-    public Integer getVolume() {
+    /*public Integer getVolume() {
         return volume;
     }
 
     public void setVolume(Integer volume) {
         this.volume = volume;
-    }
+    }*/
 
     public String getNumber() {
         return number;
@@ -53,7 +54,7 @@ public class DocumentSearchCriteria implements JsonIn
         this.title = title;
     }
 
-    public Integer getStartPage() {
+    /*public Integer getStartPage() {
         return startPage;
     }
 
@@ -67,14 +68,22 @@ public class DocumentSearchCriteria implements JsonIn
 
     public void setEndPage(Integer endPage) {
         this.endPage = endPage;
+    }*/
+
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public Date getDate() {
-        return date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public String getCourt() {

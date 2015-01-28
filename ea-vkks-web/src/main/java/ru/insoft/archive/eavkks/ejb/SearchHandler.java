@@ -51,19 +51,24 @@ public class SearchHandler
             DocumentSearchResult dsr = new DocumentSearchResult();
             dsr.setId(hit.getId());
             Map<String, Object> source = hit.getSource();
+            dsr.setCaseId((String)source.get("_parent"));
             dsr.setAcase((String)source.get("acase"));
-            dsr.setVolume((Integer)source.get("volume"));
+            
+            Number toporef = (Number)source.get("toporef");
+            if (toporef != null)
+                dsr.setToporef(dvMaps.getToporefItemName(toporef.longValue()));
+            //dsr.setVolume((Integer)source.get("volume"));
             dsr.setNumber((String)source.get("number"));
             dsr.setType(dvMaps.getDocumentTypeName(((Number)source.get("type")).longValue()));
             dsr.setTitle((String)source.get("title"));
             
-            Integer startPage = (Integer)source.get("startPage");
-            Integer endPage   = (Integer)source.get("endPage");
-            if (startPage.equals(endPage))
+            //Integer startPage = (Integer)source.get("startPage");
+            //Integer endPage   = (Integer)source.get("endPage");
+            /*if (startPage.equals(endPage))
                 dsr.setPages(startPage.toString());
             else
-                dsr.setPages(MessageFormat.format("{0} - {1}", startPage, endPage));
-            
+                dsr.setPages(MessageFormat.format("{0} - {1}", startPage, endPage));*/
+            dsr.setPages((Integer)source.get("pages"));
             dsr.setDate((String)source.get("date"));
             dsr.setRemark((String)source.get("remark"));
             dsr.setCourt((String)source.get("court"));

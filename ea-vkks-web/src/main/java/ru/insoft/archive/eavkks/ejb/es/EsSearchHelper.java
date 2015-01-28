@@ -98,12 +98,12 @@ public class EsSearchHelper
         queryMap.put("graph", q.getContext());
         
         Map<String, Object> filterMap = new HashMap<>();
-        filterMap.put("volume", q.getVolume());
+        //filterMap.put("volume", q.getVolume());
         filterMap.put("number", q.getNumber());
         filterMap.put("type", q.getType());
-        filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
-                        new Pair<>(q.getStartPage(), q.getEndPage())));
-        filterMap.put("date", q.getDate());
+        /*filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
+                        new Pair<>(q.getStartPage(), q.getEndPage())));*/
+        filterMap.put("date", q.getStartDate());
         
         QueryBuilder query = makeQuery(queryMap, filterMap);
         
@@ -114,7 +114,7 @@ public class EsSearchHelper
                 .setFrom(start)
                 .setSize(limit)
                 .setFetchSource(null, new String[]
-                    {"graph", "_parent", "addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
+                    {"graph", "addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
                 .execute().actionGet();
         return resp.getHits();
     }
@@ -234,12 +234,13 @@ public class EsSearchHelper
     public EaDocument parseDocument(Map<String, Object> docData)
     {
         EaDocument doc = new EaDocument();
-        doc.setVolume((Integer)docData.get("volume"));
+        //doc.setVolume((Integer)docData.get("volume"));
         doc.setNumber((String)docData.get("number"));
         doc.setType(((Number)docData.get("type")).longValue());
         doc.setTitle((String)docData.get("title"));
-        doc.setStartPage((Integer)docData.get("startPage"));
-        doc.setEndPage((Integer)docData.get("endPage"));
+        //doc.setStartPage((Integer)docData.get("startPage"));
+        //doc.setEndPage((Integer)docData.get("endPage"));
+        doc.setPages((Integer)docData.get("pages"));
         doc.setDate((String)docData.get("date"));
         doc.setRemark((String)docData.get("remark"));
         doc.setCourt((String)docData.get("court"));
@@ -332,7 +333,7 @@ public class EsSearchHelper
     
     protected FilterBuilder getFilter(String field, Object value)
     {
-        if (field.equals("pages"))
+        /*if (field.equals("pages"))
         {
             Pair<Integer, Integer> pages = (Pair<Integer, Integer>)value;
             if (pages.getValue0() == null)
@@ -350,7 +351,7 @@ public class EsSearchHelper
                     .should(FilterBuilders.boolFilter()
                         .must(FilterBuilders.rangeFilter("startPage").gte(pages.getValue0()))
                         .must(FilterBuilders.rangeFilter("endPage").lte(pages.getValue1())));
-        }
+        }*/
         if (field.equals("date"))
             return FilterBuilders.termFilter(field, new SimpleDateFormat("dd.MM.YYYY").format(value));
         
