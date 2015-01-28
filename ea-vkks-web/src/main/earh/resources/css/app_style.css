@@ -30,6 +30,9 @@ label.x-form-item-label-default{
     min-height:25px;
     padding-left:15px;
 }
+.marl-15 .x-form-text-field-body.x-form-item-body-default{
+    padding-left:3px;         /*горизонтальные даты документа в поиске документов*/
+}
 input.x-form-text.x-form-text-default,
 textarea.x-form-text.x-form-text-default{
     box-shadow:inset -3px 6px 5px rgba(134,134,134,.2);
@@ -356,7 +359,8 @@ div[id*=pagingtoolbar].x-box-inner{
     width:230px !important;
     margin: auto;
 }
-.case_search div[id*=pagingtoolbar].x-box-inner{
+.case_search div[id*=pagingtoolbar].x-box-inner,
+.doc_search div[id*=pagingtoolbar].x-box-inner{
     width:100% !important    
 }
 div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
@@ -415,5 +419,13 @@ div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
 	text-decoration: underline;
 	cursor: pointer !important;
 }
-
-/*временно здесь. Должно быт перенесено в crossbrousers.css*/
+/*sizes*/
+.padt5{
+    padding-top:5px !important;
+}
+.padb5{
+    padding-bottom:5px !important;
+}
+.marl-15{
+    margin-left:15px;
+}

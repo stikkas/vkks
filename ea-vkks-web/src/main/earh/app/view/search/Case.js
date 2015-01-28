@@ -80,13 +80,14 @@ Ext.define('Earh.view.search.Case', {
 							}, {
 								xtype: 'datefield',
 								fieldLabel: Trans.endDate,
-								labelWidth: 120,
+								labelWidth: 185,
 								name: 'endDate',
-								width: 250
+								width: 315
 							}]
 					}, {
 						xtype: 'container',
 						layout: 'hbox',
+                                                cls:'padt5 padb5',
 						items: [
 							{
 								xtype: 'combobox',
@@ -97,7 +98,7 @@ Ext.define('Earh.view.search.Case', {
 								editable: true,
 								listeners: {blur: emptyCombo2},
 								labelWidth: 400,
-								width: 600
+								width: 650
 							}, {
 								xtype: 'combobox',
 								fieldLabel: Trans.fio,
@@ -105,8 +106,9 @@ Ext.define('Earh.view.search.Case', {
 								store: 'fiosStore',
 								minChars: 1,
 								editable: true,
-								listeners: {blur: emptyCombo2}
-//								width: 775
+								listeners: {blur: emptyCombo2},
+								labelWidth: 70,
+								width: 324
 							}]
 					}, {
 						xtype: 'treepicker',
@@ -137,33 +139,33 @@ Ext.define('Earh.view.search.Case', {
 					items: [{
 							text: Trans.caseNum_,
 							dataIndex: 'number',
-							width: '6.1%'
+							flex:0.61
 						},
 						{
 							text: Trans.caseType,
 							dataIndex: 'type',
-							width: '20%'
+							flex:2
 						},
 						{
 							text: Trans.storeLife,
 							dataIndex: 'storeLife',
-							width: '10%'
+							flex:1
 						}, {
 							text: Trans.caseTitle,
 							dataIndex: 'title',
-							width: '20%'
+							flex:2
 						}, {
 							text: Trans.dates,
 							dataIndex: 'dates',
-							width: '14%'
+							flex:1.4
 						}, {
 							text: Trans.topoRef,
 							dataIndex: 'toporef',
-							width: '20%'
+							flex:2
 						}, {
 							text: Trans.remark,
 							dataIndex: 'remark',
-							width: '10%'
+							flex:1
 						}]
 				},
 				dockedItems: [{
