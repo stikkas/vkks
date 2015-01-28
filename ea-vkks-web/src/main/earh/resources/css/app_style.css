@@ -353,8 +353,13 @@ div[id*=pagingtoolbar] input.x-form-text.x-form-text-default{
     min-width:30px;
 }
 div[id*=pagingtoolbar].x-box-inner{
-    width:230px !important;
+    /*width:230px !important;*/
+    width:100% !important;
     margin: auto;
+}
+div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
+    left:auto !important;
+    right:0 !important;
 }
 .x-box-inner span.x-tbar-page-prev{
     background-image:url('../images/project_images/navigation.png');
