@@ -41,19 +41,18 @@ Ext.define('Earh.view.work.Doc', {
 		docView.title = Trans.doc;
 		docView.items = [{
 				defaults: {
-					labelWidth: 200,
-					allowBlank: false
+					labelWidth: 200
 				},
-				items: [{
+				items: [/*{
 						xtype: 'numberfield',
 						fieldLabel: Trans.volume,
 						name: 'volume',
 						width: 300
-					}, {
-						xtype: 'textfield',
-						fieldLabel: Trans.acase,
+					}, */{
+						xtype: 'textarea',
+						fieldLabel: Trans.caseTitle,
 						name: 'caseTitle',
-						allowBlank: true,
+						width: 580,
 						readOnly: true
 					}, {
 						xtype: 'textfield',
@@ -67,32 +66,29 @@ Ext.define('Earh.view.work.Doc', {
 						displayField: 'name',
 						valueField: 'id',
 						store: 'docTypeStore',
+						allowBlank: false,
 						width: 580
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.docTitle,
 						name: 'title',
+						allowBlank: false,
 						width: 580
 					}, {
 						xtype: 'numberfield',
-						fieldLabel: Trans.startPageNum,
-						name: 'startPage',
-						width: 300
-					}, {
-						xtype: 'numberfield',
-						fieldLabel: Trans.endPageNum,
-						name: 'endPage',
+						fieldLabel: Trans.pagesCount,
+						name: 'pages',
 						width: 300
 					}, {
 						xtype: 'datefield',
 						fieldLabel: Trans.docDate,
 						name: 'date',
+						allowBlank: false,
 						width: 332
 					}, {
 						xtype: 'textarea',
 						fieldLabel: Trans.remark,
 						name: 'remark',
-						allowBlank: true,
 						width: 580
 					}, {
 						xtype: 'combobox',
@@ -100,7 +96,6 @@ Ext.define('Earh.view.work.Doc', {
 						name: 'court',
 						store: 'courtsStore',
 						minChars: 1,
-						allowBlank: true,
 						editable: true,
 						width: 580,
 						listeners: {blur: emptyCombo2}
@@ -110,7 +105,6 @@ Ext.define('Earh.view.work.Doc', {
 						name: 'fio',
 						store: 'fiosStore',
 						minChars: 1,
-						allowBlank: true,
 						editable: true,
 						width: 500,
 						listeners: {blur: emptyCombo2}
