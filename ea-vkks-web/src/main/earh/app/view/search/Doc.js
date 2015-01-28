@@ -4,14 +4,15 @@
 Ext.define('Earh.view.search.Doc', {
 	extend: 'Earh.view.search.Base',
 	alias: 'widget.sdocs',
-	controller: 'csgrid',
+	controller: 'docsearch',
 	requires: [
 		'Earh.store.DocResult',
 		'Earh.store.DocType',
 		'Ext.form.field.Number',
 		'Ext.grid.column.Action',
+		'Ext.form.FieldContainer',
 		'Earh.model.DocsQuery',
-		'Earh.view.search.DocGridController'
+		'Earh.view.search.DocController'
 	],
 	tbb: [1, // Главная
 		0, // Вернуться к результатам поиска
@@ -50,12 +51,12 @@ Ext.define('Earh.view.search.Doc', {
 					labelWidth: 400,
 					labelAlign: 'right'
 				},
-				items: [{
-						xtype: 'numberfield',
-						fieldLabel: Trans.volumeNum,
-						name: 'volume',
-						width: 515
-					}, {
+				items: [/*{
+				 xtype: 'numberfield',
+				 fieldLabel: Trans.volumeNum,
+				 name: 'volume',
+				 width: 515
+				 }, */{
 						xtype: 'textfield',
 						fieldLabel: Trans.docNum,
 						name: 'number',
@@ -74,21 +75,30 @@ Ext.define('Earh.view.search.Doc', {
 						fieldLabel: Trans.docTitle,
 						name: 'title',
 						width: 985
-					}, {
-						xtype: 'numberfield',
-						fieldLabel: Trans.startPageNum,
-						name: 'startPage',
-						width: 515
-					}, {
-						xtype: 'numberfield',
-						fieldLabel: Trans.endPageNum,
-						name: 'endPage',
-						width: 515
-					}, {
-						xtype: 'datefield',
+					}, /* {
+					 xtype: 'numberfield',
+					 fieldLabel: Trans.startPageNum,
+					 name: 'startPage',
+					 width: 515
+					 }, {
+					 xtype: 'numberfield',
+					 fieldLabel: Trans.endPageNum,
+					 name: 'endPage',
+					 width: 515
+					 }, */{
+						xtype: 'fieldcontainer',
 						fieldLabel: Trans.docDate,
-						name: 'date',
-						width: 535
+						labelSeparator: '',
+//						width: 535,
+						items: [{
+								xtype: 'datefield',
+								fieldLabel: "с",
+								name: 'startDate'
+							}, {
+								xtype: 'datefield',
+								fieldLabel: "по",
+								name: 'endDate'
+							}]
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.court,
@@ -129,7 +139,8 @@ Ext.define('Earh.view.search.Doc', {
 				},
 				columns: {
 					defaults: {
-						menuDisabled: true
+						menuDisabled: true,
+						renderer: tipRenderer
 					},
 					items: [{
 							text: Trans.caseNum,

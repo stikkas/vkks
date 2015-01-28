@@ -238,6 +238,7 @@ graphLinkColumn = {
 	flex: 0.5,
 	xtype: 'actioncolumn',
 	dataIndex: 'graph',
+	renderer: null,
 	items: [{
 			icon: 'resources/images/graph.png',
 			tooltip: Trans.show,
@@ -268,4 +269,14 @@ requiredFieldChanged = function (field) {
 		});
 		form.fireEvent('validChanged', valid);
 	}
+};
+/**
+ * Добавляет контекстную подсказку для ячеек таблиц поиска
+ * @param {String} value значение ячейчки
+ * @param {Object} metaData объект с настройками
+ */
+tipRenderer = function (value, metaData) {
+	if (value)
+		metaData.tdAttr = 'data-qtip="' + value + '"';
+	return value;
 };

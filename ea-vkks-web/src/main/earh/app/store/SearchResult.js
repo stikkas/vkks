@@ -5,6 +5,7 @@
 Ext.define('Earh.store.SearchResult', {
 	extend: 'Ext.data.Store',
 	requires: ['Ext.data.proxy.Ajax'],
+	remoteSort: true,
 	constructor: function (url) {
 		this.callParent();
 		this.setProxy(Ext.create('Ext.data.proxy.Ajax', {

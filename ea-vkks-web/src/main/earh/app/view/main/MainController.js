@@ -188,7 +188,7 @@ Ext.define('Earh.view.main.MainController', {
 	/**
 	 * Обновляет список найденых дел (при необходимости)
 	 */
-	updateCases: function() {
+	updateCases: function (page) {
 		if (this.updateCaseSearch) {
 			Ext.getStore('casesStore').reload();
 			this.updateCaseSearch = false;

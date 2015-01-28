@@ -139,7 +139,7 @@ Ext.define('Earh.view.work.Case', {
 						columns: {
 							defaults: {
 								menuDisabled: true,
-								width: '10%'
+								renderer: tipRenderer
 							},
 							items: [{
 									text: Trans.volume,
@@ -168,15 +168,15 @@ Ext.define('Earh.view.work.Case', {
 								}, {
 									text: Trans.remark,
 									dataIndex: 'remark',
-                                                                        width:'11%'
+									width: '11%'
 								}, {
 									text: Trans.court,
 									dataIndex: 'court',
-                                                                        width:'10%'
+									width: '10%'
 								}, {
 									text: Trans.fio,
 									dataIndex: 'fio',
-                                                                        width:'10.5%'
+									width: '10.5%'
 								}, graphLinkColumn]
 						},
 						dockedItems: [{
@@ -191,8 +191,7 @@ Ext.define('Earh.view.work.Case', {
 										cls: 'add_cls'
 									}, {
 										xtype: 'pagingtoolbar',
-										store: 'caseDocsStore',
-										displayInfo: false
+										store: 'caseDocsStore'
 									}]
 
 							}]

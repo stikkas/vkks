@@ -31,7 +31,8 @@ Ext.define('Earh.view.main.Main', {
 		}, {
 			xtype: 'container',
 			width: '100%',
-			layout: 'card'
+			layout: 'card',
+			overflowY: 'auto'
 					/*, region: 'center'*/
 		}],
 	initComponent: function () {
@@ -43,7 +44,7 @@ Ext.define('Earh.view.main.Main', {
 		mainView._center = mainView.items.getAt(1);
 		mainView._clayout = mainView._center.getLayout();
 		mainView._pages = {};
-		mainView.setActiveItem(Pages.home);
+		mainView._clayout.setActiveItem(mainView._pages[Pages.home] = Ext.widget(Pages.home));
 	},
 	/**
 	 * Переключает на нужную страницу
@@ -52,11 +53,13 @@ Ext.define('Earh.view.main.Main', {
 	setActiveItem: function (page) {
 		var mainView = this,
 				item = mainView._pages[page];
+		mainView._clayout.getActiveItem().yscrl = mainView._center.getScrollY();
 		if (!item) {
 			item = mainView._pages[page] = Ext.widget(page);
 			mainView._center.add(item);
 		}
 		mainView._clayout.setActiveItem(item);
+		mainView._center.scrollTo(0, item.yscrl);
 	},
 	/**
 	 * Возвращает экранную форму по названию страницы (из Pages)

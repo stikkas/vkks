@@ -98,7 +98,8 @@ Ext.define('Earh.view.search.Case', {
 				},
 				columns: {
 					defaults: {
-						menuDisabled: true
+						menuDisabled: true,
+						renderer: tipRenderer
 					},
 					items: [{
 							text: Trans.caseNum_,

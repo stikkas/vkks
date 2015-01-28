@@ -4,6 +4,7 @@
 
 Ext.define('Other.toolbar.Paging', {
 	override: 'Ext.toolbar.Paging',
+	displayInfo: true,
 	/**
 	 * Переопределяем частный метод.
 	 * Дешево и сердито.

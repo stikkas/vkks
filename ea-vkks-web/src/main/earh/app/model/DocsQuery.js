@@ -3,9 +3,9 @@
  */
 Ext.define('Earh.model.DocsQuery', {
 	extend: 'Ext.data.Model',
-	idProperty: 'volume',
+	idProperty: 'number',
 	fields: [
-		{name: 'volume', type: 'int', defaultValue: null, convert: null},
+//		{name: 'volume', type: 'int', defaultValue: null, convert: null},
 		{name: 'number', type: 'string', defaultValue: null, convert: function (v) {
 				if (!v)
 					return null;
@@ -17,9 +17,10 @@ Ext.define('Earh.model.DocsQuery', {
 					return null;
 				return v;
 			}},
-		{name: 'startPage', type: 'int', defaultValue: null, convert: null},
-		{name: 'endPage', type: 'int', defaultValue: null, convert: null},
-		{name: 'date', type: 'date', defaultValue: null, convert: null},
+//		{name: 'startPage', type: 'int', defaultValue: null, convert: null},
+//		{name: 'endPage', type: 'int', defaultValue: null, convert: null},
+		{name: 'startDate', type: 'date', defaultValue: null, convert: null},
+		{name: 'endDate', type: 'date', defaultValue: null, convert: null},
 		{name: 'court', type: 'string', defaultValue: null, convert: function (v) {
 				if (!v)
 					return null;
