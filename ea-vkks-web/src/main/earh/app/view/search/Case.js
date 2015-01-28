@@ -105,7 +105,7 @@ Ext.define('Earh.view.search.Case', {
 								store: 'fiosStore',
 								minChars: 1,
 								editable: true,
-								listeners: {blur: emptyCombo2},
+								listeners: {blur: emptyCombo2}
 //								width: 775
 							}]
 					}, {
