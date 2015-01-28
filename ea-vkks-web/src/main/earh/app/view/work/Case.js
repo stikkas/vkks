@@ -141,11 +141,11 @@ Ext.define('Earh.view.work.Case', {
 								menuDisabled: true,
 								renderer: tipRenderer
 							},
-							items: [{
+							items: [/*{
 									text: Trans.volume,
 									dataIndex: 'volume',
 									width: '5.3%'
-								}, {
+								}, */{
 									text: Trans.docNum_,
 									dataIndex: 'number',
 									width: '9.9%'
@@ -158,7 +158,7 @@ Ext.define('Earh.view.work.Case', {
 									dataIndex: 'title',
 									width: '25%'
 								}, {
-									text: Trans.pages,
+									text: Trans.pagesCount,
 									dataIndex: 'pages',
 									width: '5%'
 								}, {

@@ -21,6 +21,16 @@ Ext.define('Earh.model.CasesQuery', {
 		},
 		{name: 'startDate', type: 'date', defaultValue: null, convert: null},
 		{name: 'endDate', type: 'date', defaultValue: null, convert: null},
+		{name: 'court', type: 'string', defaultValue: null, convert: function (v) {
+				if (!v)
+					return null;
+				return v;
+			}},
+		{name: 'fio', type: 'string', defaultValue: null, convert: function (v) {
+				if (!v)
+					return null;
+				return v;
+			}},
 		{name: 'toporef', type: 'int', defaultValue: null, convert: null},
 		{name: 'remark', type: 'string', defaultValue: null, convert: function (v) {
 				if (!v)

@@ -26,7 +26,10 @@ Ext.define('Earh.view.search.Case', {
 			if (value === 0)
 				cb.reset();
 		}
-
+		function emptyCombo2(cb) {
+			if (!cb.getRawValue())
+				cb.reset();
+		}
 		var resultStoreId = 'casesStore';
 		this.callParent([{
 				xtype: 'form',
@@ -66,15 +69,45 @@ Ext.define('Earh.view.search.Case', {
 						name: 'title',
 						width: 985
 					}, {
-						xtype: 'datefield',
-						fieldLabel: Trans.startDate,
-						name: 'startDate',
-						width: 535
+						xtype: 'container',
+						layout: 'hbox',
+						items: [{
+								xtype: 'datefield',
+								fieldLabel: Trans.startDate,
+								name: 'startDate',
+								labelWidth: 400,
+								width: 535
+							}, {
+								xtype: 'datefield',
+								fieldLabel: Trans.endDate,
+								labelWidth: 120,
+								name: 'endDate',
+								width: 250
+							}]
 					}, {
-						xtype: 'datefield',
-						fieldLabel: Trans.endDate,
-						name: 'endDate',
-						width: 535
+						xtype: 'container',
+						layout: 'hbox',
+						items: [
+							{
+								xtype: 'combobox',
+								fieldLabel: Trans.court,
+								name: 'court',
+								store: 'courtsStore',
+								minChars: 1,
+								editable: true,
+								listeners: {blur: emptyCombo2},
+								labelWidth: 400,
+								width: 600
+							}, {
+								xtype: 'combobox',
+								fieldLabel: Trans.fio,
+								name: 'fio',
+								store: 'fiosStore',
+								minChars: 1,
+								editable: true,
+								listeners: {blur: emptyCombo2},
+//								width: 775
+							}]
 					}, {
 						xtype: 'treepicker',
 						fieldLabel: Trans.topoRef,
