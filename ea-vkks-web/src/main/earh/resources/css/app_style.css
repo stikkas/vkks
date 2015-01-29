@@ -327,6 +327,7 @@ div.x-column-header{
     font-family:Arial, sans-serif;
     font-size:1.3em;
 }
+
 .x-panel-body .x-grid-item-over .x-grid-cell-inner{
     color:#1D4B82;
     font-weight:bold;
@@ -424,6 +425,8 @@ div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
 }
 /* отображение ячеек с номером дела и указателем на карточке поиска документов */
 .case-of-doc-cell:hover, .case-of-doc-cell:hover div {
+    color:#1D4B82 !important;
+    font-weight:bold !important;
 	text-decoration: underline;
 	cursor: pointer !important;
 }

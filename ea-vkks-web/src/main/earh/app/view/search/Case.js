@@ -87,7 +87,7 @@ Ext.define('Earh.view.search.Case', {
 					}, {
 						xtype: 'container',
 						layout: 'hbox',
-                                                cls:'padt5 padb5',
+						cls: 'padt5 padb5',
 						items: [
 							{
 								xtype: 'combobox',
@@ -139,33 +139,33 @@ Ext.define('Earh.view.search.Case', {
 					items: [{
 							text: Trans.caseNum_,
 							dataIndex: 'number',
-							flex:0.61
+							flex: 0.61
 						},
 						{
 							text: Trans.caseType,
 							dataIndex: 'type',
-							flex:2
+							flex: 2
 						},
 						{
 							text: Trans.storeLife,
 							dataIndex: 'storeLife',
-							flex:1
+							flex: 1
 						}, {
 							text: Trans.caseTitle,
 							dataIndex: 'title',
-							flex:2
+							flex: 2
 						}, {
 							text: Trans.dates,
 							dataIndex: 'dates',
-							flex:1.4
+							flex: 1.4
 						}, {
 							text: Trans.topoRef,
 							dataIndex: 'toporef',
-							flex:2
+							flex: 2
 						}, {
 							text: Trans.remark,
 							dataIndex: 'remark',
-							flex:1
+							flex: 1
 						}]
 				},
 				dockedItems: [{

@@ -11,9 +11,8 @@ Ext.define('Earh.view.search.DocController', {
 	 * @param {Object} metaData объект с настройками
 	 */
 	caseRenderer: function (value, metaData) {
-		metaData.tdAttr = 'data-qtip="Показать данные дела"';
 		metaData.tdCls = 'case-of-doc-cell';
-		return value;
+		return tipRenderer(value, metaData);
 	},
 	/**
 	 * Показывает окошко с данными о деле при щелчке по ячейки 
@@ -26,8 +25,6 @@ Ext.define('Earh.view.search.DocController', {
 	cellClicked: function (grid, cell, idx, rec) {
 		if (idx === 0 || idx === 1) {
 			var id = rec.get('caseId');
-			if (!id)
-				id = "AUsHqgKoKl6UNCVMEcUy";
 			Earh.model.Case.getProxy().setUrl(Urls.scase);
 			Earh.model.Case.load(id, {
 				success: function (model, operation) {
