@@ -135,6 +135,13 @@ a.add_cls.x-btn.x-btn-focus.x-btn-default-small{
     margin-left:10px;
     padding-left:23px;
 }
+/*.doc_case a.add_cls.x-btn{
+    width:100%;
+    display:block;
+}
+.doc_case a.add_cls.x-btn span{
+    text-align:left;
+}*/
 .close_cls img.x-tool-img{
     background-image:url('../images/project_images/red_cross.png');
     background-position:0 0;

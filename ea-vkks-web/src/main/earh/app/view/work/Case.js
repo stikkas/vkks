@@ -182,7 +182,7 @@ Ext.define('Earh.view.work.Case', {
 						dockedItems: [{
 								xtype: 'container',
 								dock: 'top',
-								layout: 'hbox',
+								//layout: 'hbox',
 								items: [{
 										xtype: 'button',
 										text: Trans.add,
