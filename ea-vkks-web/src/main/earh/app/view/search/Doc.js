@@ -95,16 +95,16 @@ Ext.define('Earh.view.search.Doc', {
 								xtype: 'datefield',
 								fieldLabel: "с",
 								name: 'startDate',
-                                                                labelWidth:10,
-                                                                cls:'marl-15',
-                                                                width:140
+								labelWidth: 10,
+								cls: 'marl-15',
+								width: 140
 							}, {
 								xtype: 'datefield',
 								fieldLabel: "по",
 								name: 'endDate',
-                                                                labelWidth:20,
-                                                                cls:'marl-15',                                                                
-                                                                width:150
+								labelWidth: 20,
+								cls: 'marl-15',
+								width: 150
 							}]
 					}, {
 						xtype: 'combobox',
