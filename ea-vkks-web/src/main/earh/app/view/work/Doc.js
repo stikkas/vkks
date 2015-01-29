@@ -146,7 +146,7 @@ Ext.define('Earh.view.work.Doc', {
 		docView.callParent();
 		docView._frm = docView.items.getAt(0);
 		docView._gfrm = docView.items.getAt(1);
-		docView._ctf = docView._frm.items.getAt(1);
+		docView._ctf = docView._frm.items.getAt(0);
 		docView.store = Ext.create('Earh.store.DocStore');
 	},
 	/**
