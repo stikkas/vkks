@@ -292,8 +292,8 @@ div.x-column-header{
 /*текст в таблицах*/
 .x-grid-header-ct .x-column-header-text,
 .x-grid-cell .x-grid-cell-inner{
-    white-space:normal;
-    word-wrap: break-word;
+    /*white-space:normal;
+    word-wrap: break-word;*/
 }
 .x-grid-row .x-grid-td{
     vertical-align:middle;
