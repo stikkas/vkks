@@ -306,12 +306,16 @@ div.x-column-header{
 .doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
 .doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(4) .x-grid-cell-inner,
 .doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(5) .x-grid-cell-inner,
-.doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(9) .x-grid-cell-inner{
+.doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(9) .x-grid-cell-inner,
+.doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
+.doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(4) .x-grid-cell-inner,
+.doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(5) .x-grid-cell-inner,
+.doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(9) .x-grid-cell-inner{
 	text-align:center !important;
 }
-
+.doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(3) .x-grid-cell-inner,
 .doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(6) .x-grid-cell-inner{
-    text-align:left;
+    text-align:left !important;
 }
 .x-panel-body .x-grid-item:nth-child(even){
     background-color:#E1EEFF;
