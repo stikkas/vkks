@@ -311,7 +311,7 @@ div.x-column-header{
 .doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(4) .x-grid-cell-inner,
 .doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(5) .x-grid-cell-inner,
 .doc_case .x-grid-with-row-lines td.x-grid-td:nth-child(9) .x-grid-cell-inner{
-	text-align:center !important;
+    text-align:center !important;
 }
 .doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(3) .x-grid-cell-inner,
 .doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(6) .x-grid-cell-inner{
@@ -376,11 +376,11 @@ div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
     left:auto !important;
     right:0 !important;
 }
-.x-box-inner span.x-tbar-page-prev{
+.x-box-inner span.x-tbar-page-first{
     background-image:url('../images/project_images/navigation.png');
     background-position:0px 1px;
 }
-.x-box-inner span.x-tbar-page-first{
+.x-box-inner span.x-tbar-page-prev{
     background-image:url('../images/project_images/navigation.png');
     background-position:-12px 1px;
 }
@@ -392,11 +392,12 @@ div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
     background-image:url('../images/project_images/navigation.png');
     background-position:-36px 1px;
 }
-.x-item-disabled .x-tbar-page-prev,
-.x-item-disabled .x-tbar-page-first,
-.x-item-disabled .x-tbar-page-next,
-.x-item-disabled .x-tbar-page-last{
+.x-item-disabled span.x-tbar-page-prev,
+.x-item-disabled span.x-tbar-page-first,
+.x-item-disabled span.x-tbar-page-next,
+.x-item-disabled span.x-tbar-page-last{
     opacity:0.5;
+    width:12px !important;
 }
 /*карточка документа*/
     /*разметка*/
