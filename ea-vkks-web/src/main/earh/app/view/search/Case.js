@@ -86,7 +86,6 @@ Ext.define('Earh.view.search.Case', {
 							}]
 					}, {
 						xtype: 'container',
-						layout: 'hbox',
 						cls: 'padt5 padb5',
 						items: [
 							{
@@ -98,7 +97,7 @@ Ext.define('Earh.view.search.Case', {
 								editable: true,
 								listeners: {blur: emptyCombo2},
 								labelWidth: 400,
-								width: 650
+								width: 735
 							}, {
 								xtype: 'combobox',
 								fieldLabel: Trans.fio,
@@ -107,8 +106,8 @@ Ext.define('Earh.view.search.Case', {
 								minChars: 1,
 								editable: true,
 								listeners: {blur: emptyCombo2},
-								labelWidth: 70,
-								width: 324
+                                                                labelWidth: 400,
+								width: 735
 							}]
 					}, {
 						xtype: 'treepicker',
