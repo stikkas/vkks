@@ -320,6 +320,9 @@ div.x-column-header{
 .x-panel-body .x-grid-item:nth-child(even){
     background-color:#E1EEFF;
 }
+.x-panel-body .x-grid-item.x-grid-item-selected{
+    background-color:#ECECD0;
+}
 .x-panel-body .x-grid-item-over{
     background-color:#EAE5FF !important;
 }
