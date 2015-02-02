@@ -103,7 +103,8 @@ public class EsSearchHelper
         filterMap.put("type", q.getType());
         /*filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
                         new Pair<>(q.getStartPage(), q.getEndPage())));*/
-        filterMap.put("date", q.getStartDate());
+        filterMap.put("dates", (q.getStartDate() == null && q.getEndDate() == null) ? null :
+                new Pair<>(q.getStartDate(), q.getEndDate()));
         
         QueryBuilder query = makeQuery(queryMap, filterMap);
         
@@ -131,7 +132,7 @@ public class EsSearchHelper
         Map<String, Object> filterMap = new HashMap<>();        
         filterMap.put("type", q.getType());
         filterMap.put("storeLife", q.getStoreLife());
-        filterMap.put("dates", (q.getStartDate() == null && q.getEndDate() == null) ? null :
+        filterMap.put("case_dates", (q.getStartDate() == null && q.getEndDate() == null) ? null :
                 new Pair<>(q.getStartDate(), q.getEndDate()));
         filterMap.put("toporef", q.getToporefIds());
         
@@ -362,10 +363,19 @@ public class EsSearchHelper
                         .must(FilterBuilders.rangeFilter("startPage").gte(pages.getValue0()))
                         .must(FilterBuilders.rangeFilter("endPage").lte(pages.getValue1())));
         }*/
-        if (field.equals("date"))
-            return FilterBuilders.termFilter(field, new SimpleDateFormat("dd.MM.YYYY").format(value));
-        
         if (field.equals("dates"))
+        {
+            Pair<Date, Date> dates = (Pair<Date, Date>)value;
+            RangeFilterBuilder range = FilterBuilders.rangeFilter("date");
+            SimpleDateFormat df = new SimpleDateFormat("dd.MM.YYYY");
+            if (dates.getValue1() != null)
+                range = range.lte(df.format(dates.getValue1()));
+            if (dates.getValue0() != null)
+                range = range.gte(df.format(dates.getValue0()));
+            return range;
+        }
+        
+        if (field.equals("case_dates"))
         {
             Pair<Date, Date> dates = (Pair<Date, Date>)value;
             RangeFilterBuilder range = FilterBuilders.rangeFilter("date");
