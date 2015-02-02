@@ -45,7 +45,7 @@ a.x-btn.doc_cls.x-btn-focus.x-btn-default-small{
 .icons_cls.x-btn{
     background-repeat:no-repeat;
     background-position:top center;
-    //background-size:auto 50%;
+    /*background-size:auto 50%;*/
     padding-top:2em;/*27px;*/
     top:0 !important;
 }
