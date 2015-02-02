@@ -10,7 +10,15 @@ body > .x-box-inner > .x-box-target > .x-container{
     overflow-x:hidden;
    /* overflow-y:auto; */
     /*height:calc(100% - 190px);*/
-    height:75%;
+    //height:100%;
+}
+body > .x-box-inner > .x-box-target > .x-container.main_content{
+    height:80%;
+    top:auto !important;        /*переопределяем для полного скорллинга.*/
+    bottom:0.5em !important;    /* иначе отступ определяется исходя из размера наибольшего элемента в хедере (герба)*/
+}
+body > .x-box-inner > .x-box-target > .x-container.header_cls{
+    height:20%;
 }
 /*настройка всяческих полей*/
 label span:not(.x-form-item-label-inner){
@@ -27,8 +35,13 @@ label.x-form-item-label-default{
     /*margin-right:25px !important;*/
 }
 .x-form-text-field-body.x-form-item-body-default{
-    min-height:25px;
+   // min-height:25px;
     padding-left:15px;
+}
+.x-form-text-field-body.x-form-item-body-default input[role="textbox"],
+.x-form-text-field-body.x-form-item-body-default input[type="combobox"],
+.x-form-text-field-body.x-form-item-body-default input[type="text"]{
+    //height:20px;
 }
 .marl-15 .x-form-text-field-body.x-form-item-body-default{
     padding-left:3px;         /*горизонтальные даты документа в поиске документов*/
@@ -41,7 +54,7 @@ textarea.x-form-text.x-form-text-default{
     padding:3px;
 }
 input.x-form-text.x-form-text-default{
-    min-height:25px;
+    //min-height:25px;
 }
 /*combobox*/
 .x-border-box .x-form-text-wrap.x-form-text-wrap-default input[id*="combo"],
@@ -115,13 +128,17 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
 }
 .header_cls{
     width:100%;
+    overflow:visible !important;
 }
 .header_cls > .x-box-inner{
-    height:40% !important;
+    height:100% !important;
     width:100% !important;
+    overflow:visible;
 }
 .title_head{
     width: calc(100% - 150px);
+    height:100%;
+    overflow:visible !important;
 }
 .title_head .title_head{
     border-bottom-image:url('../images/project_images/blue_underline.png');
@@ -131,23 +148,29 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
     -o-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
     border-bottom:2px solid #5781B4;
     width:100%;
+    height:auto;
 }
 .title_head > div{
     width:100% !important;
+    height:100% !important;
+    overflow:visible;
 }
 /*----*/
 h1{
     color:#4E7AAF;
     font-family:'DEAD_SECRETARY_Cyr';
-    font-size:34px;
+    font-size:290%;
     font-stretch:extra-expanded;
     text-align:center;
+    padding:0.3em;
+    line-height:10%;
 }
 .gerb{
     background-image:url('../images/project_images/gerb.png');
     background-size:100% auto;
+    background-repeat:no-repeat;
     width:129px;
-    height:145px
+    height:11.6em;
 }
 
 /*стиль для страниц навигации*/
@@ -175,8 +198,8 @@ h1{
     background-position:top center,
         bottom center;
     text-align:center;
-    padding-top:100px;
-    padding-bottom:60px;
+    padding-top:6%;
+    padding-bottom:6%;
     margin-top:5%;
 }
 /*только для домашней*/
@@ -193,20 +216,25 @@ h1{
 .x-toolbar-spacer{
     width:20px !important;
 }
-.buttons_menu,
+div.buttons_menu,
 .buttons_menu > .x-box-inner{
     width:100% !important;
+    height:50% !important;
+    overflow:visible;
 }
 .buttons_menu{
     padding:5px !important;
     /*height:50px;*/
 }
+.buttons_menu a{
+    overflow:visible;
+}
 label.user_cls.x-toolbar-item{
-    top:15px !important;
+    top:1.4em !important;
     color:#1D4B82;
     font-family:'Souvenir Bold';
-    font-size:14px;
-    margin:0px 10px 7px 0 !important;
+    font-size:1.16em;
+    margin:0 0.85em 0.55em 0 !important;
 }
 .user_cls{
     right:50px !important;
@@ -228,6 +256,7 @@ label.user_cls.x-toolbar-item{
 /*панели разделов*/
 div.fields_panel{
     padding:15px;
+    padding-bottom:5px;;
     border:1px solid #CADAF4;
     box-shadow:6px 10px 18px rgba(98,119,168,.75);
 /*    overflow-y:auto;*/
