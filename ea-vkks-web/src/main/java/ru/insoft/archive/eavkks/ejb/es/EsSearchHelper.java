@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.BoolFilterBuilder;
@@ -27,12 +28,15 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.javatuples.Pair;
 import ru.insoft.archive.eavkks.ejb.CommonDBHandler;
 import ru.insoft.archive.eavkks.model.EaCase;
 import ru.insoft.archive.eavkks.model.EaDocument;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
+import ru.insoft.archive.extcommons.webmodel.OrderBy;
 
 /**
  *
@@ -88,7 +92,8 @@ public class EsSearchHelper
         return res;
     }
     
-    public SearchHits searchDocuments(DocumentSearchCriteria q, Integer start, Integer limit)
+    public SearchHits searchDocuments(DocumentSearchCriteria q, 
+            Integer start, Integer limit, List<OrderBy> orders)
     {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("number", q.getNumber());
@@ -109,18 +114,22 @@ public class EsSearchHelper
         QueryBuilder query = makeQuery(queryMap, filterMap);
         
         Client esClient = esAdmin.getClient();
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+        SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
                 .setTypes("document")
                 .setQuery(query)
                 .setFrom(start)
-                .setSize(limit)
+                .setSize(limit)                
                 .setFetchSource(null, new String[]
-                    {"graph", "addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
-                .execute().actionGet();
+                    {"graph", "addUserId", "modUserId", "insertDate" ,"lastUpdateDate"});
+        if (orders != null)
+            for (OrderBy order : orders)
+                req.addSort(SortBuilders.fieldSort(order.getField())
+                    .order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
+        SearchResponse resp = req.execute().actionGet();
         return resp.getHits();
     }
     
-    public SearchHits searchCases(CaseSearchCriteria q, Integer start, Integer limit)
+    public SearchHits searchCases(CaseSearchCriteria q, Integer start, Integer limit, List<OrderBy> orders)
     {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("number", q.getNumber());
@@ -138,14 +147,18 @@ public class EsSearchHelper
         
         QueryBuilder query = makeQuery(queryMap, filterMap);
         Client esClient = esAdmin.getClient();
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+        SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
                 .setTypes("case")
                 .setQuery(query)
                 .setFrom(start)
                 .setSize(limit)
                 .setFetchSource(null, new String[]
-                    {"addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
-                .execute().actionGet();
+                    {"addUserId", "modUserId", "insertDate" ,"lastUpdateDate"});
+        if (orders != null)
+            for (OrderBy order : orders)
+                req.addSort(SortBuilders.fieldSort(order.getField())
+                    .order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
+        SearchResponse resp = req.execute().actionGet();
         return resp.getHits();
     }
     
@@ -198,7 +211,7 @@ public class EsSearchHelper
         return eaCase;
     }
     
-    public SearchHits searchCaseDocuments(String caseId, String context, Integer start, Integer limit)
+    public SearchHits searchCaseDocuments(String caseId, String context, Integer start, Integer limit, List<OrderBy> orders)
     {
         QueryBuilder query;
         if (context == null || context.isEmpty())
@@ -208,14 +221,18 @@ public class EsSearchHelper
         FilterBuilder filter = getFilter("caseId", caseId);
         
         Client esClient = esAdmin.getClient();
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+        SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
                 .setTypes("document")
                 .setQuery(QueryBuilders.filteredQuery(query, filter))
                 .setFrom(start)
                 .setSize(limit)
                 .setFetchSource(null, new String[]
-                    {"addUserId", "modUserId", "insertDate" ,"lastUpdateDate"})
-                .execute().actionGet();
+                    {"addUserId", "modUserId", "insertDate" ,"lastUpdateDate"});
+        if (orders != null)
+            for (OrderBy order : orders)
+                req.addSort(SortBuilders.fieldSort(order.getField())
+                    .order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
+        SearchResponse resp = req.execute().actionGet();
         return resp.getHits();
     }
     

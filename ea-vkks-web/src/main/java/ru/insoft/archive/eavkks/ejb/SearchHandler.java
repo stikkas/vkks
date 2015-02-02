@@ -22,6 +22,7 @@ import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchResult;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchResult;
+import ru.insoft.archive.extcommons.webmodel.OrderBy;
 import ru.insoft.archive.extcommons.webmodel.SearchResult;
 
 /**
@@ -36,9 +37,9 @@ public class SearchHandler
     @Inject
     DescValueMapsProvider dvMaps;
     
-    public SearchResult searchDocuments(DocumentSearchCriteria q, Integer start, Integer limit)
+    public SearchResult searchDocuments(DocumentSearchCriteria q, Integer start, Integer limit, List<OrderBy> orders)
     {
-        return processDocSearchHits(esSearch.searchDocuments(q, start, limit));
+        return processDocSearchHits(esSearch.searchDocuments(q, start, limit, orders));
     }
     
     protected SearchResult processDocSearchHits(SearchHits hits)
@@ -81,11 +82,11 @@ public class SearchHandler
         return res;
     }
     
-    public SearchResult searchCases(CaseSearchCriteria q, Integer start, Integer limit)
+    public SearchResult searchCases(CaseSearchCriteria q, Integer start, Integer limit, List<OrderBy> orders)
     {
         if (q.getToporef() != null)
             q.setToporefIds(dvMaps.getToporefHierarchy().get(q.getToporef()));
-        SearchHits hits = esSearch.searchCases(q, start, limit);
+        SearchHits hits = esSearch.searchCases(q, start, limit, orders);
         SearchResult res = new SearchResult();
         res.setResults(hits.getTotalHits());
         List<CaseSearchResult> values = new ArrayList<>();
@@ -128,8 +129,8 @@ public class SearchHandler
         return res;
     }
     
-    public SearchResult searchCaseDocuments(String caseId, String context, Integer start, Integer limit)
+    public SearchResult searchCaseDocuments(String caseId, String context, Integer start, Integer limit, List<OrderBy> orders)
     {
-        return processDocSearchHits(esSearch.searchCaseDocuments(caseId, context, start, limit));
+        return processDocSearchHits(esSearch.searchCaseDocuments(caseId, context, start, limit, orders));
     }    
 }

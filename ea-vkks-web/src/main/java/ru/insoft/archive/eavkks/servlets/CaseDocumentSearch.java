@@ -1,6 +1,7 @@
 package ru.insoft.archive.eavkks.servlets;
 
 import java.io.StringReader;
+import java.util.List;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ru.insoft.archive.eavkks.ejb.SearchHandler;
+import ru.insoft.archive.extcommons.webmodel.OrderBy;
 import ru.insoft.archive.extcommons.webmodel.SearchResult;
 
 /**
@@ -39,10 +41,13 @@ public class CaseDocumentSearch extends VkksAbstractServlet
         if (jo.containsKey("context"))
             context = jo.getString("context");
         
+        List<OrderBy> orders = null;
         Integer start = Integer.valueOf(req.getParameter(startParamKey));
         Integer limit = Integer.valueOf(req.getParameter(limitParamKey));
+        if (req.getParameter("sort") != null)
+            orders = jsonTools.parseEntitiesList(req.getParameter("sort"), OrderBy.class);
         
-        SearchResult sr = search.searchCaseDocuments(caseId, context, start, limit);
+        SearchResult sr = search.searchCaseDocuments(caseId, context, start, limit, orders);
         resp.getWriter().write(jsonTools.getJsonForEntity(sr).toString());
     }    
 }
