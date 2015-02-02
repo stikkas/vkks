@@ -58,7 +58,7 @@ public class EsIndexHelper
                 String acase = (String)oldCase.get("number");
                 Number toporefId = (Number)oldCase.get("toporef");
                 if (!acase.equals(eaCase.getNumber()) || 
-                        toporefId == null ? eaCase.getToporef() != null : !((Long)(toporefId.longValue())).equals(eaCase.getToporef()))
+                        (toporefId == null ? eaCase.getToporef() != null : !((Long)(toporefId.longValue())).equals(eaCase.getToporef())))
                 {
                     Integer start = 0, limit = 25;
                     Long total;
