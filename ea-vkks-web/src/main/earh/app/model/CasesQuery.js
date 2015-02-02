@@ -19,8 +19,18 @@ Ext.define('Earh.model.CasesQuery', {
 				return v;
 			}
 		},
-		{name: 'startDate', type: 'date', defaultValue: null, convert: null},
-		{name: 'endDate', type: 'date', defaultValue: null, convert: null},
+		{name: 'startDate', type: 'date', defaultValue: null, convert: function (v) {
+				if (!(v && Ext.Date.format(v, 'd.m.Y')))
+					return null;
+				return v;
+			}
+		},
+		{name: 'endDate', type: 'date', defaultValue: null, convert: function (v) {
+				if (!(v && Ext.Date.format(v, 'd.m.Y')))
+					return null;
+				return v;
+			}
+		},
 		{name: 'court', type: 'string', defaultValue: null, convert: function (v) {
 				if (!v)
 					return null;

@@ -14,6 +14,7 @@ Ext.define('Earh.view.search.Case', {
 		1, // пробел
 		0, // Поиск дел
 		1, // Поиск
+		1, // Очистить
 		0, // Сохранить
 		0, // Удалить
 		0, // Редактировать
@@ -38,7 +39,10 @@ Ext.define('Earh.view.search.Case', {
 				layout: 'vbox',
 				width: '100%',
 				defaults: {
-					labelWidth: 400
+					labelWidth: 400,
+					listeners: {
+						specialkey: "searchKeyPressed"
+					}
 				},
 				items: [{
 						xtype: 'textfield',
@@ -52,7 +56,10 @@ Ext.define('Earh.view.search.Case', {
 						name: 'type',
 						displayField: 'name',
 						valueField: 'id',
-						listeners: {change: emptyCombo},
+						listeners: {
+							change: emptyCombo,
+							specialkey: "searchKeyPressed"
+						},
 						width: 775
 					}, {
 						xtype: 'combobox',
@@ -61,7 +68,10 @@ Ext.define('Earh.view.search.Case', {
 						store: 'storeLifeStoreEm',
 						displayField: 'name',
 						valueField: 'id',
-						listeners: {change: emptyCombo},
+						listeners: {
+							change: emptyCombo,
+							specialkey: "searchKeyPressed"
+						},
 						width: 675
 					}, {
 						xtype: 'textfield',
@@ -71,14 +81,18 @@ Ext.define('Earh.view.search.Case', {
 					}, {
 						xtype: 'container',
 						layout: 'hbox',
+						defaults: {
+							xtype: 'datefield',
+							listeners: {
+								specialkey: "searchKeyPressed"
+							}
+						},
 						items: [{
-								xtype: 'datefield',
 								fieldLabel: Trans.startDate,
 								name: 'startDate',
 								labelWidth: 400,
 								width: 535
 							}, {
-								xtype: 'datefield',
 								fieldLabel: Trans.endDate,
 								labelWidth: 185,
 								name: 'endDate',
@@ -87,27 +101,26 @@ Ext.define('Earh.view.search.Case', {
 					}, {
 						xtype: 'container',
 						cls: 'padt5 padb5',
+						defaults: {
+							xtype: 'combobox',
+							labelWidth: 400,
+							minChars: 1,
+							editable: true,
+							width: 735,
+							listeners: {
+								specialkey: "searchKeyPressed",
+								blur: emptyCombo2
+							}
+						},
 						items: [
 							{
-								xtype: 'combobox',
 								fieldLabel: Trans.court,
 								name: 'court',
-								store: 'courtsStore',
-								minChars: 1,
-								editable: true,
-								listeners: {blur: emptyCombo2},
-								labelWidth: 400,
-								width: 735
+								store: 'courtsStore'
 							}, {
-								xtype: 'combobox',
 								fieldLabel: Trans.fio,
 								name: 'fio',
-								store: 'fiosStore',
-								minChars: 1,
-								editable: true,
-								listeners: {blur: emptyCombo2},
-                                                                labelWidth: 400,
-								width: 735
+								store: 'fiosStore'
 							}]
 					}, {
 						xtype: 'treepicker',

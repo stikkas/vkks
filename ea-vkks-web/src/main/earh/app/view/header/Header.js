@@ -61,6 +61,10 @@ Ext.define('Earh.view.header.Header', {
 								handler: 'search',
 								cls: 'search_cls icons_cls'
 							}, {
+								text: Trans.clear,
+								handler: 'clear',
+								cls: 'clear_cls icons_cls'
+							}, {
 								text: Trans.save,
 								handler: 'save',
 								cls: 'save_cls icons_cls'

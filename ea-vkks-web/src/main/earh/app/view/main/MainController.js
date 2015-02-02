@@ -41,7 +41,13 @@ Ext.define('Earh.view.main.MainController', {
 		for (var o in Pages)
 			listenersFormPages[Pages[o]] = {activate: 'showTB'};
 //		listenersFormPages.form = {validChanged: 'validChanged'};
-		controller.listen({component: listenersFormPages});
+		controller.listen({component: listenersFormPages,
+			controller: {
+				docsearch: {
+					searchKeyPressed: 'searchKeyPressed'
+				}
+			}
+		});
 		controller.callParent();
 	},
 	/**
@@ -85,10 +91,17 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	toCasesSearch: function () {
 		this.view.setActiveItem(Pages.scases);
+		this.clear();
+	},
+	/**
+	 * Очищает форму и результаты поиска
+	 */
+	clear: function () {
 		this.view.getActiveItem().clear();
 	},
 	/**
 	 * Перенаправление к странице поиска дел с проверкой несохраненных данных
+	 * Из страницы создания дела
 	 */
 	toCasesSearch1: function () {
 		this.toPage('toCasesSearch');
@@ -119,7 +132,7 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	toDocsSearch: function () {
 		this.view.setActiveItem(Pages.sdocs);
-		this.view.getActiveItem().clear();
+		this.clear();
 	},
 	/**
 	 * Обработчик события нажатия на клавишу "Выход"
@@ -148,6 +161,15 @@ Ext.define('Earh.view.main.MainController', {
 		this.view.getActiveItem().search();
 	},
 	/**
+	 * Вызывается по нажатию кнопки на форме поиска
+	 * @param {Object} field элемент, находящийся в фокусе
+	 * @param {Object} event событие нажатия кнопки
+	 */
+	searchKeyPressed: function (field, event) {
+		if (event.getKey() === event.ENTER)
+			this.search();
+	},
+	/**
 	 * Функция сохранения дела, документа
 	 */
 	save: function () {
@@ -161,7 +183,21 @@ Ext.define('Earh.view.main.MainController', {
 	 * Функция удаления дела, документа
 	 */
 	remove: function () {
-		this.view.getActiveItem().remove();
+		var controller = this,
+				page = controller.view.getActiveItem();
+
+		if (!page.model.get('id')) // Нечего удалять
+			return;
+
+		var xt = page.xtype,
+				isCase = (xt === Pages.acase);
+		if (isCase && page.hasDocuments()) {
+			showError("Ошибка", "Невозможно удалить дело, в котором содержатся документы");
+			return;
+		}
+		requestToRemove(isCase ? "дело" : "документ", function () {
+			controller.view.getActiveItem().remove();
+		});
 	},
 	/**
 	 * Устанавливает меню для ЭФ "Дело" и инициализирует ЭФ "Дело"

@@ -100,7 +100,14 @@ Ext.define('Earh.view.search.DocController', {
 				}
 			});
 		}
+	},
+	/**
+	 * Перенаправление конроллеру родительского виджета
+	 */
+	searchKeyPressed: function() {
+		this.fireEventArgs('searchKeyPressed', arguments);
 	}
+	//----------------------------------------------------
 });
 
 

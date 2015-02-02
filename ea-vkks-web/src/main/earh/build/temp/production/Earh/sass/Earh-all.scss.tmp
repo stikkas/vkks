@@ -771,6 +771,7 @@ $include-ext-window-messagebox: true;
 $include-ext-window-toast: false;
 $include-ext-window-window: true;
 $include-other-container-container: true;
+$include-other-data-store: true;
 $include-other-field-base: true;
 $include-other-field-combobox: true;
 $include-other-field-date: true;

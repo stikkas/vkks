@@ -29,7 +29,7 @@ Ext.define('Earh.view.work.Doc', {
 		cls: 'fields_doc'
 	},
 	// Кнопки меню
-	tbb: [1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1],
+	tbb: [1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1],
 	initComponent: function () {
 		//-----for staff use only------------
 		function emptyCombo2(cb) {
@@ -44,11 +44,11 @@ Ext.define('Earh.view.work.Doc', {
 					labelWidth: 200
 				},
 				items: [/*{
-						xtype: 'numberfield',
-						fieldLabel: Trans.volume,
-						name: 'volume',
-						width: 300
-					}, */{
+				 xtype: 'numberfield',
+				 fieldLabel: Trans.volume,
+				 name: 'volume',
+				 width: 300
+				 }, */{
 						xtype: 'textarea',
 						fieldLabel: Trans.caseTitle,
 						name: 'caseTitle',
@@ -300,33 +300,34 @@ Ext.define('Earh.view.work.Doc', {
 	remove: function () {
 		var docView = this,
 				id = docView.model.get('id');
-		if (id) {
-			Ext.getBody().mask("Выполнение");
-			Ext.Ajax.request({
-				url: Urls.rdoc,
-				params: {
-					id: id,
-					caseId: docView.model.get('caseId')
-				},
-				success: function (answer) {
-					Ext.getBody().unmask();
-					var result = Ext.decode(answer.responseText);
-					if (result.success) {
-						docView.fireEvent('docChanged');
-						showInfo("Результаты", "Документ удален", function () {
-							docView.model = null; // Чтобы синхронизировать данные в модели и форме
-							docView.fireEvent('backToCase');
-						});
-					} else {
-						showError("Ошибка", result.msg);
-					}
-				},
-				failure: function (answer) {
-					Ext.getBody().unmask();
-					showError("Ошибка", answer.responseText);
+		// существование id должно проверятся выше, в данном случае в MainController
+//		if (id) {
+		Ext.getBody().mask("Выполнение");
+		Ext.Ajax.request({
+			url: Urls.rdoc,
+			params: {
+				id: id,
+				caseId: docView.model.get('caseId')
+			},
+			success: function (answer) {
+				Ext.getBody().unmask();
+				var result = Ext.decode(answer.responseText);
+				if (result.success) {
+					docView.fireEvent('docChanged');
+					showInfo("Результаты", "Документ удален", function () {
+						docView.model = null; // Чтобы синхронизировать данные в модели и форме
+						docView.fireEvent('backToCase');
+					});
+				} else {
+					showError("Ошибка", result.msg);
 				}
-			});
-		}
+			},
+			failure: function (answer) {
+				Ext.getBody().unmask();
+				showError("Ошибка", answer.responseText);
+			}
+		});
+//		}
 	},
 	/**
 	 * Переключает режим либо отображения граф. образа, либо кнопки добавления гр. образа
