@@ -11,6 +11,7 @@ Ext.define('Earh.Application', {
 		'Other.container.Container',
 		'Other.ux.TreePicker',
 		'Other.picker.Date',
+		'Other.data.Store',
 		'Ext.Msg'
 	],
 	name: 'Earh',

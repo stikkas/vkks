@@ -33,13 +33,13 @@ Ext.define('Earh.view.work.Case', {
 	// Кнопки меню
 	hbtns: [
 		// Роль только чтение
-		[1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+		[1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
 		// Роль редактирование в режиме просмотра (возможно только из поиска)
-		[1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+		[1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
 		// Роль редактирование в режиме редактирования
-		[1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1],
+		[1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1],
 		// Роль редактирование в режиме создания
-		[1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1]
+		[1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1]
 	],
 	initComponent: function () {
 		var caseView = this,
@@ -142,10 +142,10 @@ Ext.define('Earh.view.work.Case', {
 								renderer: tipRenderer
 							},
 							items: [/*{
-									text: Trans.volume,
-									dataIndex: 'volume',
-									width: '5.3%'
-								}, */{
+							 text: Trans.volume,
+							 dataIndex: 'volume',
+							 width: '5.3%'
+							 }, */{
 									text: Trans.docNum_,
 									dataIndex: 'number',
 									width: '9.9%'
@@ -255,46 +255,42 @@ Ext.define('Earh.view.work.Case', {
 	 * Удаляет дело
 	 */
 	remove: function () {
-		if (this._grd.store.getCount() > 0) {
-			showError("Ошибка", "Невозможно удалить дело, в котором содержатся документы");
-		} else {
-			var caseView = this,
-					id = caseView.model.get('id');
-			if (id) {
-				Ext.getBody().mask("Удаление");
-				Ext.Ajax.request({
-					url: Urls.rcase,
-					params: {
-						id: id
-					},
-					success: function (answer) {
-						Ext.getBody().unmask();
-						var result = Ext.decode(answer.responseText);
-						if (result.success) {
-							showInfo("Результаты", "Дело удалено", function () {
-								caseView.model = null; // Чтобы синхронизировать данные в модели и форме
+		var caseView = this,
+				id = caseView.model.get('id');
+		// существование id должно проверятся выше, в данном случае в MainController
+		Ext.getBody().mask("Удаление");
+		Ext.Ajax.request({
+			url: Urls.rcase,
+			params: {
+				id: id
+			},
+			success: function (answer) {
+				Ext.getBody().unmask();
+				var result = Ext.decode(answer.responseText);
+				if (result.success) {
+					showInfo("Результаты", "Дело удалено", function () {
+						caseView.model = null; // Чтобы синхронизировать данные в модели и форме
 //								caseView._frm.loadRecord(caseView.model);
-								if (caseView._crMode) {
-									caseView.fireEvent('toMain');
-								} else {
-									caseView.fireEvent('caseChanged');
-									//		caseView.fireEvent('removeModel', {
-									//			page: Pages.scases
-									//		});
-									caseView.fireEvent('backToSearch');
-								}
-							});
+						if (caseView._crMode) {
+							caseView.fireEvent('toMain');
 						} else {
-							showError("Ошибка", result.msg);
+							caseView.fireEvent('caseChanged');
+							//		caseView.fireEvent('removeModel', {
+							//			page: Pages.scases
+							//		});
+							caseView.fireEvent('backToSearch');
 						}
-					},
-					failure: function (answer) {
-						Ext.getBody().unmask();
-						showError("Ошибка", answer.responseText);
-					}
-				});
+					});
+				} else {
+					showError("Ошибка", result.msg);
+				}
+			},
+			failure: function (answer) {
+				Ext.getBody().unmask();
+				showError("Ошибка", answer.responseText);
 			}
-		}
+		});
+
 	},
 	/**
 	 * Очищает форму перед созданием нового дела.
@@ -469,5 +465,12 @@ Ext.define('Earh.view.work.Case', {
 						showInfo("Результат", "Документы не найдены");
 				}
 			});
+	},
+	/**
+	 * Сообщает имеет ли дело документы
+	 * @returns {Boolean} true - если документы имеются
+	 */
+	hasDocuments: function () {
+		return this._grd.store.getCount() > 0;
 	}
 });

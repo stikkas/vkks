@@ -20,6 +20,7 @@ Ext.define('Earh.view.search.Doc', {
 		1, // пробел
 		0, // Поиск дел
 		1, // Поиск
+		1, // Очистить
 		0, // Сохранить
 		0, // Удалить
 		0, // Редактировать
@@ -49,7 +50,10 @@ Ext.define('Earh.view.search.Doc', {
 				cls: 'section_panel',
 				defaults: {
 					labelWidth: 400,
-					labelAlign: 'right'
+					labelAlign: 'right',
+					listeners: {
+						specialkey: "searchKeyPressed"
+					}
 				},
 				items: [/*{
 				 xtype: 'numberfield',
@@ -68,7 +72,10 @@ Ext.define('Earh.view.search.Doc', {
 						name: 'type',
 						displayField: 'name',
 						valueField: 'id',
-						listeners: {change: emptyCombo},
+						listeners: {
+							change: emptyCombo,
+							specialkey: "searchKeyPressed"
+						},
 						width: 985
 					}, {
 						xtype: 'textfield',
@@ -91,19 +98,22 @@ Ext.define('Earh.view.search.Doc', {
 						labelSeparator: '',
 						width: 775,
 						layout: 'hbox',
+						defaults: {
+							cls: 'marl-15',
+							xtype: 'datefield',
+							listeners: {
+								specialkey: "searchKeyPressed"
+							}
+						},
 						items: [{
-								xtype: 'datefield',
 								fieldLabel: "с",
 								name: 'startDate',
 								labelWidth: 10,
-								cls: 'marl-15',
 								width: 140
 							}, {
-								xtype: 'datefield',
 								fieldLabel: "по",
 								name: 'endDate',
 								labelWidth: 20,
-								cls: 'marl-15',
 								width: 150
 							}]
 					}, {
@@ -113,7 +123,10 @@ Ext.define('Earh.view.search.Doc', {
 						store: 'courtsStore',
 						minChars: 1,
 						editable: true,
-						listeners: {blur: emptyCombo2},
+						listeners: {
+							blur: emptyCombo2,
+							specialkey: "searchKeyPressed"
+						},
 						width: 735
 					}, {
 						xtype: 'textfield',
@@ -127,7 +140,10 @@ Ext.define('Earh.view.search.Doc', {
 						store: 'fiosStore',
 						minChars: 1,
 						editable: true,
-						listeners: {blur: emptyCombo2},
+						listeners: {
+							blur: emptyCombo2,
+							specialkey: "searchKeyPressed"
+						},
 						width: 735
 					}, {
 						xtype: 'textfield',
@@ -204,5 +220,6 @@ Ext.define('Earh.view.search.Doc', {
 					}]
 			}]);
 		searchDocView.model = Ext.create('Earh.model.DocsQuery');
+		searchDocView.sstore = Ext.getStore(resultStoreId);
 	}
 });
