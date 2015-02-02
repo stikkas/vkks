@@ -91,6 +91,7 @@ public class EsSearchHelper
     public SearchHits searchDocuments(DocumentSearchCriteria q, Integer start, Integer limit)
     {
         Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("number", q.getNumber());
         queryMap.put("title", q.getTitle());
         queryMap.put("court", q.getCourt());
         queryMap.put("remark", q.getRemark());
@@ -98,8 +99,7 @@ public class EsSearchHelper
         queryMap.put("graph", q.getContext());
         
         Map<String, Object> filterMap = new HashMap<>();
-        //filterMap.put("volume", q.getVolume());
-        filterMap.put("number", q.getNumber());
+        //filterMap.put("volume", q.getVolume());        
         filterMap.put("type", q.getType());
         /*filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
                         new Pair<>(q.getStartPage(), q.getEndPage())));*/
@@ -122,11 +122,13 @@ public class EsSearchHelper
     public SearchHits searchCases(CaseSearchCriteria q, Integer start, Integer limit)
     {
         Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("number", q.getNumber());
         queryMap.put("title", q.getTitle());
+        queryMap.put("case_court", q.getCourt());
+        queryMap.put("case_fio", q.getFio());
         queryMap.put("remark", q.getRemark());
         
-        Map<String, Object> filterMap = new HashMap<>();
-        filterMap.put("number", q.getNumber());
+        Map<String, Object> filterMap = new HashMap<>();        
         filterMap.put("type", q.getType());
         filterMap.put("storeLife", q.getStoreLife());
         filterMap.put("dates", (q.getStartDate() == null && q.getEndDate() == null) ? null :
@@ -328,6 +330,14 @@ public class EsSearchHelper
     
     protected QueryBuilder getQuery(String field, Object value)
     {
+        if (field.startsWith("case_"))
+        {
+            String dbField = field.replaceFirst("case_", "");
+            return QueryBuilders.hasChildQuery("document", 
+                    QueryBuilders.matchQuery(dbField, value));
+        }
+        if (field.equals("number"))
+            return QueryBuilders.wildcardQuery(field, MessageFormat.format("*{0}*", value));
         return QueryBuilders.matchQuery(field, value);
     }
     
