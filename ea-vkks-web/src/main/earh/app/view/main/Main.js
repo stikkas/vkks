@@ -32,7 +32,8 @@ Ext.define('Earh.view.main.Main', {
 			xtype: 'container',
 			width: '100%',
 			layout: 'card',
-			overflowY: 'auto'
+			overflowY: 'auto',
+                        cls:'main_content'
 					/*, region: 'center'*/
 		}],
 	initComponent: function () {
