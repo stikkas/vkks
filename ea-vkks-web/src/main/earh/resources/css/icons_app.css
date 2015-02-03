@@ -7,20 +7,10 @@ and open the template in the editor.
     Created on : 24.11.2014, 17:16:35
     Author     : shapovalova
 */
-/*очистка фокуса*/
-/*a.doc_cls.x-btn.x-btn-focus.x-btn-default-small,
-.deal_cls a.x-btn.x-btn-focus.x-btn-default-small{
-    border:none;
-    background-image:none;
-}*/
 /**/
 a.x-btn.x-btn-over span{
     text-decoration:underline;
 }
-.x-btn.doc_cls,
-.x-btn.x-btn-default-small.doc_cls,
-.x-btn.doc_cls.x-btn-over,
-a.x-btn.doc_cls.x-btn-pressed,
 .deal_cls{
     background-repeat:no-repeat;
     background-position: center top;
@@ -31,12 +21,19 @@ a.x-btn.doc_cls.x-btn-pressed,
     background-color:transparent;
     padding:0;
 }
-.x-btn.x-btn-default-small.doc_cls,
-.x-btn.doc_cls.x-btn-over,
-a.x-btn.doc_cls.x-btn-pressed,
-a.x-btn.doc_cls.x-btn-focus.x-btn-default-small{
+.doc_cls{
     background-image:url('../images/project_images/doc.png');
-    margin-left:18% !important;
+}
+.adm_cls{   
+    background-image:url('../images/project_images/adm.png');
+}
+div.content_main_page div.doc_cls,
+div.content_main_page div.adm_cls{
+    background-repeat:no-repeat;
+    background-position:0.8em 0;
+    padding-left:18% !important;
+    left:0 !important;
+    font-size:2.45em;
 }
 .deal_cls{
     background-image:url('../images/project_images/deal.png');

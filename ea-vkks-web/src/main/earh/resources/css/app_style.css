@@ -186,9 +186,10 @@ h1{
 }
 div.main_col_vkks,
 div.main_col_adm{
-    width:50%;
+    width:47%;
     position:relative !important;
     margin:auto !important;
+    padding:0 1.5%;
     left:auto !important;
     right:auto !important;
 }
@@ -198,20 +199,48 @@ div.main_col_adm{
 .main_col_adm{
     float:right;
 }
-
-.main_page .x-autocontainer-outerCt{
-    width:800px;
+div.main_col_vkks div,
+div.main_col_adm div{
+    width:100% !important;
 }
-.main_page a .x-btn-inner-default-small{
+.content_main_page a.x-btn span{
+    text-align:left;
+}
+.content_main_page div.x-component{
+    border-bottom-image:url('../images/project_images/blue_underline.png');
+    -moz-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    -webkit-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    -ms-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    -o-border-image:url('../images/project_images/blue_underline.png') 0 1 10 10 stretch stretch;
+    border-bottom:1px solid #5781B4;
+    margin:2% !important;
+    box-sizing:padding-box;
+    -webkit-box-sizing:padding-box;
+    -moz-box-sizing:padding-box;
+    -ms-box-sizing:padding-box;
+    -o-box-sizing:padding-box;
+}
+div.content_main_page div.inside_label{
+    text-align:left;
+    font-family:'Philosopher Italic';
+    width: auto !important;
+    padding:0.5em 1em .7em 1em;
+}
+
+.main_page a .x-btn-inner-default-small,
+.content_main_page div.x-component{
     color:#1D4B82;
     font-family:'Philosopher Bold';
-    font-size:30px;
+    font-size:2em;
     line-height:1em;
-    height:90px;
-    padding-top:25px;
-    padding-botom:25px;
+    padding-top:1em;
+    padding-bottom:1em;
+    text-shadow:0 5px 5px rgba(150,150,150,.9);
 }
-.main_page{
+.main_page div.content_main_page a .x-btn-inner-default-small{
+    padding:0.6em 0 0.5em 2.7em;
+}
+.content_main_page{
     background-image:url('../images/project_images/two_lines.png'),
         url('../images/project_images/two_lines180.png');
     background-repeat:no-repeat;
@@ -222,14 +251,31 @@ div.main_col_adm{
     padding-bottom:6%;
     margin-top:5%;
 }
+.content_main_page .x-box-inner .x-box-target > div:last-child{
+    float:none;
+}
+div.ver_num{
+    color:#455A8C;
+    width:11em;
+    margin:auto !important;
+    position:relative !important;
+    padding:3%;
+    font:1.33em 'Philosopher Bold';
+    left:0 !important;
+}
 /*только для домашней*/
 .main_page > .x-box-inner {
 	margin:auto;
-	width:60% !important;
+	width:80% !important;
 }
 .main_page a.x-btn{
-	width:250px;
 	margin:auto !important;
+}
+div.content_main_page div.hor_line{
+    width:70% !important;
+    height:1px;
+    padding:0.3em;
+    margin:0 !important;
 }
 /**/
 /*кнопочное меню*/

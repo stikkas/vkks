@@ -23,62 +23,12 @@ Ext.define('Earh.view.home.Home', {
 		if (Earh.viewRole || Earh.editRole) {
 			var docControls = {
 				xtype: 'container',
-/*				layout: 'hbox',
-				width: '100%',
-				cls: 'content_main_page',
-				items: [{
-						xtype: 'container',
-						layout: 'vbox',
-                                                cls: 'main_col_vkks',
-						items: [{
-								xtype: 'component',
-								html: Trans.docs
-							}, {
-								xtype: 'button',
-								text: Trans.caseSearch,
-								handler: 'toCasesSearch'
-							}, {
-								xtype: 'button',
-								text: Trans.caseAdd,
-								handler: 'addCase',
-								hidden: !Earh.editRole
-							}, {
-								xtype: 'component',
-								width: '80%'
-							}, {
-								xtype: 'button',
-								text: Trans.docSearch_,
-								handler: 'toDocsSearch',
-								cls: 'doc_cls'
-							}]
-					}, {
-						xtype: 'container',
-						layout: 'vbox',
-                                                cls: 'main_col_adm',
-						items: [{
-								xtype: 'component',
-								html: Trans.admin
-							}, {
-								xtype: 'button',
-								text: Trans.dicts
-							}, {
-								xtype: 'component',
-								html: Trans.accessControl
-							}, {
-								xtype: 'button',
-								text: Trans.users
-							}, {
-								xtype: 'button',
-								text: Trans.groups
-							}]
-					}]*/
-				//width: '100%',
 				layout: 'vbox',
-				//cls: 'content_main_page',
                                 cls: 'main_col_vkks',
 				items: [{
 						xtype: 'component',
-						html: Trans.docs
+						html: Trans.docs,
+                                                cls:'doc_cls'
 					}, {
 						xtype: 'button',
 						text: Trans.caseSearch,
@@ -94,7 +44,7 @@ Ext.define('Earh.view.home.Home', {
 
 			docControls.items.push({
 				xtype: 'component',
-				//width: '80%'
+                                cls:'hor_line'
 			});
 			docControls.items.push({
 				xtype: 'button',
@@ -107,12 +57,12 @@ Ext.define('Earh.view.home.Home', {
 		if ((accessRole = Earh.admGroupRole || Earh.admUserRole) || Earh.admDictRole) {
 			var adminControls = {
 				xtype: 'container',
-				//width: '50%',
 				layout: 'vbox',
                                 cls: 'main_col_adm',
 				items: [{
 						xtype: 'component',
-						html: Trans.admin
+						html: Trans.admin,
+                                                cls:'adm_cls'
 					}]};
 
 			if (Earh.admDictRole)
@@ -126,7 +76,8 @@ Ext.define('Earh.view.home.Home', {
 			if (accessRole) {
 				adminControls.items.push({
 					xtype: 'component',
-					html: Trans.accessControl
+					html: Trans.accessControl,
+                                        cls:'inside_label'
 				});
 
 				if (Earh.admUserRole)
@@ -156,7 +107,8 @@ Ext.define('Earh.view.home.Home', {
 				cls: 'content_main_page'
 			}, {
 				xtype: 'component',
-				html: Trans.version
+				html: Trans.version,
+                                cls:'ver_num'
 			}
 		];
 		home.callParent();

@@ -19,7 +19,7 @@ Trans = {
 	groups: "Группы",
 	caseSearch: "Поиск дел",
 	caseAdd: "Добавление дела",
-	docSearch_: "Поиск<br>документов",
+	docSearch_: "Поиск документов",
 	docSearch: "Поиск документов",
 	searchResult: "Результаты поиска",
 	clear: "Очистить",
