@@ -104,6 +104,7 @@ Ext.define('Earh.view.main.MainController', {
 	 * Из страницы создания дела
 	 */
 	toCasesSearch1: function () {
+		this.updateCaseSearch = false; // Нам не надо перезагружать данные
 		this.toPage('toCasesSearch');
 	},
 	/**
@@ -144,6 +145,14 @@ Ext.define('Earh.view.main.MainController', {
 	 * Завершает работу и перенаправляет пользователя на страницу приветствия
 	 */
 	exit: function () {
+		Ext.Ajax.request({
+			url: Urls.admLogout,
+			failure: function () {
+				console.log("Admin logout error:");
+				console.log(arguments);
+			}
+		});
+
 		Ext.Ajax.request({
 			url: Urls.logout,
 			success: function () {
