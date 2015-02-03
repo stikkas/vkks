@@ -1,5 +1,6 @@
 package ru.insoft.archive.eavkks.servlets;
 
+import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ru.insoft.archive.eavkks.ejb.SearchHandler;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
+import ru.insoft.archive.extcommons.webmodel.OrderBy;
 import ru.insoft.archive.extcommons.webmodel.SearchResult;
 
 /**
@@ -30,10 +32,13 @@ public class CaseSearch extends VkksAbstractServlet
             session.setAttribute("qcases", rawCriteria);
         CaseSearchCriteria q = jsonTools.parseEntity(rawCriteria, CaseSearchCriteria.class);
         
+        List<OrderBy> orders = null;
         Integer start = Integer.valueOf(req.getParameter(startParamKey));
         Integer limit = Integer.valueOf(req.getParameter(limitParamKey));
+        if (req.getParameter("sort") != null)
+            orders = jsonTools.parseEntitiesList(req.getParameter("sort"), OrderBy.class);
         
-        SearchResult sr = search.searchCases(q, start, limit);
+        SearchResult sr = search.searchCases(q, start, limit, orders);
         resp.getWriter().write(jsonTools.getJsonForEntity(sr).toString());
     }    
 }

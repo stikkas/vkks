@@ -9,38 +9,77 @@ Ext.define('Earh.view.home.Home', {
 	alias: 'widget.home',
 	cls: 'main_page',
 	requires: [
-		'Ext.layout.container.HBox',
+		'Ext.layout.container.VBox',
+		'Ext.layout.container.Column',
+		'Ext.Component',
 		'Ext.button.Button'
 	],
-	layout: 'hbox',
+	layout: 'vbox',
 	initComponent: function () {
 		this.items = [{
 				xtype: 'container',
-				layout: 'vbox',
-				cls: 'deal_cls',
+				layout: 'hbox',
+				width: '100%',
+//				cls: 'deal_cls',
 				items: [{
-						xtype: 'button',
-						text: Trans.caseSearch,
-						handler: 'toCasesSearch'
+						xtype: 'container',
+						width: '30%',
+						layout: 'vbox',
+						items: [{
+								xtype: 'component',
+								html: Trans.docs
+							}, {
+								xtype: 'button',
+								text: Trans.caseSearch,
+								handler: 'toCasesSearch'
+							}, {
+								xtype: 'button',
+								text: Trans.caseAdd,
+//								handler: 'addCase',
+								hidden: !Earh.editRole
+							}, {
+								xtype: 'component',
+								autoEl: 'hr',
+								width: '80%'
+							}, {
+								xtype: 'button',
+								text: Trans.docSearch_,
+								handler: 'toDocsSearch'
+//								cls: 'doc_cls'
+							}]
 					}, {
-						xtype: 'button',
-						text: Trans.caseAdd,
-						handler: 'addCase',
-						hidden: !Earh.editRole
+						xtype: 'container',
+						width: '45%',
+						layout: 'vbox',
+						items: [{
+								xtype: 'component',
+								html: Trans.admin
+							}, {
+								xtype: 'button',
+								text: Trans.dicts
+							}, {
+								xtype: 'component',
+								html: Trans.accessControl
+							}, {
+								xtype: 'button',
+								text: Trans.users
+							}, {
+								xtype: 'button',
+								text: Trans.groups
+							}]
 					}]
 			}, {
-				xtype: 'button',
-				text: Trans.docSearch_,
-				handler: 'toDocsSearch',
-				cls: 'doc_cls'
-			}];
+				xtype: 'component',
+				html: Trans.version
+			}
+		];
 		this.callParent();
 		this.tbb = [0, // Главная
 			0, // Вернуться к результатам поиска
 			0, // Вернуться в дело
 			0, // пробел
 			0, // Поиск дел
-			0, // Поиск
+			0, // Поиск 			
 			0, // Очистить
 			0, // Сохранить
 			0, // Удалить

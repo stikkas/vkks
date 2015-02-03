@@ -29,7 +29,7 @@ public class CaseRemove extends VkksAbstractServlet
     {
         String id = req.getParameter(idParamKey);
         FailMessage fm;
-        if (esSearch.searchCaseDocuments(id, null, 0, 0).getTotalHits() > 0)
+        if (esSearch.searchCaseDocuments(id, null, 0, 0, null).getTotalHits() > 0)
             fm = new FailMessage(false, "Невозможно удалить дело, в котором содержатся документы");
         else
         {

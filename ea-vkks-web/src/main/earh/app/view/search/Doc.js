@@ -199,6 +199,7 @@ Ext.define('Earh.view.search.Doc', {
 						}, {
 							text: Trans.docDate,
 							dataIndex: 'date',
+							sortable: false,
 							flex: 0.8
 //							width: '8%'
 						}, {
