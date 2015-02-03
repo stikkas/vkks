@@ -169,6 +169,7 @@ Ext.define('Earh.view.search.Case', {
 						}, {
 							text: Trans.dates,
 							dataIndex: 'dates',
+							sortable: false,
 							flex: 1.4
 						}, {
 							text: Trans.topoRef,

@@ -164,6 +164,7 @@ Ext.define('Earh.view.work.Case', {
 								}, {
 									text: Trans.docDate_,
 									dataIndex: 'date',
+									sortable: false,
 									width: '8%'
 								}, {
 									text: Trans.remark,
