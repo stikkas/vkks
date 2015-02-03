@@ -145,6 +145,14 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	exit: function () {
 		Ext.Ajax.request({
+			url: Urls.admLogout,
+			failure: function () {
+				console.log("Admin logout error:");
+				console.log(arguments);
+			}
+		});
+
+		Ext.Ajax.request({
 			url: Urls.logout,
 			success: function () {
 				window.location.href = Urls.login;
