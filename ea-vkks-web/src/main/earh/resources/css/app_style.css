@@ -179,6 +179,26 @@ h1{
     margin:auto !important;
     position:relative !important;
 }*/
+.content_main_page,
+.content_main_page > .x-box-inner,
+.content_main_page > .x-box-target{
+    width:100% !important;
+}
+div.main_col_vkks,
+div.main_col_adm{
+    width:50%;
+    position:relative !important;
+    margin:auto !important;
+    left:auto !important;
+    right:auto !important;
+}
+.main_col_vkks{
+    float:left;
+}
+.main_col_adm{
+    float:right;
+}
+
 .main_page .x-autocontainer-outerCt{
     width:800px;
 }

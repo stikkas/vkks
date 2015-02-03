@@ -20,11 +20,11 @@ Ext.define('Earh.view.home.Home', {
 				xtype: 'container',
 				layout: 'hbox',
 				width: '100%',
-//				cls: 'deal_cls',
+				cls: 'content_main_page',
 				items: [{
 						xtype: 'container',
-						width: '30%',
 						layout: 'vbox',
+                                                cls: 'main_col_vkks',
 						items: [{
 								xtype: 'component',
 								html: Trans.docs
@@ -35,22 +35,21 @@ Ext.define('Earh.view.home.Home', {
 							}, {
 								xtype: 'button',
 								text: Trans.caseAdd,
-//								handler: 'addCase',
+								handler: 'addCase',
 								hidden: !Earh.editRole
 							}, {
 								xtype: 'component',
-								autoEl: 'hr',
 								width: '80%'
 							}, {
 								xtype: 'button',
 								text: Trans.docSearch_,
-								handler: 'toDocsSearch'
-//								cls: 'doc_cls'
+								handler: 'toDocsSearch',
+								cls: 'doc_cls'
 							}]
 					}, {
 						xtype: 'container',
-						width: '45%',
 						layout: 'vbox',
+                                                cls: 'main_col_adm',
 						items: [{
 								xtype: 'component',
 								html: Trans.admin
