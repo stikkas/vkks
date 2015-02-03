@@ -40,9 +40,14 @@ Ext.define('Earh.view.search.Base', {
 	 * @returns {undefined}
 	 */
 	clear: function () {
-		this._frm.reset();
-		this._rslt.store.removeAll();
-		this._gtb.onLoad();
+		var page = this;
+		page._frm.reset();
+		page._rslt.store.removeAll();
+		// Удаляем изображение сортировки из заголовка
+		page._rslt.columns.forEach(function(it, i) {
+			it.getHeaderAtIndex(i).removeCls(["x-column-header-sort-ASC", "x-column-header-sort-DESC"]);
+		});
+		page._gtb.onLoad();
 	},
 	/**
 	 * Функция поиска по критериям

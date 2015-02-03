@@ -6,7 +6,7 @@ Ext.define('Other.data.Store', {
 	override: 'Ext.data.Store',
 	sort: function () {
 		if (this.count() > 0)
-			this.callParent();
+			this.callParent(arguments);
 	}
 });
 
