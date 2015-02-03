@@ -19,24 +19,30 @@ Ext.define('Login.view.login.LoginController', {
 							var result = Ext.decode(answer.responseText);
 							if (result.success) {
 
-								var roles = result.data.access,
-										adminrole = ~roles.indexOf('DESC_MODE') ||
-										~roles.indexOf('ADM_USER_MODE') || ~roles.indexOf('ADM_GROUP_MODE'),
-//										editrole = ~roles.indexOf('EARCH_EDIT'),
-										docrole = ~roles.indexOf('EARCH_EDIT') || ~roles.indexOf('EARCH_VIEW');
+								var roles = result.data.access;/*,
+								 adminrole = ~roles.indexOf('DESC_MODE') ||
+								 ~roles.indexOf('ADM_USER_MODE') || ~roles.indexOf('ADM_GROUP_MODE'),
+								 docrole = ~roles.indexOf('EARCH_EDIT') || ~roles.indexOf('EARCH_VIEW');
+								 */
 
-								if (!(adminrole || docrole)) {
-									showErrorAndExit("Ошибка", "Пользователь " + result.data.user + " не имеет прав для доступа к приложению");
+//								if (!(adminrole || docrole)) {
+								if (!(~roles.indexOf('DESC_MODE')
+										|| ~roles.indexOf('ADM_USER_MODE')
+										|| ~roles.indexOf('ADM_GROUP_MODE')
+										|| ~roles.indexOf('EARCH_EDIT')
+										|| ~roles.indexOf('EARCH_VIEW'))) {
+									showErrorAndExit("Ошибка", "Пользователь " +
+											result.data.user + " не имеет прав для доступа к приложению");
 									return;
 								}
-
-								if (adminrole && docrole) {
-									controller.redirectTo(Pages.welcome);
-								} else if (adminrole) {
-									window.location.href = Urls.armadmin + "?back=" + Urls.logout;
-								} else {
-									window.location.href = Urls.root;
-								}
+								/*
+								 if (adminrole && docrole) {
+								 controller.redirectTo(Pages.welcome);
+								 } else if (adminrole) {
+								 window.location.href = Urls.armadmin + "?back=" + Urls.logout;
+								 } else { */
+								window.location.href = Urls.root;
+//								}
 							} else {
 								showErrorAndExit("Ошибка", result.error);
 							}

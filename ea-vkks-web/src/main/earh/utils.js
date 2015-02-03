@@ -94,6 +94,7 @@ Pages = {
 };
 
 RootContext = '/ea-vkks-web/';
+AdminContext = '/arm-admin/adm/';
 Urls = {
 	root: RootContext,
 	login: RootContext + 'login.html#login',
@@ -117,6 +118,10 @@ Urls = {
 	scase: RootContext + 'srvcs/search/case',
 	sdoc: RootContext + 'srvcs/search/doc'
 };
+// Ссылки на арм-администратора
+Urls.admDicts = AdminContext + 'descriptors/descriptors.xhtml?main=' + RootContext + '&back=' + Urls.logout;
+Urls.admUsers = AdminContext + 'accessCtrl/userlist.xhtml?main=' + RootContext + '&back=' + Urls.logout;
+Urls.admGroups = AdminContext + 'accessCtrl/groups.xhtml?main=' + RootContext + '&back=' + Urls.logout;
 /**
  * параметры для получения справочников с сервера
  * @type {Object}
