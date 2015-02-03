@@ -104,6 +104,7 @@ Ext.define('Earh.view.main.MainController', {
 	 * Из страницы создания дела
 	 */
 	toCasesSearch1: function () {
+		this.updateCaseSearch = false; // Нам не надо перезагружать данные
 		this.toPage('toCasesSearch');
 	},
 	/**
