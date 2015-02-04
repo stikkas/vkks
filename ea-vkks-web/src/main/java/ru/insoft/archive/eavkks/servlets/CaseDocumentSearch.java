@@ -44,8 +44,14 @@ public class CaseDocumentSearch extends VkksAbstractServlet
         List<OrderBy> orders = null;
         Integer start = Integer.valueOf(req.getParameter(startParamKey));
         Integer limit = Integer.valueOf(req.getParameter(limitParamKey));
-        if (req.getParameter("sort") != null)
-            orders = jsonTools.parseEntitiesList(req.getParameter("sort"), OrderBy.class);
+        
+        String rawSort = req.getParameter("sort");
+        if (rawSort == null)
+            rawSort = (String)session.getAttribute("sortCaseDocs");
+        else
+            session.setAttribute("sortCaseDocs", rawSort);
+        if (rawSort != null)
+            orders = jsonTools.parseEntitiesList(rawSort, OrderBy.class);
         
         SearchResult sr = search.searchCaseDocuments(caseId, context, start, limit, orders);
         resp.getWriter().write(jsonTools.getJsonForEntity(sr).toString());
