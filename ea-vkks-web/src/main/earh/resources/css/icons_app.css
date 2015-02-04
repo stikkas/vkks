@@ -156,3 +156,9 @@ a.add_cls.x-btn.x-btn-focus.x-btn-default-small{
     font-size:1.02em;
     padding:5px 0;
 }
+a.clear_cls.x-btn,
+a.clear_cls.x-btn-over.x-btn-default-toolbar-small,
+a.clear_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
+a.clear_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
+    background-image:url('../images/project_images/clear.png');
+}
