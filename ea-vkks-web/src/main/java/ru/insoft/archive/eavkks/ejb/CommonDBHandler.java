@@ -37,6 +37,16 @@ public class CommonDBHandler extends ru.insoft.archive.extcommons.ejb.CommonDBHa
     
     @Inject
     UserInfo userInfo;
+    @Inject
+    DescValueMapsProvider dvMaps;
+
+    @Override
+    public List<JsonOut> getDescValuesForGroup(String groupCode, boolean shortValues, boolean attrs) 
+    {
+        List<JsonOut> values = super.getDescValuesForGroup(groupCode, shortValues, attrs);
+        dvMaps.initFlatMap(groupCode, values);
+        return values;
+    }
 
     @Override
     protected EntityManager getEntityManager() 
@@ -83,6 +93,7 @@ public class CommonDBHandler extends ru.insoft.archive.extcommons.ejb.CommonDBHa
     {
         TreeItem obj = (TreeItem)getDescValuesForGroupHierarch("TOPOREF", true, false);
         obj.setChildren(setToporefPath(obj.getChildren(), null));
+        dvMaps.initToporefMaps(obj);
         return obj;
     }
     

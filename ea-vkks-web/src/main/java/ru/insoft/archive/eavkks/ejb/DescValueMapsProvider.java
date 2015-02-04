@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import ru.insoft.archive.eavkks.webmodel.ToporefItem;
 import ru.insoft.archive.extcommons.json.JsonOut;
 import ru.insoft.archive.extcommons.webmodel.ScalarItem;
@@ -18,10 +17,7 @@ import ru.insoft.archive.extcommons.webmodel.TreeItem;
  */
 @Stateless
 public class DescValueMapsProvider 
-{
-    @Inject
-    CommonDBHandler dbHandler;
-    
+{    
     private Map<Long, String> documentTypes;
     private Map<Long, Set<Long>> toporefHierarchy;
     private Map<Long, String> toporefNames;
@@ -48,31 +44,48 @@ public class DescValueMapsProvider
         return getToporefNames().get(toporefId);
     }
     
+    public void initFlatMap(String code, List<JsonOut> values)
+    {
+        Map<Long, String> map = getFlatDescMap(values);
+        switch (code)
+        {
+            case "CASE_TYPE":
+                caseTypes = map;
+                break;
+            case "DOCUMENT_TYPE":
+                documentTypes = map;
+                break;
+            case "CASE_STORE_LIFE":
+                caseStoreLifeTypes = map;
+                break;
+        }
+    }
+    
+    public void initToporefMaps(TreeItem tree)
+    {
+        toporefHierarchy = new HashMap<>();
+        toporefNames     = new HashMap<>();
+        makeToporefMaps(tree.getChildren(), null);
+    }    
+    
     protected Map<Long, String> getDocumentTypes()
     {
-        if (documentTypes == null)
-            documentTypes = getFlatDescMap("DOCUMENT_TYPE");
         return documentTypes;
     }
     
     protected Map<Long, String> getCaseTypes()
     {
-        if (caseTypes == null)
-            caseTypes = getFlatDescMap("CASE_TYPE");
         return caseTypes;
     }
     
     protected Map<Long, String> getStoreLifeTypes()
     {
-        if (caseStoreLifeTypes == null)
-            caseStoreLifeTypes = getFlatDescMap("CASE_STORE_LIFE");
         return caseStoreLifeTypes;
     }
     
-    protected Map<Long, String> getFlatDescMap(String desc)
+    protected Map<Long, String> getFlatDescMap(List<JsonOut> values)
     {
         Map<Long, String> map = new HashMap<>();
-        List<JsonOut> values = dbHandler.getDescValuesForGroup(desc, false, false);
         for (JsonOut val : values)
         {
             ScalarItem item = (ScalarItem)val;
@@ -83,24 +96,12 @@ public class DescValueMapsProvider
     
     public Map<Long, Set<Long>> getToporefHierarchy()
     {
-        if (toporefHierarchy == null)
-            makeToporefMaps();
         return toporefHierarchy;
     }
     
     protected Map<Long, String> getToporefNames()
     {
-        if (toporefNames == null)
-            makeToporefMaps();
         return toporefNames;
-    }
-    
-    protected void makeToporefMaps()
-    {
-        toporefHierarchy = new HashMap<>();
-        toporefNames     = new HashMap<>();
-        TreeItem tree = dbHandler.getToporef();
-        makeToporefMaps(tree.getChildren(), null);
     }
     
     protected Set<Long> makeToporefMaps(List<JsonOut> values, Long parent)
