@@ -28,6 +28,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
+import org.elasticsearch.search.aggregations.metrics.sum.Sum;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.javatuples.Pair;
@@ -194,6 +195,7 @@ public class EsSearchHelper
             eaCase.setStartDate(startDate);
             eaCase.setEndDate(endDate);
         }
+        eaCase.setPages(queryCasePageCount(id));
         return eaCase;
     }
     
@@ -209,6 +211,24 @@ public class EsSearchHelper
             eaCase.setToporef(toporef.longValue());
         eaCase.setRemark((String)esData.get("remark"));
         return eaCase;
+    }
+    
+    protected Integer queryCasePageCount(String id)
+    {
+        Client esClient = esAdmin.getClient();
+        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+                .setTypes("document")
+                .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
+                        FilterBuilders.hasParentFilter("case", 
+                                FilterBuilders.termFilter("_id", id))))
+                .setSize(0)
+                .addAggregation(AggregationBuilders.terms("pages").field("_parent")
+                .subAggregation(AggregationBuilders.sum("count").field("pages")))
+                .execute().actionGet();
+        Bucket pagesInfo = ((Terms)resp.getAggregations().get("pages")).getBucketByKey(id);
+        if (pagesInfo == null)
+            return null;
+        return ((Number)((Sum)pagesInfo.getAggregations().get("count")).getValue()).intValue();
     }
     
     public SearchHits searchCaseDocuments(String caseId, String context, Integer start, Integer limit, List<OrderBy> orders)

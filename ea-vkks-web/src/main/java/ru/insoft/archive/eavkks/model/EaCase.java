@@ -38,6 +38,8 @@ public class EaCase implements JsonOut, JsonIn, HasId, HasUserInfo
     
     private Date endDate;
     
+    private Integer pages;
+    
     //@Column(name = "toporef_id")
     private Long toporef;
     
@@ -120,6 +122,14 @@ public class EaCase implements JsonOut, JsonIn, HasId, HasUserInfo
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Integer getPages() {
+        return pages;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
     }
 
     public Long getToporef() {
