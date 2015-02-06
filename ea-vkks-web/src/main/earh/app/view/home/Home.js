@@ -32,14 +32,16 @@ Ext.define('Earh.view.home.Home', {
 					}, {
 						xtype: 'button',
 						text: Trans.caseSearch,
-						handler: 'toCasesSearch'
+						handler: 'toCasesSearch',
+                                                cls:'search_case'
 					}]};
 
 			if (Earh.editRole)
 				docControls.items.push({
 					xtype: 'button',
 					text: Trans.caseAdd,
-					handler: 'addCase'
+					handler: 'addCase',
+                                        cls:'add_case'
 				});
 
 			docControls.items.push({
@@ -49,7 +51,8 @@ Ext.define('Earh.view.home.Home', {
 			docControls.items.push({
 				xtype: 'button',
 				text: Trans.docSearch_,
-				handler: 'toDocsSearch'
+				handler: 'toDocsSearch',
+                                cls:'search_doc'
 			});
 			items.push(docControls);
 		}
@@ -70,7 +73,8 @@ Ext.define('Earh.view.home.Home', {
 					xtype: 'button',
 					text: Trans.dicts,
 					href: Urls.admDicts,
-					hrefTarget: '_self'
+					hrefTarget: '_self',
+                                        cls:'dict'
 				});
 
 			if (accessRole) {
@@ -85,7 +89,8 @@ Ext.define('Earh.view.home.Home', {
 						xtype: 'button',
 						text: Trans.users,
 						href: Urls.admUsers,
-						hrefTarget: '_self'
+						hrefTarget: '_self',
+                                                cls:'adm_users'
 					});
 
 				if (Earh.admGroupRole)
@@ -93,7 +98,8 @@ Ext.define('Earh.view.home.Home', {
 						xtype: 'button',
 						text: Trans.groups,
 						href: Urls.admGroups,
-						hrefTarget: '_self'
+						hrefTarget: '_self',
+                                                cls:'adm_groups'
 					});
 			}
 			items.push(adminControls);

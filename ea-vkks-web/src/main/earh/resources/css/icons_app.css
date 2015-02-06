@@ -152,3 +152,29 @@ a.clear_cls.x-btn.x-btn-pressed.x-btn-default-toolbar-small,
 a.clear_cls.x-btn.x-btn-focus.x-btn-default-toolbar-small{
     background-image:url('../images/project_images/clear.png');
 }
+/*картинки на главной*/
+.main_page div.content_main_page a .x-btn-inner-default-small{
+    background-repeat:no-repeat;
+    background-position:1.042em .6em;
+}
+.main_page div.content_main_page a.x-btn-over .x-btn-inner-default-small{
+    background-position:1.042em -1.143em;
+}
+a.search_case .x-btn-inner-default-small{
+    background-image:url('../images/project_images/search_case.png');
+}
+a.add_case .x-btn-inner-default-small{
+    background-image:url('../images/project_images/add_case.png');
+}
+a.search_doc .x-btn-inner-default-small{
+    background-image:url('../images/project_images/search_doc.png');
+}
+a.dict .x-btn-inner-default-small{
+    background-image:url('../images/project_images/dict.png');
+}
+a.adm_users .x-btn-inner-default-small{
+    background-image:url('../images/project_images/adm_users.png');
+}
+a.adm_groups .x-btn-inner-default-small{
+    background-image:url('../images/project_images/adm_groups.png');
+}
