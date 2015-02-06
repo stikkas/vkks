@@ -12,6 +12,7 @@ Ext.define('Earh.model.Case', {
 			}},
 		{name: 'number', type: 'string', defaultValue: null},
 		{name: 'type', type: 'int', defaultValue: null},
+		{name: 'pages', type: 'int', defaultValue: null},
 		{name: 'storeLife', type: 'int', defaultValue: null},
 		{name: 'title', type: 'string', defaultValue: null},
 		{name: 'startDate', type: 'date', defaultValue: null, dateFormat: 'd.m.Y'},
