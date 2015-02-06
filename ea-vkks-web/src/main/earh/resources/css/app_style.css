@@ -8,9 +8,6 @@
 /*body > .x-box-inner .x-container*/
 body > .x-box-inner > .x-box-target > .x-container{
     overflow-x:hidden;
-   /* overflow-y:auto; */
-    /*height:calc(100% - 190px);*/
-    /*height:100%;*/
 }
 body > .x-box-inner > .x-box-target > .x-container.main_content{
     height:80%;
@@ -27,21 +24,12 @@ label span:not(.x-form-item-label-inner){
 }
 
 label.x-form-item-label-default{
-    /*vertical-align:middle;*/
     color:#1D4B82;
     font-family:'Roboto Bold';
     font-size:15px;
-	/* padding-right:15px !important;*/
-    /*margin-right:25px !important;*/
 }
 .x-form-text-field-body.x-form-item-body-default{
-   /* min-height:25px; */
     padding-left:15px;
-}
-.x-form-text-field-body.x-form-item-body-default input[role="textbox"],
-.x-form-text-field-body.x-form-item-body-default input[type="combobox"],
-.x-form-text-field-body.x-form-item-body-default input[type="text"]{
-    /*height:20px;*/
 }
 .marl-15 .x-form-text-field-body.x-form-item-body-default{
     padding-left:3px;         /*горизонтальные даты документа в поиске документов*/
@@ -54,7 +42,7 @@ textarea.x-form-text.x-form-text-default{
     padding:3px;
 }
 input.x-form-text.x-form-text-default{
-    /*min-height:25px;*/
+    min-height:25px;
 }
 /*combobox*/
 .x-border-box .x-form-text-wrap.x-form-text-wrap-default input[id*="combo"],
@@ -117,7 +105,7 @@ a.x-btn.x-btn-over.x-btn-pressed.buttons_style{
     font-size:18px;
 }
 /**/
-/*сложная процедура выстраивания ширины (хедер)  временно убраны до разбирательства с внутренними страницами*/
+/*сложная процедура выстраивания ширины (хедер)*/
 .x-body > .x-box-inner,
 .x-body .x-box-inner > .x-box-target{
     width:100% !important;
@@ -174,11 +162,6 @@ h1{
 }
 
 /*стиль для страниц навигации*/
-/*.header_cls ~ .x-container{
-    width:800px;
-    margin:auto !important;
-    position:relative !important;
-}*/
 .content_main_page,
 .content_main_page > .x-box-inner,
 .content_main_page > .x-box-target{
@@ -325,7 +308,6 @@ div.fields_panel{
     padding-bottom:5px;;
     border:1px solid #CADAF4;
     box-shadow:6px 10px 18px rgba(98,119,168,.75);
-/*    overflow-y:auto;*/
 }
 .section_panel .x-panel-header .x-title-text{
     color:#1D4B82;
@@ -341,7 +323,6 @@ div.fields_panel{
 }
 
 /*таблицы*/
-/*div.x-grid-header-ct,*/
 div.x-grid-with-row-lines{
     border:1px solid #809EDA;
 }
@@ -366,7 +347,6 @@ div.x-column-header{
 /*выравнивание неверной высоты ячеек, образующейся из-за отсутствующих бордеров*/
 div.x-panel-body td.x-grid-td{
 	margin-top:-1px;
-	/*margin-right:-2px;*/
 }
 div.x-grid-header-ct{
 	margin-bottom:-1px;
@@ -380,9 +360,6 @@ div.x-column-header-inner{
 }
 div.x-grid-cell-inner{
     padding: 3px 2px;
-}
-div.x-column-header{
-    /*padding:0 1px !important;*/
 }
 /*текст в таблицах*/
 .x-grid-header-ct .x-column-header-text,
@@ -445,7 +422,7 @@ div.x-column-header{
 
 /*панель навигации*/
 div[id*=pagingtoolbar].x-toolbar{
-    width:100%;             /*в общем случае. в карточках, где у таблиц есть кнопки, это не так*/
+    width:100%;             
 }
 .doc_case div[id*=pagingtoolbar].x-toolbar{
     /*width:calc(100% - 170px);*/
