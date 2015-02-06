@@ -308,6 +308,7 @@ Ext.define('Earh.view.work.Case', {
 		caseView._grd.store.removeAll();
 		// создаем новую модель
 		caseView.model = Ext.create('Earh.model.Case');
+		caseView.changeTitle(caseView.model);
 		// Только так можно выставить id, иниче extjs присваивает свой id
 		caseView.model.set('id', null, {
 			dirty: false
@@ -331,6 +332,7 @@ Ext.define('Earh.view.work.Case', {
 				success: function (model, operation) {
 					caseView.model = model;
 					caseView._frm.loadRecord(model);
+					caseView.changeTitle(model);
 					caseView._grd.store.loadPage(1, {
 						params: {
 							q: Ext.encode({
@@ -361,6 +363,7 @@ Ext.define('Earh.view.work.Case', {
 			success: function (model, operation) {
 				caseView.model = model;
 				caseView._frm.loadRecord(model);
+				caseView.changeTitle(model);
 				caseView.model.getProxy().setUrl(Urls.ccase);
 			},
 			failure: function (r, ans) {
@@ -473,5 +476,26 @@ Ext.define('Earh.view.work.Case', {
 	 */
 	hasDocuments: function () {
 		return this._grd.store.getCount() > 0;
+	},
+	/**
+	 * Устанавливает заголовок карточки дела 
+	 * @param {Ext.data.Model} model запись дела
+	 */
+	changeTitle: function (model) {
+		var pages, lists, ost;
+		if ((pages = model.get('pages')) && pages > 0) {
+			ost = pages % 10;
+			if (pages > 10 && pages < 20 || ost > 4)
+				lists = 'листов';
+			else if (ost === 1)
+				lists = 'лист';
+			else 
+				lists = 'листа';
+			this._frm.setTitle(Trans.acase + ' (' + pages + ' ' + lists + ')');
+		}
+		else
+			this._frm.setTitle(Trans.acase);
+
 	}
+
 });
