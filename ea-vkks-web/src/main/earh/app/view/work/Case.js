@@ -485,7 +485,7 @@ Ext.define('Earh.view.work.Case', {
 		var pages, lists, ost;
 		if ((pages = model.get('pages')) && pages > 0) {
 			ost = pages % 10;
-			if (pages > 10 && pages < 20 || ost > 4)
+			if ((pages > 4 && pages < 21) || ost > 4 || ost === 0)
 				lists = 'листов';
 			else if (ost === 1)
 				lists = 'лист';
