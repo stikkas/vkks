@@ -11,8 +11,8 @@ import ru.insoft.archive.eavkks.ejb.es.EsSearchHelper;
  *
  * @author melnikov
  */
-@WebServlet("/srvcs/courts")
-public class ListCourts extends VkksAbstractServlet
+@WebServlet("/srvcs/prefixes")
+public class ListCaseNumPrefixes extends VkksAbstractServlet
 {
     @Inject
     EsSearchHelper esSearch;
@@ -21,7 +21,7 @@ public class ListCourts extends VkksAbstractServlet
     protected void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception 
     {
         String query = req.getParameter("query");
-        List<String> courts = esSearch.searchCourts(query);
-        resp.getWriter().write(jsonTools.buildStringList(courts).toString());
+        List<String> prefixes = esSearch.searchCaseNumPrefixes(query);
+        resp.getWriter().write(jsonTools.buildStringList(prefixes).toString());
     }    
 }

@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
@@ -47,18 +46,17 @@ public class EsIndexHelper
     public String indexCase(EaCase eaCase) throws IOException
     {
         Client esClient = esAdmin.getClient();
-        Map<String, Object> oldCase = null;
+        EaCase oldCase = null;
         if (eaCase.getId() != null)
         {
             GetResponse gr = esClient.prepareGet(esAdmin.getIndexName(), "case", eaCase.getId())
                     .execute().actionGet();
             if (gr.isExists())
             {
-                oldCase = gr.getSourceAsMap();
-                String acase = (String)oldCase.get("number");
-                Number toporefId = (Number)oldCase.get("toporef");
-                if (!acase.equals(eaCase.getNumber()) || 
-                        (toporefId == null ? eaCase.getToporef() != null : !((Long)(toporefId.longValue())).equals(eaCase.getToporef())))
+                oldCase = esSearch.parseCase(gr.getSourceAsMap());
+                Long toporefId = oldCase.getToporef();
+                if (!oldCase.getNumber().equals(eaCase.getNumber()) || 
+                        (toporefId == null ? eaCase.getToporef() != null : !toporefId.equals(eaCase.getToporef())))
                 {
                     Integer start = 0, limit = 25;
                     Long total;
@@ -96,7 +94,8 @@ public class EsIndexHelper
         
         XContentBuilder src = jsonBuilder()
                     .startObject()
-                        .field("number", eaCase.getNumber())
+                        .field("num_prefix", eaCase.getNumPrefix())
+                        .field("num_number", eaCase.getNumNumber())
                         .field("type", eaCase.getType())
                         .field("storeLife", eaCase.getStoreLife())
                         .field("title", eaCase.getTitle())
@@ -122,7 +121,7 @@ public class EsIndexHelper
         {
             esClient.prepareUpdate(esAdmin.getIndexName(), "case", eaCase.getId())
                     .setDoc(src).execute().actionGet();
-            log.logEditCase(eaCase, esSearch.parseCase(oldCase));
+            log.logEditCase(eaCase, oldCase);
             return eaCase.getId();
         }
     }

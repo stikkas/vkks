@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import org.elasticsearch.action.count.CountResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -93,6 +94,24 @@ public class EsSearchHelper
         return res;
     }
     
+    public List<String> searchCaseNumPrefixes(String prefix)
+    {
+        Client esClient = esAdmin.getClient();
+        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+                .setTypes("case")
+                .setQuery(prefix == null || prefix.isEmpty() ?
+                        QueryBuilders.matchAllQuery() :
+                        QueryBuilders.matchPhrasePrefixQuery("num_prefix", prefix))
+                .setSize(0)
+                .addAggregation(AggregationBuilders.terms("prefixes").field("num_prefix"))
+                .execute().actionGet();
+        Terms prefixes = resp.getAggregations().get("prefixes");
+        List<String> res = new ArrayList<>();
+        for (Bucket bucket : prefixes.getBuckets())
+            res.add(bucket.getKey());
+        return res;
+    }
+    
     public SearchHits searchDocuments(DocumentSearchCriteria q, 
             Integer start, Integer limit, List<OrderBy> orders)
     {
@@ -133,13 +152,15 @@ public class EsSearchHelper
     public SearchHits searchCases(CaseSearchCriteria q, Integer start, Integer limit, List<OrderBy> orders)
     {
         Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("number", q.getNumber());
+        //queryMap.put("number", q.getNumber());
+        queryMap.put("num_number.str", q.getNumNumber());
         queryMap.put("title", q.getTitle());
         queryMap.put("case_court", q.getCourt());
         queryMap.put("case_fio", q.getFio());
         queryMap.put("remark", q.getRemark());
         
-        Map<String, Object> filterMap = new HashMap<>();        
+        Map<String, Object> filterMap = new HashMap<>(); 
+        filterMap.put("num_prefix", q.getNumPrefix());
         filterMap.put("type", q.getType());
         filterMap.put("storeLife", q.getStoreLife());
         filterMap.put("case_dates", (q.getStartDate() == null && q.getEndDate() == null) ? null :
@@ -157,8 +178,16 @@ public class EsSearchHelper
                     {"addUserId", "modUserId", "insertDate" ,"lastUpdateDate"});
         if (orders != null)
             for (OrderBy order : orders)
-                req.addSort(SortBuilders.fieldSort(order.getField())
-                    .order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
+            {
+                SortOrder so = order.asc() ? SortOrder.ASC : SortOrder.DESC;
+                if (order.getField().equals("number"))                
+                {
+                    req.addSort(SortBuilders.fieldSort("num_prefix").order(so));
+                    req.addSort(SortBuilders.fieldSort("num_number").order(so));
+                }
+                else           
+                    req.addSort(SortBuilders.fieldSort(order.getField()).order(so));
+            }
         SearchResponse resp = req.execute().actionGet();
         return resp.getHits();
     }
@@ -202,7 +231,9 @@ public class EsSearchHelper
     public EaCase parseCase(Map<String, Object> esData)
     {
         EaCase eaCase = new EaCase();
-        eaCase.setNumber((String)esData.get("number"));
+        //eaCase.setNumber((String)esData.get("number"));
+        eaCase.setNumPrefix((String)esData.get("num_prefix"));
+        eaCase.setNumNumber((Integer)esData.get("num_number"));
         eaCase.setType(((Number)esData.get("type")).longValue());
         eaCase.setStoreLife(((Number)esData.get("storeLife")).longValue());
         eaCase.setTitle((String)esData.get("title"));
@@ -229,6 +260,34 @@ public class EsSearchHelper
         if (pagesInfo == null)
             return null;
         return ((Number)((Sum)pagesInfo.getAggregations().get("count")).getValue()).intValue();
+    }
+    
+    public int queryMaxCaseNumberForPrefix(String numPrefix)
+    {
+        Client esClient = esAdmin.getClient();
+        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+                .setTypes("case")
+                .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
+                        FilterBuilders.termFilter("num_prefix", numPrefix)))
+                .setSize(0)
+                .addAggregation(AggregationBuilders.max("maxNumber").field("num_number"))
+                .execute().actionGet();
+        Number maxNumber = (Number)((Max)resp.getAggregations().get("maxNumber")).getValue();
+        return maxNumber.equals(Double.NEGATIVE_INFINITY) ? 0 : maxNumber.intValue();
+    }
+    
+    public boolean checkCaseNumberUniqueness(String numPrefix, Integer numNumber, String id)
+    {
+        Client esClient = esAdmin.getClient();
+        CountResponse resp = esClient.prepareCount(esAdmin.getIndexName())
+                .setTypes("case")
+                .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
+                        FilterBuilders.boolFilter()
+                            .must(FilterBuilders.termFilter("num_prefix", numPrefix))
+                            .must(FilterBuilders.termFilter("num_number", numNumber))
+                            .mustNot(FilterBuilders.termFilter("_id", id))))
+                .execute().actionGet();
+        return resp.getCount() == 0;
     }
     
     public SearchHits searchCaseDocuments(String caseId, String context, Integer start, Integer limit, List<OrderBy> orders)
@@ -274,6 +333,7 @@ public class EsSearchHelper
     public EaDocument parseDocument(Map<String, Object> docData)
     {
         EaDocument doc = new EaDocument();
+        doc.setCaseId((String)docData.get("_parent"));
         //doc.setVolume((Integer)docData.get("volume"));
         doc.setNumber((String)docData.get("number"));
         doc.setType(((Number)docData.get("type")).longValue());
@@ -374,7 +434,7 @@ public class EsSearchHelper
             return QueryBuilders.hasChildQuery("document", 
                     QueryBuilders.matchQuery(dbField, value));
         }
-        if (field.equals("number"))
+        if (field.contains("number"))
             return QueryBuilders.wildcardQuery(field, MessageFormat.format("*{0}*", value));
         return QueryBuilders.matchQuery(field, value);
     }

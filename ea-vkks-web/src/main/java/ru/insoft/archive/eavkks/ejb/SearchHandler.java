@@ -18,6 +18,8 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
 import ru.insoft.archive.eavkks.ejb.es.EsSearchHelper;
+import ru.insoft.archive.eavkks.model.EaCase;
+import ru.insoft.archive.eavkks.model.EaDocument;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchCriteria;
 import ru.insoft.archive.eavkks.webmodel.CaseSearchResult;
 import ru.insoft.archive.eavkks.webmodel.DocumentSearchCriteria;
@@ -52,16 +54,17 @@ public class SearchHandler
             DocumentSearchResult dsr = new DocumentSearchResult();
             dsr.setId(hit.getId());
             Map<String, Object> source = hit.getSource();
-            dsr.setCaseId((String)source.get("_parent"));
+            EaDocument eaDoc = esSearch.parseDocument(source);
+            dsr.setCaseId(eaDoc.getCaseId());
             dsr.setAcase((String)source.get("acase"));
             
             Number toporef = (Number)source.get("toporef");
             if (toporef != null)
                 dsr.setToporef(dvMaps.getToporefItemName(toporef.longValue()));
             //dsr.setVolume((Integer)source.get("volume"));
-            dsr.setNumber((String)source.get("number"));
-            dsr.setType(dvMaps.getDocumentTypeName(((Number)source.get("type")).longValue()));
-            dsr.setTitle((String)source.get("title"));
+            dsr.setNumber(eaDoc.getNumber());
+            dsr.setType(dvMaps.getDocumentTypeName(eaDoc.getType()));
+            dsr.setTitle(eaDoc.getTitle());
             
             //Integer startPage = (Integer)source.get("startPage");
             //Integer endPage   = (Integer)source.get("endPage");
@@ -69,11 +72,11 @@ public class SearchHandler
                 dsr.setPages(startPage.toString());
             else
                 dsr.setPages(MessageFormat.format("{0} - {1}", startPage, endPage));*/
-            dsr.setPages((Integer)source.get("pages"));
-            dsr.setDate((String)source.get("date"));
-            dsr.setRemark((String)source.get("remark"));
-            dsr.setCourt((String)source.get("court"));
-            dsr.setFio((String)source.get("fio"));
+            dsr.setPages(eaDoc.getPages());
+            dsr.setDate(eaDoc.getDate());
+            dsr.setRemark(eaDoc.getRemark());
+            dsr.setCourt(eaDoc.getCourt());
+            dsr.setFio(eaDoc.getFio());
             if (esSearch.isExistsImageFile(dsr.getId()))
                 dsr.setGraph(MessageFormat.format("{0}{1}.pdf", esSearch.getLinkPrefix(), dsr.getId()));
             values.add(dsr);
@@ -96,15 +99,14 @@ public class SearchHandler
             CaseSearchResult csr = new CaseSearchResult();
             csr.setId(hit.getId());
             Map<String, Object> source = hit.getSource();
-            csr.setNumber((String)source.get("number"));
-            csr.setType(dvMaps.getCaseTypeName(((Number)source.get("type")).longValue()));
-            csr.setStoreLife(dvMaps.getStoreLifeName(((Number)source.get("storeLife")).longValue()));
-            csr.setTitle((String)source.get("title"));
+            EaCase eaCase = esSearch.parseCase(source);
+            csr.setNumber(eaCase.getNumber());
+            csr.setType(dvMaps.getCaseTypeName(eaCase.getType()));
+            csr.setStoreLife(dvMaps.getStoreLifeName(eaCase.getStoreLife()));
+            csr.setTitle(eaCase.getTitle());
             
-            Number toporef = (Number)source.get("toporef");
-            if (toporef != null)
-                csr.setToporef(dvMaps.getToporefItemName(toporef.longValue()));
-            csr.setRemark((String)source.get("remark"));
+            csr.setToporef(dvMaps.getToporefItemName(eaCase.getToporef()));
+            csr.setRemark(eaCase.getRemark());
             
             values.add(csr);
             caseIds.add(hit.getId());
