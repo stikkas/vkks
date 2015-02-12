@@ -9,8 +9,9 @@ import ru.insoft.archive.extcommons.json.JsonIn;
  * @author melnikov
  */
 public class CaseSearchCriteria implements JsonIn
-{
-    private String number;
+{    
+    private String numPrefix;
+    private String numNumber;
     private Long type;
     private Long storeLife;
     private String title;
@@ -22,12 +23,20 @@ public class CaseSearchCriteria implements JsonIn
     private Set<Long> toporefIds;
     private String remark;
 
-    public String getNumber() {
-        return number;
+    public String getNumPrefix() {
+        return numPrefix;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setNumPrefix(String numPrefix) {
+        this.numPrefix = numPrefix;
+    }
+
+    public String getNumNumber() {
+        return numNumber;
+    }
+
+    public void setNumNumber(String numNumber) {
+        this.numNumber = numNumber;
     }
 
     public Long getType() {

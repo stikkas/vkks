@@ -1,5 +1,6 @@
 package ru.insoft.archive.eavkks.model;
 
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import ru.insoft.archive.extcommons.entity.HasId;
@@ -23,7 +24,8 @@ public class EaCase implements JsonOut, JsonIn, HasId, HasUserInfo
     private String id;
     
     //@Column(name = "case_number")
-    private String number;
+    private String numPrefix;
+    private Integer numNumber;
     
     //@Column(name = "case_type_id")
     private Long type;
@@ -76,12 +78,25 @@ public class EaCase implements JsonOut, JsonIn, HasId, HasUserInfo
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public String getNumPrefix() {
+        return numPrefix;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setNumPrefix(String numPrefix) {
+        this.numPrefix = numPrefix;
+    }
+
+    public Integer getNumNumber() {
+        return numNumber;
+    }
+
+    public void setNumNumber(Integer numNumber) {
+        this.numNumber = numNumber;
+    }
+    
+    public String getNumber()
+    {
+        return MessageFormat.format("{0}-{1,number,00000}", numPrefix, numNumber);
     }
 
     public Long getType() {

@@ -89,7 +89,13 @@ public class DataSaver
         EaCase eaCase = new EaCase();
         try
         {            
-            eaCase.setNumber(lCase.getNumber());
+            int numSeparator = lCase.getNumber().indexOf('-');
+            if (numSeparator == -1)
+                throw new BadSourceException("Номер дела '" + lCase.getNumber() + "' сформирован неверно");
+            String numPrefix  = lCase.getNumber().substring(0, numSeparator);
+            Integer numNumber = Integer.parseInt(lCase.getNumber().substring(numSeparator + 1));
+            eaCase.setNumPrefix(numPrefix);
+            eaCase.setNumNumber(numNumber);
             eaCase.setTitle(lCase.getTitle());
             eaCase.setRemark(lCase.getRemark());
             eaCase.setType(getDescriptorValueId(caseTypes, "CASE_TYPE", lCase.getType(),
@@ -119,6 +125,7 @@ public class DataSaver
                 eaDoc.setTitle(lDoc.getTitle());
                 //eaDoc.setStartPage(lDoc.getStartPage());
                 //eaDoc.setEndPage(lDoc.getEndPage());
+                eaDoc.setPages(lDoc.getPages());
                 eaDoc.setDate(new SimpleDateFormat("dd.MM.YYYY").format(lDoc.getDate()));
                 eaDoc.setRemark(lDoc.getRemark());
                 eaDoc.setCourt(lDoc.getCourt());

@@ -9,25 +9,15 @@ import ru.insoft.archive.extcommons.json.JsonIn;
  */
 public class LoadedDocument implements JsonIn
 {
-    private Integer volume;
     private String number;
     private String type;
     private String title;
-    private Integer startPage;
-    private Integer endPage;
+    private Integer pages;
     private Date date;
     private String remark;
     private String court;
     private String fio;
     private String graph;
-
-    public Integer getVolume() {
-        return volume;
-    }
-
-    public void setVolume(Integer volume) {
-        this.volume = volume;
-    }
 
     public String getNumber() {
         return number;
@@ -53,20 +43,12 @@ public class LoadedDocument implements JsonIn
         this.title = title;
     }
 
-    public Integer getStartPage() {
-        return startPage;
+    public Integer getPages() {
+        return pages;
     }
 
-    public void setStartPage(Integer startPage) {
-        this.startPage = startPage;
-    }
-
-    public Integer getEndPage() {
-        return endPage;
-    }
-
-    public void setEndPage(Integer endPage) {
-        this.endPage = endPage;
+    public void setPages(Integer pages) {
+        this.pages = pages;
     }
 
     public Date getDate() {
