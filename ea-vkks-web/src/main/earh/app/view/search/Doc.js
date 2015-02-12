@@ -125,7 +125,8 @@ Ext.define('Earh.view.search.Doc', {
 						editable: true,
 						listeners: {
 							blur: emptyCombo2,
-							specialkey: "searchKeyPressed"
+							change: "editComboChange",
+							specialkey: "editComboPressed"
 						},
 						width: 735
 					}, {
@@ -142,7 +143,8 @@ Ext.define('Earh.view.search.Doc', {
 						editable: true,
 						listeners: {
 							blur: emptyCombo2,
-							specialkey: "searchKeyPressed"
+							change: "editComboChange",
+							specialkey: "editComboPressed"
 						},
 						width: 735
 					}, {

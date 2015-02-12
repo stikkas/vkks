@@ -44,7 +44,9 @@ Ext.define('Earh.view.main.MainController', {
 		controller.listen({component: listenersFormPages,
 			controller: {
 				docsearch: {
-					searchKeyPressed: 'searchKeyPressed'
+					searchKeyPressed: 'searchKeyPressed',
+					editComboPressed: 'editComboPressed',
+					editComboChange: 'editComboChange'
 				}
 			}
 		});
@@ -162,6 +164,33 @@ Ext.define('Earh.view.main.MainController', {
 				console.log(arguments);
 			}
 		});
+	},
+	/**
+	 * Вызывается, когда нажали специальную кнопку на ФИО или Суд combobox
+	 * @param {Ext.form.field.ComboBox} combo элемент выстреливший событие
+	 * @param {Object} event событие
+	 */
+	editComboPressed: function (combo, event) {
+		if (event.getKey() === event.ENTER) {
+			if (combo.getPicker().isVisible()) // Откладываем поиск до изменения значения (см. следующий метод)
+				combo.enterV = combo.getValue();
+			else {
+				combo.setValue(combo.getRawValue());
+				this.search();
+			}
+		}
+	},
+	/**
+	 * После того как сменили значение в ФИО или Суд по Enter можно начать искать
+	 * @param {Ext.form.field.ComboBox} combo ФИО или Суд
+	 * @param {String} newValue новое значение
+	 * @param {String} oldValue старое значение
+	 */
+	editComboChange: function (combo, newValue, oldValue) {
+		if (oldValue === combo.enterV) {
+			delete combo['enterV'];
+			this.search();
+		}
 	},
 	/**
 	 * Функция поиска дел, документов

@@ -108,7 +108,8 @@ Ext.define('Earh.view.search.Case', {
 							editable: true,
 							width: 735,
 							listeners: {
-								specialkey: "searchKeyPressed",
+								specialkey: "editComboPressed",
+								change: "editComboChange",
 								blur: emptyCombo2
 							}
 						},
