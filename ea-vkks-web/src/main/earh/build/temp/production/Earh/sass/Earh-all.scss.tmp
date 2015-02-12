@@ -777,6 +777,7 @@ $include-other-field-base: true;
 $include-other-field-combobox: true;
 $include-other-field-date: true;
 $include-other-field-number: true;
+$include-other-grid-panel: true;
 $include-other-picker-date: true;
 $include-other-toolbar-paging: true;
 $include-other-ux-treepicker: true;

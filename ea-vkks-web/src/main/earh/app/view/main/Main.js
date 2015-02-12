@@ -30,6 +30,11 @@ Ext.define('Earh.view.main.Main', {
 			 region: 'north'*/
 		}, {
 			xtype: 'container',
+/*			listeners: {
+				el: {
+					mousewheel: 'setCurrentY'
+				}
+			},*/
 			width: '100%',
 			layout: 'card',
 			overflowY: 'auto',
@@ -46,6 +51,14 @@ Ext.define('Earh.view.main.Main', {
 		mainView._clayout = mainView._center.getLayout();
 		mainView._pages = {};
 		mainView._clayout.setActiveItem(mainView._pages[Pages.home] = Ext.widget(Pages.home));
+		/*
+		var sto = mainView._center.scrollTo; 
+		mainView._center.scrollTo = function (x, y, me) {
+			if (me)
+				sto.apply(mainView._center, arguments);
+		};
+		*/
+
 	},
 	/**
 	 * Переключает на нужную страницу
@@ -61,6 +74,12 @@ Ext.define('Earh.view.main.Main', {
 		}
 		mainView._clayout.setActiveItem(item);
 		mainView._center.scrollTo(0, item.yscrl);
+	},
+	setOldScroll: function () {
+		this._center.scrollTo(0, this._clayout.getActiveItem().yscrl);
+	},
+	setCurrentScroll: function () {
+		this._clayout.getActiveItem().yscrl = this._center.getScrollY();
 	},
 	/**
 	 * Возвращает экранную форму по названию страницы (из Pages)
@@ -108,6 +127,7 @@ Ext.define('Earh.view.main.Main', {
 				addEmptyToPlain(records, 'storeLifeStoreEm');
 		});
 		Ext.create('Earh.store.TopoRef').load();
+		Ext.create('Earh.store.DocResult');
 		Ext.create('Earh.store.CaseResult');
 		Ext.create('Earh.store.CaseDocResult');
 		Ext.create('Earh.store.FioResult');

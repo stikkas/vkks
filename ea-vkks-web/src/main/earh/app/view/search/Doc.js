@@ -40,7 +40,7 @@ Ext.define('Earh.view.search.Doc', {
 		}
 		//-----------------------------------
 		var searchDocView = this,
-				resultStoreId = Ext.create('Earh.store.DocResult');
+				resultStoreId ='docsStore';
 
 		searchDocView.callParent([{
 				xtype: 'form',
@@ -223,6 +223,6 @@ Ext.define('Earh.view.search.Doc', {
 					}]
 			}]);
 		searchDocView.model = Ext.create('Earh.model.DocsQuery');
-		searchDocView.sstore = Ext.getStore(resultStoreId);
+//		searchDocView.sstore = Ext.getStore(resultStoreId);
 	}
 });

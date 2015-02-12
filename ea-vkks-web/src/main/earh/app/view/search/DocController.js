@@ -104,13 +104,13 @@ Ext.define('Earh.view.search.DocController', {
 	/**
 	 * Перенаправление конроллеру родительского виджета
 	 */
-	searchKeyPressed: function() {
+	searchKeyPressed: function () {
 		this.fireEventArgs('searchKeyPressed', arguments);
 	},
-	editComboChange: function() {
+	editComboChange: function () {
 		this.fireEventArgs('editComboChange', arguments);
 	},
-	editComboPressed: function() {
+	editComboPressed: function () {
 		this.fireEventArgs('editComboPressed', arguments);
 	}
 	//----------------------------------------------------

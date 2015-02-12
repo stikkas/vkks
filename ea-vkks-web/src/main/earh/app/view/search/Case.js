@@ -189,7 +189,7 @@ Ext.define('Earh.view.search.Case', {
 					}]
 			}]);
 		this.model = Ext.create('Earh.model.CasesQuery');
-		this.sstore = Ext.getStore(resultStoreId);
+//		this.sstore = Ext.getStore(resultStoreId);
 	},
 	/**
 	 * Очистка формы перед использованием
