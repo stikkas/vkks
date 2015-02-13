@@ -8,8 +8,18 @@ import ru.insoft.archive.extcommons.json.JsonOut;
  */
 public class SavedCaseInfo implements JsonOut
 {
+    private Boolean success = true;
     private String id;
-    private String number;
+    private String numPrefix;
+    private Integer numNumber;
+
+    public Boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
 
     public String getId() {
         return id;
@@ -19,11 +29,19 @@ public class SavedCaseInfo implements JsonOut
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public String getNumPrefix() {
+        return numPrefix;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setNumPrefix(String numPrefix) {
+        this.numPrefix = numPrefix;
+    }
+
+    public Integer getNumNumber() {
+        return numNumber;
+    }
+
+    public void setNumNumber(Integer numNumber) {
+        this.numNumber = numNumber;
     }
 }
