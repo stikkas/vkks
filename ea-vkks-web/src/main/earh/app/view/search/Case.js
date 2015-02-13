@@ -47,6 +47,7 @@ Ext.define('Earh.view.search.Case', {
 				items: [{
 						xtype: 'container',
 						layout: 'hbox',
+						cls: 'padt5 padb5',
 						items: [{
 								xtype: 'combobox',
 								fieldLabel: Trans.numPrefix,
@@ -120,9 +121,9 @@ Ext.define('Earh.view.search.Case', {
 								width: 535
 							}, {
 								fieldLabel: Trans.endDate,
-								labelWidth: 185,
+								labelWidth: 160,
 								name: 'endDate',
-								width: 315
+								width: 300
 							}]
 					}, {
 						xtype: 'container',

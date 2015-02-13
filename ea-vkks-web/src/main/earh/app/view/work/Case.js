@@ -64,6 +64,7 @@ Ext.define('Earh.view.work.Case', {
 				items: [{
 						xtype: 'container',
 						layout: 'hbox',
+						cls: 'padt5 padb5',
 						items: [{
 								xtype: 'textfield',
 								fieldLabel: Trans.numPrefix,
