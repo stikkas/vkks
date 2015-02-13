@@ -10,7 +10,8 @@ Ext.define('Earh.model.Case', {
 					return null;
 				return v;
 			}},
-		{name: 'number', type: 'string', defaultValue: null},
+		{name: 'numPrefix', type: 'string', defaultValue: null},
+		{name: 'numNumber', type: 'int', defaultValue: null},
 		{name: 'type', type: 'int', defaultValue: null},
 		{name: 'pages', type: 'int', defaultValue: null},
 		{name: 'storeLife', type: 'int', defaultValue: null},

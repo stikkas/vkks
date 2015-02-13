@@ -2,33 +2,21 @@
  * Справочник "Тип архивного дела"
  */
 Ext.define('Earh.store.CaseType', {
-	extend: 'Earh.store.Dict',
+	extend: 'Ext.data.Store',
 	storeId: 'caseTypeStore',
-//	singleton: true,
-//	data: [
-//		{id: 1, value: "решения и заключения ВККС", code: ''},
-//		{id: 2, value: "отчетные доклады ВККС", code: ''},
-//		{id: 3, value: "разъяснения и рекомендации ВККС", code: ''},
-//		{id: 4, value: "материалы по организации, подготовке и проведению", code: ''},
-//		{id: 5, value: "заседаний и иных мероприятий ВККС", code: ''},
-//		{id: 6, value: "материалы по переписке ВККС с органами", code: ''},
-//		{id: 7, value: "государственной власти, органами судейского", code: ''},
-//		{id: 8, value: "сообщества и общественными организациями", code: ''},
-//		{id: 9, value: "материалы проверок", code: ''},
-//		{id: 10, value: "материалы по заявлениям", code: ''},
-//		{id: 11, value: "материалы о привлечении к дисциплинарной", code: ''},
-//		{id: 12, value: "ответственности", code: ''},
-//		{id: 13, value: "материалы по привлечению судей к уголовной", code: ''},
-//		{id: 14, value: "ответственности", code: ''},
-//		{id: 15, value: "статистические отчеты", code: ''},
-//		{id: 16, value: "иные материалы.", code: ''},
-//		{id: 17, value: "официальное издание Вестник ВККС", code: ''},
-//		{id: 18, value: "ответы ВККС РФ на обращения (жалобы) физических и", code: ''},
-//		{id: 19, value: "юридических лиц, передаваемых в отдел прохождения", code: ''},
-//		{id: 20, value: "документов Управления делами", code: ''}
-//	],
+	requires: ['Ext.data.proxy.Ajax'],
+	fields: ['id', 'name', 'code', 'case_type_index'],
 	constructor: function () {
-		this.callParent([Dicts.casetype]);
+		this.callParent();
+		this.setProxy(Ext.create('Ext.data.proxy.Ajax', {
+			url: Urls.dict,
+			reader: 'json',
+			writer: 'json',
+			extraParams: {
+				action: Actions.plain,
+				dict: Dicts.casetype,
+				attrs: true
+			}
+		}));
 	}
 });
-

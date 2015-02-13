@@ -10,6 +10,7 @@ Ext.define('Earh.view.search.Base', {
 		'Ext.grid.Panel',
 		'Ext.form.Panel',
 		'Ext.toolbar.Paging',
+		'Ext.form.field.Number',
 		'Ext.form.field.ComboBox',
 		'Ext.form.field.Date',
 		'Ext.form.field.Text'

@@ -45,10 +45,41 @@ Ext.define('Earh.view.search.Case', {
 					}
 				},
 				items: [{
-						xtype: 'textfield',
-						fieldLabel: Trans.caseNum,
-						name: 'number',
-						width: 515
+						xtype: 'container',
+						layout: 'hbox',
+						items: [{
+								xtype: 'combobox',
+								fieldLabel: Trans.numPrefix,
+								store: 'caseTypeIndexStoreEm',
+//								minChars: 1,
+								enforceMaxLength: true,
+								maxLength: 3,
+//								editable: true,
+//								displayField: 'case_type_index',
+//								valueField: 'id',
+//								valueField: 'case_type_index',
+								name: 'numPrefix',
+								listeners: {
+									specialkey: "searchKeyPressed",
+									change: function(cb, v) {
+										if (v === '&nbsp')
+											cb.reset();
+									}
+								},
+								labelWidth: 400,
+								width: 490
+							}, {
+								xtype: 'numberfield',
+								enforceMaxLength: true,
+								maxLength: 5,
+								fieldLabel: Trans.numNumber,
+								listeners: {
+									specialkey: "searchKeyPressed"
+								},
+								name: 'numNumber',
+								labelWidth: 150,
+								width: 220
+							}]
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.caseType,

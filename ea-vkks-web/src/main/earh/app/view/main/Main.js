@@ -30,11 +30,11 @@ Ext.define('Earh.view.main.Main', {
 			 region: 'north'*/
 		}, {
 			xtype: 'container',
-/*			listeners: {
-				el: {
-					mousewheel: 'setCurrentY'
-				}
-			},*/
+			/*			listeners: {
+			 el: {
+			 mousewheel: 'setCurrentY'
+			 }
+			 },*/
 			width: '100%',
 			layout: 'card',
 			overflowY: 'auto',
@@ -52,12 +52,12 @@ Ext.define('Earh.view.main.Main', {
 		mainView._pages = {};
 		mainView._clayout.setActiveItem(mainView._pages[Pages.home] = Ext.widget(Pages.home));
 		/*
-		var sto = mainView._center.scrollTo; 
-		mainView._center.scrollTo = function (x, y, me) {
-			if (me)
-				sto.apply(mainView._center, arguments);
-		};
-		*/
+		 var sto = mainView._center.scrollTo; 
+		 mainView._center.scrollTo = function (x, y, me) {
+		 if (me)
+		 sto.apply(mainView._center, arguments);
+		 };
+		 */
 
 	},
 	/**
@@ -115,8 +115,21 @@ Ext.define('Earh.view.main.Main', {
 	 */
 	initStores: function () {
 		Ext.create('Earh.store.CaseType').load({callback: function (records, op, success) {
-				if (success)
+				if (success) {
 					addEmptyToPlain(records, 'caseTypeStoreEm');
+					var data = [{text: '&nbsp'}];
+					records.forEach(function (rec) {
+						data.push({text: rec.raw.case_type_index});
+					});
+					Ext.create('Ext.data.Store', {
+						storeId: 'caseTypeIndexStoreEm',
+						fields: ['text'],
+						data: data,
+						proxy: {type: 'memory'},
+						queryMode: 'local'
+					});
+
+				}
 			}});
 		Ext.create('Earh.store.DocType').load(function (records, op, success) {
 			if (success)
@@ -134,8 +147,9 @@ Ext.define('Earh.view.main.Main', {
 		Ext.create('Earh.store.CourtResult');
 
 // Создает новое хранилище с первым нулевым элементом
-		function addEmptyToPlain(records, storeId) {
+		function addEmptyToPlain(records, storeId, addfields) {
 			var data = [{code: '', id: 0, name: '&nbsp'}];
+
 			for (var i = 0; i < records.length; ++i) {
 				var obj = {};
 				for (var o in records[i].raw)

@@ -8,7 +8,6 @@ Ext.define('Earh.view.search.Doc', {
 	requires: [
 		'Earh.store.DocResult',
 		'Earh.store.DocType',
-		'Ext.form.field.Number',
 		'Ext.grid.column.Action',
 		'Ext.form.FieldContainer',
 		'Earh.model.DocsQuery',

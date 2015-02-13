@@ -7,6 +7,7 @@ Ext.define('Earh.view.work.Case', {
 	alias: 'widget.acase',
 	requires: [
 		'Ext.layout.container.VBox',
+		'Ext.layout.container.HBox',
 		'Ext.panel.Panel',
 		'Ext.form.Panel',
 		'Ext.grid.Panel',
@@ -61,11 +62,28 @@ Ext.define('Earh.view.work.Case', {
 						displayInfo: false
 					}],
 				items: [{
-						xtype: 'textfield',
-						fieldLabel: Trans.caseNum,
-						name: 'number',
-						allowBlank: false,
-						width: 515
+						xtype: 'container',
+						layout: 'hbox',
+						items: [{
+								xtype: 'combobox',
+								fieldLabel: Trans.numPrefix,
+								store: 'caseTypeStore',
+								name: 'numPrefix',
+								displayField: 'case_type_index',
+								valueField: 'case_type_index',
+								readOnly: true,
+								labelWidth: 400,
+								width: 480
+							}, {
+								xtype: 'numberfield',
+								fieldLabel: Trans.numNumber,
+								name: 'numNumber',
+								allowBlank: false,
+								labelWidth: 150,
+								width: 220,
+								enforceMaxLength: true,
+								maxLength: 5
+							}]
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.caseType,
@@ -74,7 +92,11 @@ Ext.define('Earh.view.work.Case', {
 						valueField: 'id',
 						name: 'type',
 						allowBlank: false,
-						width: 775
+						width: 775,
+						listeners: {
+							change: caseView.changePrefix,
+							scope: caseView
+						}
 					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.storeLife,
@@ -199,12 +221,20 @@ Ext.define('Earh.view.work.Case', {
 					}]
 			}];
 		caseView.callParent();
-		caseView._frm = caseView.items.getAt(0);
-		caseView._grd = caseView.items.getAt(1).items.getAt(1);
-		caseView._tbr = caseView._frm.getDockedItems()[0];
+		var items = caseView.items,
+				form = caseView._frm = items.getAt(0),
+				caseNumber = form.items.getAt(0).items;
+
+		caseView._prefix = caseNumber.getAt(0);
+		caseView._number = caseNumber.getAt(1);
+
+		caseView._grd = items.getAt(1).items.getAt(1);
+		caseView._tbr = form.getDockedItems()[0];
+
 		var docItems = caseView._grd.getDockedItems()[0].items;
 		caseView._addb = docItems.getAt(0);
 		caseView._gtb = docItems.getAt(1);
+
 		caseView.store.on('load', caseView.loadPage, caseView);
 	},
 	/**
@@ -223,13 +253,17 @@ Ext.define('Earh.view.work.Case', {
 	 * Проверка на валидность данных должна делаться вызывающей стороной
 	 * с помощью метода isValid. наследующий данный метод должен предаставить
 	 * метод sucSave, который будет вызываться в случае удачного сохранения.
+	 * @param {Boolean} ignoreDuplicates сохранять дела с одинаковыми номерами
 	 */
-	save: function () {
+	save: function (ignoreDuplicates) {
 		var view = this;
 		if (view.isDirty()) {
 			var caseId = view.model.get('id'); // Модель обновлена уже раньше, когда проверялась на несохраненные данные
 			Ext.getBody().mask("Выполнение");
 			view.model.save({
+				params: {
+					ignoreDuplicates: ignoreDuplicates
+				},
 				callback: function (model, operation, success) {
 					Ext.getBody().unmask();
 					if (success) {
@@ -243,10 +277,17 @@ Ext.define('Earh.view.work.Case', {
 									})
 								}
 							});
+
 						view.fireEvent('caseChanged');
 						showInfo("Результат", "Данные сохранены");
 					} else {
-						showError("Ошибка сохранения", operation.getError());
+						showAlert('Внимание', 'Номер дела не уникален.<br>Продолжить сохранение?',
+								function (btn) {
+									if (btn === 'yes') {
+										view.save(true);
+									}
+								});
+//						showError("Ошибка сохранения", operation.getError());
 					}
 				}
 			});
@@ -295,7 +336,7 @@ Ext.define('Earh.view.work.Case', {
 	},
 	/**
 	 * Очищает форму перед созданием нового дела.
-	 * Перед редактированием дела отвечает метод loadPage.
+	 * Перед редактированием дела очищает метод loadPage.
 	 */
 	clear: function () {
 		var caseView = this;
@@ -315,6 +356,8 @@ Ext.define('Earh.view.work.Case', {
 		});
 		// Очищаем счетчик найденных документов
 		caseView._gtb.onLoad();
+		// скрываем номер дела
+		caseView.showNumber(false);
 	},
 	/**
 	 * Используется при листании
@@ -325,6 +368,7 @@ Ext.define('Earh.view.work.Case', {
 	loadPage: function (store, records, success) {
 		var caseView = this;
 		if (success) {
+			caseView.showNumber(true);
 			var caseId;
 			Earh.model.Case.getProxy().setUrl(Urls.scase);
 			caseView._crMode = false; // Режим создания карточки
@@ -434,9 +478,10 @@ Ext.define('Earh.view.work.Case', {
 	 * @param {Boolean} stat  true - просмотр, false - редактирование
 	 */
 	setReadOnly: function (stat) {
+		this._number.setReadOnly(stat);
 		var items = this._frm.items,
 				i, max = items.length;
-		for (i = 0; i < max; ++i) {
+		for (i = 1; i < max; ++i) {
 			if (i === 4) { // пропускаем даты
 				++i;
 				continue;
@@ -489,13 +534,31 @@ Ext.define('Earh.view.work.Case', {
 				lists = 'листов';
 			else if (ost === 1)
 				lists = 'лист';
-			else 
+			else
 				lists = 'листа';
 			this._frm.setTitle(Trans.acase + ' (' + pages + ' ' + lists + ')');
 		}
 		else
 			this._frm.setTitle(Trans.acase);
 
+	},
+	/**
+	 * Изменяет префикс номера дела при изменении типа дела
+	 * @param {Ext.form.field.ComboBox} combo элемент "Тип дела"
+	 * @param {Number} newValue новое значение элемента
+	 */
+	changePrefix: function (combo, newValue) {
+		this._prefix.setValue(combo.store.getById(newValue).get('case_type_index'));
+	},
+	/**
+	 * Устанавливает видимость полей номера дела
+	 * @param {Boolean} stat true - показать, false - скрыть
+	 */
+	showNumber: function (stat) {
+		var caseView = this;
+		caseView._prefix.setVisible(stat);
+		caseView._number.allowBlank = !stat;
+		caseView._number.setVisible(stat);
 	}
 
 });
