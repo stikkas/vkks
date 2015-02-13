@@ -47,6 +47,7 @@ Ext.define('Earh.view.search.Case', {
 				items: [{
 						xtype: 'container',
 						layout: 'hbox',
+						cls: 'padt5 padb5',
 						items: [{
 								xtype: 'combobox',
 								fieldLabel: Trans.numPrefix,
