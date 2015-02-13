@@ -15,7 +15,7 @@ Ext.define('Other.field.Base', {
 		var me = this;
 		if (me._saveBlank !== undefined)
 			me.allowBlank = me._saveBlank;
-		if (me.readOnly) {
+		if (me.readOnly || me.hidden) {
 			me.labelEl.setHtml(me.fieldLabel + me.labelSeparator);
 			me._saveBlank = me.allowBlank;
 			me.allowBlank = true;

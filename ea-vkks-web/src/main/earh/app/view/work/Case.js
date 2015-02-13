@@ -79,6 +79,7 @@ Ext.define('Earh.view.work.Case', {
 								labelWidth: 160,
 								width: 230,
 								enforceMaxLength: true,
+								allowBlank: false,
 								maxLength: 5
 							}]
 					}, {
@@ -427,10 +428,9 @@ Ext.define('Earh.view.work.Case', {
 				idx, model = caseView.model;
 		// Кнопка добавления документа
 		caseView._addb.setVisible(model && model.get('id') && stat);
+
 		if (se.p !== stat) { // Выполняется только если предыдущий вызов был с другим параметром
 			se.p = stat;
-
-			caseView._number.allowBlank = caseView._number.hidden ? true : false;
 
 			caseView.setReadOnly(!stat);
 			caseView._frm.applyAll('setRequired');
@@ -563,7 +563,6 @@ Ext.define('Earh.view.work.Case', {
 		var caseView = this;
 		caseView._prefix.setVisible(stat);
 		caseView._number.setVisible(stat);
-		caseView._number.allowBlank = !stat;
 		caseView._number.setRequired(stat);
 	}
 
