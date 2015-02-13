@@ -12,6 +12,7 @@ Ext.define('Earh.view.main.Main', {
 		'Earh.store.CaseResult',
 		'Earh.store.CaseDocResult',
 		'Earh.store.DocType',
+		'Earh.store.CaseTypeIndexResult',
 		'Earh.store.FioResult',
 		'Earh.store.CourtResult',
 		'Earh.store.StoreLife',
@@ -115,21 +116,8 @@ Ext.define('Earh.view.main.Main', {
 	 */
 	initStores: function () {
 		Ext.create('Earh.store.CaseType').load({callback: function (records, op, success) {
-				if (success) {
+				if (success) 
 					addEmptyToPlain(records, 'caseTypeStoreEm');
-					var data = [{text: '&nbsp'}];
-					records.forEach(function (rec) {
-						data.push({text: rec.raw.case_type_index});
-					});
-					Ext.create('Ext.data.Store', {
-						storeId: 'caseTypeIndexStoreEm',
-						fields: ['text'],
-						data: data,
-						proxy: {type: 'memory'},
-						queryMode: 'local'
-					});
-
-				}
 			}});
 		Ext.create('Earh.store.DocType').load(function (records, op, success) {
 			if (success)
@@ -145,6 +133,7 @@ Ext.define('Earh.view.main.Main', {
 		Ext.create('Earh.store.CaseDocResult');
 		Ext.create('Earh.store.FioResult');
 		Ext.create('Earh.store.CourtResult');
+		Ext.create('Earh.store.CaseTypeIndexResult');
 
 // Создает новое хранилище с первым нулевым элементом
 		function addEmptyToPlain(records, storeId, addfields) {

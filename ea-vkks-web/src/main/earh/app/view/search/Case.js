@@ -50,21 +50,16 @@ Ext.define('Earh.view.search.Case', {
 						items: [{
 								xtype: 'combobox',
 								fieldLabel: Trans.numPrefix,
-								store: 'caseTypeIndexStoreEm',
-//								minChars: 1,
+								name: 'numPrefix',
+								store: 'caseTypeIndex',
+								minChars: 1,
 								enforceMaxLength: true,
 								maxLength: 3,
-//								editable: true,
-//								displayField: 'case_type_index',
-//								valueField: 'id',
-//								valueField: 'case_type_index',
-								name: 'numPrefix',
+								editable: true,
 								listeners: {
-									specialkey: "searchKeyPressed",
-									change: function(cb, v) {
-										if (v === '&nbsp')
-											cb.reset();
-									}
+									blur: emptyCombo2,
+									change: "editComboChange",
+									specialkey: "editComboPressed"
 								},
 								labelWidth: 400,
 								width: 490

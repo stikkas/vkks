@@ -10,14 +10,18 @@ Ext.define('Other.field.Date', {
 
 		datefield.callParent();
 		datefield.on('blur', function() {
-			if (!datefield.isValid())
+			if (!datefield.isValid()) {
 				datefield.reset();
+				showError('Ошибка', "Введен не корректный формат данных");
+			}
 		});
 		
 		// Нужно для форм поиска, где осуществляется поиск по нажатию Enter
 		datefield.on('specialkey', function(t, e){
-			if (e.getKey() === e.ENTER && !datefield.isValid())
+			if (e.getKey() === e.ENTER && !datefield.isValid()) {
 				datefield.reset();
+				showError('Ошибка', "Введен не корректный формат данных");
+			}
 		});
 	}
 });

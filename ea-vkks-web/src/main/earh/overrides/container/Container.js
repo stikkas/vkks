@@ -11,7 +11,10 @@ Ext.define('Other.container.Container', {
 	applyAll: function (method, opts) {
 		this.items.each(function (it) {
 			try {
-				it[method].apply(it, opts);
+				if (it.items)
+					it.applyAll(method, opts);
+				else
+					it[method].apply(it, opts);
 			} catch (e) {
 
 			}

@@ -65,12 +65,9 @@ Ext.define('Earh.view.work.Case', {
 						xtype: 'container',
 						layout: 'hbox',
 						items: [{
-								xtype: 'combobox',
+								xtype: 'textfield',
 								fieldLabel: Trans.numPrefix,
-								store: 'caseTypeStore',
 								name: 'numPrefix',
-								displayField: 'case_type_index',
-								valueField: 'case_type_index',
 								readOnly: true,
 								labelWidth: 400,
 								width: 480
@@ -78,9 +75,9 @@ Ext.define('Earh.view.work.Case', {
 								xtype: 'numberfield',
 								fieldLabel: Trans.numNumber,
 								name: 'numNumber',
-								allowBlank: false,
-								labelWidth: 150,
-								width: 220,
+								minValue: 1,
+								labelWidth: 160,
+								width: 230,
 								enforceMaxLength: true,
 								maxLength: 5
 							}]
@@ -267,9 +264,14 @@ Ext.define('Earh.view.work.Case', {
 				callback: function (model, operation, success) {
 					Ext.getBody().unmask();
 					if (success) {
+						delete model.data['success'];
+//						delete view.model.data['success'];
 						if (view._addb.hidden)
 							view._addb.show();
-						if (!caseId)
+						// Дело создалось
+						if (!caseId) {
+							view.showNumber(true);
+							view._frm.loadRecord(model);
 							view._grd.store.loadPage(1, {
 								params: {
 									q: Ext.encode({
@@ -277,6 +279,7 @@ Ext.define('Earh.view.work.Case', {
 									})
 								}
 							});
+						}
 
 						view.fireEvent('caseChanged');
 						showInfo("Результат", "Данные сохранены");
@@ -427,6 +430,8 @@ Ext.define('Earh.view.work.Case', {
 		if (se.p !== stat) { // Выполняется только если предыдущий вызов был с другим параметром
 			se.p = stat;
 
+			caseView._number.allowBlank = caseView._number.hidden ? true : false;
+
 			caseView.setReadOnly(!stat);
 			caseView._frm.applyAll('setRequired');
 			caseView.setVisibleCardBar(!stat);
@@ -557,8 +562,9 @@ Ext.define('Earh.view.work.Case', {
 	showNumber: function (stat) {
 		var caseView = this;
 		caseView._prefix.setVisible(stat);
-		caseView._number.allowBlank = !stat;
 		caseView._number.setVisible(stat);
+		caseView._number.allowBlank = !stat;
+		caseView._number.setRequired(stat);
 	}
 
 });

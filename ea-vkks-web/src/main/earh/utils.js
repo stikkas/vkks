@@ -111,6 +111,7 @@ Urls = {
 	casedocs: RootContext + 'srvcs/search/casedocs',
 	user: RootContext + 'srvcs/user',
 	fios: RootContext + 'srvcs/users',
+	prefixes: RootContext + 'srvcs/prefixes',
 //	fios: RootContext + 'fake/bigdicts/users',
 	courts: RootContext + 'srvcs/courts',
 //	courts: RootContext + 'fake/bigdicts/courts',
