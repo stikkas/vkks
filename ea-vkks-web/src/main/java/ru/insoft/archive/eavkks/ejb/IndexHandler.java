@@ -13,6 +13,7 @@ import ru.insoft.archive.eavkks.model.EaDocument;
 import ru.insoft.archive.eavkks.webmodel.SavedCaseInfo;
 import ru.insoft.archive.extcommons.entity.HasId;
 import ru.insoft.archive.extcommons.entity.HasUserInfo;
+import ru.insoft.archive.extcommons.json.JsonOut;
 import ru.insoft.archive.extcommons.webmodel.ActionResult;
 
 /**
@@ -33,7 +34,7 @@ public class IndexHandler
     @Inject
     CommonDBHandler dbHandler;
     
-    public ActionResult indexCase(EaCase eaCase, boolean ignoreDuplicates) throws IOException
+    public JsonOut indexCase(EaCase eaCase, boolean ignoreDuplicates) throws IOException
     {
         setUserInfo(eaCase);
         if (eaCase.getId() == null)
@@ -53,8 +54,9 @@ public class IndexHandler
         String caseId = esIndex.indexCase(eaCase);
         SavedCaseInfo sci = new SavedCaseInfo();
         sci.setId(caseId);
-        sci.setNumber(eaCase.getNumber());
-        return ActionResult.wrapData(sci);
+        sci.setNumPrefix(eaCase.getNumPrefix());
+        sci.setNumNumber(eaCase.getNumNumber());
+        return sci;
     }
     
     public String indexDocument(EaDocument eaDoc) throws IOException
