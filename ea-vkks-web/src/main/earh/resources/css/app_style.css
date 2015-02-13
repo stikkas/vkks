@@ -472,6 +472,11 @@ div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
 .x-item-disabled span.x-tbar-page-next,
 .x-item-disabled span.x-tbar-page-last{
     opacity:0.5;
+}
+.x-box-inner span.x-tbar-page-prev,
+.x-box-inner span.x-tbar-page-first,
+.x-box-inner span.x-tbar-page-next,
+.x-box-inner span.x-tbar-page-last{
     width:12px !important;
 }
 /*карточка документа*/
