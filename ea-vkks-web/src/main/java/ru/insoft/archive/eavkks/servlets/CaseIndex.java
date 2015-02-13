@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ru.insoft.archive.eavkks.ejb.IndexHandler;
 import ru.insoft.archive.eavkks.model.EaCase;
-import ru.insoft.archive.extcommons.webmodel.ActionResult;
+import ru.insoft.archive.extcommons.json.JsonOut;
 
 /**
  *
@@ -23,7 +23,7 @@ public class CaseIndex extends VkksAbstractServlet
     {
         String rawCase = readRequestData(req);
         boolean ignoreDuplicates = "true".equals(req.getParameter("ignoreDuplicates"));
-        ActionResult ar = index.indexCase(jsonTools.parseEntity(rawCase, EaCase.class), ignoreDuplicates);
-        resp.getWriter().write(jsonTools.getJsonForEntity(ar).toString());
+        JsonOut res = index.indexCase(jsonTools.parseEntity(rawCase, EaCase.class), ignoreDuplicates);
+        resp.getWriter().write(jsonTools.getJsonForEntity(res).toString());
     }    
 }
