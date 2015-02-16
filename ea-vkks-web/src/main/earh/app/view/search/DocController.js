@@ -30,66 +30,71 @@ Ext.define('Earh.view.search.DocController', {
 				success: function (model, operation) {
 					var form = Ext.create('Ext.form.Panel', {
 						layout: 'vbox',
+						padding: 10,
 						defaults: {
 							readOnly: true,
 							labelSeparator: ':',
-							labelWidth: 150,
-							width: '100%'
+							width: '100%',
+							padding: 0,
+							labelWidth: 220
 						},
 						items: [{
 								xtype: 'textfield',
 								fieldLabel: Trans.caseNum,
-								name: 'number'
-//						width: 515
+								value: rec.get('acase')
 							}, {
-								xtype: 'combobox',
+								xtype: 'textfield',
 								fieldLabel: Trans.caseType,
-								store: 'caseTypeStore',
-								displayField: 'name',
-								valueField: 'id',
-								name: 'type'
-//						width: 775
+								value: Ext.getStore('caseTypeStore').getById(model.get('type')).get('name')
+//								store: 'caseTypeStore',
+//								displayField: 'name',
+//								valueField: 'id',
+//								name: 'type'
 							}, {
-								xtype: 'combobox',
+								xtype: 'textfield',
 								fieldLabel: Trans.storeLife,
-								store: 'storeLifeStore',
-								valueField: 'id',
-								displayField: 'name',
-								name: 'storeLife'
-//						width: 675
+								value: Ext.getStore('storeLifeStore').getById(model.get('storeLife')).get('name')
+//								store: 'storeLifeStore',
+//								valueField: 'id',
+//								displayField: 'name',
+//								name: 'storeLife'
 							}, {
 								xtype: 'textarea',
 								fieldLabel: Trans.caseTitle,
-								name: 'title'
-//						width: 985
+								value: model.get('title')
+//								name: 'title'
 							}, {
 								xtype: 'datefield',
 								fieldLabel: Trans.startDate,
-								name: 'startDate'
-//						width: 515
+								value: model.get('startDate')
+//								name: 'startDate'
 							}, {
 								xtype: 'datefield',
 								fieldLabel: Trans.endDate,
-								name: 'endDate'
-//						width: 515
+								value: model.get('endDate')
+//								name: 'endDate'
 							}, {
+								xtype: 'textfield',
+								fieldLabel: Trans.topoRef,
+								value: Ext.getStore('topoRefStore').getNodeById(model.get('toporef')).get('path')
+								/*
 								xtype: 'treepicker',
 								fieldLabel: Trans.topoRef,
 								name: 'toporef',
 								store: Ext.getStore('topoRefStore')
-//						width: 985
+								*/
 							}, {
 								xtype: 'textarea',
 								fieldLabel: Trans.caseRemark,
-								name: 'remark'
-//						width: 985
+								value: model.get('remark')
+//								name: 'remark'
 							}]
 					});
-					form.loadRecord(model);
+//					form.loadRecord(model);
 					Ext.create('Ext.window.Window', {
 						title: 'Данные о деле',
-						height: 400,
-						width: 400,
+						height: 350,
+						width: 670,
 						layout: 'fit',
 						items: [form]
 					}).show();
