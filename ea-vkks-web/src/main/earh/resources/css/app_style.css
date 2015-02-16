@@ -34,6 +34,9 @@ label.x-form-item-label-default{
 .marl-15 .x-form-text-field-body.x-form-item-body-default{
     padding-left:3px;         /*горизонтальные даты документа в поиске документов*/
 }
+div.x-window .x-form-text-field-body.x-form-item-body-default{
+    padding-left:5px;
+}
 input.x-form-text.x-form-text-default,
 textarea.x-form-text.x-form-text-default{
     box-shadow:inset -3px 6px 5px rgba(134,134,134,.2);
@@ -503,6 +506,10 @@ div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
 }
 .section_panel .graf_view .x-panel-header .x-title-text{
     border:none;
+}
+/*Модальные окна*/
+.x-window-body .x-panel{
+    padding-bottom:5px !important;
 }
 /* отображение ячеек с номером дела и указателем на карточке поиска документов */
 .case-of-doc-cell:hover, .case-of-doc-cell:hover div {
