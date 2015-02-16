@@ -16,8 +16,7 @@ Ext.define('Earh.view.main.MainController', {
 			backToSearch: 'backToSearch',
 			caseChanged: 'caseChanged',
 			toMain: 'toMain',
-			toDocEn: 'toDocEnable',
-			afterlayout: 'resultSorted'
+			toDocEn: 'toDocEnable'
 		},
 		adoc: {
 			afterrender: 'docRender',
@@ -25,22 +24,13 @@ Ext.define('Earh.view.main.MainController', {
 			docChanged: 'docChanged'
 		},
 		scases: {
-			activate: 'updateCases',
-			afterlayout: 'resultSorted'
-		},
-		sdocs: {
-			afterlayout: 'resultSorted'
+			activate: 'updateCases'
 		}
 	},
 	init: function () {
 		var controller = this,
 //				subscribers = controller.subscribers = [],
 				listenersFormPages = {};
-		// Привязываем ко всем хранилищам результатов поиска 
-		// обработчики для сохранения скроллинга после сортировки
-		['caseDocsStore', 'casesStore', 'docsStore'].forEach(function (id) {
-			Ext.getStore(id).on('beforesort', controller.setCurrentY, controller);
-		});
 		// Подпсчики на событие 'validChanged'
 		/*
 		 subscribers.push({
@@ -63,18 +53,6 @@ Ext.define('Earh.view.main.MainController', {
 			}
 		});
 		controller.callParent();
-	},
-	/**
-	 * Перед сортировкой сохраняем скроллинг
-	 */
-	setCurrentY: function () {
-		this.view.setCurrentScroll();
-	},
-	/**
-	 * После сортировки восстанавливаем скроллинг 
-	 */
-	resultSorted: function () {
-		this.view.setOldScroll();
 	},
 	/**
 	 * Отображает панель инструментов для текущей страницы

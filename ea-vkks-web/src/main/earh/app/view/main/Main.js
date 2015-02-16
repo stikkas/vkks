@@ -31,11 +31,6 @@ Ext.define('Earh.view.main.Main', {
 			 region: 'north'*/
 		}, {
 			xtype: 'container',
-			/*			listeners: {
-			 el: {
-			 mousewheel: 'setCurrentY'
-			 }
-			 },*/
 			width: '100%',
 			layout: 'card',
 			overflowY: 'auto',
@@ -52,13 +47,20 @@ Ext.define('Earh.view.main.Main', {
 		mainView._clayout = mainView._center.getLayout();
 		mainView._pages = {};
 		mainView._clayout.setActiveItem(mainView._pages[Pages.home] = Ext.widget(Pages.home));
-		/*
-		 var sto = mainView._center.scrollTo; 
-		 mainView._center.scrollTo = function (x, y, me) {
-		 if (me)
-		 sto.apply(mainView._center, arguments);
-		 };
-		 */
+
+// Манипуляции для восстановления скролинга
+		var afterLayoutOnCenterOld = mainView._center.afterLayout;
+		mainView._center.afterLayout = function () {
+			afterLayoutOnCenterOld.apply(mainView._center, arguments);
+			mainView._center.scrollTo(0, mainView._clayout.getActiveItem().yscrl);
+		};
+// Цепляем обработчик на прокручивание колесом мыши (запоминаем как прокрутили)
+		mainView._center.on('afterrender', function (me) {
+			me.getEl().on('scroll', function () {
+				var scroll = me.getScrollY();
+				mainView._clayout.getActiveItem().yscrl = scroll;
+			});
+		});
 
 	},
 	/**
@@ -68,19 +70,13 @@ Ext.define('Earh.view.main.Main', {
 	setActiveItem: function (page) {
 		var mainView = this,
 				item = mainView._pages[page];
-		mainView._clayout.getActiveItem().yscrl = mainView._center.getScrollY();
+//		mainView._clayout.getActiveItem().yscrl = mainView._center.getScrollY();
 		if (!item) {
 			item = mainView._pages[page] = Ext.widget(page);
 			mainView._center.add(item);
 		}
 		mainView._clayout.setActiveItem(item);
-		mainView._center.scrollTo(0, item.yscrl);
-	},
-	setOldScroll: function () {
-		this._center.scrollTo(0, this._clayout.getActiveItem().yscrl);
-	},
-	setCurrentScroll: function () {
-		this._clayout.getActiveItem().yscrl = this._center.getScrollY();
+//		mainView._center.scrollTo(0, item.yscrl);
 	},
 	/**
 	 * Возвращает экранную форму по названию страницы (из Pages)
@@ -116,7 +112,7 @@ Ext.define('Earh.view.main.Main', {
 	 */
 	initStores: function () {
 		Ext.create('Earh.store.CaseType').load({callback: function (records, op, success) {
-				if (success) 
+				if (success)
 					addEmptyToPlain(records, 'caseTypeStoreEm');
 			}});
 		Ext.create('Earh.store.DocType').load(function (records, op, success) {
