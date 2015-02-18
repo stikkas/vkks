@@ -24,7 +24,7 @@ import ru.insoft.archive.extcommons.ejb.JsonTools;
  * @author melnikov
  */
 @Stateless
-public class Loader 
+public class Loader	implements LoaderRemote 
 {    
     @Inject
     EsAdminHelper esAdmin;
@@ -37,6 +37,7 @@ public class Loader
     @Inject
     LogWriter log;
     
+	@Override
     public String load(String fromDir)
     {               
         try
