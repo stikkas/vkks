@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -17,7 +19,11 @@ import javax.json.Json;
 import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+import org.jboss.security.auth.callback.UsernamePasswordHandler;
 import org.jboss.weld.context.bound.BoundSessionContext;
+import ru.insoft.archive.eavkks.ejb.DescValueMapsProvider;
 import ru.insoft.archive.eavkks.ejb.LogWriter;
 import ru.insoft.archive.eavkks.ejb.es.EsAdminHelper;
 import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
@@ -119,6 +125,12 @@ public class LoaderImpl implements Loader, LoaderRemote {
 		context.associate(myMap);
 		context.activate();
 		try {
+			try {
+				LoginContext lc = new LoginContext("vkks", new UsernamePasswordHandler("LOAD", "loader"));
+				lc.login();
+			} catch (LoginException ex) {
+				return "Failed to login: " + ex.getMessage();
+			}
 			return load(srcDir);
 		} finally {
 			context.invalidate();

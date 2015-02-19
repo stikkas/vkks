@@ -141,6 +141,7 @@ public class DataSaver
                 eaDoc.setId(esIndex.indexDocument(eaDoc, eaCase.getNumber(), eaCase.getToporef()));
                 eaCase.getDocuments().add(eaDoc);                
 
+				/*
                 Path imageFilePath = FileSystems.getDefault().getPath(filesDir.getPath(), lDoc.getGraph());                
                 try
                 {
@@ -151,6 +152,7 @@ public class DataSaver
                 {
                     throw new BadSourceException("Невозможно прочитать файл <" + imageFilePath.toString() + ">");
                 }
+				*/
             }
         }
         catch (BadSourceException e)
@@ -169,7 +171,8 @@ public class DataSaver
     {
         if (loadUserId == null)
         {
-            loadUserId = ui.getUser().getId();
+			loadUserId = 8l;
+            //loadUserId = ui.getUser().getId();
             /*try
             {
                 AdmUser loadUser = ui.queryUserByLogin("LOAD");
@@ -208,15 +211,18 @@ public class DataSaver
     {
         if (lTopo == null)
             return null;
-        if (lTopo.getRoom() == null || lTopo.getRack() == null || lTopo.getShelf() == null)
+        if (/*lTopo.getRoom() == null ||*/ lTopo.getRack() == null || lTopo.getShelf() == null)
             throw new BadSourceException("Недостаточно данных по топографии");
         
         Long shelfId = toporefs.get(lTopo);
         if (shelfId == null)
         {
-            Pair<Long, Boolean> room  = getToporefPart(lTopo.getRoom(), "Комната", "ком.", null, false);
+//            Pair<Long, Boolean> room  = getToporefPart(lTopo.getRoom(), "Комната", "ком.", null, false);
+//            Pair<Long, Boolean> rack  = getToporefPart(lTopo.getRack(), "Стеллаж", "ст.", 
+//                   room.getValue0(), room.getValue1());
+
             Pair<Long, Boolean> rack  = getToporefPart(lTopo.getRack(), "Стеллаж", "ст.", 
-                    room.getValue0(), room.getValue1());
+                   null, false);
             Pair<Long, Boolean> shelf = getToporefPart(lTopo.getShelf(), "Полка", "п.", 
                     rack.getValue0(), rack.getValue1());
             shelfId = shelf.getValue0();
