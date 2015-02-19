@@ -1,6 +1,7 @@
 package ru.insoft.archive.eavkks.ejb.es;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +10,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.elasticsearch.action.count.CountResponse;
@@ -45,463 +49,476 @@ import ru.insoft.archive.extcommons.webmodel.OrderBy;
  * @author melnikov
  */
 @Stateless
-public class EsSearchHelper 
-{
-    @Inject
-    EsAdminHelper esAdmin;
-    @Inject
-    CommonDBHandler dbHandler;
-    
-    private String LINK_PREFIX;
-    
-    public List<String> searchFios(String prefix)
-    {
-        Client esClient = esAdmin.getClient();
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("document")
-                .setQuery(prefix == null || prefix.isEmpty() ?
-                        QueryBuilders.matchAllQuery() :
-                        QueryBuilders.matchPhrasePrefixQuery("fio", prefix))
-                .setSize(0)
-                .addAggregation(AggregationBuilders.terms("fio")
-                        .field("fio.raw")
-                )
-                .execute().actionGet();
-        Terms fios = resp.getAggregations().get("fio");
-        List<String> res = new ArrayList<>();
-        for (Bucket bucket : fios.getBuckets())
-            res.add(bucket.getKey());
-        return res;
-    }
-    
-    public List<String> searchCourts(String prefix)
-    {
-        Client esClient = esAdmin.getClient();
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("document")
-                .setQuery(prefix == null || prefix.isEmpty() ?
-                        QueryBuilders.matchAllQuery() :
-                        QueryBuilders.matchPhrasePrefixQuery("court", prefix))
-                .setSize(0)
-                .addAggregation(AggregationBuilders.terms("court")
-                        .field("court.raw")
-                )
-                .execute().actionGet();
-        Terms fios = resp.getAggregations().get("court");
-        List<String> res = new ArrayList<>();
-        for (Bucket bucket : fios.getBuckets())
-            res.add(bucket.getKey());
-        return res;
-    }
-    
-    public List<String> searchCaseNumPrefixes(String prefix)
-    {
-        Client esClient = esAdmin.getClient();
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("case")
-                .setQuery(prefix == null || prefix.isEmpty() ?
-                        QueryBuilders.matchAllQuery() :
-                        QueryBuilders.matchPhrasePrefixQuery("num_prefix", prefix))
-                .setSize(0)
-                .addAggregation(AggregationBuilders.terms("prefixes").field("num_prefix"))
-                .execute().actionGet();
-        Terms prefixes = resp.getAggregations().get("prefixes");
-        List<String> res = new ArrayList<>();
-        for (Bucket bucket : prefixes.getBuckets())
-            res.add(bucket.getKey());
-        return res;
-    }
-    
-    public SearchHits searchDocuments(DocumentSearchCriteria q, 
-            Integer start, Integer limit, List<OrderBy> orders)
-    {
-        Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("number", q.getNumber());
-        queryMap.put("title", q.getTitle());
-        queryMap.put("court", q.getCourt());
-        queryMap.put("remark", q.getRemark());
-        queryMap.put("fio", q.getFio());
-        queryMap.put("graph", q.getContext());
-        
-        Map<String, Object> filterMap = new HashMap<>();
-        //filterMap.put("volume", q.getVolume());        
-        filterMap.put("type", q.getType());
-        /*filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
-                        new Pair<>(q.getStartPage(), q.getEndPage())));*/
-        filterMap.put("dates", (q.getStartDate() == null && q.getEndDate() == null) ? null :
-                new Pair<>(q.getStartDate(), q.getEndDate()));
-        
-        QueryBuilder query = makeQuery(queryMap, filterMap);
-        
-        Client esClient = esAdmin.getClient();
-        SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("document")
-                .setQuery(query)
-                .setFrom(start)
-                .setSize(limit)                
-                .setFetchSource(null, new String[]
-                    {"graph", "addUserId", "modUserId", "insertDate" ,"lastUpdateDate"});
-        if (orders != null)
-            for (OrderBy order : orders)
-                req.addSort(SortBuilders.fieldSort(order.getField())
-                    .order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
-        SearchResponse resp = req.execute().actionGet();
-        return resp.getHits();
-    }
-    
-    public SearchHits searchCases(CaseSearchCriteria q, Integer start, Integer limit, List<OrderBy> orders)
-    {
-        Map<String, Object> queryMap = new HashMap<>();
-        //queryMap.put("number", q.getNumber());
-        queryMap.put("num_number.str", q.getNumNumber());
-        queryMap.put("title", q.getTitle());
-        queryMap.put("case_court", q.getCourt());
-        queryMap.put("case_fio", q.getFio());
-        queryMap.put("remark", q.getRemark());
-        
-        Map<String, Object> filterMap = new HashMap<>(); 
-        filterMap.put("num_prefix", q.getNumPrefix());
-        filterMap.put("type", q.getType());
-        filterMap.put("storeLife", q.getStoreLife());
-        filterMap.put("case_dates", (q.getStartDate() == null && q.getEndDate() == null) ? null :
-                new Pair<>(q.getStartDate(), q.getEndDate()));
-        filterMap.put("toporef", q.getToporefIds());
-        
-        QueryBuilder query = makeQuery(queryMap, filterMap);
-        Client esClient = esAdmin.getClient();
-        SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("case")
-                .setQuery(query)
-                .setFrom(start)
-                .setSize(limit)
-                .setFetchSource(null, new String[]
-                    {"addUserId", "modUserId", "insertDate" ,"lastUpdateDate"});
-        if (orders != null)
-            for (OrderBy order : orders)
-            {
-                SortOrder so = order.asc() ? SortOrder.ASC : SortOrder.DESC;
-                if (order.getField().equals("number"))                
-                {
-                    req.addSort(SortBuilders.fieldSort("num_prefix").order(so));
-                    req.addSort(SortBuilders.fieldSort("num_number").order(so));
-                }
-                else           
-                    req.addSort(SortBuilders.fieldSort(order.getField()).order(so));
-            }
-        SearchResponse resp = req.execute().actionGet();
-        return resp.getHits();
-    }
-    
-    public Terms queryCaseEdgeDates(Iterable<String> caseIds)
-    {
-        Client esClient = esAdmin.getClient();
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("document")
-                .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
-                        FilterBuilders.hasParentFilter("case", 
-                                FilterBuilders.termsFilter("_id", caseIds))))
-                .setSize(0)
-                .addAggregation(AggregationBuilders.terms("dates").field("_parent")
-                    .subAggregation(AggregationBuilders.min("startDate").field("date"))
-                    .subAggregation(AggregationBuilders.max("endDate").field("date")))
-                .execute().actionGet();
-        Terms ids = resp.getAggregations().get("dates");
-        return ids;        
-    }
-    
-    public EaCase getCaseById(String id)
-    {
-        Client esClient = esAdmin.getClient();
-        GetResponse resp = esClient.prepareGet(esAdmin.getIndexName(), "case", id)
-                .execute().actionGet();
-        EaCase eaCase = parseCase(resp.getSource());
-        eaCase.setId(id);
-        Bucket datesInfo = queryCaseEdgeDates(Arrays.asList(id)).getBucketByKey(id);
-        if (datesInfo != null)
-        {
-            Date startDate = new Date(((Number)((Min)datesInfo.getAggregations().get("startDate")).getValue()).longValue());
-            Date endDate   = new Date(((Number)((Max)datesInfo.getAggregations().get("endDate")).getValue()).longValue());
-            eaCase.setStartDate(startDate);
-            eaCase.setEndDate(endDate);
-        }
-        eaCase.setPages(queryCasePageCount(id));
-        return eaCase;
-    }
-    
-    public EaCase parseCase(Map<String, Object> esData)
-    {
-        EaCase eaCase = new EaCase();
-        //eaCase.setNumber((String)esData.get("number"));
-        eaCase.setNumPrefix((String)esData.get("num_prefix"));
-        eaCase.setNumNumber((Integer)esData.get("num_number"));
-        eaCase.setType(((Number)esData.get("type")).longValue());
-        eaCase.setStoreLife(((Number)esData.get("storeLife")).longValue());
-        eaCase.setTitle((String)esData.get("title"));
-        Number toporef = (Number)esData.get("toporef");
-        if (toporef != null)
-            eaCase.setToporef(toporef.longValue());
-        eaCase.setRemark((String)esData.get("remark"));
-        return eaCase;
-    }
-    
-    protected Integer queryCasePageCount(String id)
-    {
-        Client esClient = esAdmin.getClient();
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("document")
-                .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
-                        FilterBuilders.hasParentFilter("case", 
-                                FilterBuilders.termFilter("_id", id))))
-                .setSize(0)
-                .addAggregation(AggregationBuilders.terms("pages").field("_parent")
-                .subAggregation(AggregationBuilders.sum("count").field("pages")))
-                .execute().actionGet();
-        Bucket pagesInfo = ((Terms)resp.getAggregations().get("pages")).getBucketByKey(id);
-        if (pagesInfo == null)
-            return null;
-        return ((Number)((Sum)pagesInfo.getAggregations().get("count")).getValue()).intValue();
-    }
-    
-    public int queryMaxCaseNumberForPrefix(String numPrefix)
-    {
-        Client esClient = esAdmin.getClient();
-        SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("case")
-                .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
-                        FilterBuilders.termFilter("num_prefix", numPrefix)))
-                .setSize(0)
-                .addAggregation(AggregationBuilders.max("maxNumber").field("num_number"))
-                .execute().actionGet();
-        Number maxNumber = (Number)((Max)resp.getAggregations().get("maxNumber")).getValue();
-        return maxNumber.equals(Double.NEGATIVE_INFINITY) ? 0 : maxNumber.intValue();
-    }
-    
-    public boolean checkCaseNumberUniqueness(String numPrefix, Integer numNumber, String id)
-    {
-        Client esClient = esAdmin.getClient();
-        CountResponse resp = esClient.prepareCount(esAdmin.getIndexName())
-                .setTypes("case")
-                .setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
-                        FilterBuilders.boolFilter()
-                            .must(FilterBuilders.termFilter("num_prefix", numPrefix))
-                            .must(FilterBuilders.termFilter("num_number", numNumber))
-                            .mustNot(FilterBuilders.termFilter("_id", id))))
-                .execute().actionGet();
-        return resp.getCount() == 0;
-    }
-    
-    public SearchHits searchCaseDocuments(String caseId, String context, Integer start, Integer limit, List<OrderBy> orders)
-    {
-        QueryBuilder query;
-        if (context == null || context.isEmpty())
-            query = QueryBuilders.matchAllQuery();
-        else
-            query = getQuery("graph", context);
-        FilterBuilder filter = getFilter("caseId", caseId);
-        
-        Client esClient = esAdmin.getClient();
-        SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
-                .setTypes("document")
-                .setQuery(QueryBuilders.filteredQuery(query, filter))
-                .setFrom(start)
-                .setSize(limit)
-                .setFetchSource(null, new String[]
-                    {"addUserId", "modUserId", "insertDate" ,"lastUpdateDate"});
-        if (orders != null)
-            for (OrderBy order : orders)
-                req.addSort(SortBuilders.fieldSort(order.getField())
-                    .order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
-        SearchResponse resp = req.execute().actionGet();
-        return resp.getHits();
-    }
-    
-    public EaDocument getDocumentById(String id, String caseId)
-    {
-        Client esClient = esAdmin.getClient();
-        GetResponse resp = esClient.prepareGet(esAdmin.getIndexName(), "document", id)
-                .setParent(caseId)
-                .execute().actionGet();
-        EaDocument doc = parseDocument(resp.getSource());
-        doc.setId(id);
-        doc.setCaseId(caseId);
-        doc.setCaseTitle(getCaseById(caseId).getTitle());
-        if (isExistsImageFile(id))
-            doc.setGraph(MessageFormat.format("{0}{1}.pdf", getLinkPrefix(), id));
-        return doc;
-    }
-    
-    public EaDocument parseDocument(Map<String, Object> docData)
-    {
-        EaDocument doc = new EaDocument();
-        doc.setCaseId((String)docData.get("_parent"));
-        //doc.setVolume((Integer)docData.get("volume"));
-        doc.setNumber((String)docData.get("number"));
-        doc.setType(((Number)docData.get("type")).longValue());
-        doc.setTitle((String)docData.get("title"));
-        //doc.setStartPage((Integer)docData.get("startPage"));
-        //doc.setEndPage((Integer)docData.get("endPage"));
-        doc.setPages((Integer)docData.get("pages"));
-        doc.setDate((String)docData.get("date"));
-        doc.setRemark((String)docData.get("remark"));
-        doc.setCourt((String)docData.get("court"));
-        doc.setFio((String)docData.get("fio"));
-        return doc;
-    }
-    
-    protected QueryBuilder makeQuery(Map<String, Object> queryMap, Map<String, Object> filterMap)
-    {
-        QueryBuilder query;
-        if (allNulls(queryMap))
-            query = QueryBuilders.matchAllQuery();
-        else
-        {
-            if (oneNotNull(queryMap))
-            {
-                String field = getNotNull(queryMap);
-                query = getQuery(field, queryMap.get(field));
-            }
-            else
-            {
-                BoolQueryBuilder bool = QueryBuilders.boolQuery();
-                for (String field : queryMap.keySet())
-                {
-                    Object obj = queryMap.get(field);
-                    if (obj != null)
-                        bool.must(getQuery(field, obj));
-                }
-                query = bool;
-            }
-        }                
-        
-        if (!allNulls(filterMap))
-        {
-            FilterBuilder filter;
-            if (oneNotNull(filterMap))
-            {
-                String field = getNotNull(filterMap);
-                filter = getFilter(field, filterMap.get(field));
-            }
-            else
-            {
-                BoolFilterBuilder bool = FilterBuilders.boolFilter();
-                for (String field : filterMap.keySet())
-                {
-                    Object obj = filterMap.get(field);
-                    if (obj != null)
-                        bool.must(getFilter(field, obj));
-                }
-                filter = bool;
-            }
-            query = QueryBuilders.filteredQuery(query, filter);
-        }
-        return query;
-    }
-    
-    protected boolean allNulls(Map<String, Object> objMap)
-    {
-        for (Object obj : objMap.values())
-            if (obj != null)
-                return false;
-        return true;
-    }
-    
-    protected boolean oneNotNull(Map<String, Object> objMap)
-    {
-        boolean found = false;
-        for (Object obj : objMap.values())
-            if (obj != null)
-            {
-                if (found)
-                    return false;
-                found = true;
-            }
-        return found;
-    }
-    
-    protected String getNotNull(Map<String, Object> objMap)
-    {
-        for (String key : objMap.keySet())
-            if (objMap.get(key) != null)
-                return key;
-        return null;
-    }
-    
-    protected QueryBuilder getQuery(String field, Object value)
-    {
-        if (field.startsWith("case_"))
-        {
-            String dbField = field.replaceFirst("case_", "");
-            return QueryBuilders.hasChildQuery("document", 
-                    QueryBuilders.matchQuery(dbField, value));
-        }
-        if (field.contains("number"))
-            return QueryBuilders.wildcardQuery(field, MessageFormat.format("*{0}*", value));
-        return QueryBuilders.matchQuery(field, value);
-    }
-    
-    protected FilterBuilder getFilter(String field, Object value)
-    {
-        /*if (field.equals("pages"))
-        {
-            Pair<Integer, Integer> pages = (Pair<Integer, Integer>)value;
-            if (pages.getValue0() == null)
-                return FilterBuilders.rangeFilter("startPage").lte(pages.getValue1());
-            if (pages.getValue1() == null)
-                return FilterBuilders.rangeFilter("endPage").gte(pages.getValue0());
+public class EsSearchHelper {
+
+	@Inject
+	EsAdminHelper esAdmin;
+	@Inject
+	CommonDBHandler dbHandler;
+
+	private String LINK_PREFIX;
+
+	private static Boolean isLinux;
+
+	@PostConstruct
+	private void init() {
+		if (isLinux == null) {
+			isLinux = System.getProperty("os.name").equalsIgnoreCase("linux");
+		}
+	}
+
+	private String encodeString(String string) {
+		try {
+			return new String(string.getBytes("iso-8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException ex) {
+			Logger.getLogger(EsSearchHelper.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return string;
+	}
+
+	public List<String> searchFios(String prefix) {
+		if (isLinux) {
+			prefix = encodeString(prefix);
+		}
+		Client esClient = esAdmin.getClient();
+		SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+				.setTypes("document")
+				.setQuery(prefix == null || prefix.isEmpty()
+								? QueryBuilders.matchAllQuery()
+								: QueryBuilders.matchPhrasePrefixQuery("fio", prefix))
+				.setSize(0)
+				.addAggregation(AggregationBuilders.terms("fio")
+						.field("fio.raw")
+				)
+				.execute().actionGet();
+		Terms fios = resp.getAggregations().get("fio");
+		List<String> res = new ArrayList<>();
+		for (Bucket bucket : fios.getBuckets()) {
+			res.add(bucket.getKey());
+		}
+		return res;
+	}
+
+	public List<String> searchCourts(String prefix) {
+		if (isLinux) {
+			prefix = encodeString(prefix);
+		}
+		Client esClient = esAdmin.getClient();
+		SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+				.setTypes("document")
+				.setQuery(prefix == null || prefix.isEmpty()
+								? QueryBuilders.matchAllQuery()
+								: QueryBuilders.matchPhrasePrefixQuery("court", prefix))
+				.setSize(0)
+				.addAggregation(AggregationBuilders.terms("court")
+						.field("court.raw")
+				)
+				.execute().actionGet();
+		Terms fios = resp.getAggregations().get("court");
+		List<String> res = new ArrayList<>();
+		for (Bucket bucket : fios.getBuckets()) {
+			res.add(bucket.getKey());
+		}
+		return res;
+	}
+
+	public List<String> searchCaseNumPrefixes(String prefix) {
+		if (isLinux) {
+			prefix = encodeString(prefix);
+		}
+		Client esClient = esAdmin.getClient();
+		SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+				.setTypes("case")
+				.setQuery(prefix == null || prefix.isEmpty()
+								? QueryBuilders.matchAllQuery()
+								: QueryBuilders.matchPhrasePrefixQuery("num_prefix", prefix))
+				.setSize(0)
+				.addAggregation(AggregationBuilders.terms("prefixes").field("num_prefix"))
+				.execute().actionGet();
+		Terms prefixes = resp.getAggregations().get("prefixes");
+		List<String> res = new ArrayList<>();
+		for (Bucket bucket : prefixes.getBuckets()) {
+			res.add(bucket.getKey());
+		}
+		return res;
+	}
+
+	public SearchHits searchDocuments(DocumentSearchCriteria q,
+			Integer start, Integer limit, List<OrderBy> orders) {
+		Map<String, Object> queryMap = new HashMap<>();
+		queryMap.put("number", q.getNumber());
+		queryMap.put("title", q.getTitle());
+		queryMap.put("court", q.getCourt());
+		queryMap.put("remark", q.getRemark());
+		queryMap.put("fio", q.getFio());
+		queryMap.put("graph", q.getContext());
+
+		Map<String, Object> filterMap = new HashMap<>();
+		//filterMap.put("volume", q.getVolume());        
+		filterMap.put("type", q.getType());
+		/*filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
+		 new Pair<>(q.getStartPage(), q.getEndPage())));*/
+		filterMap.put("dates", (q.getStartDate() == null && q.getEndDate() == null) ? null
+				: new Pair<>(q.getStartDate(), q.getEndDate()));
+
+		QueryBuilder query = makeQuery(queryMap, filterMap);
+
+		Client esClient = esAdmin.getClient();
+		SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
+				.setTypes("document")
+				.setQuery(query)
+				.setFrom(start)
+				.setSize(limit)
+				.setFetchSource(null, new String[]{"graph", "addUserId", "modUserId", "insertDate", "lastUpdateDate"});
+		if (orders != null) {
+			for (OrderBy order : orders) {
+				req.addSort(SortBuilders.fieldSort(order.getField())
+						.order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
+			}
+		}
+		SearchResponse resp = req.execute().actionGet();
+		return resp.getHits();
+	}
+
+	public SearchHits searchCases(CaseSearchCriteria q, Integer start, Integer limit, List<OrderBy> orders) {
+		Map<String, Object> queryMap = new HashMap<>();
+		//queryMap.put("number", q.getNumber());
+		queryMap.put("num_number.str", q.getNumNumber());
+		queryMap.put("title", q.getTitle());
+		queryMap.put("case_court", q.getCourt());
+		queryMap.put("case_fio", q.getFio());
+		queryMap.put("remark", q.getRemark());
+
+		Map<String, Object> filterMap = new HashMap<>();
+		filterMap.put("num_prefix", q.getNumPrefix());
+		filterMap.put("type", q.getType());
+		filterMap.put("storeLife", q.getStoreLife());
+		filterMap.put("case_dates", (q.getStartDate() == null && q.getEndDate() == null) ? null
+				: new Pair<>(q.getStartDate(), q.getEndDate()));
+		filterMap.put("toporef", q.getToporefIds());
+
+		QueryBuilder query = makeQuery(queryMap, filterMap);
+		Client esClient = esAdmin.getClient();
+		SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
+				.setTypes("case")
+				.setQuery(query)
+				.setFrom(start)
+				.setSize(limit)
+				.setFetchSource(null, new String[]{"addUserId", "modUserId", "insertDate", "lastUpdateDate"});
+		if (orders != null) {
+			for (OrderBy order : orders) {
+				SortOrder so = order.asc() ? SortOrder.ASC : SortOrder.DESC;
+				if (order.getField().equals("number")) {
+					req.addSort(SortBuilders.fieldSort("num_prefix").order(so));
+					req.addSort(SortBuilders.fieldSort("num_number").order(so));
+				} else {
+					req.addSort(SortBuilders.fieldSort(order.getField()).order(so));
+				}
+			}
+		}
+		SearchResponse resp = req.execute().actionGet();
+		return resp.getHits();
+	}
+
+	public Terms queryCaseEdgeDates(Iterable<String> caseIds) {
+		Client esClient = esAdmin.getClient();
+		SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+				.setTypes("document")
+				.setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
+								FilterBuilders.hasParentFilter("case",
+										FilterBuilders.termsFilter("_id", caseIds))))
+				.setSize(0)
+				.addAggregation(AggregationBuilders.terms("dates").field("_parent")
+						.subAggregation(AggregationBuilders.min("startDate").field("date"))
+						.subAggregation(AggregationBuilders.max("endDate").field("date")))
+				.execute().actionGet();
+		Terms ids = resp.getAggregations().get("dates");
+		return ids;
+	}
+
+	public EaCase getCaseById(String id) {
+		Client esClient = esAdmin.getClient();
+		GetResponse resp = esClient.prepareGet(esAdmin.getIndexName(), "case", id)
+				.execute().actionGet();
+		EaCase eaCase = parseCase(resp.getSource());
+		eaCase.setId(id);
+		Bucket datesInfo = queryCaseEdgeDates(Arrays.asList(id)).getBucketByKey(id);
+		if (datesInfo != null) {
+			Date startDate = new Date(((Number) ((Min) datesInfo.getAggregations().get("startDate")).getValue()).longValue());
+			Date endDate = new Date(((Number) ((Max) datesInfo.getAggregations().get("endDate")).getValue()).longValue());
+			eaCase.setStartDate(startDate);
+			eaCase.setEndDate(endDate);
+		}
+		eaCase.setPages(queryCasePageCount(id));
+		return eaCase;
+	}
+
+	public EaCase parseCase(Map<String, Object> esData) {
+		EaCase eaCase = new EaCase();
+		//eaCase.setNumber((String)esData.get("number"));
+		eaCase.setNumPrefix((String) esData.get("num_prefix"));
+		eaCase.setNumNumber((Integer) esData.get("num_number"));
+		eaCase.setType(((Number) esData.get("type")).longValue());
+		eaCase.setStoreLife(((Number) esData.get("storeLife")).longValue());
+		eaCase.setTitle((String) esData.get("title"));
+		Number toporef = (Number) esData.get("toporef");
+		if (toporef != null) {
+			eaCase.setToporef(toporef.longValue());
+		}
+		eaCase.setRemark((String) esData.get("remark"));
+		return eaCase;
+	}
+
+	protected Integer queryCasePageCount(String id) {
+		Client esClient = esAdmin.getClient();
+		SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+				.setTypes("document")
+				.setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
+								FilterBuilders.hasParentFilter("case",
+										FilterBuilders.termFilter("_id", id))))
+				.setSize(0)
+				.addAggregation(AggregationBuilders.terms("pages").field("_parent")
+						.subAggregation(AggregationBuilders.sum("count").field("pages")))
+				.execute().actionGet();
+		Bucket pagesInfo = ((Terms) resp.getAggregations().get("pages")).getBucketByKey(id);
+		if (pagesInfo == null) {
+			return null;
+		}
+		return ((Number) ((Sum) pagesInfo.getAggregations().get("count")).getValue()).intValue();
+	}
+
+	public int queryMaxCaseNumberForPrefix(String numPrefix) {
+		Client esClient = esAdmin.getClient();
+		SearchResponse resp = esClient.prepareSearch(esAdmin.getIndexName())
+				.setTypes("case")
+				.setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
+								FilterBuilders.termFilter("num_prefix", numPrefix)))
+				.setSize(0)
+				.addAggregation(AggregationBuilders.max("maxNumber").field("num_number"))
+				.execute().actionGet();
+		Number maxNumber = (Number) ((Max) resp.getAggregations().get("maxNumber")).getValue();
+		return maxNumber.equals(Double.NEGATIVE_INFINITY) ? 0 : maxNumber.intValue();
+	}
+
+	public boolean checkCaseNumberUniqueness(String numPrefix, Integer numNumber, String id) {
+		Client esClient = esAdmin.getClient();
+		CountResponse resp = esClient.prepareCount(esAdmin.getIndexName())
+				.setTypes("case")
+				.setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
+								FilterBuilders.boolFilter()
+								.must(FilterBuilders.termFilter("num_prefix", numPrefix))
+								.must(FilterBuilders.termFilter("num_number", numNumber))
+								.mustNot(FilterBuilders.termFilter("_id", id))))
+				.execute().actionGet();
+		return resp.getCount() == 0;
+	}
+
+	public SearchHits searchCaseDocuments(String caseId, String context, Integer start, Integer limit, List<OrderBy> orders) {
+		QueryBuilder query;
+		if (context == null || context.isEmpty()) {
+			query = QueryBuilders.matchAllQuery();
+		} else {
+			query = getQuery("graph", context);
+		}
+		FilterBuilder filter = getFilter("caseId", caseId);
+
+		Client esClient = esAdmin.getClient();
+		SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
+				.setTypes("document")
+				.setQuery(QueryBuilders.filteredQuery(query, filter))
+				.setFrom(start)
+				.setSize(limit)
+				.setFetchSource(null, new String[]{"addUserId", "modUserId", "insertDate", "lastUpdateDate"});
+		if (orders != null) {
+			for (OrderBy order : orders) {
+				req.addSort(SortBuilders.fieldSort(order.getField())
+						.order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
+			}
+		}
+		SearchResponse resp = req.execute().actionGet();
+		return resp.getHits();
+	}
+
+	public EaDocument getDocumentById(String id, String caseId) {
+		Client esClient = esAdmin.getClient();
+		GetResponse resp = esClient.prepareGet(esAdmin.getIndexName(), "document", id)
+				.setParent(caseId)
+				.execute().actionGet();
+		EaDocument doc = parseDocument(resp.getSource());
+		doc.setId(id);
+		doc.setCaseId(caseId);
+		doc.setCaseTitle(getCaseById(caseId).getTitle());
+		if (isExistsImageFile(id)) {
+			doc.setGraph(MessageFormat.format("{0}{1}.pdf", getLinkPrefix(), id));
+		}
+		return doc;
+	}
+
+	public EaDocument parseDocument(Map<String, Object> docData) {
+		EaDocument doc = new EaDocument();
+		doc.setCaseId((String) docData.get("_parent"));
+		//doc.setVolume((Integer)docData.get("volume"));
+		doc.setNumber((String) docData.get("number"));
+		doc.setType(((Number) docData.get("type")).longValue());
+		doc.setTitle((String) docData.get("title"));
+		//doc.setStartPage((Integer)docData.get("startPage"));
+		//doc.setEndPage((Integer)docData.get("endPage"));
+		doc.setPages((Integer) docData.get("pages"));
+		doc.setDate((String) docData.get("date"));
+		doc.setRemark((String) docData.get("remark"));
+		doc.setCourt((String) docData.get("court"));
+		doc.setFio((String) docData.get("fio"));
+		return doc;
+	}
+
+	protected QueryBuilder makeQuery(Map<String, Object> queryMap, Map<String, Object> filterMap) {
+		QueryBuilder query;
+		if (allNulls(queryMap)) {
+			query = QueryBuilders.matchAllQuery();
+		} else {
+			if (oneNotNull(queryMap)) {
+				String field = getNotNull(queryMap);
+				query = getQuery(field, queryMap.get(field));
+			} else {
+				BoolQueryBuilder bool = QueryBuilders.boolQuery();
+				for (String field : queryMap.keySet()) {
+					Object obj = queryMap.get(field);
+					if (obj != null) {
+						bool.must(getQuery(field, obj));
+					}
+				}
+				query = bool;
+			}
+		}
+
+		if (!allNulls(filterMap)) {
+			FilterBuilder filter;
+			if (oneNotNull(filterMap)) {
+				String field = getNotNull(filterMap);
+				filter = getFilter(field, filterMap.get(field));
+			} else {
+				BoolFilterBuilder bool = FilterBuilders.boolFilter();
+				for (String field : filterMap.keySet()) {
+					Object obj = filterMap.get(field);
+					if (obj != null) {
+						bool.must(getFilter(field, obj));
+					}
+				}
+				filter = bool;
+			}
+			query = QueryBuilders.filteredQuery(query, filter);
+		}
+		return query;
+	}
+
+	protected boolean allNulls(Map<String, Object> objMap) {
+		for (Object obj : objMap.values()) {
+			if (obj != null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	protected boolean oneNotNull(Map<String, Object> objMap) {
+		boolean found = false;
+		for (Object obj : objMap.values()) {
+			if (obj != null) {
+				if (found) {
+					return false;
+				}
+				found = true;
+			}
+		}
+		return found;
+	}
+
+	protected String getNotNull(Map<String, Object> objMap) {
+		for (String key : objMap.keySet()) {
+			if (objMap.get(key) != null) {
+				return key;
+			}
+		}
+		return null;
+	}
+
+	protected QueryBuilder getQuery(String field, Object value) {
+		if (field.startsWith("case_")) {
+			String dbField = field.replaceFirst("case_", "");
+			return QueryBuilders.hasChildQuery("document",
+					QueryBuilders.matchQuery(dbField, value));
+		}
+		if (field.contains("number")) {
+			return QueryBuilders.wildcardQuery(field, MessageFormat.format("*{0}*", value));
+		}
+		return QueryBuilders.matchQuery(field, value);
+	}
+
+	protected FilterBuilder getFilter(String field, Object value) {
+		/*if (field.equals("pages"))
+		 {
+		 Pair<Integer, Integer> pages = (Pair<Integer, Integer>)value;
+		 if (pages.getValue0() == null)
+		 return FilterBuilders.rangeFilter("startPage").lte(pages.getValue1());
+		 if (pages.getValue1() == null)
+		 return FilterBuilders.rangeFilter("endPage").gte(pages.getValue0());
             
-            return FilterBuilders.boolFilter()
-                    .should(FilterBuilders.boolFilter()
-                        .must(FilterBuilders.rangeFilter("startPage").lte(pages.getValue0()))
-                        .must(FilterBuilders.rangeFilter("endPage").gte(pages.getValue0())))
-                    .should(FilterBuilders.boolFilter()
-                        .must(FilterBuilders.rangeFilter("startPage").lte(pages.getValue1()))
-                        .must(FilterBuilders.rangeFilter("endPage").gte(pages.getValue1())))
-                    .should(FilterBuilders.boolFilter()
-                        .must(FilterBuilders.rangeFilter("startPage").gte(pages.getValue0()))
-                        .must(FilterBuilders.rangeFilter("endPage").lte(pages.getValue1())));
-        }*/
-        if (field.equals("dates"))
-        {
-            Pair<Date, Date> dates = (Pair<Date, Date>)value;
-            RangeFilterBuilder range = FilterBuilders.rangeFilter("date");
-            SimpleDateFormat df = new SimpleDateFormat("dd.MM.YYYY");
-            if (dates.getValue1() != null)
-                range = range.lte(df.format(dates.getValue1()));
-            if (dates.getValue0() != null)
-                range = range.gte(df.format(dates.getValue0()));
-            return range;
-        }
-        
-        if (field.equals("case_dates"))
-        {
-            Pair<Date, Date> dates = (Pair<Date, Date>)value;
-            RangeFilterBuilder range = FilterBuilders.rangeFilter("date");
-            SimpleDateFormat df = new SimpleDateFormat("dd.MM.YYYY");
-            if (dates.getValue1() != null)
-                range = range.lte(df.format(dates.getValue1()));
-            if (dates.getValue0() != null)
-                range = range.gte(df.format(dates.getValue0()));
-            return FilterBuilders.hasChildFilter("document", range);
-        }
-        if (field.equals("toporef"))
-            return FilterBuilders.termsFilter(field, (Iterable<Long>)value);
-        if (field.equals("caseId"))
-            return FilterBuilders.hasParentFilter("case", 
-                    FilterBuilders.termFilter("_id", value));
-        
-        return FilterBuilders.termFilter(field, value);
-    }
-    
-    public String getLinkPrefix()
-    {
-        if (LINK_PREFIX == null)
-            LINK_PREFIX = dbHandler.getCoreParameterValue("LINK_PREFIX");
-        return LINK_PREFIX;
-    }
-    
-    public boolean isExistsImageFile(String documentId)
-    {
-        File f = new File(esAdmin.getPathToSaveFiles(), documentId + ".pdf");
-        return f.exists();
-    }
+		 return FilterBuilders.boolFilter()
+		 .should(FilterBuilders.boolFilter()
+		 .must(FilterBuilders.rangeFilter("startPage").lte(pages.getValue0()))
+		 .must(FilterBuilders.rangeFilter("endPage").gte(pages.getValue0())))
+		 .should(FilterBuilders.boolFilter()
+		 .must(FilterBuilders.rangeFilter("startPage").lte(pages.getValue1()))
+		 .must(FilterBuilders.rangeFilter("endPage").gte(pages.getValue1())))
+		 .should(FilterBuilders.boolFilter()
+		 .must(FilterBuilders.rangeFilter("startPage").gte(pages.getValue0()))
+		 .must(FilterBuilders.rangeFilter("endPage").lte(pages.getValue1())));
+		 }*/
+		if (field.equals("dates")) {
+			Pair<Date, Date> dates = (Pair<Date, Date>) value;
+			RangeFilterBuilder range = FilterBuilders.rangeFilter("date");
+			SimpleDateFormat df = new SimpleDateFormat("dd.MM.YYYY");
+			if (dates.getValue1() != null) {
+				range = range.lte(df.format(dates.getValue1()));
+			}
+			if (dates.getValue0() != null) {
+				range = range.gte(df.format(dates.getValue0()));
+			}
+			return range;
+		}
+
+		if (field.equals("case_dates")) {
+			Pair<Date, Date> dates = (Pair<Date, Date>) value;
+			RangeFilterBuilder range = FilterBuilders.rangeFilter("date");
+			SimpleDateFormat df = new SimpleDateFormat("dd.MM.YYYY");
+			if (dates.getValue1() != null) {
+				range = range.lte(df.format(dates.getValue1()));
+			}
+			if (dates.getValue0() != null) {
+				range = range.gte(df.format(dates.getValue0()));
+			}
+			return FilterBuilders.hasChildFilter("document", range);
+		}
+		if (field.equals("toporef")) {
+			return FilterBuilders.termsFilter(field, (Iterable<Long>) value);
+		}
+		if (field.equals("caseId")) {
+			return FilterBuilders.hasParentFilter("case",
+					FilterBuilders.termFilter("_id", value));
+		}
+
+		return FilterBuilders.termFilter(field, value);
+	}
+
+	public String getLinkPrefix() {
+		if (LINK_PREFIX == null) {
+			LINK_PREFIX = dbHandler.getCoreParameterValue("LINK_PREFIX");
+		}
+		return LINK_PREFIX;
+	}
+
+	public boolean isExistsImageFile(String documentId) {
+		File f = new File(esAdmin.getPathToSaveFiles(), documentId + ".pdf");
+		return f.exists();
+	}
 }

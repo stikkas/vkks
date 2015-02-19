@@ -12,16 +12,15 @@ import ru.insoft.archive.eavkks.ejb.es.EsSearchHelper;
  * @author melnikov
  */
 @WebServlet("/srvcs/prefixes")
-public class ListCaseNumPrefixes extends VkksAbstractServlet
-{
-    @Inject
-    EsSearchHelper esSearch;
+public class ListCaseNumPrefixes extends VkksAbstractServlet {
 
-    @Override
-    protected void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception 
-    {
+	@Inject
+	EsSearchHelper esSearch;
+
+	@Override
+	protected void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String query = req.getParameter("query");
-        List<String> prefixes = esSearch.searchCaseNumPrefixes(query);
-        resp.getWriter().write(jsonTools.buildStringList(prefixes).toString());
-    }    
+		List<String> prefixes = esSearch.searchCaseNumPrefixes(query);
+		resp.getWriter().write(jsonTools.buildStringList(prefixes).toString());
+	}
 }
