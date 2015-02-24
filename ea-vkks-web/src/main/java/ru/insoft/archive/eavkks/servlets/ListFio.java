@@ -20,7 +20,7 @@ public class ListFio extends VkksAbstractServlet
     @Override
     protected void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception 
     {
-        String query = req.getParameter("query");
+		String query = req.getParameter("query");
         List<String> fios = esSearch.searchFios(query);
         resp.getWriter().write(jsonTools.buildStringList(fios).toString());
     }    

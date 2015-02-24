@@ -24,7 +24,8 @@ Ext.define('Earh.view.search.DocController', {
 	 */
 	cellClicked: function (grid, cell, idx, rec) {
 		if (idx === 0 || idx === 1) {
-			var id = rec.get('caseId');
+			var id = rec.get('caseId'),
+					temp;
 			Earh.model.Case.getProxy().setUrl(Urls.scase);
 			Earh.model.Case.load(id, {
 				success: function (model, operation) {
@@ -45,7 +46,7 @@ Ext.define('Earh.view.search.DocController', {
 							}, {
 								xtype: 'textfield',
 								fieldLabel: Trans.caseType,
-								value: Ext.getStore('caseTypeStore').getById(model.get('type')).get('name')
+								value: (temp = Ext.getStore('caseTypeStore').getById(model.get('type'))) ? temp.get('name') : ''
 //								store: 'caseTypeStore',
 //								displayField: 'name',
 //								valueField: 'id',
@@ -53,7 +54,7 @@ Ext.define('Earh.view.search.DocController', {
 							}, {
 								xtype: 'textfield',
 								fieldLabel: Trans.storeLife,
-								value: Ext.getStore('storeLifeStore').getById(model.get('storeLife')).get('name')
+								value: (temp = Ext.getStore('storeLifeStore').getById(model.get('storeLife'))) ? temp.get('name') : ''
 //								store: 'storeLifeStore',
 //								valueField: 'id',
 //								displayField: 'name',
@@ -76,7 +77,7 @@ Ext.define('Earh.view.search.DocController', {
 							}, {
 								xtype: 'textfield',
 								fieldLabel: Trans.topoRef,
-								value: Ext.getStore('topoRefStore').getNodeById(model.get('toporef')).get('path')
+								value: (temp = Ext.getStore('topoRefStore').getNodeById(model.get('toporef'))) ? temp.get('path') : ''
 								/*
 								xtype: 'treepicker',
 								fieldLabel: Trans.topoRef,

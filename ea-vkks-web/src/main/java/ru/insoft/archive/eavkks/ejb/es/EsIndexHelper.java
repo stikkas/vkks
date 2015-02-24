@@ -38,8 +38,8 @@ public class EsIndexHelper
     EsAdminHelper esAdmin;
     @Inject
     CommonDBHandler dbHandler;
-    @Inject
-    LogWriter log;
+//    @Inject
+ //   LogWriter log;
     @Inject
     EsSearchHelper esSearch;    
     
@@ -114,14 +114,14 @@ public class EsIndexHelper
         {
             IndexResponse ir = esClient.prepareIndex(esAdmin.getIndexName(), "case")
                 .setSource(src).execute().actionGet();
-            log.logAddCase(ir.getId(), eaCase.getNumber());
+//            log.logAddCase(ir.getId(), eaCase.getNumber());
             return ir.getId();
         }
         else
         {
             esClient.prepareUpdate(esAdmin.getIndexName(), "case", eaCase.getId())
                     .setDoc(src).execute().actionGet();
-            log.logEditCase(eaCase, oldCase);
+//            log.logEditCase(eaCase, oldCase);
             return eaCase.getId();
         }
     }
@@ -138,7 +138,7 @@ public class EsIndexHelper
             
             EaCase eaCase = esSearch.parseCase(gr.getSourceAsMap());
             eaCase.setId(id);
-            log.logDeleteCase(eaCase);            
+ //           log.logDeleteCase(eaCase);            
             return true;
         }
         return false;
@@ -178,7 +178,7 @@ public class EsIndexHelper
                     .setParent(eaDoc.getCaseId())
                     .setSource(src)
                     .execute().actionGet();
-            log.logAddDocument(ir.getId(), eaDoc.getNumber(), caseNumber);
+//            log.logAddDocument(ir.getId(), eaDoc.getNumber(), caseNumber);
             return ir.getId();
         }
         else       
@@ -190,7 +190,7 @@ public class EsIndexHelper
                 .setParent(eaDoc.getCaseId())
                 .setDoc(src)
                 .execute().actionGet();
-            log.logEditDocument(eaDoc, esSearch.parseDocument(gr.getSourceAsMap()), caseNumber);            
+ //           log.logEditDocument(eaDoc, esSearch.parseDocument(gr.getSourceAsMap()), caseNumber);            
             return eaDoc.getId();
         }
     }
@@ -210,7 +210,7 @@ public class EsIndexHelper
             
             EaDocument eaDoc = esSearch.parseDocument(gr.getSourceAsMap());
             eaDoc.setId(docId);
-            log.logDeleteDocument(eaDoc, (String)gr.getSourceAsMap().get("acase"));
+ //           log.logDeleteDocument(eaDoc, (String)gr.getSourceAsMap().get("acase"));
             return true;
         }        
         return false;
@@ -254,8 +254,8 @@ public class EsIndexHelper
         GetResponse gr = esClient.prepareGet(esAdmin.getIndexName(), "document", documentId)
                 .setParent(caseId)
                 .execute().actionGet();
-        log.logAttachFile(documentId, (String)gr.getSourceAsMap().get("number"), 
-                (String)gr.getSourceAsMap().get("acase"));
+//        log.logAttachFile(documentId, (String)gr.getSourceAsMap().get("number"), 
+//                (String)gr.getSourceAsMap().get("acase"));
     }
     
     public void clearImage(String caseId, String documentId) throws IOException
@@ -273,8 +273,8 @@ public class EsIndexHelper
         GetResponse gr = esClient.prepareGet(esAdmin.getIndexName(), "document", documentId)
                 .setParent(caseId)
                 .execute().actionGet();
-        log.logDetachFile(documentId, (String)gr.getSourceAsMap().get("number"), 
-                (String)gr.getSourceAsMap().get("acase"));
+ //       log.logDetachFile(documentId, (String)gr.getSourceAsMap().get("number"), 
+ //               (String)gr.getSourceAsMap().get("acase"));
     }
     
     public void deleteImageFile(String documentId)
