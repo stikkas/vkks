@@ -45,7 +45,9 @@ public class LogWriter
     };    
     
     @Inject
-    UserInfo ui;
+//    UserInfo ui;
+    UserBean ui;
+
     @Inject
     DescValueMapsProvider dvMaps;
     

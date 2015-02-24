@@ -24,7 +24,9 @@ import ru.insoft.archive.extcommons.webmodel.ActionResult;
 public class IndexHandler 
 {
     @Inject
-    UserInfo ui;
+//    UserInfo ui;
+	UserBean ui;
+
     @Inject
     EsIndexHelper esIndex;
     @Inject

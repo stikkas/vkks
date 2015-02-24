@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import ru.insoft.archive.eavkks.ejb.LogWriter;
+import ru.insoft.archive.eavkks.ejb.UserBean;
 import ru.insoft.archive.extcommons.ejb.JsonTools;
 import ru.insoft.archive.extcommons.ejb.UserInfo;
 import ru.insoft.archive.extcommons.webmodel.ActionResult;
@@ -23,7 +24,9 @@ public class UserInfoProvider extends ru.insoft.archive.extcommons.servlet.UserI
     @Inject
     JsonTools jsonTools;
     @Inject
-    UserInfo userInfo;
+//    UserInfo userInfo;
+    UserBean userInfo;
+
     @Inject
     LogWriter log;
 

@@ -12,17 +12,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import org.javatuples.Pair;
 import ru.insoft.archive.core_model.table.desc.DescriptorValue;
@@ -32,10 +27,10 @@ import ru.insoft.archive.eavkks.load.model.LoadedToporef;
 import ru.insoft.archive.eavkks.model.EaCase;
 import ru.insoft.archive.eavkks.ejb.CommonDBHandler;
 import ru.insoft.archive.eavkks.ejb.LogWriter;
+import ru.insoft.archive.eavkks.ejb.UserBean;
 import ru.insoft.archive.eavkks.ejb.es.EsIndexHelper;
 import ru.insoft.archive.eavkks.load.model.LoadedDocument;
 import ru.insoft.archive.eavkks.model.EaDocument;
-import ru.insoft.archive.extcommons.ejb.UserInfo;
 
 /**
  *
@@ -49,7 +44,9 @@ public class DataSaver {
 	@Inject
 	CommonDBHandler dbHandler;
 	@Inject
-	UserInfo ui;
+//	UserInfo ui;
+	UserBean ui;
+
 	@Inject
 	EsIndexHelper esIndex;
 	@Resource
@@ -162,8 +159,8 @@ public class DataSaver {
 
 	public Long getLoadUserId() {
 		if (loadUserId == null) {
-			loadUserId = 8l;
-//            loadUserId = ui.getUser().getId();
+//			loadUserId = 8l;
+            loadUserId = ui.getUser().getId();
             /*try
 			 {
 			 AdmUser loadUser = ui.queryUserByLogin("LOAD");

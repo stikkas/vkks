@@ -36,7 +36,9 @@ public class CommonDBHandler extends ru.insoft.archive.extcommons.ejb.CommonDBHa
     SessionContext context;
     
     @Inject
-    UserInfo userInfo;
+//    UserInfo userInfo;
+    UserBean userInfo;
+
     @Inject
     DescValueMapsProvider dvMaps;
 
