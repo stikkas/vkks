@@ -106,9 +106,10 @@ div.search {
         position:absolute !important;
     }
 }
-.find_doc .x-form-text-wrap.x-form-text-wrap-default input[id*="textfield"]{
-    box-sizing:padding-box !important;    
-    padding-right:24px;
+@media all and (-webkit-min-device-pixel-ratio:0) {
+    .find_doc .x-form-text-wrap.x-form-text-wrap-default input[id*="textfield"]{
+        box-sizing:padding-box !important; 
+    }
 }
 /*выравнивание неверной ширины ячеек*/
 @media all and (-webkit-min-device-pixel-ratio:0) {
