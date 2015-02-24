@@ -512,11 +512,12 @@ div[id*=pagingtoolbar].x-box-inner .x-box-target .x-toolbar-text:last-child{
     padding-bottom:5px !important;
 }
 /* отображение ячеек с номером дела и указателем на карточке поиска документов */
-.case-of-doc-cell:hover, .case-of-doc-cell:hover div {
+.case-of-doc-cell:hover, 
+.case-of-doc-cell:hover div {
     color:#1D4B82 !important;
     font-weight:bold !important;
-	text-decoration: underline;
-	cursor: pointer !important;
+    text-decoration: underline;
+    cursor: pointer !important;
 }
 /*sizes*/
 .padt5{
