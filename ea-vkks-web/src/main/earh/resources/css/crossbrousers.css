@@ -30,18 +30,17 @@ noindex:-o-prefocus, .exit_cls {
         margin-left:-13px !important;        
     }
 }
+@media screen and ( -webkit-min-device-pixel-ratio : 0 ) { 
+  .title_head { 
+      width: 90%;
+  } 
+}
 /*opera*/
 noindex:-o-prefocus, .title_head { 
   width: 90%;
 } 
 noindex:-o-prefocus, body > .x-box-inner > .x-box-target > .x-container{
     height:72% !important;
-}
-/*safari*/
-@media screen and ( -webkit-min-device-pixel-ratio : 0 ) { 
-  .title_head { 
-      width: 90%;
-  } 
 }
 /*combobox*/
     /*safari*/
@@ -113,9 +112,6 @@ div.search {
 }
 /*выравнивание неверной ширины ячеек*/
 @media all and (-webkit-min-device-pixel-ratio:0) {
-    div.x-grid-item-container{
-        /*margin-left:-1px;*/
-    }
     .x-grid-header-ct > .x-box-inner{
         margin-left:0.1%;
     }
