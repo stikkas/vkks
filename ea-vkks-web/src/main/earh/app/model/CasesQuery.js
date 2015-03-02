@@ -8,7 +8,7 @@ Ext.define('Earh.model.CasesQuery', {
 		{name: 'numNumber', type: 'string', defaultValue: null, convert: function (v) {
 				if (!v)
 					return null;
-				return v;
+				return "" + v;
 			}
 		},
 		{name: 'numPrefix', type: 'string', defaultValue: null, convert: function (v) {
