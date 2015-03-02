@@ -15,7 +15,8 @@ Ext.define('Earh.store.SearchResult', {
 				rootProperty: 'values',
 				totalProperty: 'results'
 			},
-			writer: 'json'
+			writer: 'json',
+			timeout: 120000
 		}));
 	}
 });
