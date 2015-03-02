@@ -24,6 +24,7 @@ import org.elasticsearch.index.query.BoolFilterBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeFilterBuilder;
@@ -446,12 +447,13 @@ public class EsSearchHelper {
 		if (field.startsWith("case_")) {
 			String dbField = field.replaceFirst("case_", "");
 			return QueryBuilders.hasChildQuery("document",
-					QueryBuilders.matchQuery(dbField, value));
+					QueryBuilders.matchQuery(dbField, value)
+                                                .operator(MatchQueryBuilder.Operator.AND));
 		}
 		if (field.contains("number")) {
 			return QueryBuilders.wildcardQuery(field, MessageFormat.format("*{0}*", value));
 		}
-		return QueryBuilders.matchQuery(field, value);
+		return QueryBuilders.matchQuery(field, value).operator(MatchQueryBuilder.Operator.AND);
 	}
 
 	protected FilterBuilder getFilter(String field, Object value) {
