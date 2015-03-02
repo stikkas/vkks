@@ -370,12 +370,13 @@ div.x-grid-cell-inner{
 /*текст в таблицах*/
 .x-grid-header-ct .x-column-header-text,
 .x-grid-cell .x-grid-cell-inner{
-    /*white-space:normal;
+    /*white-space:normal;       раскомментировать в случае надобности переноса длинных строк таблиц
     word-wrap: break-word;*/
 }
 .x-grid-row .x-grid-td{
     vertical-align:middle;
 }
+/*центрирование текста в определенных столбцах*/
 .case_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
 .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(1) .x-grid-cell-inner,
 .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(3) .x-grid-cell-inner,
@@ -395,6 +396,7 @@ div.x-grid-cell-inner{
 .doc_case .doc_search .x-grid-with-row-lines td.x-grid-td:nth-child(6) .x-grid-cell-inner{
     text-align:left !important;
 }
+/**/
 .x-panel-body .x-grid-item:nth-child(even){
     background-color:#E1EEFF;
 }
