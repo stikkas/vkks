@@ -29,7 +29,7 @@ Ext.define('Earh.view.work.DocController', {
 	 */
 	removeGraph: function () {
 		var controller = this;
-		requestToRemove("pdf файл", function () {
+		requestToRemove("графический образ", function () {
 			controller.page.removeGraph();
 		});
 	}
