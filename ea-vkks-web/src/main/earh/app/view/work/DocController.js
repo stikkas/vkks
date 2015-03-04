@@ -28,7 +28,10 @@ Ext.define('Earh.view.work.DocController', {
 	 * Удаляет графический образ документа
 	 */
 	removeGraph: function () {
-		this.page.removeGraph();
+		var controller = this;
+		requestToRemove("pdf файл", function () {
+			controller.page.removeGraph();
+		});
 	}
 });
 
