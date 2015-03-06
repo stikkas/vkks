@@ -5,7 +5,12 @@ Ext.define('Earh.model.CasesQuery', {
 	extend: 'Ext.data.Model',
 	idProperty: 'numPrefix',
 	fields: [
-		{name: 'numNumber', type: 'int', defaultValue: null, convert: null},
+		{name: 'numNumber', type: 'string', defaultValue: null, convert: function (v) {
+				if (!v)
+					return null;
+				return "" + v;
+			}
+		},
 		{name: 'numPrefix', type: 'string', defaultValue: null, convert: function (v) {
 				if (!v)
 					return null;

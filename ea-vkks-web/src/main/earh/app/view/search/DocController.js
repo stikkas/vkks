@@ -44,7 +44,7 @@ Ext.define('Earh.view.search.DocController', {
 								fieldLabel: Trans.caseNum,
 								value: rec.get('acase')
 							}, {
-								xtype: 'textfield',
+								xtype: 'textarea',
 								fieldLabel: Trans.caseType,
 								value: (temp = Ext.getStore('caseTypeStore').getById(model.get('type'))) ? temp.get('name') : ''
 //								store: 'caseTypeStore',
@@ -94,7 +94,7 @@ Ext.define('Earh.view.search.DocController', {
 //					form.loadRecord(model);
 					Ext.create('Ext.window.Window', {
 						title: 'Данные о деле',
-						height: 350,
+						height: 380,
 						width: 870,
 						layout: 'fit',
 						items: [form]

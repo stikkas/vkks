@@ -216,7 +216,7 @@ exitWithoutSave = function (controller, where) {
  * @param {Function} fn функция, которая вызывается в случае утвердительного ответа
  */
 requestToRemove = function (msg, fn) {
-	showAlert('Контроль', 'Выйти действительно хотите удалить ' + msg + '?', function (btn) {
+	showAlert('Контроль', 'Вы действительно хотите удалить ' + msg + '?', function (btn) {
 		if (btn === 'yes') {
 			fn();
 		}

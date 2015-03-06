@@ -285,14 +285,21 @@ Ext.define('Earh.view.work.Case', {
 
 						view.fireEvent('caseChanged');
 						showInfo("Результат", "Данные сохранены");
-					} else {
-						showAlert('Внимание', 'Номер дела не уникален.<br>Продолжить сохранение?',
-								function (btn) {
-									if (btn === 'yes') {
-										view.save(true);
-									}
-								});
-//						showError("Ошибка сохранения", operation.getError());
+					} else { // Все ошибки (приложения и сервера) попадают сюда, поэтому их надо разделять
+						if (operation._response && operation._response.status === 200)
+							showAlert('Внимание', Ext.decode(operation._response.responseText).error +
+									'.<br>Продолжить сохранение?',
+									function (btn) {
+										if (btn === 'yes') {
+											view.save(true);
+										}
+									});
+						else {
+							var error = operation.getError();
+							if (error.status === 500)
+								error = 'Сбой в работе сервера.<br> Обратитесь к администратору.';
+							showError("Ошибка сохранения", error);
+						}
 					}
 				}
 			});

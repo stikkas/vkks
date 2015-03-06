@@ -129,11 +129,6 @@ Ext.define('Earh.view.search.Doc', {
 						},
 						width: 735
 					}, {
-						xtype: 'textfield',
-						fieldLabel: Trans.remark,
-						name: 'remark',
-						width: 985
-					}, {
 						xtype: 'combobox',
 						fieldLabel: Trans.fio,
 						name: 'fio',
@@ -146,6 +141,11 @@ Ext.define('Earh.view.search.Doc', {
 							specialkey: "editComboPressed"
 						},
 						width: 735
+					}, {
+						xtype: 'textfield',
+						fieldLabel: Trans.remark,
+						name: 'remark',
+						width: 985
 					}, {
 						xtype: 'textfield',
 						fieldLabel: Trans.ctxSearch,
