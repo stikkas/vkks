@@ -401,7 +401,8 @@ div.x-grid-cell-inner{
     background-color:#E1EEFF;
 }
 .x-panel-body .x-grid-item.x-grid-item-selected{
-    background-color:#ECECD0;
+    /*background-color:#ECECD0;*/
+    background-color:#ede1a6;
 }
 .x-panel-body .x-grid-item-over{
     background-color:#EAE5FF !important;
