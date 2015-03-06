@@ -144,23 +144,30 @@ public class EsSearchHelper {
 		return res;
 	}
 
-	public SearchHits searchDocuments(DocumentSearchCriteria q,
+	public SearchHits searchDocuments(final DocumentSearchCriteria q,
 			Integer start, Integer limit, List<OrderBy> orders) {
-		Map<String, Object> queryMap = new HashMap<>();
-		queryMap.put("number", q.getNumber());
-		queryMap.put("title", q.getTitle());
-		queryMap.put("court", q.getCourt());
-		queryMap.put("remark", q.getRemark());
-		queryMap.put("fio", q.getFio());
-		queryMap.put("graph", q.getContext());
+		Map<String, Object> queryMap = new HashMap<String, Object>() {
+			{
+				put("number", q.getNumber());
+				put("title", q.getTitle());
+				put("court", q.getCourt());
+				put("remark", q.getRemark());
+				put("fio", q.getFio());
+				put("graph", q.getContext());
 
-		Map<String, Object> filterMap = new HashMap<>();
+			}
+		};
+
+		Map<String, Object> filterMap = new HashMap<String, Object>() {
+			{
+				put("type", q.getType());
+				put("dates", (q.getStartDate() == null && q.getEndDate() == null) ? null
+						: new Pair<>(q.getStartDate(), q.getEndDate()));
+			}
+		};
 		//filterMap.put("volume", q.getVolume());        
-		filterMap.put("type", q.getType());
 		/*filterMap.put("pages", (q.getStartPage() == null && q.getEndPage() == null ? null :
 		 new Pair<>(q.getStartPage(), q.getEndPage())));*/
-		filterMap.put("dates", (q.getStartDate() == null && q.getEndDate() == null) ? null
-				: new Pair<>(q.getStartDate(), q.getEndDate()));
 
 		QueryBuilder query = makeQuery(queryMap, filterMap);
 
@@ -173,7 +180,13 @@ public class EsSearchHelper {
 				.setFetchSource(null, new String[]{"graph", "addUserId", "modUserId", "insertDate", "lastUpdateDate"});
 		if (orders != null) {
 			for (OrderBy order : orders) {
-				req.addSort(SortBuilders.fieldSort(order.getField())
+				String field = order.getField();
+				if (field.equals("fio") || field.equals("court")
+						|| field.equals("title") || field.equals("remark")) {
+					// Сортируем по целому полю а не по токенам
+					field += ".raw";
+				}
+				req.addSort(SortBuilders.fieldSort(field)
 						.order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
 			}
 		}
@@ -181,22 +194,26 @@ public class EsSearchHelper {
 		return resp.getHits();
 	}
 
-	public SearchHits searchCases(CaseSearchCriteria q, Integer start, Integer limit, List<OrderBy> orders) {
-		Map<String, Object> queryMap = new HashMap<>();
-		//queryMap.put("number", q.getNumber());
-		queryMap.put("num_number.str", q.getNumNumber());
-		queryMap.put("title", q.getTitle());
-		queryMap.put("case_court", q.getCourt());
-		queryMap.put("case_fio", q.getFio());
-		queryMap.put("remark", q.getRemark());
-
-		Map<String, Object> filterMap = new HashMap<>();
-		filterMap.put("num_prefix", q.getNumPrefix());
-		filterMap.put("type", q.getType());
-		filterMap.put("storeLife", q.getStoreLife());
-		filterMap.put("case_dates", (q.getStartDate() == null && q.getEndDate() == null) ? null
-				: new Pair<>(q.getStartDate(), q.getEndDate()));
-		filterMap.put("toporef", q.getToporefIds());
+	public SearchHits searchCases(final CaseSearchCriteria q, Integer start, Integer limit, List<OrderBy> orders) {
+		Map<String, Object> queryMap = new HashMap<String, Object>() {
+			{
+				put("num_number.str", q.getNumNumber());
+				put("title", q.getTitle());
+				put("case_court", q.getCourt());
+				put("case_fio", q.getFio());
+				put("remark", q.getRemark());
+			}
+		};
+		Map<String, Object> filterMap = new HashMap<String, Object>() {
+			{
+				put("num_prefix", q.getNumPrefix());
+				put("type", q.getType());
+				put("storeLife", q.getStoreLife());
+				put("case_dates", (q.getStartDate() == null && q.getEndDate() == null) ? null
+						: new Pair<>(q.getStartDate(), q.getEndDate()));
+				put("toporef", q.getToporefIds());
+			}
+		};
 
 		QueryBuilder query = makeQuery(queryMap, filterMap);
 		Client esClient = esAdmin.getClient();
@@ -208,12 +225,16 @@ public class EsSearchHelper {
 				.setFetchSource(null, new String[]{"addUserId", "modUserId", "insertDate", "lastUpdateDate"});
 		if (orders != null) {
 			for (OrderBy order : orders) {
+				String field = order.getField();
 				SortOrder so = order.asc() ? SortOrder.ASC : SortOrder.DESC;
-				if (order.getField().equals("number")) {
+				if (field.equals("number")) {
 					req.addSort(SortBuilders.fieldSort("num_prefix").order(so));
 					req.addSort(SortBuilders.fieldSort("num_number").order(so));
 				} else {
-					req.addSort(SortBuilders.fieldSort(order.getField()).order(so));
+					if (field.equals("title") || field.equals("remark")) {
+						field += ".raw";
+					}
+					req.addSort(SortBuilders.fieldSort(field).order(so));
 				}
 			}
 		}
@@ -448,7 +469,7 @@ public class EsSearchHelper {
 			String dbField = field.replaceFirst("case_", "");
 			return QueryBuilders.hasChildQuery("document",
 					QueryBuilders.matchQuery(dbField, value)
-                                                .operator(MatchQueryBuilder.Operator.AND));
+					.operator(MatchQueryBuilder.Operator.AND));
 		}
 		if (field.contains("number")) {
 			return QueryBuilders.wildcardQuery(field, MessageFormat.format("*{0}*", value));

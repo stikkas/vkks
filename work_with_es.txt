@@ -1,0 +1,6 @@
+Посмотреть схему:
+curl -XGET "http://hawk:9200/earchive/_mapping/document?pretty"
+Изменить схему:
+curl -XPUT "http://hawk:9200/earchive/_mapping/case" -d '{"properties":{"title":{"type":"string","index":"analyzed","fields":{"raw":{"type":"string","index":"not_analyzed"}}}}}'
+Изменить схему с родителем:
+curl -XPUT "http://hawk:9200/earchive/_mapping/document" -d '{"properties":{"title":{"type":"string","index":"analyzed","fields":{"raw":{"type":"string","index":"not_analyzed"}}}}, "_parent": {"type":"case"}}'
