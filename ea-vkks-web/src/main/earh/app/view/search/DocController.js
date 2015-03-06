@@ -95,7 +95,7 @@ Ext.define('Earh.view.search.DocController', {
 					Ext.create('Ext.window.Window', {
 						title: 'Данные о деле',
 						height: 380,
-						width: 670,
+						width: 870,
 						layout: 'fit',
 						items: [form]
 					}).show();
