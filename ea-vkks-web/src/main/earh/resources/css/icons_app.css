@@ -11,6 +11,9 @@ and open the template in the editor.
 a.x-btn.x-btn-over span{
     text-decoration:underline;
 }
+a.x-btn.x-btn-over span.x-btn-icon-el-default-toolbar-small{
+    text-decoration:none;
+}
 .deal_cls{
     background-repeat:no-repeat;
     background-position: center top;

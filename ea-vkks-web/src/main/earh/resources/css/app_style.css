@@ -433,6 +433,9 @@ div.x-grid-cell-inner{
 div[id*=pagingtoolbar].x-toolbar{
     width:100%;             
 }
+.x-tbar-page-number .x-form-trigger-wrap{
+    width:auto;
+}
 .doc_case div[id*=pagingtoolbar].x-toolbar{
     /*width:calc(100% - 170px);*/
 }
@@ -440,15 +443,18 @@ div[id*=pagingtoolbar] .x-toolbar-text{
     color:#3B6392;
     font-family:'Roboto Bold';
     font-size:13px;
+    margin-left:2px !important;
 }
 div[id*=pagingtoolbar] .x-form-text-field-body.x-form-item-body-default{
     padding-left:0;
 }
 div[id*=pagingtoolbar] input.x-form-text.x-form-text-default{
-    min-width:30px;
+    min-width:36px;
+    width:auto;
+    margin-right: 3px;
 }
 div[id*=pagingtoolbar].x-box-inner{
-    width:230px !important;
+    width:250px !important;
     margin: auto;
 }
 .case_search div[id*=pagingtoolbar].x-box-inner,
