@@ -51,7 +51,7 @@ public class LoaderImpl implements Loader, LoaderRemote {
 	LogWriter log;
 
 	@Override
-	public String load(String fromDir) {
+	public String load(String fromDir, boolean clear) {
 		try {
 			if (fromDir == null) {
 				throw new BadSourceException("Путь для загрузки не может быть пустым");
@@ -68,9 +68,10 @@ public class LoaderImpl implements Loader, LoaderRemote {
 			if (!filesDir.isDirectory()) {
 				throw new BadSourceException("Папка <" + filesDir.getPath() + "> не существует");
 			}
-
-			esAdmin.createSchema();
-			esIndex.deleteAllImages();
+			if (clear) {
+				esAdmin.createSchema();
+				esIndex.deleteAllImages();
+			}
 			//dbSaver.clearDb();
 			FilenameFilter jsonFilter = new FilenameFilter() {
 				@Override
@@ -114,10 +115,11 @@ public class LoaderImpl implements Loader, LoaderRemote {
 	 * вручную
 	 *
 	 * @param srcDir папка с исходными данными
+	 * @param clear пересоздавать схему или нет
 	 * @return строка с результатами работы
 	 */
 	@Override
-	public String loadRemote(String srcDir) {
+	public String loadRemote(String srcDir, boolean clear) {
 		Map<String, Object> myMap = new HashMap<>();
 		context.associate(myMap);
 		context.activate();
@@ -128,11 +130,12 @@ public class LoaderImpl implements Loader, LoaderRemote {
 			} catch (LoginException ex) {
 				return "Failed to login: " + ex.getMessage();
 			}
-			return load(srcDir);
+			return load(srcDir, clear);
 		} finally {
 			context.invalidate();
 			context.deactivate();
 		}
 
 	}
+
 }

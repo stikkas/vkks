@@ -33,7 +33,8 @@ public class LoadServlet extends VkksAbstractServlet
             lc.login();
             
             String fromDir = readRequestData(hsr);
-            res = loader.load(fromDir);
+			String clear = hsr.getParameter("clear");
+            res = loader.load(fromDir, Boolean.parseBoolean(clear));
         }
         catch (FailedLoginException e)
         {
