@@ -91,9 +91,9 @@ public class LoaderImpl implements Loader, LoaderRemote {
 					LoadedCase lCase = jsonTools.parseEntity(jo, LoadedCase.class);
 					dbSaver.saveLoadedData(lCase, filesDir);
 					succ++;
-				} catch (JsonException | BadSourceException je) {
+				} catch (Exception e) {
 					String msg = MessageFormat.format("Ошибка при обработке файла <{0}>:\r\n{1}",
-							jsonFile.getName(), je.getMessage());
+							jsonFile.getName(), e.getMessage());
 					log.logError(msg);
 					retMsg.append(msg).append("\r\n");
 					err++;

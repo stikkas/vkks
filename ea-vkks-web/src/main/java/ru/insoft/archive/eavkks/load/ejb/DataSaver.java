@@ -148,7 +148,6 @@ public class DataSaver {
 				}
 			}
 		} catch (BadSourceException e) {
-				context.setRollbackOnly();
 			if (eaCase.getId() != null) {
 				esIndex.deleteAllCaseDocuments(eaCase.getId(), eaCase.getDocuments());
 				esIndex.deleteCase(eaCase.getId());
