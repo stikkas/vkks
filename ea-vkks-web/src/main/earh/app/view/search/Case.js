@@ -6,7 +6,8 @@ Ext.define('Earh.view.search.Case', {
 	alias: 'widget.scases',
 	requires: [
 		'Ext.ux.TreePicker',
-		'Earh.model.CasesQuery'
+		'Earh.model.CasesQuery',
+		'Earh.cmp.AutoComplete'
 	],
 	tbb: [1, // Главная
 		0, // Вернуться к результатам поиска
@@ -49,14 +50,12 @@ Ext.define('Earh.view.search.Case', {
 						layout: 'hbox',
 						cls: 'padt5 padb5',
 						items: [{
-								xtype: 'combobox',
+								xtype: 'autocombo',
 								fieldLabel: Trans.numPrefix,
 								name: 'numPrefix',
 								store: 'caseTypeIndex',
-								minChars: 1,
 								enforceMaxLength: true,
 								maxLength: 3,
-								editable: true,
 								listeners: {
 									blur: emptyCombo2,
 									change: "editComboChange",
@@ -129,10 +128,8 @@ Ext.define('Earh.view.search.Case', {
 						xtype: 'container',
 						cls: 'padt5 padb5',
 						defaults: {
-							xtype: 'combobox',
+							xtype: 'autocombo',
 							labelWidth: 400,
-							minChars: 1,
-							editable: true,
 							width: 735,
 							listeners: {
 								specialkey: "editComboPressed",
@@ -140,8 +137,7 @@ Ext.define('Earh.view.search.Case', {
 								blur: emptyCombo2
 							}
 						},
-						items: [
-							{
+						items: [{
 								fieldLabel: Trans.court,
 								name: 'court',
 								store: 'courtsStore'

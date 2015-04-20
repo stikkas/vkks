@@ -366,12 +366,20 @@ public class EsSearchHelperImpl implements EsSearchHelper, EsSearchHelperRemote{
 				.setFrom(start)
 				.setSize(limit)
 				.setFetchSource(null, new String[]{"addUserId", "modUserId", "insertDate", "lastUpdateDate"});
+
 		if (orders != null) {
 			for (OrderBy order : orders) {
-				req.addSort(SortBuilders.fieldSort(order.getField())
+				String field = order.getField();
+				if (field.equals("fio") || field.equals("court")
+						|| field.equals("title") || field.equals("remark")) {
+					// Сортируем по целому полю а не по токенам
+					field += ".raw";
+				}
+				req.addSort(SortBuilders.fieldSort(field)
 						.order(order.asc() ? SortOrder.ASC : SortOrder.DESC));
 			}
 		}
+
 		SearchResponse resp = req.execute().actionGet();
 		return resp.getHits();
 	}

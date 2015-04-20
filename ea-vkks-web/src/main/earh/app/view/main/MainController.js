@@ -180,7 +180,7 @@ Ext.define('Earh.view.main.MainController', {
 				combo.setValue(combo.getRawValue());
 				this.search();
 			}
-		}
+		} 
 	},
 	/**
 	 * После того как сменили значение в ФИО или Суд по Enter можно начать искать
