@@ -6,12 +6,10 @@ Ext.define('Earh.cmp.AutoComplete', {
 	xtype: 'autocombo',
 	minChars: 1,
 	editable: true,
-	enableKeyEvents: true,
 	listeners: {
-		keypress: function (combo, event) {
-			if (event.getKey() === event.SPACE) {
-				event.stopEvent();
-			}
+		blur: function (cb) {
+			if (!cb.getRawValue())
+				cb.reset();
 		}
 	}
 });

@@ -1,6 +1,7 @@
 $image-search-path: '../webapp/resources';
 $theme-name:  'ext-theme-classic' !default;
 $include-earh-application: true;
+$include-earh-cmp-autocomplete: true;
 $include-earh-cmp-comboboxem: false;
 $include-earh-cmp-numberinterval: false;
 $include-earh-cmp-pdfpanel: false;
@@ -781,6 +782,7 @@ $include-other-field-number: true;
 $include-other-picker-date: true;
 $include-other-toolbar-paging: true;
 $include-other-ux-treepicker: true;
+$include-other-view-boundlistkeynav: true;
 /* including package ext-theme-base */
 @import '../../../../../ext/packages/ext-theme-base/sass/etc/all';
 /* including package ext-theme-neutral */

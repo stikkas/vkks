@@ -28,10 +28,6 @@ Ext.define('Earh.view.search.Case', {
 			if (value === 0)
 				cb.reset();
 		}
-		function emptyCombo2(cb) {
-			if (!cb.getRawValue())
-				cb.reset();
-		}
 		var resultStoreId = 'casesStore';
 		this.callParent([{
 				xtype: 'form',
@@ -57,8 +53,6 @@ Ext.define('Earh.view.search.Case', {
 								enforceMaxLength: true,
 								maxLength: 3,
 								listeners: {
-									blur: emptyCombo2,
-									change: "editComboChange",
 									specialkey: "editComboPressed"
 								},
 								labelWidth: 400,
@@ -132,9 +126,7 @@ Ext.define('Earh.view.search.Case', {
 							labelWidth: 400,
 							width: 735,
 							listeners: {
-								specialkey: "editComboPressed",
-								change: "editComboChange",
-								blur: emptyCombo2
+								specialkey: "editComboPressed"
 							}
 						},
 						items: [{

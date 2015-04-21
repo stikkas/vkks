@@ -11,7 +11,8 @@ Ext.define('Earh.view.search.Doc', {
 		'Ext.grid.column.Action',
 		'Ext.form.FieldContainer',
 		'Earh.model.DocsQuery',
-		'Earh.view.search.DocController'
+		'Earh.view.search.DocController',
+		'Earh.cmp.AutoComplete'
 	],
 	tbb: [1, // Главная
 		0, // Вернуться к результатам поиска
@@ -31,10 +32,6 @@ Ext.define('Earh.view.search.Doc', {
 		//-----for staff use only------------
 		function emptyCombo(cb, value) {
 			if (!value)
-				cb.reset();
-		}
-		function emptyCombo2(cb) {
-			if (!cb.getRawValue())
 				cb.reset();
 		}
 		//-----------------------------------
@@ -116,28 +113,20 @@ Ext.define('Earh.view.search.Doc', {
 								width: 150
 							}]
 					}, {
-						xtype: 'combobox',
+						xtype: 'autocombo',
 						fieldLabel: Trans.court,
 						name: 'court',
 						store: 'courtsStore',
-						minChars: 1,
-						editable: true,
 						listeners: {
-							blur: emptyCombo2,
-							change: "editComboChange",
 							specialkey: "editComboPressed"
 						},
 						width: 735
 					}, {
-						xtype: 'combobox',
+						xtype: 'autocombo',
 						fieldLabel: Trans.fio,
 						name: 'fio',
 						store: 'fiosStore',
-						minChars: 1,
-						editable: true,
 						listeners: {
-							blur: emptyCombo2,
-							change: "editComboChange",
 							specialkey: "editComboPressed"
 						},
 						width: 735

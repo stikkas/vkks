@@ -113,9 +113,6 @@ Ext.define('Earh.view.search.DocController', {
 	searchKeyPressed: function () {
 		this.fireEventArgs('searchKeyPressed', arguments);
 	},
-	editComboChange: function () {
-		this.fireEventArgs('editComboChange', arguments);
-	},
 	editComboPressed: function () {
 		this.fireEventArgs('editComboPressed', arguments);
 	}

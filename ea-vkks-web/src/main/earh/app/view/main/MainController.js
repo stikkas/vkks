@@ -47,8 +47,7 @@ Ext.define('Earh.view.main.MainController', {
 			controller: {
 				docsearch: {
 					searchKeyPressed: 'searchKeyPressed',
-					editComboPressed: 'editComboPressed',
-					editComboChange: 'editComboChange'
+					editComboPressed: 'editComboPressed'
 				}
 			}
 		});
@@ -174,23 +173,11 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	editComboPressed: function (combo, event) {
 		if (event.getKey() === event.ENTER) {
-			if (combo.getPicker().isVisible()) // Откладываем поиск до изменения значения (см. следующий метод)
-				combo.enterV = combo.getValue();
-			else {
-				combo.setValue(combo.getRawValue());
-				this.search();
+			var store = combo.getPicker().store,
+					value = combo.getRawValue();
+			if (store.getCount() === 0) {
+				combo.setValue(value);
 			}
-		} 
-	},
-	/**
-	 * После того как сменили значение в ФИО или Суд по Enter можно начать искать
-	 * @param {Ext.form.field.ComboBox} combo ФИО или Суд
-	 * @param {String} newValue новое значение
-	 * @param {String} oldValue старое значение
-	 */
-	editComboChange: function (combo, newValue, oldValue) {
-		if (oldValue === combo.enterV) {
-			delete combo['enterV'];
 			this.search();
 		}
 	},
