@@ -94,7 +94,7 @@ public class EsSearchHelperImpl implements EsSearchHelper, EsSearchHelperRemote{
 								: QueryBuilders.matchPhrasePrefixQuery("fio", prefix))
 				.setSize(0)
 				.addAggregation(AggregationBuilders.terms("fio")
-						.field("fio")
+						.field("fio.search")
 				)
 				.execute().actionGet();
 		Terms fios = resp.getAggregations().get("fio");
@@ -118,7 +118,7 @@ public class EsSearchHelperImpl implements EsSearchHelper, EsSearchHelperRemote{
 								: QueryBuilders.matchPhrasePrefixQuery("court", prefix))
 				.setSize(0)
 				.addAggregation(AggregationBuilders.terms("court")
-						.field("court")
+						.field("court.search")
 				)
 				.execute().actionGet();
 		Terms courts = resp.getAggregations().get("court");
