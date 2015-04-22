@@ -173,12 +173,12 @@ Ext.define('Earh.view.main.MainController', {
 	 */
 	editComboPressed: function (combo, event) {
 		if (event.getKey() === event.ENTER) {
-			var store = combo.getPicker().store,
-					value = combo.getRawValue();
-			if (store.getCount() === 0) {
-				combo.setValue(value);
-			}
-			this.search();
+			var picker = combo.getPicker();
+			if (picker.store.getCount() === 0) {
+				combo.setValue(combo.getRawValue());
+				this.search();
+			} else if (!picker.isVisible())
+				this.search();
 		}
 	},
 	/**

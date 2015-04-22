@@ -32,13 +32,21 @@ Ext.define('Other.view.BoundListKeyNav', {
 //            end: me.onKeyEnd, 
 			tab: me.onKeyTab,
 //            space: me.onKeySpace, 
-			enter: me._keyEnter,
+			enter: me.onKeyEnter,
 			scope: me
 		});
 	},
-	_keyEnter: function (e) {
-		if (this.view.store.getCount() === 0);
-			return;
-		this.onKeyEnter(e);
+	onKeyEnter: function (e) {
+		var view = this.view,
+				selModel = view.getSelectionModel(),
+				field = view.pickerField,
+				count = selModel.getCount();
+
+		if (view.store.getCount() > 0) {
+			this.selectHighlighted(e);
+			if (!field.multiSelect && count === selModel.getCount()) {
+				field.collapse();
+			}
+		}
 	}
-});  
+});
