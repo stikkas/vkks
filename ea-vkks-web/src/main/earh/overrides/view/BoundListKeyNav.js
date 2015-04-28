@@ -30,7 +30,7 @@ Ext.define('Other.view.BoundListKeyNav', {
 //            pageUp: me.onKeyPageUp, 
 //            home: me.onKeyHome, 
 //            end: me.onKeyEnd, 
-			tab: me.onKeyTab,
+//			tab: me.onKeyTab,
 //            space: me.onKeySpace, 
 			enter: me.onKeyEnter,
 			scope: me
