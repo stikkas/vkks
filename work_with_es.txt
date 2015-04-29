@@ -6,3 +6,8 @@ curl -XPUT "http://hawk:9200/earchive/_mapping/case" -d '{"properties":{"title":
 curl -XPUT "http://hawk:9200/earchive/_mapping/document" -d '{"properties":{"title":{"type":"string","index":"analyzed","fields":{"raw":{"type":"string","index":"not_analyzed"}}}}, "_parent": {"type":"case"}}'
 Найти записи:
  curl -XPOST "http://hawk:9200/earchive/_search/?pretty" -d '{"from": 0, "size": 4525, "fields": ["num_number", "num_prefix"], "query": {"term": {"num_prefix": "МП"} }}' 
+Поиск с сортировкой:
+curl -XPOST "http://hawk:9200/earchive/_search/?pretty" -d '{"from": 0, "size": 50, "fields": ["num_number", "num_prefix"], "query": {"term": {"start_date": "МП"}}, "sort": {"_uid": {"order": "desc"}} }'
+
+curl -XPOST "http://hawk:9200/earchive/_search/?pretty" -d '{"from":0,"size":10,"query":{"filtered":{"query":{"match_all":{}},"filter":{"has_child":{"filter":{"range":{"date":{"from":"01.04.2001","to":"01.04.2005","include_lower":true,"include_upper":true}}},"child_type":"document"}}}},"_source":{"includes":[],"excludes":["addUserId","modUserId","insertDate","lastUpdateDate"]},"sort":[{"remark.raw":{"order":"asc"}},{"_uid":{"order":"asc"}}]}'
+{"from":0,"size":10,"query":{"function_score":{"query":{"filtered":{"query":{"match_all":{}},"filter":{"has_child":{"filter":{"range":{"date":{"from":"01.04.2001","to":"01.04.2005","include_lower":true,"include_upper":true}}},"child_type":"document"}}}},"functions":[{"filter":{"script":{"script":"_source.remark != null && _source.remark.length() == 0"}},"boost_factor":2.0}]}},"_source":{"includes":[],"excludes":["addUserId","modUserId","insertDate","lastUpdateDate"]},"sort":[{"_score":{"order":"asc"}},{"remark.raw":{"order":"asc"}}],"track_scores":true}

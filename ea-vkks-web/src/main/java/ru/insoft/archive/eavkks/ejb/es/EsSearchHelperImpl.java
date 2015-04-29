@@ -1,6 +1,7 @@
 package ru.insoft.archive.eavkks.ejb.es;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -22,14 +23,19 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.xcontent.ToXContent;
+import org.elasticsearch.common.xcontent.json.JsonXContent;
 import org.elasticsearch.index.query.BoolFilterBuilder;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
+import static org.elasticsearch.index.query.FilterBuilders.scriptFilter;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeFilterBuilder;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import static org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders.factorFunction;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -54,7 +60,7 @@ import ru.insoft.archive.extcommons.webmodel.OrderBy;
 @Stateless
 @Local(EsSearchHelper.class)
 @Remote(EsSearchHelperRemote.class)
-public class EsSearchHelperImpl implements EsSearchHelper, EsSearchHelperRemote{
+public class EsSearchHelperImpl implements EsSearchHelper, EsSearchHelperRemote {
 
 	@Inject
 	EsAdminHelper esAdmin;
@@ -224,13 +230,18 @@ public class EsSearchHelperImpl implements EsSearchHelper, EsSearchHelperRemote{
 			}
 		};
 
-		QueryBuilder query = makeQuery(queryMap, filterMap);
+		FunctionScoreQueryBuilder sbuilder = 
+				new FunctionScoreQueryBuilder(makeQuery(queryMap, filterMap))
+						.add(scriptFilter("_source.remark != null && _source.remark.length() == 0"), 
+								factorFunction(2.0f));
+
 		Client esClient = esAdmin.getClient();
 		SearchRequestBuilder req = esClient.prepareSearch(esAdmin.getIndexName())
 				.setTypes("case")
-				.setQuery(query)
+				.setQuery(sbuilder)
 				.setFrom(start)
 				.setSize(limit)
+				.setTrackScores(true)
 				.setFetchSource(null, new String[]{"addUserId", "modUserId", "insertDate", "lastUpdateDate"});
 		if (orders != null) {
 			for (OrderBy order : orders) {
@@ -243,9 +254,20 @@ public class EsSearchHelperImpl implements EsSearchHelper, EsSearchHelperRemote{
 					if (field.equals("title") || field.equals("remark")) {
 						field += ".raw";
 					}
+					req.addSort(SortBuilders.fieldSort("_score").order(SortOrder.ASC));
 					req.addSort(SortBuilders.fieldSort(field).order(so));
 				}
 			}
+		}
+		try {
+			System.out.println(
+					req.internalBuilder().toXContent(JsonXContent.contentBuilder(),
+							ToXContent.EMPTY_PARAMS).
+					prettyPrint().
+					string()
+			);
+		} catch (IOException ex) {
+			Logger.getLogger(EsSearchHelperImpl.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		SearchResponse resp = req.execute().actionGet();
 		return resp.getHits();
