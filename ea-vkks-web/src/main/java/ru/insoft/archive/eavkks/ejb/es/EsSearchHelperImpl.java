@@ -259,6 +259,7 @@ public class EsSearchHelperImpl implements EsSearchHelper, EsSearchHelperRemote 
 				}
 			}
 		}
+		/*
 		try {
 			System.out.println(
 					req.internalBuilder().toXContent(JsonXContent.contentBuilder(),
@@ -269,6 +270,7 @@ public class EsSearchHelperImpl implements EsSearchHelper, EsSearchHelperRemote 
 		} catch (IOException ex) {
 			Logger.getLogger(EsSearchHelperImpl.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		*/
 		SearchResponse resp = req.execute().actionGet();
 		return resp.getHits();
 	}
