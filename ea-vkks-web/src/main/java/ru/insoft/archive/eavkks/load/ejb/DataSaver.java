@@ -121,10 +121,13 @@ public class DataSaver {
 				//eaDoc.setVolume(lDoc.getVolume());
 				eaDoc.setNumber(lDoc.getNumber());
 				eaDoc.setTitle(lDoc.getTitle());
-                //eaDoc.setStartPage(lDoc.getStartPage());
+				//eaDoc.setStartPage(lDoc.getStartPage());
 				//eaDoc.setEndPage(lDoc.getEndPage());
 				eaDoc.setPages(lDoc.getPages());
-				eaDoc.setDate(new SimpleDateFormat("dd.MM.YYYY").format(lDoc.getDate()));
+				Date docDate = lDoc.getDate();
+				if (docDate != null) {
+					eaDoc.setDate(new SimpleDateFormat("dd.MM.YYYY").format(docDate));
+				}
 				eaDoc.setRemark(lDoc.getRemark());
 				eaDoc.setCourt(lDoc.getCourt());
 				eaDoc.setFio(lDoc.getFio());
@@ -159,8 +162,8 @@ public class DataSaver {
 	public Long getLoadUserId() {
 		if (loadUserId == null) {
 //			loadUserId = 8l;
-            loadUserId = ui.getUser().getId();
-            /*try
+			loadUserId = ui.getUser().getId();
+			/*try
 			 {
 			 AdmUser loadUser = ui.queryUserByLogin("LOAD");
 			 loadUserId = loadUser.getId();
